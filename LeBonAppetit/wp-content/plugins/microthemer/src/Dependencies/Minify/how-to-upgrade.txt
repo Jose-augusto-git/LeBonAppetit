@@ -1,0 +1,7 @@
+# See how to install this without composer
+https://github.com/matthiasmullie/minify/issues/83
+
+# Once you've replaced the files, update the namespacing. 
+Do search and replace: MatthiasMullie\Minify = Microthemer\Dependencies\Minify
+
+# And remove -master from the two dub-directories so it matches the example syntax on GitHub (first link)

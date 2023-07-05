@@ -1,0 +1,67 @@
+/*  MICROTHEMER STYLES  */
+
+
+/*= Geral ===================== */
+
+/** Geral >> Post 23 entry title **/
+#post-23 .entry-title {
+	/* MT [ google_font: 1 ] */
+	font-family: 'Berkshire Swash, cursive' !important;
+}
+
+/** Geral >> Content ast container **/
+#content .ast-container {
+	/* MT [ google_font: 1 ] */
+	font-family: 'Berkshire Swash' !important;
+}
+
+/** Geral >> Block 134 is style default **/
+#block-134 .is-style-default {
+	width: 200px !important;
+	margin-top: 50px !important;
+}
+
+
+/*= Rodapé =================== */
+
+/** Rodapé >> Block 90 **/
+#block-90 {
+	width: 500px !important;
+	margin-top: 0 !important;
+}
+
+/** Rodapé >> Block 90 _2 **/
+#block-90 {
+	position: absolute !important;
+	left: 500px !important;
+}
+
+/** Rodapé >> Colophon site primary footer inner wrap **/
+#colophon .site-primary-footer-inner-wrap {
+	
+}
+
+
+/*( < 1200 )*/
+@media (max-width: 1199.98px) {
+
+	/*= Geral ===================== */
+
+	/** Geral >> Post 23 wp block button link **/
+	#post-23 .wp-block-button__link {
+	
+}
+
+	/** Geral >> Post 23 wp block button link (:hover) **/
+	#post-23 .wp-block-button__link:hover {
+	color: #fff !important;
+}
+
+	/** Geral >> Heading 3 span **/
+	h3 > span {
+	font-family: Berkshire Swash !important;
+}
+
+
+}
+

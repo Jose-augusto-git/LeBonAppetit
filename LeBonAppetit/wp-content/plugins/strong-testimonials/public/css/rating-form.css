@@ -1,0 +1,113 @@
+/**
+ * Star Ratings
+ *
+ * Pure CSS. No floats or bidi. HTML inputs makes it ideal for use in a form. Simple em-based sizing.
+ *
+ * http://codepen.io/cdillon/pen/vXNbBw
+ *
+ * Based on Pure CSS Star Rating Widget by James Barnett
+ * http://codepen.io/jamesbarnett/pen/vlpkh
+ */
+
+/* the container */
+.strong-rating-wrapper {
+}
+
+/* the fieldset */
+.strong-rating {
+  display: inline-block;
+  border: 0;
+  margin: 0;
+  padding: 5px;
+}
+
+.strong-rating:focus {
+  outline: 1px solid #CCC;
+}
+
+/* the stars */
+.strong-rating input[type=radio] {
+  display: none !important;
+}
+
+.strong-rating label {
+  font-weight: normal;
+}
+
+.strong-rating label:hover {
+  cursor: pointer;
+}
+
+/* fieldset tweaks */
+
+.strong-rating-wrapper legend {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+/* in a form */
+.strong-rating-wrapper.in-form .strong-rating {}
+
+/* in a view */
+.strong-rating-wrapper.in-view .strong-rating {
+  margin: 0;
+  padding: 0;
+}
+
+/* the magic */
+
+/* this is how we highlight stars before the checked one (siblings before): */
+
+/* hide the first label which is initially checked */
+/* added bonus of POSTing the default value so no need for isset(...) */
+.strong-rating label[for$="star0"] {
+  display: none !important;
+}
+
+
+/* set the color of the star and its stroke(outline) color and width */
+.strong-rating-wrapper .star svg path {
+  fill: #FFB900;
+  stroke: #000;
+  stroke-width: 6;
+}
+
+/* set the width of the star */
+.strong-rating-wrapper .star svg {
+  width: 20px;
+}
+
+/* hide all solid stars that are not checked or perceded by a checked star */
+.strong-rating input[type="radio"]:checked ~ .star svg .star_solid{
+  display: none;
+}
+
+/* show the solid star that is checked */
+.strong-rating input[type="radio"]:checked + .star svg .star_solid{
+  display: block;
+}
+
+/* show all the solid stars when the container is hovered */
+.strong-rating:hover .star svg .star_solid {
+  display: block !important;
+}
+
+/* hide all the solid stars that are not hovered */
+.strong-rating .star:hover ~ .star svg .star_solid {
+  display: none  !important;
+}
+
+/* remove the focus outline from element */
+.strong-rating:focus {
+  outline: none;
+}
+/* indicate current selection  */
+.strong-rating:hover input:checked + .star svg path{
+  fill: #FFE39E;
+}
+
+

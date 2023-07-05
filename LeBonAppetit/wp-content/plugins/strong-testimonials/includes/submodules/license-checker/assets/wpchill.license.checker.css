@@ -1,0 +1,27 @@
+.wpchill-license-notice {
+	display         : flex;
+	flex-wrap       : wrap;
+	justify-content : space-between;
+	align-items     : center;
+	position        : relative;
+	padding         : 5px;
+
+}
+
+.wpchill-license-notice > div {
+	width : 50%;
+}
+
+.wpchill-license-notice .wpchill-license-buttons {
+	text-align : right;
+}
+
+.wpchill-license-notice .wpchill-license-buttons a {
+	margin          : 5px;
+	text-decoration : none;
+	padding         : 0 10px;
+}
+
+.wpchill-license-notice .wpchill-license-buttons a.notice-dismiss {
+	padding : 9px;
+}

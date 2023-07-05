@@ -1,0 +1,12 @@
+[
+  {
+    "label": "[trianglify-black-opacity]",
+    "value": "background-image/trianglify/trianglify-black-opacity.svg",
+    "category": "trianglify"
+  },
+  {
+    "label": "[trianglify-white-opacity]",
+    "value": "background-image/trianglify/trianglify-white-opacity.svg",
+    "category": "trianglify"
+  }
+]

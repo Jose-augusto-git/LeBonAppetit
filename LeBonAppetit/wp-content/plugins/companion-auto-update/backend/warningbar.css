@@ -1,0 +1,11 @@
+#wpadminbar #wp-admin-bar-cau-has-issues .ab-icon:before {
+	/*content: "\f463";*/
+	content: "\f332";
+    top: 3px;
+}
+#wpadminbar #wp-admin-bar-cau-has-issues .cau-level-low {
+	/*color: #FFBA00;*/
+}
+#wpadminbar #wp-admin-bar-cau-has-issues .cau-level-high {
+	color: #FF0000;
+}
