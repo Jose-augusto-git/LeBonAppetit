@@ -160,7 +160,7 @@ class Captcha implements EducationInterface {
 				'not_configured'         => [
 					'title'   => esc_html__( 'Heads up!', 'wpforms-lite' ),
 					'content' => sprintf(
-						wp_kses( /* translators: %1$s - CAPTCHA settings page URL; %2$s - WPForms.com doc URL; %3$s - CAPTCHA name. */
+						wp_kses( /* translators: %1$s - CAPTCHA settings page URL, %2$s - WPForms.com doc URL, %3$s - CAPTCHA name. */
 							__( 'The %3$s settings have not been configured yet. Please complete the setup in your <a href="%1$s" target="_blank">WPForms Settings</a>, and check out our <a href="%2$s" target="_blank" rel="noopener noreferrer">step by step tutorial</a> for full details.', 'wpforms-lite' ),
 							[
 								'a' => [

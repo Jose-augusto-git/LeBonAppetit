@@ -22,14 +22,14 @@ class Queries extends Payment {
 
 		global $wpdb;
 
-		$subquery[] = "SELECT {$column} FROM {$this->table_name} WHERE 1=1";
+		$subquery[] = "SELECT $column FROM $this->table_name WHERE 1=1";
 		$subquery[] = $this->add_secondary_where_conditions();
 		$subquery[] = 'LIMIT 1';
 		$subquery   = implode( ' ', $subquery );
 
-		$query[] = "SELECT {$column} FROM {$this->table_name} WHERE 1=1";
+		$query[] = "SELECT $column FROM $this->table_name WHERE 1=1";
 		$query[] = $this->add_secondary_where_conditions();
-		$query[] = "AND {$column} != ( $subquery )";
+		$query[] = "AND $column != ( $subquery )";
 		$query[] = 'LIMIT 1';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
@@ -115,9 +115,9 @@ class Queries extends Payment {
 
 		$query[] = "SELECT * FROM {$this->table_name}";
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query[] = $wpdb->prepare( "WHERE {$this->primary_key} > %d", $payment_id );
+		$query[] = $wpdb->prepare( "WHERE $this->primary_key > %d", $payment_id );
 		$query[] = $this->add_secondary_where_conditions( $args );
-		$query[] = "ORDER BY {$this->primary_key} LIMIT 1";
+		$query[] = "ORDER BY $this->primary_key LIMIT 1";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_row( implode( ' ', $query ) );
@@ -141,11 +141,11 @@ class Queries extends Payment {
 			return null;
 		}
 
-		$query[] = "SELECT * FROM {$this->table_name}";
+		$query[] = "SELECT * FROM $this->table_name";
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query[] = $wpdb->prepare( "WHERE {$this->primary_key} < %d", $payment_id );
+		$query[] = $wpdb->prepare( "WHERE $this->primary_key < %d", $payment_id );
 		$query[] = $this->add_secondary_where_conditions( $args );
-		$query[] = "ORDER BY {$this->primary_key} DESC LIMIT 1";
+		$query[] = "ORDER BY $this->primary_key DESC LIMIT 1";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_row( implode( ' ', $query ) );
@@ -169,11 +169,11 @@ class Queries extends Payment {
 			return 0;
 		}
 
-		$query[] = "SELECT COUNT({$this->primary_key}) FROM {$this->table_name}";
+		$query[] = "SELECT COUNT( $this->primary_key ) FROM $this->table_name";
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query[] = $wpdb->prepare( "WHERE {$this->primary_key} < %d", $payment_id );
+		$query[] = $wpdb->prepare( "WHERE $this->primary_key < %d", $payment_id );
 		$query[] = $this->add_secondary_where_conditions( $args );
-		$query[] = "ORDER BY {$this->primary_key} ASC";
+		$query[] = "ORDER BY $this->primary_key ASC";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return (int) $wpdb->get_var( implode( ' ', $query ) );

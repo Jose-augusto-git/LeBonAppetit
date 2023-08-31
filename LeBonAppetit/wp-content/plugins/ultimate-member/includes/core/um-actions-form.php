@@ -503,7 +503,9 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 					}
 				}
 			} catch ( Exception $e ) {
+				// translators: %s: title.
 				UM()->form()->add_error( $key, sprintf( __( '%s - wrong conditions.', 'ultimate-member' ), $array['title'] ) );
+				// translators: %s: title.
 				$notice = '<div class="um-field-error">' . sprintf( __( '%s - wrong conditions.', 'ultimate-member' ), $array['title'] ) . '</div><!-- ' . $e->getMessage() . ' -->';
 				add_action( 'um_after_profile_fields', function() use ( $notice ) {
 					echo $notice;
@@ -512,14 +514,17 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 		}
 
 		if ( isset( $array['type'] ) && $array['type'] == 'checkbox' && isset( $array['required'] ) && $array['required'] == 1 && ! isset( $submitted_data[ $key ] ) ) {
+			// translators: %s: title.
 			UM()->form()->add_error( $key, sprintf( __( '%s is required.', 'ultimate-member' ), $array['title'] ) );
 		}
 
 		if ( isset( $array['type'] ) && $array['type'] == 'radio' && isset( $array['required'] ) && $array['required'] == 1 && ! isset( $submitted_data[ $key ] ) && ! in_array( $key, array( 'role_radio', 'role_select' ) ) ) {
+			// translators: %s: title.
 			UM()->form()->add_error( $key, sprintf( __( '%s is required.', 'ultimate-member'), $array['title'] ) );
 		}
 
 		if ( isset( $array['type'] ) && $array['type'] == 'multiselect' && isset( $array['required'] ) && $array['required'] == 1 && ! isset( $submitted_data[ $key ] ) && ! in_array( $key, array( 'role_radio', 'role_select' ) ) ) {
+			// translators: %s: title.
 			UM()->form()->add_error( $key, sprintf( __( '%s is required.', 'ultimate-member' ), $array['title'] ) );
 		}
 
@@ -557,6 +562,7 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 				if ( empty( $array['label'] ) ) {
 					UM()->form()->add_error( $key, __( 'This field is required', 'ultimate-member' ) );
 				} else {
+					// translators: %s: title.
 					UM()->form()->add_error( $key, sprintf( __( '%s is required', 'ultimate-member' ), $array['label'] ) );
 				}
 			}
@@ -567,7 +573,15 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 		}
 
 		if ( isset( $array['max_words'] ) && $array['max_words'] > 0 ) {
-			if ( str_word_count( $submitted_data[ $key ], 0, "éèàôù" ) > $array['max_words'] ) {
+			if ( ! empty( $array['html'] ) ) {
+				// Count words without html tags when HTML is enabled.
+				$text_value = wp_strip_all_tags( $submitted_data[ $key ] );
+			} else {
+				$text_value = $submitted_data[ $key ];
+			}
+
+			if ( str_word_count( $text_value, 0, '0123456789éèàôù' ) > $array['max_words'] ) {
+				// translators: %s: max words.
 				UM()->form()->add_error( $key, sprintf( __( 'You are only allowed to enter a maximum of %s words', 'ultimate-member' ), $array['max_words'] ) );
 			}
 		}
@@ -575,26 +589,37 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 		if ( isset( $array['min_chars'] ) && $array['min_chars'] > 0 ) {
 			if ( $submitted_data[ $key ] && mb_strlen( $submitted_data[ $key ] ) < $array['min_chars'] ) {
 				if ( empty( $array['label'] ) ) {
+					// translators: %s: min chars.
 					UM()->form()->add_error( $key, sprintf( __( 'This field must contain at least %s characters', 'ultimate-member' ), $array['min_chars'] ) );
 				} else {
-					UM()->form()->add_error( $key, sprintf( __( 'Your %s must contain at least %s characters', 'ultimate-member' ), $array['label'], $array['min_chars'] ) );
+					// translators: %1$s is a label; %2$s is a min chars.
+					UM()->form()->add_error( $key, sprintf( __( 'Your %1$s must contain at least %2$s characters', 'ultimate-member' ), $array['label'], $array['min_chars'] ) );
 				}
 			}
 		}
 
-		if ( isset( $array['max_chars'] ) && $array['max_chars'] > 0 ) {
-			if ( $submitted_data[ $key ] && mb_strlen( $submitted_data[ $key ] ) > $array['max_chars'] ) {
+		if ( ! empty( $array['max_chars'] ) && UM()->profile()->get_show_bio_key( $submitted_data ) !== $key ) {
+			if ( ! empty( $array['html'] ) ) {
+				// Count words without html tags when HTML is enabled.
+				$text_value = wp_strip_all_tags( $submitted_data[ $key ] );
+			} else {
+				$text_value = $submitted_data[ $key ];
+			}
+
+			if ( ! empty( $text_value ) && mb_strlen( $text_value ) > $array['max_chars'] ) {
 				if ( empty( $array['label'] ) ) {
+					// translators: %s: max chars.
 					UM()->form()->add_error( $key, sprintf( __( 'This field must contain less than %s characters', 'ultimate-member' ), $array['max_chars'] ) );
 				} else {
-					UM()->form()->add_error( $key, sprintf( __( 'Your %s must contain less than %s characters', 'ultimate-member' ), $array['label'], $array['max_chars'] ) );
+					// translators: %1$s is a label; %2$s is a max chars.
+					UM()->form()->add_error( $key, sprintf( __( 'Your %1$s must contain less than %2$s characters', 'ultimate-member' ), $array['label'], $array['max_chars'] ) );
 				}
 			}
 		}
 
-		if ( isset( $array['type'] ) && $array['type'] == 'textarea' && UM()->profile()->get_show_bio_key( $submitted_data ) !== $key ) {
-			if ( ! isset( $array['html'] ) || $array['html'] == 0 ) {
-				if ( wp_strip_all_tags( $submitted_data[ $key ] ) != trim( $submitted_data[ $key ] ) ) {
+		if ( isset( $array['type'] ) && 'textarea' === $array['type'] && UM()->profile()->get_show_bio_key( $submitted_data ) !== $key ) {
+			if ( empty( $array['html'] ) ) {
+				if ( wp_strip_all_tags( $submitted_data[ $key ] ) !== trim( $submitted_data[ $key ] ) ) {
 					UM()->form()->add_error( $key, __( 'You can not use HTML tags here', 'ultimate-member' ) );
 				}
 			}
@@ -629,25 +654,89 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 
 		if ( isset( $array['min_selections'] ) && $array['min_selections'] > 0 ) {
 			if ( ( ! isset( $submitted_data[ $key ] ) ) || ( isset( $submitted_data[ $key ] ) && is_array( $submitted_data[ $key ] ) && count( $submitted_data[ $key ] ) < $array['min_selections'] ) ) {
+				// translators: %s: min selections.
 				UM()->form()->add_error( $key, sprintf( __( 'Please select at least %s choices', 'ultimate-member' ), $array['min_selections'] ) );
 			}
 		}
 
 		if ( isset( $array['max_selections'] ) && $array['max_selections'] > 0 ) {
 			if ( isset( $submitted_data[ $key ] ) && is_array( $submitted_data[ $key ] ) && count( $submitted_data[ $key ] ) > $array['max_selections'] ) {
+				// translators: %s: max selections.
 				UM()->form()->add_error( $key, sprintf( __( 'You can only select up to %s choices', 'ultimate-member' ), $array['max_selections'] ) );
 			}
 		}
 
 		if ( isset( $array['min'] ) && is_numeric( $submitted_data[ $key ] ) ) {
 			if ( isset( $submitted_data[ $key ] )  && $submitted_data[ $key ] < $array['min'] ) {
+				// translators: %s: min limit.
 				UM()->form()->add_error( $key, sprintf( __( 'Minimum number limit is %s', 'ultimate-member' ), $array['min'] ) );
 			}
 		}
 
 		if ( isset( $array['max'] ) && is_numeric( $submitted_data[ $key ] )  ) {
 			if ( isset( $submitted_data[ $key ] ) && $submitted_data[ $key ] > $array['max'] ) {
+				// translators: %s: max limit.
 				UM()->form()->add_error( $key, sprintf( __( 'Maximum number limit is %s', 'ultimate-member' ), $array['max'] ) );
+			}
+		}
+
+		$description_key = UM()->profile()->get_show_bio_key( $form_data );
+		if ( isset( $form_data['mode'] ) && 'profile' === $form_data['mode'] && $description_key === $key ) {
+			$show_bio       = false;
+			$bio_html       = false;
+			$global_setting = UM()->options()->get( 'profile_show_html_bio' );
+			if ( ! empty( $form_data['use_custom_settings'] ) ) {
+				if ( ! empty( $form_data['show_bio'] ) ) {
+					$show_bio = true;
+					$bio_html = ! empty( $global_setting );
+				}
+			} else {
+				$global_show_bio = UM()->options()->get( 'profile_show_bio' );
+				if ( ! empty( $global_show_bio ) ) {
+					$show_bio = true;
+					$bio_html = ! empty( $global_setting );
+				}
+			}
+
+			if ( $show_bio ) {
+				$max_chars = UM()->options()->get( 'profile_bio_maxchars' );
+			}
+			$field_exists = false;
+			if ( ! empty( $form_data['custom_fields'] ) ) {
+				$custom_fields = maybe_unserialize( $form_data['custom_fields'] );
+				if ( array_key_exists( $description_key, $custom_fields ) ) {
+					$field_exists = true;
+					if ( ! empty( $array['max_chars'] ) ) {
+						$max_chars = $array['max_chars'];
+					}
+
+					if ( $show_bio ) {
+						if ( ! empty( $array['html'] ) && $bio_html ) {
+							$description_value = wp_strip_all_tags( $submitted_data[ $description_key ] );
+						} else {
+							$description_value = $submitted_data[ $description_key ];
+						}
+					} else {
+						if ( ! empty( $array['html'] ) ) {
+							$description_value = wp_strip_all_tags( $submitted_data[ $description_key ] );
+						} else {
+							$description_value = $submitted_data[ $description_key ];
+						}
+					}
+				}
+			}
+
+			if ( ! $field_exists && $show_bio ) {
+				if ( $bio_html ) {
+					$description_value = wp_strip_all_tags( $submitted_data[ $description_key ] );
+				} else {
+					$description_value = $submitted_data[ $description_key ];
+				}
+			}
+
+			if ( ! empty( $description_value ) && ! empty( $max_chars ) && mb_strlen( str_replace( array( "\r\n", "\n", "\r\t", "\t" ), ' ', $description_value ) ) > $max_chars ) {
+				// translators: %s: max chars.
+				UM()->form()->add_error( $description_key, sprintf( __( 'Your user description must contain less than %s characters', 'ultimate-member' ), $max_chars ) );
 			}
 		}
 
@@ -697,36 +786,42 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 
 			case 'youtube_url':
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'youtube.com' ) && ! UM()->validation()->is_url( $submitted_data[ $key ], 'youtu.be' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s username or profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
 
 			case 'spotify_url':
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'open.spotify.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
 
 			case 'telegram_url':
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 't.me' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s username or profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
 
 			case 'soundcloud_url':
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'soundcloud.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s username or profile URL','ultimate-member'), $array['label'] ) );
 				}
 				break;
 
 			case 'facebook_url':
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'facebook.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s username or profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
 
 			case 'twitter_url':
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'twitter.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s username or profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
@@ -734,12 +829,14 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 			case 'instagram_url':
 
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'instagram.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
 
 			case 'linkedin_url':
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'linkedin.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s username or profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
@@ -753,6 +850,7 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 			case 'tiktok_url':
 
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'tiktok.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
@@ -760,6 +858,7 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 			case 'twitch_url':
 
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'twitch.tv' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
@@ -767,6 +866,7 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 			case 'reddit_url':
 
 				if ( ! UM()->validation()->is_url( $submitted_data[ $key ], 'reddit.com' ) ) {
+					// translators: %s: label.
 					UM()->form()->add_error( $key, sprintf( __( 'Please enter a valid %s profile URL', 'ultimate-member' ), $array['label'] ) );
 				}
 				break;
@@ -904,18 +1004,55 @@ function um_submit_form_errors_hook_( $submitted_data, $form_data ) {
 				break;
 
 		}
+	} // end if ( isset in args array )
 
-		if ( isset( $submitted_data['description'] ) ) {
-			$max_chars = UM()->options()->get( 'profile_bio_maxchars' );
-			$profile_show_bio = UM()->options()->get( 'profile_show_bio' );
+	// Description in header
+	if ( isset( $form_data['mode'] ) && 'profile' === $form_data['mode'] ) {
+		$description_key = UM()->profile()->get_show_bio_key( $form_data );
+		if ( ! UM()->form()->has_error( $description_key ) ) {
+			if ( ! empty( $submitted_data[ $description_key ] ) ) {
+				$field_exists = false;
+				if ( ! empty( $form_data['custom_fields'] ) ) {
+					$custom_fields = maybe_unserialize( $form_data['custom_fields'] );
+					if ( array_key_exists( $description_key, $custom_fields ) ) {
+						$field_exists = true;
+					}
+				}
 
-			if ( $profile_show_bio ) {
-				if ( mb_strlen( str_replace( array( "\r\n", "\n", "\r\t", "\t" ), ' ', $submitted_data['description'] ) ) > $max_chars && $max_chars ) {
-					UM()->form()->add_error( 'description', sprintf( __( 'Your user description must contain less than %s characters', 'ultimate-member' ), $max_chars ) );
+				if ( ! $field_exists ) {
+					$show_bio       = false;
+					$bio_html       = false;
+					$global_setting = UM()->options()->get( 'profile_show_html_bio' );
+					if ( ! empty( $form_data['use_custom_settings'] ) ) {
+						if ( ! empty( $form_data['show_bio'] ) ) {
+							$show_bio = true;
+							$bio_html = ! empty( $global_setting );
+						}
+					} else {
+						$global_show_bio = UM()->options()->get( 'profile_show_bio' );
+						if ( ! empty( $global_show_bio ) ) {
+							$show_bio = true;
+							$bio_html = ! empty( $global_setting );
+						}
+					}
+
+					if ( $show_bio ) {
+						$max_chars = UM()->options()->get( 'profile_bio_maxchars' );
+						if ( $bio_html ) {
+							$description_value = wp_strip_all_tags( $submitted_data[ $description_key ] );
+						} else {
+							$description_value = $submitted_data[ $description_key ];
+						}
+					}
+
+					if ( ! empty( $description_value ) && ! empty( $max_chars ) && mb_strlen( str_replace( array( "\r\n", "\n", "\r\t", "\t" ), ' ', $description_value ) ) > $max_chars ) {
+						// translators: %s: max chars.
+						UM()->form()->add_error( $description_key, sprintf( __( 'Your user description must contain less than %s characters', 'ultimate-member' ), $max_chars ) );
+					}
 				}
 			}
 		}
-	} // end if ( isset in args array )
+	}
 }
 add_action( 'um_submit_form_errors_hook_', 'um_submit_form_errors_hook_', 10, 2 );
 

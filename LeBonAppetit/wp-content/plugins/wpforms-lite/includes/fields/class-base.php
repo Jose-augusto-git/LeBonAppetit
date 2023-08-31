@@ -39,6 +39,15 @@ abstract class WPForms_Field {
 	public $icon = false;
 
 	/**
+	 * Field keywords for search, eg "checkbox, file, icon, upload".
+	 *
+	 * @since 1.8.3
+	 *
+	 * @var string
+	 */
+	public $keywords = '';
+
+	/**
 	 * Priority order the field button should show inside the "Add Fields" tab.
 	 *
 	 * @since 1.0.0
@@ -123,8 +132,15 @@ abstract class WPForms_Field {
 			return;
 		}
 
-		// The form ID is to be accessed in the builder.
-		$this->form_id = isset( $_GET['form_id'] ) ? (int) $_GET['form_id'] : false; // phpcs:ignore WordPress.Security.NonceVerification
+		// phpcs:disable WordPress.Security.NonceVerification
+		$this->form_id = false;
+
+		if ( isset( $_GET['form_id'] ) ) {
+			$this->form_id = absint( $_GET['form_id'] );
+		} elseif ( isset( $_POST['id'] ) ) {
+			$this->form_id = absint( $_POST['id'] );
+		}
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		// Bootstrap.
 		$this->init();
@@ -497,8 +513,11 @@ abstract class WPForms_Field {
 				if ( ( isset( $choice['value'] ) && '' !== trim( $choice['value'] ) ) || empty( $choice['image'] ) ) {
 					continue;
 				}
-				/* translators: %d - choice number. */
-				$form_data['fields'][ $field_key ]['choices'][ $choice_id ]['value'] = sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $choice_id );
+
+				$form_data['fields'][ $field_key ]['choices'][ $choice_id ]['value'] = sprintf( /* translators: %d - choice number. */
+					esc_html__( 'Choice %d', 'wpforms-lite' ),
+					(int) $choice_id
+				);
 			}
 		}
 
@@ -532,8 +551,10 @@ abstract class WPForms_Field {
 				) ||
 				(
 					empty( $choice_arr[ $choice_value_key ] ) &&
-					/* translators: %d - choice number. */
-					$get_value === sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $choice_key )
+					$get_value === sprintf( /* translators: %d - choice number. */
+						esc_html__( 'Choice %d', 'wpforms-lite' ),
+						(int) $choice_key
+					)
 				)
 			) {
 				$default_key = $choice_key;
@@ -686,10 +707,11 @@ abstract class WPForms_Field {
 
 		// Add field information to fields array.
 		$fields[ $this->group ]['fields'][] = [
-			'order' => $this->order,
-			'name'  => $this->name,
-			'type'  => $this->type,
-			'icon'  => $this->icon,
+			'order'    => $this->order,
+			'name'     => $this->name,
+			'type'     => $this->type,
+			'icon'     => $this->icon,
+			'keywords' => $this->keywords,
 		];
 
 		// Wipe hands clean.
@@ -1265,7 +1287,7 @@ abstract class WPForms_Field {
 				$note .= '<h4>' . esc_html__( 'Dynamic Choices Active', 'wpforms-lite' ) . '</h4>';
 
 				$note .= sprintf(
-					/* translators: %1$s - source name; %2$s - type name. */
+					/* translators: %1$s - source name, %2$s - type name. */
 					'<p>' . esc_html__( 'Choices are dynamically populated from the %1$s %2$s. Go to the Advanced tab to change this.', 'wpforms-lite' ) . '</p>',
 					'<span class="dynamic-name">' . esc_html( $source ) . '</span>',
 					'<span class="dynamic-type">' . esc_html( $type ) . '</span>'
@@ -1350,7 +1372,7 @@ abstract class WPForms_Field {
 					$fld .= sprintf(
 						'<input type="text" name="%s[value]" value="%s" class="value wpforms-money-input" placeholder="%s">',
 						esc_attr( $base ),
-						esc_attr( $value['value'] ),
+						esc_attr( wpforms_format_amount( wpforms_sanitize_amount( $value['value'] ) ) ),
 						wpforms_format_amount( 0 )
 					);
 					$fld .= '<a class="add" href="#"><i class="fa fa-plus-circle"></i></a><a class="remove" href="#"><i class="fa fa-minus-circle"></i></a>';
@@ -2320,8 +2342,12 @@ abstract class WPForms_Field {
 
 						$label = isset( $value['label'] ) ? trim( $value['label'] ) : '';
 
-						/* translators: %d - Choice item number. */
-						$label  = $label !== '' ? $label : sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $key );
+						$label  = $label !== '' ?
+							$label :
+							sprintf( /* translators: %d - choice number. */
+								esc_html__( 'Choice %d', 'wpforms-lite' ),
+								(int) $key
+							);
 						$label .= ! empty( $field['show_price_after_labels'] ) && isset( $value['value'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $value['value'] ), true ) : '';
 
 						$output .= sprintf(
@@ -2366,8 +2392,12 @@ abstract class WPForms_Field {
 
 						$label = isset( $value['label'] ) ? trim( $value['label'] ) : '';
 
-						/* translators: %d - Choice item number. */
-						$label  = $label !== '' ? $label : sprintf( esc_html__( 'Choice %d', 'wpforms-lite' ), (int) $key );
+						$label  = $label !== '' ?
+							$label :
+							sprintf( /* translators: %d - choice number. */
+								esc_html__( 'Choice %d', 'wpforms-lite' ),
+								(int) $key
+							);
 						$label .= ! empty( $field['show_price_after_labels'] ) && isset( $value['value'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $value['value'] ), true ) : '';
 
 						if ( $with_images ) {

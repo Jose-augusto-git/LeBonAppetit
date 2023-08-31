@@ -239,6 +239,15 @@ if ( ! function_exists( 'astra_post_author' ) ) {
 	 */
 	function astra_post_author( $output_filter = '' ) {
 
+		global $post;
+		if ( isset( $post->post_author ) ) {
+			$author_id = $post->post_author;
+		} elseif ( is_callable( 'get_the_author_meta' ) ) {
+			$author_id = get_the_author_meta( 'ID' );
+		} else {
+			$author_id = 1;
+		}
+
 		ob_start();
 
 		echo '<span ';
@@ -251,7 +260,7 @@ if ( ! function_exists( 'astra_post_author' ) ) {
 		echo '>';
 			// Translators: Author Name. ?>
 			<a title="<?php printf( esc_attr__( 'View all posts by %1$s', 'astra' ), get_the_author() ); ?>"
-				href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author"
+				href="<?php echo esc_url( get_author_posts_url( $author_id ) ); ?>" rel="author"
 				<?php
 					echo astra_attr(
 						'author-url',

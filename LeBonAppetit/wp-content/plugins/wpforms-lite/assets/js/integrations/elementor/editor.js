@@ -73,7 +73,8 @@ var WPFormsElementor = window.WPFormsElementor || ( function( document, window, 
 				.on( 'click', '.wpforms-btn', app.addFormBtnClick )
 				.on( 'click', '.wpforms-admin-no-forms-container a', app.clickLinkInPreview )
 				.on( 'change', '.wpforms-elementor-form-selector select', app.selectFormInPreview )
-				.on( 'click mousedown focus keydown submit', '.wpforms-container *', app.disableEvents );
+				.on( 'click mousedown focus keydown submit', '.wpforms-container *', app.disableEvents )
+				.on( 'click', '.wpforms-comprehensive-link', app.openComprehensiveLink );
 
 			app.updateSameForms( $scope );
 		},
@@ -332,6 +333,13 @@ var WPFormsElementor = window.WPFormsElementor || ( function( document, window, 
 		 */
 		findFormSelector: function( event ) {
 
+			let view = elementor.getPanelView().getCurrentPageView();
+
+			// We need to be sure that we are on the widget Content section.
+			if ( view.activeSection && view.activeSection !== 'section_form' ) {
+				$( view.ui.tabs[0] ).trigger( 'click' );
+			}
+
 			vars.$select = event && event.$el ?
 				event.$el.closest( '#elementor-controls' ).find( 'select[data-setting="form_id"]' ) :
 				window.parent.jQuery( '#elementor-controls select[data-setting="form_id"]' );
@@ -347,7 +355,9 @@ var WPFormsElementor = window.WPFormsElementor || ( function( document, window, 
 			vars.formId = $( this ).val();
 
 			app.findFormSelector();
-			vars.$select.val( vars.formId ).trigger( 'change' );
+
+			// To be sure, that both form selector selects are in sync.
+			app.refreshFormsList( null, vars.formId );
 		},
 
 		/**
@@ -379,6 +389,22 @@ var WPFormsElementor = window.WPFormsElementor || ( function( document, window, 
 			event.stopImmediatePropagation();
 
 			return false;
+		},
+
+		/**
+		 * Open the compreshenvie guide link,
+		 * as elementor disables all links in the preview.
+		 *
+		 * @since 1.8.3
+		 *
+		 * @param {object} event Event object.
+		 */
+		openComprehensiveLink: function( event ) {
+
+			const url = $( this ).attr( 'href' );
+
+			// Open the url in a new tab with JS bc elementor doesn't allow links in the preview.
+			window.open( url, '_blank' ).focus();
 		},
 
 		/**

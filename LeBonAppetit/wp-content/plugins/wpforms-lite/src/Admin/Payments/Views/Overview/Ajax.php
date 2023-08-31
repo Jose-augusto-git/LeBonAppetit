@@ -3,6 +3,8 @@
 namespace WPForms\Admin\Payments\Views\Overview;
 
 use DateTimeImmutable;
+// phpcs:ignore WPForms.PHP.UseStatement.UnusedUseStatement
+use wpdb;
 use WPForms\Db\Payments\ValueValidator;
 use WPForms\Admin\Helpers\Chart as ChartHelper;
 use WPForms\Admin\Helpers\Datepicker;
@@ -155,7 +157,7 @@ class Ajax {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT date_created_gmt as day, {$column_clause} as count FROM {$this->table_name} WHERE 1=1 {$where_clause} AND date_created_gmt BETWEEN %s AND %s GROUP BY day ORDER BY day ASC",
+				"SELECT date_created_gmt as day, $column_clause as count FROM $this->table_name WHERE 1=1 $where_clause AND date_created_gmt BETWEEN %s AND %s GROUP BY day ORDER BY day ASC",
 				[
 					$utc_start_date->format( Datepicker::DATETIME_FORMAT ),
 					$utc_end_date->format( Datepicker::DATETIME_FORMAT ),
@@ -196,7 +198,7 @@ class Ajax {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$group_by = Chart::ACTIVE_REPORT;
 		$results  = $wpdb->get_row(
-			"SELECT {$clause} FROM (SELECT {$query}) AS results GROUP BY {$group_by}",
+			"SELECT $clause FROM (SELECT $query) AS results GROUP BY $group_by",
 			ARRAY_A
 		);
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -239,7 +241,7 @@ class Ajax {
 		$clause = []; // SELECT clause.
 		$query  = []; // Query statement for the derived table.
 
-		// Validates and creates date objects for the previous timespans.
+		// Validates and creates date objects for the previous time spans.
 		$prev_timespans = Datepicker::get_prev_timespan_dates( $start_date, $end_date );
 
 		// If the timespan is not validated, leave early.
@@ -283,24 +285,24 @@ class Ajax {
 			$where_clause = $this->get_stats_where_clause( $report, $where_args );
 
 			// Get the current and previous values for the report.
-			$current_value = "TRUNCATE({$report},{$currency_decimals})";
-			$prev_value    = "TRUNCATE({$report}_prev,{$currency_decimals})";
+			$current_value = "TRUNCATE($report,$currency_decimals)";
+			$prev_value    = "TRUNCATE({$report}_prev,$currency_decimals)";
 
 			// Add the current and previous reports to the SELECT clause.
 			$clause[] = $report;
-			$clause[] = "ROUND((({$current_value} - {$prev_value}) / {$current_value}) * 100) AS {$report}_delta";
+			$clause[] = "ROUND( ( ( $current_value - $prev_value ) / $current_value ) * 100 ) AS {$report}_delta";
 
 			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.MissingReplacements
 			$query[] = $wpdb->prepare(
 				"(
-					SELECT {$column_clause}
-					FROM {$this->table_name}
-					WHERE 1=1 {$where_clause} AND date_created_gmt BETWEEN %s AND %s
-				) AS {$report},
+					SELECT $column_clause
+					FROM $this->table_name
+					WHERE 1=1 $where_clause AND date_created_gmt BETWEEN %s AND %s
+				) AS $report,
 				(
-					SELECT {$column_clause}
-					FROM {$this->table_name}
-					WHERE 1=1 {$where_clause} AND date_created_gmt BETWEEN %s AND %s
+					SELECT $column_clause
+					FROM $this->table_name
+					WHERE 1=1 $where_clause AND date_created_gmt BETWEEN %s AND %s
 				) AS {$report}_prev",
 				[
 					$start_date->format( Datepicker::DATETIME_FORMAT ),
@@ -348,7 +350,7 @@ class Ajax {
 			$table_name = wpforms()->get( 'payment_meta' )->table_name;
 
 			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
-			$clause .= $wpdb->prepare( ' AND id IN (SELECT payment_id FROM %1$s WHERE meta_key = "coupon_id")', $table_name );
+			$clause .= $wpdb->prepare( ' AND id IN ( SELECT payment_id FROM %1$s WHERE meta_key = "coupon_id" )', $table_name );
 		}
 
 		return $clause;

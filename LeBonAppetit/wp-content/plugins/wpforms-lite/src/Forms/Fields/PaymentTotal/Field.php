@@ -17,11 +17,12 @@ class Field extends \WPForms_Field {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'Total', 'wpforms-lite' );
-		$this->type  = 'payment-total';
-		$this->icon  = 'fa-money';
-		$this->order = 110;
-		$this->group = 'payment';
+		$this->name     = esc_html__( 'Total', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'store, ecommerce, pay, payment, sum', 'wpforms-lite' );
+		$this->type     = 'payment-total';
+		$this->icon     = 'fa-money';
+		$this->order    = 110;
+		$this->group    = 'payment';
 
 		$this->hooks();
 	}

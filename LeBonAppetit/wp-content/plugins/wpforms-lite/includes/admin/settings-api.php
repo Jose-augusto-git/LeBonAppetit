@@ -318,10 +318,13 @@ function wpforms_settings_radio_callback( $args ) {
 	foreach ( $args['options'] as $option => $name ) {
 
 		$checked = checked( $value, $option, false );
+		$output .= '<span class="wpforms-settings-field-radio-wrapper">';
 		$output .= '<input type="radio" id="wpforms-setting-' . $id . '[' . $x . ']" name="' . $id . '" value="' . esc_attr( $option ) . '" ' . $checked . '>';
 		$output .= '<label for="wpforms-setting-' . $id . '[' . $x . ']" class="option-' . sanitize_html_class( $option ) . '">';
 		$output .= esc_html( $name );
 		$output .= '</label>';
+		$output .= '</span>';
+
 		$x ++;
 	}
 

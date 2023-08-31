@@ -86,6 +86,7 @@ require_once('common-inline-assets.php');
                                     'class' => 'delete-pack-multi download-icon',
                                     'rel' => 'delete',
                                     'data-dir-name' => $pack,
+                                    'data-dir-label' => $name,
                                     'title' => sprintf(esc_attr__('Delete %s', 'microthemer'), $name)
                             ));
 

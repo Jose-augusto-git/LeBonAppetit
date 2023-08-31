@@ -19,9 +19,13 @@
  * @var WP_Filesystem_Base $wp_filesystem
  */
 
-// phpcs:disable WordPress.DB.DirectDatabaseQuery, WPForms.PHP.BackSlash.UseShortSyntax
-
 // Exit if accessed directly.
+use WPForms\Db\Payments\Meta as PaymentsMeta;
+use WPForms\Db\Payments\Payment;
+use WPForms\Logger\Repository;
+use WPForms\Tasks\Meta as TasksMeta;
+use WPForms\Tasks\Tasks;
+
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
@@ -37,11 +41,17 @@ if ( class_exists( 'ActionScheduler_QueueRunner' ) ) {
 // Confirm user has decided to remove all data, otherwise stop.
 $settings = get_option( 'wpforms_settings', [] );
 
-if ( empty( $settings['uninstall-data'] ) || is_plugin_active( 'wpforms/wpforms.php' ) || is_plugin_active( 'wpforms-lite/wpforms.php' ) ) {
+if (
+	empty( $settings['uninstall-data'] ) ||
+	is_plugin_active( 'wpforms/wpforms.php' ) ||
+	is_plugin_active( 'wpforms-lite/wpforms.php' )
+) {
 	return;
 }
 
 global $wpdb;
+
+// phpcs:disable WordPress.DB.DirectDatabaseQuery
 
 // Delete entries table.
 $wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'wpforms_entries' );
@@ -54,19 +64,19 @@ $wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'wpforms_entry_fields' )
 
 // Delete payments table.
 // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-$wpdb->query( 'DROP TABLE IF EXISTS ' . \WPForms\Db\Payments\Payment::get_table_name() );
+$wpdb->query( 'DROP TABLE IF EXISTS ' . Payment::get_table_name() );
 
 // Delete payment meta table.
 // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-$wpdb->query( 'DROP TABLE IF EXISTS ' . \WPForms\Db\Payments\Meta::get_table_name() );
+$wpdb->query( 'DROP TABLE IF EXISTS ' . PaymentsMeta::get_table_name() );
 
 // Delete tasks meta table.
 // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-$wpdb->query( 'DROP TABLE IF EXISTS ' . \WPForms\Tasks\Meta::get_table_name() );
+$wpdb->query( 'DROP TABLE IF EXISTS ' . TasksMeta::get_table_name() );
 
 // Delete logger table.
 // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-$wpdb->query( 'DROP TABLE IF EXISTS ' . \WPForms\Logger\Repository::get_table_name() );
+$wpdb->query( 'DROP TABLE IF EXISTS ' . Repository::get_table_name() );
 
 /**
  * Delete tables that might be created by "Add-ons".
@@ -104,26 +114,26 @@ if ( $wpforms_posts ) {
 }
 
 // Delete all the plugin settings.
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'wpforms\_%'" );
 
 // Delete widget settings.
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'widget\_wpforms%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'widget\_wpforms%'" );
 
 // Delete options from the previous version of the Notifications functionality.
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_amn\_wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_amn\_wpforms\_%'" );
 
 // Delete plugin user meta.
-$wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE 'wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE 'wpforms\_%'" );
 
 // Delete plugin term meta.
-$wpdb->query( "DELETE FROM {$wpdb->termmeta} WHERE meta_key LIKE 'wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->termmeta WHERE meta_key LIKE 'wpforms\_%'" );
 
 // Remove any transients we've left behind.
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_transient\_wpforms\_%'" );
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_site\_transient\_wpforms\_%'" );
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_transient\_timeout\_wpforms\_%'" );
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_site\_transient\_timeout\_wpforms\_%'" );
-$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_wpforms\_transient\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_transient\_wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_site\_transient\_wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_transient\_timeout\_wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_site\_transient\_timeout\_wpforms\_%'" );
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_wpforms\_transient\_%'" );
 
 global $wp_filesystem;
 
@@ -147,7 +157,7 @@ if ( ! empty( $translations ) ) {
 // Remove plugin cron jobs.
 wp_clear_scheduled_hook( 'wpforms_email_summaries_cron' );
 
-// Unschedule all plugin ActionScheduler actions.
+// Un-schedule all plugin ActionScheduler actions.
 // Don't use wpforms() because 'tasks' in core are registered on `init` hook,
-// which is not executed on uninstall.
-( new \WPForms\Tasks\Tasks() )->cancel_all();
+// which is not executed on uninstallation.
+( new Tasks() )->cancel_all();

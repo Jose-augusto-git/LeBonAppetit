@@ -29,7 +29,7 @@ class IconChoices {
 	 *
 	 * @var string
 	 */
-	const FONT_AWESOME_VERSION = '6.2.1';
+	const FONT_AWESOME_VERSION = '6.4.0';
 
 	/**
 	 * Default icon.
@@ -172,6 +172,18 @@ class IconChoices {
 	}
 
 	/**
+	 * Get Font Awesome library data file.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @return string
+	 */
+	public function get_icons_data_file() {
+
+		return $this->icons_data_file;
+	}
+
+	/**
 	 * Whether Font Awesome library is already installed or not.
 	 *
 	 * @since 1.7.9
@@ -204,16 +216,35 @@ class IconChoices {
 	}
 
 	/**
-	 * Install Font Awesome library from our server.
+	 * Install Font Awesome library via Ajax.
 	 *
 	 * @since 1.7.9
 	 */
-	public function install() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+	public function install() {
 
 		check_ajax_referer( 'wpforms-builder', 'nonce' );
 
+		$this->run_install( $this->cache_base_path );
+		$this->is_installed = true;
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Run Install Font Awesome library from our server.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param string $destination Destination path.
+	 */
+	public function run_install( $destination ) { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+
 		// WordPress assumes it's a plugin/theme and tries to get translations. We don't need that, and it breaks JS output.
 		remove_action( 'upgrader_process_complete', [ 'Language_Pack_Upgrader', 'async_upgrade' ], 20 );
+
+		if ( ! function_exists( 'request_filesystem_credentials' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
 
 		require_once WPFORMS_PLUGIN_DIR . 'includes/admin/class-install-skin.php';
 
@@ -225,13 +256,9 @@ class IconChoices {
 		$installer->run(
 			[
 				'package'     => self::FONT_AWESOME_URL,
-				'destination' => $this->cache_base_path,
+				'destination' => $destination,
 			]
 		);
-
-		$this->is_installed = true;
-
-		wp_send_json_success();
 	}
 
 	/**

@@ -443,7 +443,7 @@ class WPForms_Builder {
 			'dom-purify',
 			WPFORMS_PLUGIN_URL . 'assets/lib/purify.min.js',
 			[],
-			'3.0.1'
+			'3.0.5'
 		);
 
 		if ( wp_is_mobile() ) {
@@ -545,7 +545,7 @@ class WPForms_Builder {
 					'{limit}',
 					'{total}'
 				),
-				'empty_message' => sprintf( /* translators: %1$s - data source name (e.g. Categories, Posts), %2$s - data source type (e.g. posts, terms). */
+				'empty_message' => sprintf( /* translators: %1$s - data source name (e.g. Categories, Posts), %2$s - data source type (e.g. post type, taxonomy). */
 					esc_html__( 'This field will not be displayed in your form since there are no %2$s belonging to %1$s.', 'wpforms-lite' ),
 					'{source}',
 					'{type}'
@@ -657,7 +657,7 @@ class WPForms_Builder {
 			'error_save_form'                => esc_html__( 'Something went wrong while saving the form. Please reload the page and try again.', 'wpforms-lite' ),
 			'error_contact_support'          => esc_html__( 'Please contact the plugin support team if this behavior persists.', 'wpforms-lite' ),
 			'ms_win_css_url'                 => WPFORMS_PLUGIN_URL . 'assets/css/builder/builder-ms-win.css',
-			'error_select_template'          => esc_html__( 'Something went wrong while applying the template.', 'wpforms-lite' ),
+			'error_select_template'          => esc_html__( 'Please close the form builder and try again. If the error persists, contact our support team.', 'wpforms-lite' ),
 			'blank_form'                     => esc_html__( 'Blank Form', 'wpforms-lite' ),
 			'something_went_wrong'           => esc_html__( 'Something went wrong', 'wpforms-lite' ),
 			'field_cannot_be_reordered'      => esc_html__( 'This field cannot be moved.', 'wpforms-lite' ),
@@ -668,7 +668,7 @@ class WPForms_Builder {
 		$strings = $this->add_localized_currencies( $strings );
 
 		$strings['disable_entries'] = sprintf(
-			wp_kses( /* translators: %s - Link to the WPForms.com doc article. */
+			wp_kses( /* translators: %s - link to the WPForms.com doc article. */
 				__( 'Disabling entry storage for this form will completely prevent any new submissions from getting saved to your site. If you still intend to keep a record of entries through notification emails, then please <a href="%s" target="_blank" rel="noopener noreferrer">test your form</a> to ensure emails send reliably.', 'wpforms-lite' ),
 				[
 					'a' => [
@@ -688,7 +688,7 @@ class WPForms_Builder {
 		);
 
 		$strings['akismet_not_installed'] = sprintf(
-			wp_kses( /* translators: %1$s - Link to the plugin search page, %2$s - Link to the WPForms.com doc article. */
+			wp_kses( /* translators: %1$s - link to the plugin search page, %2$s - link to the WPForms.com doc article. */
 				__( 'This feature cannot be used at this time because the Akismet plugin <a href="%1$s" target="_blank" rel="noopener noreferrer">has not been installed</a>. For information on how to use this feature please <a href="%2$s" target="_blank" rel="noopener noreferrer">refer to our documentation</a>.', 'wpforms-lite' ),
 				[
 					'a' => [
@@ -709,7 +709,7 @@ class WPForms_Builder {
 		);
 
 		$strings['akismet_not_activated'] = sprintf(
-			wp_kses( /* translators: %1$s - Link to the plugins page, %2$s - Link to the WPForms.com doc article. */
+			wp_kses( /* translators: %1$s - link to the plugins page, %2$s - link to the WPForms.com doc article. */
 				__( 'This feature cannot be used at this time because the Akismet plugin <a href="%1$s" target="_blank" rel="noopener noreferrer">has not been activated</a>. For information on how to use this feature please <a href="%2$s" target="_blank" rel="noopener noreferrer">refer to our documentation</a>.', 'wpforms-lite' ),
 				[
 					'a' => [
@@ -730,7 +730,7 @@ class WPForms_Builder {
 		);
 
 		$strings['akismet_no_api_key'] = sprintf(
-			wp_kses( /* translators: %1$s - Link to the Akismet settings page, %2$s - Link to the WPForms.com doc article. */
+			wp_kses( /* translators: %1$s - link to the Akismet settings page, %2$s - link to the WPForms.com doc article. */
 				__( 'This feature cannot be used at this time because the Akismet plugin <a href="%1$s" target="_blank" rel="noopener noreferrer">has not been properly configured</a>. For information on how to use this feature please <a href="%2$s" target="_blank" rel="noopener noreferrer">refer to our documentation</a>.', 'wpforms-lite' ),
 				[
 					'a' => [

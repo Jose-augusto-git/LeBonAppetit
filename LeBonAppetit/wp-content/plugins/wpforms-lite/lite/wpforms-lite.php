@@ -86,8 +86,12 @@ class WPForms_Lite {
 
 		// Handle backwards compatibility.
 		if ( empty( $settings->form_data['settings']['notifications'] ) ) {
-			/* translators: %s - form name. */
-			$settings->form_data['settings']['notifications'][1]['subject']        = ! empty( $settings->form_data['settings']['notification_subject'] ) ? $settings->form_data['settings']['notification_subject'] : sprintf( esc_html__( 'New %s Entry', 'wpforms-lite' ), $settings->form->post_title );
+			$settings->form_data['settings']['notifications'][1]['subject']        = ! empty( $settings->form_data['settings']['notification_subject'] ) ?
+				$settings->form_data['settings']['notification_subject'] :
+				sprintf( /* translators: %s - form name. */
+					esc_html__( 'New %s Entry', 'wpforms-lite' ),
+					$settings->form->post_title
+				);
 			$settings->form_data['settings']['notifications'][1]['email']          = ! empty( $settings->form_data['settings']['notification_email'] ) ? $settings->form_data['settings']['notification_email'] : '{admin_email}';
 			$settings->form_data['settings']['notifications'][1]['sender_name']    = ! empty( $settings->form_data['settings']['notification_fromname'] ) ? $settings->form_data['settings']['notification_fromname'] : $from_name;
 			$settings->form_data['settings']['notifications'][1]['sender_address'] = ! empty( $settings->form_data['settings']['notification_fromaddress'] ) ? $settings->form_data['settings']['notification_fromaddress'] : $from_email;
@@ -114,7 +118,7 @@ class WPForms_Lite {
 			echo '<button type="button" class="wpforms-dismiss-button" title="' . esc_attr__( 'Dismiss this message.', 'wpforms-lite' ) . '" data-section="builder-notifications-description"></button>';
 			echo '<p>';
 			printf(
-				wp_kses( /* translators: %s - Link to the WPForms.com doc article. */
+				wp_kses( /* translators: %s - link to the WPForms.com doc article. */
 					__( 'Notifications are emails sent when a form is submitted. By default, these emails include entry details. For setup and customization options, including a video overview, please <a href="%s" target="_blank" rel="noopener noreferrer">see our tutorial</a>.', 'wpforms-lite' ),
 					[
 						'a' => [
@@ -129,7 +133,7 @@ class WPForms_Lite {
 			echo '</p>';
 			echo '<p>';
 			printf(
-				wp_kses( /* translators: 1$s, %2$s - Links to the WPForms.com doc articles. */
+				wp_kses( /* translators: 1$s, %2$s - links to the WPForms.com doc articles. */
 					__( 'After saving these settings, be sure to <a href="%1$s" target="_blank" rel="noopener noreferrer">test a form submission</a>. This lets you see how emails will look, and to ensure that they <a href="%2$s" target="_blank" rel="noopener noreferrer">are delivered successfully</a>.', 'wpforms-lite' ),
 					[
 						'a'  => [
@@ -207,8 +211,10 @@ class WPForms_Lite {
 					$settings->form_data,
 					esc_html__( 'Email Subject Line', 'wpforms-lite' ),
 					[
-						/* translators: %s - form name. */
-						'default'    => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $settings->form->post_title ),
+						'default'    => sprintf( /* translators: %s - form name. */
+							esc_html__( 'New Entry: %s', 'wpforms-lite' ),
+							$settings->form->post_title
+						),
 						'smarttags'  => [
 							'type' => 'all',
 						],
@@ -598,7 +604,7 @@ class WPForms_Lite {
 				<?php
 				printf(
 					wp_kses( /* translators: %s - star icons. */
-						__( 'We know that you will truly love WPForms. It has over 12,000+ five star ratings (%s) and is active on over 5 million websites.', 'wpforms-lite' ),
+						__( 'We know that you will truly love WPForms. It has over 12,000+ five star ratings (%s) and is active on over 6 million websites.', 'wpforms-lite' ),
 						[
 							'i' => [
 								'class'       => [],
@@ -613,7 +619,14 @@ class WPForms_Lite {
 			<h6><?php esc_html_e( 'Pro Features:', 'wpforms-lite' ); ?></h6>
 			<div class="list">
 				<ul>
-					<li><?php esc_html_e( '700+ customizable form templates', 'wpforms-lite' ); ?></li>
+					<li>
+						<?php
+						printf( /* translators: %s - number of templates. */
+							esc_html__( '%s customizable form templates', 'wpforms-lite' ),
+							'800+'
+						);
+						?>
+					</li>
 					<li><?php esc_html_e( 'Store and manage form entries in WordPress', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Unlock all fields & features, including Rich Text & conditional logic', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Make Surveys and Polls and create reports', 'wpforms-lite' ); ?></li>
@@ -802,11 +815,12 @@ class WPForms_Lite {
 				font-size: 16px;
 				line-height: 19px;
 				padding: 6px 0;
+				display: flex;
 			}
 
 			.entries-modal li .fa {
 				color: #2a9b39;
-				margin: 0 8px 0 0;
+				margin: 1px 12px 0 0;
 			}
 
 			.entries-modal-button {
@@ -898,7 +912,7 @@ class WPForms_Lite {
 								$enabled_since = LiteConnectIntegration::get_enabled_since();
 
 								printf(
-									'<strong>' . esc_html( /* translators: %d - Backed up entries count. */
+									'<strong>' . esc_html( /* translators: %d - backed up entries count. */
 										_n(
 											'%d entry has been backed up',
 											'%d entries have been backed up',
@@ -912,7 +926,7 @@ class WPForms_Lite {
 								if ( ! empty( $enabled_since ) ) {
 									echo ' ';
 									printf(
-										/* translators: %s - Time when Lite Connect was enabled. */
+										/* translators: %s - time when Lite Connect was enabled. */
 										esc_html__( 'since you enabled Lite Connect on %s', 'wpforms-lite' ),
 										esc_html( date_i18n( 'M j, Y', $enabled_since + get_option( 'gmt_offset' ) * 3600 ) )
 									);
@@ -1244,9 +1258,20 @@ class WPForms_Lite {
 	 */
 	public function update_entry_count( $fields, $entry, $form_data, $entry_id, $payment_id ) {
 
+		if ( ! empty( $form_data['spam_reason'] ) ) {
+			return;
+		}
+
 		global $wpdb;
 
-		if ( ! apply_filters( 'wpforms_dash_widget_allow_entries_count_lite', true ) ) {
+		/**
+		 * Filters whether to allow counting entries for Lite users.
+		 *
+		 * @since 1.5.9
+		 *
+		 * @param bool $allow_entries_count True to allow, false to disallow. Default: true.
+		 */
+		if ( ! apply_filters( 'wpforms_dash_widget_allow_entries_count_lite', true ) ) { // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 			return;
 		}
 
@@ -1263,7 +1288,7 @@ class WPForms_Lite {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
 			$wpdb->prepare(
-				"UPDATE {$wpdb->postmeta}
+				"UPDATE $wpdb->postmeta
 					SET meta_value = meta_value + 1
 					WHERE post_id = %d AND meta_key = 'wpforms_entries_count'",
 				$form_id
@@ -1295,6 +1320,10 @@ class WPForms_Lite {
 		if ( $payment_id ) {
 			$entry_args['type']       = 'payment';
 			$entry_args['payment_id'] = $payment_id;
+		}
+
+		if ( ! empty( $form_data['spam_reason'] ) ) {
+			$entry_args['status'] = 'spam';
 		}
 
 		// Submit entry args and form data to the Lite Connect API.

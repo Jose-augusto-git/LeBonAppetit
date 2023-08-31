@@ -44,11 +44,12 @@ class Field extends \WPForms_Field {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'Single Item', 'wpforms-lite' );
-		$this->type  = 'payment-single';
-		$this->icon  = 'fa-file-o';
-		$this->order = 30;
-		$this->group = 'payment';
+		$this->name     = esc_html__( 'Single Item', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'product, store, ecommerce, pay, payment', 'wpforms-lite' );
+		$this->type     = 'payment-single';
+		$this->icon     = 'fa-file-o';
+		$this->order    = 30;
+		$this->group    = 'payment';
 
 		$this->hooks();
 	}

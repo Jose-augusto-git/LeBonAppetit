@@ -2,8 +2,8 @@
 Contributors: DaanvandenBergh
 Tags: google, fonts, gdpr, dsgvo, cache, speed, preload, font-display, webfonts, subsets, remove, minimize, external, requests
 Requires at least: 4.6
-Tested up to: 6.2
-Stable tag: 5.6.0
+Tested up to: 6.3
+Stable tag: 5.6.7
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -36,17 +36,18 @@ All Google Fonts are listed in the **Optimize Local Fonts** section of OMGF's se
 - Automatically **Remove unused subsets** to reduce the size of the CSS stylesheet with ~90%!
 - **Remove Resource Hints** (preload, preconnect, dns-prefetch) pointing to `fonts.googleapis.com` or `fonts.gstatic.com`,
 - **Ensure text remains visible during webfont load** by forcing the *font-display* attribute to your Google Fonts,
-- **Ensure text remains visible during webfont load** by forcing the *font-display* attribute to all your other fonts! (OMGF Pro required),
 
 = Additional Features in OMGF Pro =
+
 - **Multisite** support,
 - "Dig deeper" to find Google Fonts and optimize further. OMGF Pro supports:
   - `@font-face` and `@import` statements inside **inline `<style>` blocks**,
   - `@font-face` and `@import` statements inside **local stylesheets** loaded by your theme and/or plugins,
   - Web Font Loader (`webfont.js`),
-  - Early Access Google Fonts.
-  - Material Icons support.
-- Modify your fonts' `src: url()` attribute fully integrate with your configuration,
+  - Early Access Google Fonts,
+  - Material Icons.
+- **Ensure text remains visible during webfont load** by adding the selected *font-display* attribute to *all* fonts on your website,
+- Modify the stylesheet's `src: url()` attribute to fully integrate with your configuration,
   - Use this to serve fonts and the stylesheets from your CDN, or
   - To serve fonts from an alternative path (e.g. when you're using Security through Obscurity plugins like WP Hide, etc.), or
   - Set a relative path to easily migrate from development/staging areas to production/live, or
@@ -75,6 +76,35 @@ For the FAQ, [click here](https://daan.dev/docs/omgf-pro-faq/).
 5. Advanced Settings. Change these to make OMGF work with your configuration (if needed). The default settings will suffice for most configurations.
 
 == Changelog ==
+
+= 5.6.7 | August 28th, 2023 =
+* Fixed: Don't Load option couldn't be used on Google Fonts URLs using shorthand syntax (e.g. 400i, instead of 400italic).
+
+= 5.6.6 | August 25th, 2023 =
+* Fixed: non-static class method was used to register uninstall hook.
+
+= 5.6.5 | August 13th, 2023 =
+* Tested with WP 6.3
+
+= 5.6.4 | August 3rd, 2023 =
+* Improved: perform a proper stale cache clean-up when changes are made to stylesheets in the Optimize Local Fonts section.
+* Added action: `omgf_pre_update_setting_{$setting_name}`
+* Improved: updated default User Agent to a Windows 7 machine, to offer backwards compatibility for older OS'.
+* Improved: PHP 8.1 compatibility.
+* Fixed: saving settings in the Optimize Local Fonts section wouldn't work properly when certain settings were disabled.
+
+= 5.6.3 | July 31st, 2023 =
+* Added: premium plugin users will now be notified in the All Plugins screen when updates are failing.
+* Fixed: removed void return type from autoloader to provide backwards compatibility with PHP 7.0.0 - 7.2.4.
+* Added filter: `omgf_optimize_user_agent` which allows users to change the User-Agent header used by OMGF to fetch font files from the Google Fonts API.
+
+= 5.6.2 | July 19th, 2023 =
+* Fixed: notices in Task Manager suggesting to install Pro wouldn't disappear after Pro was activated.
+
+= 5.6.1 | July 16th, 2023 =
+* Added filter: omgf_delete_option
+* Added filter: omgf_generate_stylesheet_font_variant, which allows devs to manipulate the CSS output before it's generated (e.g. to modify the unicode-range).
+* Fixed: options in Optimize Local Fonts section couldn't be disabled all at once.
 
 = 5.6.0 | May 6th, 2023 =
 * Major improvements under the hood leading to:

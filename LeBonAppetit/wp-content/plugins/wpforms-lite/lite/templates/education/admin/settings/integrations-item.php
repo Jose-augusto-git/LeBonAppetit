@@ -32,8 +32,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h3><?php echo esc_html( $name ); ?></h3>
 			<p>
 			<?php
-			/* translators: %s - addon name. */
-			printf( esc_html__( 'Integrate %s with WPForms', 'wpforms-lite' ), esc_html( $name ) );
+			printf( /* translators: %s - provider name. */
+				esc_html__( 'Integrate %s with WPForms', 'wpforms-lite' ),
+				esc_html( $name )
+			);
 			?>
 			</p>
 		</div>

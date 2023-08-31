@@ -16,6 +16,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 
 		// Define field type information.
 		$this->name     = esc_html__( 'Multiple Choice', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'radio', 'wpforms-lite' );
 		$this->type     = 'radio';
 		$this->icon     = 'fa-dot-circle-o';
 		$this->order    = 110;
@@ -146,7 +147,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 
 			$value = isset( $field['show_values'] ) ? $choice['value'] : $choice['label'];
 			/* translators: %s - choice number. */
-			$value = ( '' === $value ) ? sprintf( esc_html__( 'Choice %s', 'wpforms-lite' ), $key ) : $value;
+			$value = ( $value === '' ) ? sprintf( esc_html__( 'Choice %s', 'wpforms-lite' ), $key ) : $value;
 
 			$properties['inputs'][ $key ] = [
 				'container'  => [
@@ -624,6 +625,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 					/* translators: %s - choice number. */
 					if ( $field_submit === $choice['label'] || $value_raw === sprintf( esc_html__( 'Choice %s', 'wpforms-lite' ), $key ) ) {
 						$choice_key = $key;
+
 						break;
 					}
 				}

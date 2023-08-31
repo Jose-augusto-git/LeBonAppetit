@@ -49,7 +49,7 @@ class Requirements {
 	 *
 	 * @since 1.8.2.2
 	 */
-	const SHOW_LICENSE_NOTICE = true;
+	const SHOW_LICENSE_NOTICE = false;
 
 	/**
 	 * Whether to show addon version notice.
@@ -728,6 +728,10 @@ class Requirements {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 		foreach ( $this->not_validated as $basename => $errors ) {
+			if ( $errors === [ 'license' ] ) {
+				continue;
+			}
+
 			deactivate_plugins( $basename );
 		}
 	}
@@ -782,8 +786,8 @@ class Requirements {
 
 			$plugin_headers = get_plugin_data( $this->requirements[ $basename ]['file'] );
 			$notice         = sprintf(
-			/* translators: translators: %1$s - WPForms plugin name; %2$d - requirements message. */
-				__( 'The %1$s plugin requires %2$s to work.', 'wpforms-lite' ),
+				/* translators: translators: %1$s - WPForms addon name, %2$d - requirements message. */
+				__( 'The %1$s addon requires %2$s to work.', 'wpforms-lite' ),
 				$plugin_headers['Name'],
 				$message
 			);

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="wpforms-smtp-education-notice-description">
 		<?php
 		echo wp_kses(
-			sprintf( /* translators: %1$s is link to WPForms SMTP page. */
+			sprintf( /* translators: %1$s - link to WPForms SMTP page. */
 				__( 'Solve common email deliverability issues for good. <a href="%1$s" target="%2$s" rel="noopener noreferrer">Get WP Mail SMTP!</a>', 'wpforms-lite' ),
 				esc_url( add_query_arg( 'page', 'wpforms-smtp', admin_url( 'admin.php' ) ) ),
 				wpforms_is_admin_page( 'builder' ) ? '_blank' : '_self'

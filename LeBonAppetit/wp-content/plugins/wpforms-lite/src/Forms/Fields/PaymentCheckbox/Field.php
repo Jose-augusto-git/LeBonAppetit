@@ -18,6 +18,7 @@ class Field extends \WPForms_Field {
 
 		// Define field type information.
 		$this->name     = esc_html__( 'Checkbox Items', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'product, store, ecommerce, pay, payment', 'wpforms-lite' );
 		$this->type     = 'payment-checkbox';
 		$this->icon     = 'fa-check-square-o';
 		$this->order    = 50;
@@ -25,7 +26,7 @@ class Field extends \WPForms_Field {
 		$this->defaults = [
 			1 => [
 				'label'      => esc_html__( 'First Item', 'wpforms-lite' ),
-				'value'      => wpforms_format_amount( '10.00' ),
+				'value'      => '10',
 				'image'      => '',
 				'icon'       => '',
 				'icon_style' => '',
@@ -33,7 +34,7 @@ class Field extends \WPForms_Field {
 			],
 			2 => [
 				'label'      => esc_html__( 'Second Item', 'wpforms-lite' ),
-				'value'      => wpforms_format_amount( '25.00' ),
+				'value'      => '25',
 				'image'      => '',
 				'icon'       => '',
 				'icon_style' => '',
@@ -41,7 +42,7 @@ class Field extends \WPForms_Field {
 			],
 			3 => [
 				'label'      => esc_html__( 'Third Item', 'wpforms-lite' ),
-				'value'      => wpforms_format_amount( '50.00' ),
+				'value'      => '50',
 				'image'      => '',
 				'icon'       => '',
 				'icon_style' => '',
@@ -433,7 +434,7 @@ class Field extends \WPForms_Field {
 			foreach ( $choices as $key => $choice ) {
 
 				$label = isset( $choice['label']['text'] ) ? $choice['label']['text'] : '';
-				/* translators: %s - Choice item number. */
+				/* translators: %s - item number. */
 				$label  = $label !== '' ? $label : sprintf( esc_html__( 'Item %s', 'wpforms-lite' ), $key );
 				$label .= ! empty( $field['show_price_after_labels'] ) && isset( $choice['data']['amount'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $choice['data']['amount'] ), true ) : '';
 

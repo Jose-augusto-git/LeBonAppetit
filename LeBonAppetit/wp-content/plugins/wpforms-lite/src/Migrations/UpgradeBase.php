@@ -85,7 +85,7 @@ abstract class UpgradeBase {
 		// Class Tasks does not exist at this point, so we have to add an action on init.
 		add_action(
 			'init',
-			function () use ( $class ) {
+			static function () use ( $class ) {
 				( new $class() )->init();
 			},
 			PHP_INT_MAX

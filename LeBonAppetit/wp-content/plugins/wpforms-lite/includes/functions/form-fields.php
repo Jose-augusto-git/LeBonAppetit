@@ -170,21 +170,28 @@ function wpforms_get_hierarchical_object( $args = [], $flat = false ) { // phpcs
 	// Hence, we have to make sure that there is a parent for every child.
 	if ( $is_limited && $children_count ) {
 		foreach ( $children as $child ) {
+			// The current WP_Post or WP_Term object to operate on.
+			$current = $child;
+
+			// The current object's parent is already in the list of parents or children.
 			if ( ! empty( $parents[ $child->{$ref_parent} ] ) || ! empty( $children[ $child->{$ref_parent} ] ) ) {
 				continue;
 			}
 
 			do {
-				$current_parent = ! empty( $args['post_type'] ) ? get_post( $child->{$ref_parent} ) : get_term( $child->{$ref_parent} );
+				// Set the current object to the previous iteration's parent object.
+				$current = ! empty( $args['post_type'] ) ? get_post( $current->{$ref_parent} ) : get_term( $current->{$ref_parent} );
 
-				if ( $current_parent->{$ref_parent} === 0 ) {
-					$parents[ $current_parent->{$ref_id} ]     = $current_parent;
-					$parents[ $current_parent->{$ref_id} ]->ID = (int) $current_parent->{$ref_id};
+				if ( $current->{$ref_parent} === 0 ) {
+					// We've reached the top of the hierarchy.
+					$parents[ $current->{$ref_id} ]     = $current;
+					$parents[ $current->{$ref_id} ]->ID = (int) $current->{$ref_id};
 				} else {
-					$children[ $current_parent->{$ref_id} ]     = $current_parent;
-					$children[ $current_parent->{$ref_id} ]->ID = (int) $current_parent->{$ref_id};
+					// We're still in the middle of the hierarchy.
+					$children[ $current->{$ref_id} ]     = $current;
+					$children[ $current->{$ref_id} ]->ID = (int) $current->{$ref_id};
 				}
-			} while ( $current_parent->{$ref_parent} > 0 );
+			} while ( $current->{$ref_parent} > 0 );
 		}
 	}
 
@@ -330,7 +337,7 @@ function _wpforms_get_hierarchical_object_flatten( $array, &$output, $ref_name =
  */
 function wpforms_get_post_title( $post ) {
 
-	/* translators: %d - a post ID. */
+	/* translators: %d - post ID. */
 	return wpforms_is_empty_string( trim( $post->post_title ) ) ? sprintf( __( '#%d (no title)', 'wpforms-lite' ), absint( $post->ID ) ) : $post->post_title;
 }
 
@@ -347,7 +354,7 @@ function wpforms_get_post_title( $post ) {
  */
 function wpforms_get_term_name( $term ) {
 
-	/* translators: %d - a taxonomy term ID. */
+	/* translators: %d - taxonomy term ID. */
 	return wpforms_is_empty_string( trim( $term->name ) ) ? sprintf( __( '#%d (no name)', 'wpforms-lite' ), absint( $term->term_id ) ) : trim( $term->name );
 }
 

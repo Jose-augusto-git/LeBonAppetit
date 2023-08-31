@@ -68,30 +68,32 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 		}
 		?>
 
-		<div id="wpforms-integration-<?php echo \esc_attr( $this->core->slug ); ?>"
-			class="wpforms-settings-provider wpforms-clear <?php echo \esc_attr( $this->core->slug ); ?> <?php echo \esc_attr( $class ); ?>">
+		<div id="wpforms-integration-<?php echo esc_attr( $this->core->slug ); ?>"
+			class="wpforms-settings-provider wpforms-clear <?php echo esc_attr( $this->core->slug ); ?> <?php echo esc_attr( $class ); ?>">
 
-			<div class="wpforms-settings-provider-header wpforms-clear" data-provider="<?php echo \esc_attr( $this->core->slug ); ?>">
+			<div class="wpforms-settings-provider-header wpforms-clear" data-provider="<?php echo esc_attr( $this->core->slug ); ?>">
 
 				<div class="wpforms-settings-provider-logo">
-					<i title="<?php \esc_attr_e( 'Show Accounts', 'wpforms-lite' ); ?>" class="fa fa-chevron-<?php echo \esc_attr( $arrow ); ?>"></i>
-					<img src="<?php echo \esc_url( $this->core->icon ); ?>">
+					<i title="<?php esc_attr_e( 'Show Accounts', 'wpforms-lite' ); ?>" class="fa fa-chevron-<?php echo esc_attr( $arrow ); ?>"></i>
+					<img src="<?php echo esc_url( $this->core->icon ); ?>">
 				</div>
 
 				<div class="wpforms-settings-provider-info">
-					<h3><?php echo \esc_html( $this->core->name ); ?></h3>
+					<h3><?php echo esc_html( $this->core->name ); ?></h3>
 					<p>
 						<?php
-						/* translators: %s - provider name. */
-						\printf( \esc_html__( 'Integrate %s with WPForms', 'wpforms-lite' ), \esc_html( $this->core->name ) );
+						printf( /* translators: %s - provider name. */
+							esc_html__( 'Integrate %s with WPForms', 'wpforms-lite' ),
+							esc_html( $this->core->name )
+						);
 						?>
 					</p>
-					<span class="connected-indicator green"><i class="fa fa-check-circle-o"></i>&nbsp;<?php \esc_html_e( 'Connected', 'wpforms-lite' ); ?></span>
+					<span class="connected-indicator green"><i class="fa fa-check-circle-o"></i>&nbsp;<?php esc_html_e( 'Connected', 'wpforms-lite' ); ?></span>
 				</div>
 
 			</div>
 
-			<div class="wpforms-settings-provider-accounts" id="provider-<?php echo \esc_attr( $this->core->slug ); ?>">
+			<div class="wpforms-settings-provider-accounts" id="provider-<?php echo esc_attr( $this->core->slug ); ?>">
 
 				<div class="wpforms-settings-provider-accounts-list">
 					<ul>
@@ -148,7 +150,7 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 		echo ! empty( $account['label'] ) ? esc_html( $account['label'] ) : '<em>' . esc_html__( 'No Label', 'wpforms-lite' ) . '</em>';
 		echo '</span>';
 
-		/* translators: %s - Connection date. */
+		/* translators: %s - connection date. */
 		echo '<span class="date">' . sprintf( esc_html__( 'Connected on: %s', 'wpforms-lite' ), esc_html( $account_connected ) ) . '</span>';
 		echo '<span class="remove"><a href="#" data-provider="' . esc_attr( $this->core->slug ) . '" data-key="' . esc_attr( $account_id ) . '">' . esc_html__( 'Disconnect', 'wpforms-lite' ) . '</a></span>';
 
@@ -230,43 +232,43 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 	public function ajax_disconnect() {
 
 		// Run a security check.
-		if ( ! \check_ajax_referer( 'wpforms-admin', 'nonce', false ) ) {
-			\wp_send_json_error(
+		if ( ! check_ajax_referer( 'wpforms-admin', 'nonce', false ) ) {
+			wp_send_json_error(
 				[
-					'error_msg' => \esc_html__( 'Your session expired. Please reload the page.', 'wpforms-lite' ),
+					'error_msg' => esc_html__( 'Your session expired. Please reload the page.', 'wpforms-lite' ),
 				]
 			);
 		}
 
 		// Check for permissions.
-		if ( ! \wpforms_current_user_can() ) {
-			\wp_send_json_error(
+		if ( ! wpforms_current_user_can() ) {
+			wp_send_json_error(
 				[
-					'error_msg' => \esc_html__( 'You do not have permission.', 'wpforms-lite' ),
+					'error_msg' => esc_html__( 'You do not have permission.', 'wpforms-lite' ),
 				]
 			);
 		}
 
 		if ( empty( $_POST['provider'] ) || empty( $_POST['key'] ) ) {
-			\wp_send_json_error(
+			wp_send_json_error(
 				[
-					'error_msg' => \esc_html__( 'Missing data.', 'wpforms-lite' ),
+					'error_msg' => esc_html__( 'Missing data.', 'wpforms-lite' ),
 				]
 			);
 		}
 
-		$providers = \wpforms_get_providers_options();
+		$providers = wpforms_get_providers_options();
 
 		if ( ! empty( $providers[ $_POST['provider'] ][ $_POST['key'] ] ) ) {
 
 			unset( $providers[ $_POST['provider'] ][ $_POST['key'] ] );
-			\update_option( 'wpforms_providers', $providers );
-			\wp_send_json_success();
+			update_option( 'wpforms_providers', $providers );
+			wp_send_json_success();
 
 		} else {
-			\wp_send_json_error(
+			wp_send_json_error(
 				[
-					'error_msg' => \esc_html__( 'Connection missing.', 'wpforms-lite' ),
+					'error_msg' => esc_html__( 'Connection missing.', 'wpforms-lite' ),
 				]
 			);
 		}
@@ -280,27 +282,27 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 	public function ajax_connect() {
 
 		// Run a security check.
-		if ( ! \check_ajax_referer( 'wpforms-admin', 'nonce', false ) ) {
-			\wp_send_json_error(
+		if ( ! check_ajax_referer( 'wpforms-admin', 'nonce', false ) ) {
+			wp_send_json_error(
 				[
-					'error_msg' => \esc_html__( 'Your session expired. Please reload the page.', 'wpforms-lite' ),
+					'error_msg' => esc_html__( 'Your session expired. Please reload the page.', 'wpforms-lite' ),
 				]
 			);
 		}
 
 		// Check for permissions.
-		if ( ! \wpforms_current_user_can() ) {
-			\wp_send_json_error(
+		if ( ! wpforms_current_user_can() ) {
+			wp_send_json_error(
 				[
-					'error_msg' => \esc_html__( 'You do not have permissions.', 'wpforms-lite' ),
+					'error_msg' => esc_html__( 'You do not have permissions.', 'wpforms-lite' ),
 				]
 			);
 		}
 
 		if ( empty( $_POST['data'] ) ) {
-			\wp_send_json_error(
+			wp_send_json_error(
 				[
-					'error_msg' => \esc_html__( 'Missing required data in payload.', 'wpforms-lite' ),
+					'error_msg' => esc_html__( 'Missing required data in payload.', 'wpforms-lite' ),
 				]
 			);
 		}

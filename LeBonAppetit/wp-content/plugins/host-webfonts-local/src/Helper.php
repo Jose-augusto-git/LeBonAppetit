@@ -116,7 +116,7 @@ class Helper {
 
 		self::$settings[ $setting ] = $value;
 
-		update_option( 'omgf_settings', self::$settings );
+		return update_option( 'omgf_settings', self::$settings );
 	}
 
 	/**
@@ -130,10 +130,8 @@ class Helper {
 	 * @return void
 	 */
 	public static function delete_option( $setting ) {
-		if ( strpos( $setting, 'omgf_' ) === 0 ) {
-			delete_option( $setting );
-
-			return;
+		if ( strpos( $setting, 'omgf_' ) === 0 || apply_filters( 'omgf_delete_option', false, $setting ) ) {
+			return delete_option( $setting );
 		}
 
 		// This prevents settings from 'mysteriously' returning after being unset.
@@ -143,7 +141,7 @@ class Helper {
 
 		unset( self::$settings[ $setting ] );
 
-		update_option( 'omgf_settings', self::$settings );
+		return update_option( 'omgf_settings', self::$settings );
 	}
 
 	/**
@@ -231,6 +229,10 @@ class Helper {
 	}
 
 	/**
+	 * Fetch cache keys from the DB.
+	 *
+	 * @since v5.6.4 Extract cache keys from Optimized Fonts option if the option itself appears empty.
+	 *
 	 * @return array
 	 */
 	public static function cache_keys() {
@@ -240,7 +242,20 @@ class Helper {
 			$cache_keys = explode( ',', self::get_option( Settings::OMGF_OPTIMIZE_SETTING_CACHE_KEYS, '' ) );
 		}
 
-		return array_filter( $cache_keys );
+		// Remove empty elements.
+		$cache_keys = array_filter( $cache_keys );
+
+		/**
+		 * If the cache keys option is empty, this means that it hasn't been saved before. So, let's fetch
+		 * the (default) stylesheet handles from the optimized fonts option.
+		 */
+		if ( empty( $cache_keys ) ) {
+			$optimized_fonts = self::optimized_fonts();
+
+			$cache_keys = array_keys( $optimized_fonts );
+		}
+
+		return $cache_keys;
 	}
 
 	/**

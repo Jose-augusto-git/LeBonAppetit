@@ -451,8 +451,10 @@ class PirateForms extends Base {
 					1 => [
 						'notification_name' => esc_html__( 'Default Notification', 'wpforms-lite' ),
 						'email'             => $pf_form['pirateformsopt_email_recipients'],
-						/* translators: %s - form name. */
-						'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $pf_form_name ),
+						'subject'           => sprintf( /* translators: %s - form name. */
+							esc_html__( 'New Entry: %s', 'wpforms-lite' ),
+							$pf_form_name
+						),
 						'sender_name'       => get_bloginfo( 'name' ),
 						'sender_address'    => $this->get_smarttags( $pf_form['pirateformsopt_email'], $fields ),
 						'replyto'           => '',

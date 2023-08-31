@@ -68,7 +68,7 @@ class Notices {
 		// The license is not set/activated at all.
 		if ( empty( wpforms_get_license_key() ) ) {
 			return sprintf(
-				wp_kses( /* translators: %s - General admin settings page URL. */
+				wp_kses( /* translators: %s - general admin settings page URL. */
 					__( '<strong>Pay as you go pricing:</strong> 3%% fee per-transaction + Stripe fees. <a href="%s">Activate your license</a> to remove additional fees and unlock powerful features.', 'wpforms-lite' ),
 					[
 						'strong' => [],
@@ -82,7 +82,7 @@ class Notices {
 		}
 
 		return sprintf(
-			wp_kses( /* translators: %s - General admin settings page URL. */
+			wp_kses( /* translators: %s - general admin settings page URL. */
 				__( '<strong>Pay as you go pricing:</strong> 3%% fee per-transaction + Stripe fees. <a href="%s">Renew your license</a> to remove additional fees and unlock powerful features.', 'wpforms-lite' ),
 				[
 					'strong' => [],

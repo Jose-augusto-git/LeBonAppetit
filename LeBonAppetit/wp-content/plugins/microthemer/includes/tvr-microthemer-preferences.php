@@ -158,11 +158,7 @@ $this->display_log();
             'interface' => array(
 	            'label' => __('Microthemer Interface', 'microthemer'),
 	            'items' => array(
-		            'edge_mode' => array(
-			            'label' => __('Enable edge mode. ', 'microthemer'),
-			            'link' => '<a target="_blank" href="'.$this->edge_mode['edge_forum_url'].'">' . __('Read about/comment here', 'microthemer') .'</a>',
-			            'explain' => $this->edge_mode['cta'],
-		            ),
+
 		            'preview_url' => array(
 			            'is_text' => 1,
 			            'input_id' => 'pref-preview-url-input',
@@ -252,6 +248,11 @@ $this->display_log();
 		            'manual_recompile_all_css' => array(
 			            'label' => __('Regenerate all CSS (can fix certain issues)', 'microthemer'),
 			            'explain' => __('If Microthemer encounters an error, this can sometimes fix the issue', 'microthemer')
+		            ),
+		            'edge_mode' => array(
+			            'label' => __('Enable edge mode. ', 'microthemer'),
+			            'link' => '<a target="_blank" href="'.$this->edge_mode['edge_forum_url'].'">' . __('Read about/comment here', 'microthemer') .'</a>',
+			            'explain' => $this->edge_mode['cta'],
 		            ),
 	            )
             ),

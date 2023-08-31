@@ -421,6 +421,10 @@ class PaymentIntents extends Common implements ApiInterface {
 
 			$new_payment_method = $this->attach_customer_to_payment();
 
+			if ( is_null( $new_payment_method ) ) {
+				return;
+			}
+
 			// Check whether a default PaymentMethod needs to be explicitly set.
 			$selected_payment_method_id = $this->select_subscription_default_payment_method( $new_payment_method );
 

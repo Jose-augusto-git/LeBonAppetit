@@ -23,12 +23,15 @@ use OMGF\Admin\Settings;
 defined( 'ABSPATH' ) || exit;
 
 class Optimize {
-
 	/**
 	 * User Agents set to be used to make requests to the Google Fonts API.
+	 *
+	 * @since v5.6.4 Using Win7 User-Agent to prevent rendering issues on older systems.
+	 *               This results in 0,2KB larger WOFF2 files, but seems like a fair trade off.
+	 *               @see https://wordpress.org/support/topic/wrong-font-weight-only-in-firefox-2/
 	 */
 	const USER_AGENT = [
-		'woff2' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0',
+		'woff2' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0',
 	];
 
 	/** @var string $url */
@@ -233,7 +236,12 @@ class Optimize {
 		$response = wp_remote_get(
 			$url,
 			[
-				'user-agent' => self::USER_AGENT['woff2'],
+				/**
+				 * Allow WP devs to use a different User-Agent, e.g. for compatibility with older browsers/OSes.
+				 *
+				 * @filter omgf_optimize_user_agent
+				 */
+				'user-agent' => apply_filters( 'omgf_optimize_user_agent', self::USER_AGENT['woff2'] ),
 			]
 		);
 
@@ -505,6 +513,16 @@ class Optimize {
 				$tuples = [ '400' ];
 			} else {
 				$tuples = explode( ',', $tuples );
+			}
+
+			/**
+			 * Let's normalize the request, before we move on.
+			 */
+			foreach ($tuples as &$tuple) {
+				// Convert shorthand syntax to regular syntax.
+				if (strpos($tuple, 'i') !== false && strpos($tuple, 'italic') === false) {
+					$tuple = str_replace('i', 'italic', $tuple);
+				}
 			}
 
 			$unloaded_fonts = OMGF::unloaded_fonts()[ $this->original_handle ][ $id ];

@@ -368,7 +368,7 @@ namespace WPForms {
 
 			global $wpdb;
 
-			$tables = $wpdb->get_results( "SHOW TABLES LIKE '" . $wpdb->prefix . "wpforms_%'", 'ARRAY_N' ); // phpcs:ignore
+			$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}wpforms_%'", 'ARRAY_N' ); // phpcs:ignore
 
 			return ! empty( $tables ) ? wp_list_pluck( $tables, 0 ) : [];
 		}

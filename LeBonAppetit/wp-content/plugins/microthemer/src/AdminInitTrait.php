@@ -886,6 +886,24 @@ trait AdminInitTrait {
 				wp_die();
 			}
 
+			// if it's an email error report request
+			elseif (isset($_GET['send_error_report'])){
+
+				$manual = (bool) intval($_POST['manual']);
+
+				$response = $this->maybeSendReport($_POST, $manual);
+
+				if ($manual || TVR_DEV_MODE){
+					echo json_encode(array(
+						//'html'=> '<div id="microthemer-notice">'. $this->display_log() . '</div>',
+						'response' => $response,
+						'success' => !!$response
+					));
+				}
+
+				wp_die();
+			}
+
 
 			// dock ALL options left
 			/* if (isset($_GET['dock_styles_left'])) {
@@ -1365,63 +1383,6 @@ trait AdminInitTrait {
 				}
 				// save last message in database so that it can be displayed on page reload (just once)
 				$this->cache_global_msg();
-				wp_die();
-			}
-
-			// if it's an email error report request
-			elseif(isset($_GET['mt_action']) and $_GET['mt_action'] == 'tvr_error_email'){
-				$body = "*** MICROTHEMER ERROR REPORT | ".date('d/m/Y h:i:s a', $this->time)." *** \n\n";
-				$body .= "PHP ERROR \n" . stripslashes($_POST['tvr_php_error']) . "\n\n";
-				$body .= "BROWSER INFO \n" . stripslashes($_POST['tvr_browser_info']) . "\n\n";
-				$body .= "SERIALISED POSTED DATA \n" . stripslashes($_POST['tvr_serialised_data']) . "\n\n";
-				// An error can occur EITHER when saving to DB OR creating the active-styles.css
-				// The php error line number will reveal this. If the latter is true, the DB data contains the posted data too (FYI)
-				$body .= "SERIALISED DATA IN DB \n" . serialize($this->options). "\n\n";
-				// write file to error-reports dir
-				$file_path = 'error-reports/error-'.date('Y-m-d').'.txt';
-				$error_file = $this->thisplugindir . $file_path;
-				$write_file = @fopen($error_file, 'w');
-				fwrite($write_file, $body);
-				fclose($write_file);
-				// Determine from email address. Try to use validated customer email. Don't contact if not Microthemer customer.
-				if ( !empty($this->preferences['buyer_email']) ) {
-					$from_email = $this->preferences['buyer_email'];
-					$body .= "MICROTHEMER CUSTOMER EMAIL \n" . $from_email;
-				}
-				else {
-					$from_email = get_option('admin_email');
-				}
-				// Try to send email (won't work on localhost)
-				$subject = 'Microthemer Error Report | ' . date('d/m/Y', $this->time);
-				$to = 'support@themeover.com';
-				$from = "Microthemer User <$from_email>";
-				$headers = "From: $from";
-				if(@mail($to,$subject,$body,$headers)) {
-					$this->log(
-						esc_html__('Email successfully sent', 'microthemer'),
-						'<p>' . esc_html__('Your error report was successfully emailed to Themeover. Thanks, this really does help.', 'microthemer') . '</p>',
-						'notice'
-					);
-				}
-				else {
-					$error_url = $this->thispluginurl . $file_path;
-					$this->log(
-						esc_html__('Report email failed', 'microthemer'),
-						'<p>' . esc_html__('Your error report email failed to send (are you on localhost?)', 'microthemer') . '</p>
-								<p>' .
-						wp_kses(
-							sprintf(
-								__('Please email <a %s>this report</a> to %s', 'microthemer'),
-								'target="_blank" href="' .$error_url . '"',
-								'<a href="mailto:support@themeover.com">support@themeover.com</a>'
-							),
-							array( 'a' => array( 'href' => array(), 'target' => array() ) )
-						)
-						. '</p>'
-					);
-				}
-				echo '
-						<div id="microthemer-notice">'. $this->display_log() . '</div>';
 				wp_die();
 			}
 

@@ -92,6 +92,8 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 			}
 
 			app.initSelectPagesChoicesJS();
+
+			$( document ).on( 'wpformsWizardPopupClose', app.enableLetsGoButton );
 		},
 
 		/**
@@ -173,7 +175,8 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 				.on( 'click', '.shortcode-toggle', app.shortcodeToggle )
 				.on( 'click', '.initialstate-toggle', app.initialStateToggle )
 				.on( 'click', '.wpforms-admin-popup-close', app.closePopup )
-				.on( 'click', '#wpforms-admin-form-embed-wizard-shortcode-copy', app.copyShortcodeToClipboard );
+				.on( 'click', '#wpforms-admin-form-embed-wizard-shortcode-copy', app.copyShortcodeToClipboard )
+				.on( 'keyup', '#wpforms-admin-form-embed-wizard-new-page-title', app.enableLetsGoButton );
 		},
 
 		/**
@@ -298,6 +301,18 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 			app.tutorialControl( 'Stop' );
 			el.$shortcodeInput.val( '[wpforms id="' + vars.formId + '" title="false"]' );
 			el.$shortcode.toggle();
+		},
+
+		/**
+		 * Enable the "Let's Go!" button.
+		 *
+		 * @since 1.8.2.3
+		 */
+		enableLetsGoButton: function() {
+
+			const $btn = el.$sectionGo.find( 'button' );
+
+			$btn.prop( 'disabled', false );
 		},
 
 		/**

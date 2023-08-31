@@ -385,8 +385,10 @@ class Addons {
 		// We need the cleared name of the addon, without the ' addon' suffix, for further use.
 		$addon['name'] = preg_replace( '/ addon$/i', '', $addon['title'] );
 
-		/* translators: %s - addon name. */
-		$addon['modal_name']    = sprintf( esc_html__( '%s addon', 'wpforms-lite' ), $addon['name'] );
+		$addon['modal_name']    = sprintf( /* translators: %s - addon name. */
+			esc_html__( '%s addon', 'wpforms-lite' ),
+			$addon['name']
+		);
 		$addon['clear_slug']    = str_replace( 'wpforms-', '', $addon['slug'] );
 		$addon['utm_content']   = ucwords( str_replace( '-', ' ', $addon['clear_slug'] ) );
 		$addon['license']       = $this->default_data( $addon, 'license', [] );

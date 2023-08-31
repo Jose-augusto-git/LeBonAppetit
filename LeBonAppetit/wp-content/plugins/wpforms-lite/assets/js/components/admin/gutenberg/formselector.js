@@ -13,12 +13,13 @@ var WPForms = window.WPForms || {};
 WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ ) {
 
 	const { serverSideRender: ServerSideRender = wp.components.ServerSideRender } = wp;
-	const { createElement, Fragment, useState } = wp.element;
+	const { createElement, Fragment, useState, createInterpolateElement } = wp.element;
 	const { registerBlockType } = wp.blocks;
 	const { InspectorControls, InspectorAdvancedControls, PanelColorSettings } = wp.blockEditor || wp.editor;
 	const { SelectControl, ToggleControl, PanelBody, Placeholder, Flex, FlexBlock, __experimentalUnitControl, TextareaControl, Button, Modal } = wp.components;
 	const { strings, defaults, sizes } = wpforms_gutenberg_form_selector;
 	const defaultStyleSettings = defaults;
+	const { __ } = wp.i18n;
 
 	/**
 	 * Blocks runtime data.
@@ -37,6 +38,15 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 	 * @type {boolean}
 	 */
 	let triggerServerRender = true;
+
+	/**
+	 * Popup container.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @type {object}
+	 */
+	let $popup = {};
 
 	/**
 	 * Public functions and properties.
@@ -83,10 +93,69 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 		},
 
 		/**
+		 * Open builder popup.
+		 *
+		 * @since 1.6.2
+		 *
+		 * @param {string} clientID Block Client ID.
+		 */
+		openBuilderPopup: function( clientID ) {
+
+			if ( $.isEmptyObject( $popup ) ) {
+				let tmpl = $( '#wpforms-gutenberg-popup' );
+				let parent = $( '#wpwrap' );
+
+				parent.after( tmpl );
+
+				$popup = parent.siblings( '#wpforms-gutenberg-popup' );
+			}
+
+			const url = wpforms_gutenberg_form_selector.get_started_url,
+				$iframe = $popup.find( 'iframe' );
+
+			app.builderCloseButtonEvent( clientID );
+			$iframe.attr( 'src', url );
+			$popup.fadeIn();
+		},
+
+		/**
+		 * Close button (inside the form builder) click event.
+		 *
+		 * @since 1.8.3
+		 *
+		 * @param {string} clientID Block Client ID.
+		 */
+		builderCloseButtonEvent: function( clientID ) {
+
+			$popup
+				.off( 'wpformsBuilderInPopupClose' )
+				.on( 'wpformsBuilderInPopupClose', function( e, action, formId, formTitle ) {
+
+					if ( action !== 'saved' || ! formId ) {
+						return;
+					}
+
+					// Insert a new block when a new form is created from the popup to update the form list and attributes.
+					const newBlock = wp.blocks.createBlock( 'wpforms/form-selector', {
+						formId: formId.toString(), // Expects string value, make sure we insert string.
+					} );
+
+					// eslint-disable-next-line camelcase
+					wpforms_gutenberg_form_selector.forms = [ { ID: formId, post_title: formTitle } ];
+
+					// Insert a new block.
+					wp.data.dispatch( 'core/block-editor' ).removeBlock( clientID );
+					wp.data.dispatch( 'core/block-editor' ).insertBlocks( newBlock );
+
+				} );
+		},
+
+		/**
 		 * Register block.
 		 *
 		 * @since 1.8.1
 		 */
+		// eslint-disable-next-line max-lines-per-function
 		registerBlock: function() {
 
 			registerBlockType( 'wpforms/form-selector', {
@@ -96,6 +165,9 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 				keywords: strings.form_keywords,
 				category: 'widgets',
 				attributes: app.getBlockAttributes(),
+				supports: {
+					customClassName: app.hasForms(),
+				},
 				example: {
 					attributes: {
 						preview: true,
@@ -107,6 +179,7 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 					const formOptions = app.getFormOptions();
 					const sizeOptions = app.getSizeOptions();
 					const handlers = app.getSettingsFieldsHandlers( props );
+
 
 					// Store block clientId in attributes.
 					if ( ! attributes.clientId ) {
@@ -120,6 +193,15 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 					let jsx = [
 						app.jsxParts.getMainSettings( attributes, handlers, formOptions ),
 					];
+
+					// Block preview picture.
+					if ( ! app.hasForms() ) {
+						jsx.push(
+							app.jsxParts.getEmptyFormsPreview( props ),
+						);
+
+						return jsx;
+					}
 
 					// Form style settings & block content.
 					if ( attributes.formId ) {
@@ -163,7 +245,18 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 		 */
 		initDefaults: function() {
 
-			[ 'formId', 'copyPasteValue' ].forEach( key => delete defaultStyleSettings[ key ] );
+			[ 'formId', 'copyPasteJsonValue' ].forEach( key => delete defaultStyleSettings[ key ] );
+		},
+
+		/**
+		 * Check if site has forms.
+		 *
+		 * @since 1.8.3
+		 *
+		 * @returns {boolean} Whether site has atleast one form.
+		 */
+		hasForms: function() {
+			return app.getFormOptions().length > 1;
 		},
 
 		/**
@@ -187,6 +280,10 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 			 * @returns {JSX.Element} Main setting JSX code.
 			 */
 			getMainSettings: function( attributes, handlers, formOptions ) {
+
+				if ( ! app.hasForms() ) {
+					return app.jsxParts.printEmptyFormsNotice( attributes.clientId );
+				}
 
 				return (
 					<InspectorControls key="wpforms-gutenberg-form-selector-inspector-main-settings">
@@ -212,6 +309,37 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 								{ strings.panel_notice_text }
 								<a href={strings.panel_notice_link} rel="noreferrer" target="_blank">{ strings.panel_notice_link_text }</a>
 							</p>
+						</PanelBody>
+					</InspectorControls>
+				);
+			},
+
+			/**
+			 * Print empty forms notice.
+			 *
+			 * @since 1.8.3
+			 *
+			 * @param {string} clientId Block client ID.
+			 *
+			 * @returns {JSX.Element} Field styles JSX code.
+			 */
+			printEmptyFormsNotice: function( clientId ) {
+				return (
+					<InspectorControls key="wpforms-gutenberg-form-selector-inspector-main-settings">
+						<PanelBody className="wpforms-gutenberg-panel" title={ strings.form_settings }>
+							<p className="wpforms-gutenberg-panel-notice wpforms-warning wpforms-empty-form-notice" style={{ display: 'block' }}>
+								<strong>{ __( 'You haven’t created a form, yet!', 'wpforms-lite' ) }</strong>
+								{ __( 'What are you waiting for?', 'wpforms-lite' ) }
+							</p>
+							<button type="button" className="get-started-button components-button is-secondary"
+								onClick={
+									() => {
+										app.openBuilderPopup( clientId );
+									}
+								}
+							>
+								{ __( 'Get Started', 'wpforms-lite' ) }
+							</button>
 						</PanelBody>
 					</InspectorControls>
 				);
@@ -449,7 +577,7 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 								label={ strings.copy_paste_settings }
 								rows="4"
 								spellCheck="false"
-								value={ attributes.copyPasteValue }
+								value={ attributes.copyPasteJsonValue }
 								onChange={ value => handlers.pasteSettings( value ) }
 							/>
 							<div className="wpforms-gutenberg-form-selector-legend" dangerouslySetInnerHTML={{ __html: strings.copy_paste_notice }}></div>
@@ -539,6 +667,68 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 					<Fragment
 						key="wpforms-gutenberg-form-selector-fragment-block-preview">
 						<img src={ wpforms_gutenberg_form_selector.block_preview_url } style={{ width: '100%' }} />
+					</Fragment>
+				);
+			},
+
+			/**
+			 * Get block empty JSX code.
+			 *
+			 * @since 1.8.3
+			 *
+			 * @param {object} props Block properties.
+			 * @returns {JSX.Element} Block empty JSX code.
+			 */
+			getEmptyFormsPreview: function( props ) {
+
+				const clientId = props.clientId;
+
+				return (
+					<Fragment
+						key="wpforms-gutenberg-form-selector-fragment-block-empty">
+						<div className="wpforms-no-form-preview">
+							<img src={ wpforms_gutenberg_form_selector.block_empty_url } />
+							<p>
+								{
+									createInterpolateElement(
+										__(
+											'You can use <b>WPForms</b> to build contact forms, surveys, payment forms, and more with just a few clicks.',
+											'wpforms-lite'
+										),
+										{
+											b: <strong />,
+										}
+									)
+								}
+							</p>
+							<button type="button" className="get-started-button components-button is-primary"
+								onClick={
+									() => {
+										app.openBuilderPopup( clientId );
+									}
+								}
+							>
+								{ __( 'Get Started', 'wpforms-lite' ) }
+							</button>
+							<p className="empty-desc">
+								{
+									createInterpolateElement(
+										__(
+											'Need some help? Check out our <a>comprehensive guide.</a>',
+											'wpforms-lite'
+										),
+										{
+											a: <a href={wpforms_gutenberg_form_selector.wpforms_guide} target="_blank" rel="noopener noreferrer"/>,
+										}
+									)
+								}
+							</p>
+
+							{/* Template for popup with builder iframe */}
+							<div id="wpforms-gutenberg-popup" className="wpforms-builder-popup">
+								<iframe src="about:blank" width="100%" height="100%" id="wpforms-builder-iframe"></iframe>
+							</div>
+						</div>
 					</Fragment>
 				);
 			},
@@ -734,7 +924,7 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 						content[key] = atts[ key ];
 					}
 
-					props.setAttributes( { 'copyPasteValue': JSON.stringify( content ) } );
+					props.setAttributes( { 'copyPasteJsonValue': JSON.stringify( content ) } );
 				},
 
 				/**
@@ -760,7 +950,7 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 						return;
 					}
 
-					pasteAttributes.copyPasteValue = value;
+					pasteAttributes.copyPasteJsonValue = value;
 
 					props.setAttributes( pasteAttributes );
 
@@ -898,9 +1088,9 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 					type: 'string',
 					default: defaults.buttonTextColor,
 				},
-				copyPasteValue: {
+				copyPasteJsonValue: {
 					type: 'string',
-					default: defaults.copyPasteValue,
+					default: defaults.copyPasteJsonValue,
 				},
 			};
 		},

@@ -134,8 +134,10 @@ class NinjaForms extends Base {
 					1 => [
 						'notification_name' => esc_html__( 'Notification 1', 'wpforms-lite' ),
 						'email'             => '{admin_email}',
-						/* translators: %s - form name. */
-						'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $nf_form_name ),
+						'subject'           => sprintf( /* translators: %s - form name. */
+							esc_html__( 'New Entry: %s', 'wpforms-lite' ),
+							$nf_form_name
+						),
 						'sender_name'       => get_bloginfo( 'name' ),
 						'sender_address'    => '{admin_email}',
 						'replyto'           => '',
@@ -421,8 +423,10 @@ class NinjaForms extends Base {
 		$action_defaults = [
 			'notification_name' => esc_html__( 'Notification', 'wpforms-lite' ) . " $action_count",
 			'email'             => '{admin_email}',
-			/* translators: %s - form name. */
-			'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $nf_form_name ),
+			'subject'           => sprintf( /* translators: %s - form name. */
+				esc_html__( 'New Entry: %s', 'wpforms-lite' ),
+				$nf_form_name
+			),
 			'sender_name'       => get_bloginfo( 'name' ),
 			'sender_address'    => '{admin_email}',
 			'replyto'           => '',

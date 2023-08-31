@@ -156,7 +156,7 @@ class Import extends View {
 					<?php
 					if ( wpforms_current_user_can( 'view_forms' ) ) {
 						printf(
-							wp_kses( /* translators: %s - Forms list page URL. */
+							wp_kses( /* translators: %s - forms list page URL. */
 								__( 'You can go and <a href="%s">check your forms</a>.', 'wpforms-lite' ),
 								[ 'a' => [ 'href' => [] ] ]
 							),
@@ -248,7 +248,7 @@ class Import extends View {
 				<?php } else { ?>
 					<form action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
 						<span class="choicesjs-select-wrap">
-							<select class="choicesjs-select" name="provider" required>
+							<select class="choicesjs-select" name="provider" data-search="<?php echo esc_attr( wpforms_choices_js_is_search_enabled( $this->importers ) ); ?>" required>
 								<option value=""><?php esc_html_e( 'Select previous contact form plugin...', 'wpforms-lite' ); ?></option>
 								<?php
 								foreach ( $this->importers as $importer ) {

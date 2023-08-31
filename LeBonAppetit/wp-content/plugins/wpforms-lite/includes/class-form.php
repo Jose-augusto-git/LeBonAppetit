@@ -532,8 +532,10 @@ class WPForms_Form_Handler {
 			$form_data['settings']['notifications']          = [
 				'1' => [
 					'email'          => '{admin_email}',
-					/* translators: %s - Form Title. */
-					'subject'        => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), esc_html( $title ) ),
+					'subject'        => sprintf( /* translators: %s - form name. */
+						esc_html__( 'New Entry: %s', 'wpforms-lite' ),
+						esc_html( $title )
+					),
 					'sender_name'    => get_bloginfo( 'name' ),
 					'sender_address' => '{admin_email}',
 					'replyto'        => '{field_id="1"}',

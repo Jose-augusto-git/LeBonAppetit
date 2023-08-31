@@ -420,7 +420,6 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 
 			// Cache DOM elements.
 			el.$document      = $( document );
-			el.$screenOptions = $( '#screen-options-wrap' );
 			el.$wrapper       = $( '.wpforms-payments-wrap-overview' );
 			el.$spinner       = $( '.wpforms-overview-chart .spinner' );
 			el.$canvas        = $( '#wpforms-payments-overview-canvas' );
@@ -441,8 +440,6 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 
 			el.$document
 				.on( 'click', { selectors: [ '.wpforms-datepicker-popover', '.wpforms-dash-widget-settings-menu' ] }, app.handleOnClickOutside );
-			el.$screenOptions
-				.find( '.hide-column-tog' ).on( 'change', app.handleOnChangeScreenOptions );
 			el.$wrapper
 				.on( 'submit', '.wpforms-overview-top-bar-filter-form', app.handleOnSubmitDatepicker )
 				.on( 'click', '.wpforms-overview-top-bar-filter-form [type="reset"]', app.handleOnResetDatepicker )
@@ -713,23 +710,6 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 					app.hideElm( el.$wrapper.find( selector ) );
 				}
 			} );
-		},
-
-		/**
-		 * For styling purposes, we will add a dedicated class name for determining the number of visible columns.
-		 *
-		 * @since 1.8.2
-		 */
-		handleOnChangeScreenOptions: function() {
-
-			const $columns       = el.$table.find( 'thead .manage-column' );
-			const $hidden        = $columns.filter( '.hidden' );
-			const hasManyColumns = Boolean( ( $columns.length - $hidden.length ) > 5 );
-
-			// This is used to adjust the table layout.
-			// Add a class to the table to indicate the number of columns.
-			el.$table.toggleClass( 'has-many-columns', hasManyColumns );
-			el.$table.toggleClass( 'has-few-columns', ! hasManyColumns );
 		},
 
 		/**

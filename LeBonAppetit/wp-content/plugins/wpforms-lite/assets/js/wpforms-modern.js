@@ -45,7 +45,6 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 
 			$( 'form.wpforms-form' )
 				.on( 'wpformsCombinedUploadsSizeError', app.combinedUploadsSizeError )
-				.on( 'wpformsCombinedUploadsSizeOk', app.combinedUploadsSizeOk )
 				.on( 'wpformsFormSubmitButtonDisable', app.formSubmitButtonDisable )
 				.on( 'wpformsFormSubmitButtonRestore', app.formSubmitButtonRestore )
 				.on( 'wpformsPageChange', app.pageChange );
@@ -62,7 +61,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		updateGBBlockAccentColors: function() {
 
 			// Loop through all the GB blocks on the page.
-			$( '.wpforms-block.wpforms-container-full' ).each( function() {
+			$( '.wpforms-block.wpforms-container-full, .elementor-widget-wpforms .wpforms-container-full' ).each( function() {
 
 				const $form = $( this );
 
@@ -187,23 +186,22 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 
 			// Instead of set the `disabled` property,
 			// we must use `aria-disabled` and `aria-describedby` attributes in conduction with `wpforms-disabled` class.
-			$submitBtn
-				.prop( 'disabled', false )
-				.addClass( 'wpforms-disabled' )
-				.attr( 'aria-disabled', 'true' )
-				.attr( 'aria-describedby', errorCntId );
+			$submitBtn.attr( 'aria-describedby', errorCntId );
 		},
 
 		/**
 		 * Handler for `wpformsCombinedUploadsSizeOk` event.
 		 *
 		 * @since 1.8.1
+		 * @deprecated 1.8.3
 		 *
 		 * @param {object} e         Event object.
 		 * @param {jQuery} $form     Form object.
 		 * @param {jQuery} $errorCnt Error container object.
 		 */
 		combinedUploadsSizeOk: function( e, $form, $errorCnt ) {
+
+			console.warn( 'WARNING! Function "WPForms.FrontendModern( e, $form, $errorCnt )" has been deprecated, please use the new "formSubmitButtonDisable: function( e, $form, $submitBtn )" function instead!' );
 
 			const $submitBtn = $form.find( '.wpforms-submit' );
 

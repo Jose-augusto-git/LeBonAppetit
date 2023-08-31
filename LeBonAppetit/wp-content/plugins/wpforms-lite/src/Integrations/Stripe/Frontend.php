@@ -51,6 +51,7 @@ class Frontend {
 		add_action( 'wpforms_frontend_container_class', [ $this, 'form_container_class' ], 10, 2 );
 		add_action( 'wpforms_wp_footer', [ $this, 'enqueues' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_assets' ] );
+		add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'enqueue_assets' ] );
 		add_filter( 'register_block_type_args', [ $this, 'register_block_type_args' ], 20, 2 );
 	}
 
@@ -91,7 +92,6 @@ class Frontend {
 	public function enqueues( $forms ) {
 
 		if (
-			! Helpers::has_stripe_keys() ||
 			! Helpers::has_stripe_enabled( $forms ) ||
 			! Helpers::has_stripe_field( $forms, true )
 		) {
@@ -108,8 +108,13 @@ class Frontend {
 	 */
 	public function enqueue_assets() {
 
-		$config = $this->api->get_config();
-		$min    = wpforms_get_min_suffix();
+		if ( ! Helpers::has_stripe_keys() ) {
+			return;
+		}
+
+		$config            = $this->api->get_config();
+		$min               = wpforms_get_min_suffix();
+		$is_styles_enabled = (int) wpforms_setting( 'disable-css', '1' ) !== 3;
 
 		wp_enqueue_script(
 			'stripe-js',
@@ -134,8 +139,13 @@ class Frontend {
 					'empty_details'      => esc_html__( 'Please fill out payment details to continue.', 'wpforms-lite' ),
 					'element_load_error' => esc_html__( 'Payment Element failed to load. Stripe API responded with the message:', 'wpforms-lite' ),
 				],
+				'styles_enabled'  => $is_styles_enabled,
 			]
 		);
+
+		if ( ! $is_styles_enabled ) {
+			return;
+		}
 
 		wp_enqueue_style(
 			self::HANDLE,

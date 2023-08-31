@@ -55,6 +55,7 @@ function astra_comments_css( $dynamic_css ) {
 		$padding_comment_title                = $update_customizer_strctural_defaults ? '1em 0 0' : '2em 0';
 		$padding_ast_comment                  = $update_customizer_strctural_defaults ? '0' : '1em 0';
 		$padding_ast_comment_list             = $update_customizer_strctural_defaults ? '0' : '0.5em';
+		$border_color                         = astra_get_option( 'border-color' );
 
 		$single_post_comment_css = '.comments-title {
             padding: ' . esc_attr( $padding_comment_title ) . ';
@@ -111,7 +112,7 @@ function astra_comments_css( $dynamic_css ) {
           }
 
           .comments-area {
-            border-top: 1px solid #eeeeee;
+            border-top: 1px solid ' . esc_attr( $border_color ) . ';
             margin-top: 2em;
           }
 
@@ -232,13 +233,19 @@ function astra_comments_css( $dynamic_css ) {
 				}
 			';
 		}
-		if ( 'page-builder' == astra_get_content_layout() || 'plain-container' == astra_get_content_layout() ) {
+
+		$content_layout   = astra_get_content_layout();
+		$is_boxed         = astra_is_content_style_boxed();
+		$is_sidebar_boxed = astra_is_sidebar_style_boxed();
+		$content_layout   = astra_apply_boxed_layouts( $content_layout, $is_boxed, $is_sidebar_boxed );
+		if ( 'page-builder' == $content_layout || 'plain-container' == $content_layout ) {
 			$single_post_comment_css .= '
             .ast-comment-list li.depth-1 .ast-comment,
             .ast-comment-list li.depth-2 .ast-comment {
-              border-bottom: 1px solid #eeeeee;
+              border-bottom: 1px solid ' . esc_attr( $border_color ) . ';
             }';
 		}
+
 		if ( $is_site_rtl ) {
 			$single_post_comment_css .= '
             .ast-comment-list .children {

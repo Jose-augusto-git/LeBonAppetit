@@ -787,26 +787,6 @@
 .customize-control .components-tooltip {
     z-index: 8 !important;
 }
-.color-group-item .components-popover .components-popover__content,
-.ast-color-palette .components-popover .components-popover__content {
-    min-width: 3em;
-    max-width: 10em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 1ch 1.5ch;
-    border-radius: 0.3ch;
-    box-shadow: 0 1em 2em -0.5em rgb(0 0 0 / 35%);
-    background: var(--ast-customizer-color-12);
-    color: var(--ast-customizer-color-10);
-    z-index: 1000;
-    text-align: center;
-    text-transform: none;
-    font-size: .9em;
-    line-height: 1;
-    user-select: none;
-    pointer-events: none;
-}
 .ast-color-palette .components-popover .components-popover__content {
     bottom: calc(100% + 5px);
     animation: tooltips-vert .3s ease-out forwards;
@@ -859,6 +839,7 @@
     height: 28px;
     border-radius: 50%;
     margin: 0;
+	background: inherit;
 }
 .component-color-indicator {
     width: 25px;
@@ -1717,25 +1698,57 @@ input[type="text"].select2-search__field {
 
 /* Toggle Section Control */
 .ast-section-toggle {
-  display: grid;
-  grid-template-columns: 80% 1fr 1fr;
+	display: grid;
+    grid-template-columns: 70% 15% 15%;
+    align-items: center;
+    padding: 16px 14px 16px 0;
+    height: 100%;
 }
 
 .ast-section-toggle label {
-  font-size: 14px;
-  line-height: 1;
-  font-weight: 600;
+	font-size: 14px;
+    line-height: 1;
+    font-weight: 600;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
 }
 
 .ast-section-toggle:not(.active) > label {
   cursor: default;
 }
 
+.customize-control.customize-control-ast-section-toggle {
+    border: 1px dashed var(--ast-customizer-color-7);
+    background: var(--ast-customizer-color-11);
+    cursor: pointer;
+    box-shadow: none !important;
+    line-height: 42px;
+    font-size: 14px;
+    display: inline-grid;
+    align-items: center;
+    height: auto;
+    color: var(--ast-customizer-color-5);
+    position: relative;
+    white-space: nowrap;
+    border-radius: 4px;
+    transition: all 0.2s;
+    padding-top: 0;
+    padding-bottom: 0;
+	margin-bottom: 9px;
+}
+.customize-control.customize-control-ast-section-toggle:hover {
+    background: var(--ast-customizer-color-9);
+    border-style: solid;
+}
 .ast-section-toggle-icon {
-  color: var(--wp-admin-theme-color);
-  cursor: pointer;
-  margin-bottom: -4px;
-  margin-right: 10px;
+    color: var(--wp-admin-theme-color);
+    cursor: pointer;
+    line-height: 20px;
+    margin-right: 10px;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
 }
 
 .ast-section-toggle-icon span {
@@ -2360,6 +2373,21 @@ div .ast-field-settings-modal .customize-control-ast-font-extras {
     background: linear-gradient(-90deg, rgba(247,247,247,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%);
     pointer-events: none;
     z-index: 1;
+}
+
+#customize-control-astra-settings-ast-headings-font-settings .ast-fields-wrap,
+#customize-control-astra-settings-ast-body-font-settings .ast-fields-wrap {
+    overflow: visible;
+}
+
+/**
+ * Hide normal font weight from font weight dropdown and display only if its set as font weight.
+ */
+.customize-control-ast-font select option[value="normal"], .customize-control-ast-font select[data-value="normal"] option[value="400"] {
+    display: none;
+}
+.customize-control-ast-font select[data-value="normal"] option[value="normal"] {
+    display: block;
 }
 
 span.customize-control-title.ast-group-section-title {
@@ -3951,7 +3979,7 @@ span.customize-control-title.ast-group-section-title {
 }
 
 .astra-media-tab .ast-danger-btn {
-  color: var(--ast-customizer-color-13);
+  color: var(--ast-customizer-color-14);
   margin-top: 10px;
 }
 
@@ -3960,7 +3988,7 @@ span.customize-control-title.ast-group-section-title {
 }
 
 .astra-media-tab .ast-danger-btn:hover {
-  border-color: var(--ast-customizer-color-13);
+  border-color: var(--ast-customizer-color-14);
 }
 
 .components-base-control.ast-text-control-input {

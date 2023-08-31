@@ -75,6 +75,15 @@ class Process {
 	private $api;
 
 	/**
+	 * Whether the payment has been processed.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @var bool
+	 */
+	private $is_payment_processed = false;
+
+	/**
 	 * Initialize.
 	 *
 	 * @since 1.8.2
@@ -102,6 +111,7 @@ class Process {
 		add_filter( 'wpforms_forms_submission_prepare_payment_meta', [ $this, 'prepare_payment_meta' ], 10, 3 );
 		add_filter( 'wpforms_entry_email_process', [ $this, 'process_email' ], 70, 4 );
 		add_action( 'wpforms_process_complete', [ $this, 'process_entry_data' ], 10, 4 );
+		add_filter( 'wpforms_process_bypass_captcha', [ $this, 'bypass_captcha' ] );
 	}
 
 	/**
@@ -145,7 +155,28 @@ class Process {
 			return;
 		}
 
+		// Set payment processing flag.
+		$this->is_payment_processed = true;
+
 		$this->process_payment();
+	}
+
+	/**
+	 * Bypass captcha if payment has been processed.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param bool $bypass_captcha Whether to bypass captcha.
+	 *
+	 * @return bool
+	 */
+	public function bypass_captcha( $bypass_captcha ) {
+
+		if ( $bypass_captcha ) {
+			return $bypass_captcha;
+		}
+
+		return $this->is_payment_processed;
 	}
 
 	/**
@@ -218,10 +249,7 @@ class Process {
 		}
 
 		$log = [
-			'value' => sprintf(
-				'Stripe payment intent created. (Payment Intent ID: %s)',
-				$payment->id
-			),
+			'value' => $payment->object === 'payment_intent' ? sprintf( 'Stripe payment intent created. (Payment Intent ID: %s)', $payment->id ) : 'Stripe payment was created.',
 			'date'  => gmdate( 'Y-m-d H:i:s' ),
 		];
 
@@ -321,7 +349,7 @@ class Process {
 					[
 						'value' => sprintf(
 							'Stripe charge complete. (Charge ID: %s)',
-							$payment->latest_charge
+							isset( $payment->latest_charge ) ? $payment->latest_charge : $payment->id
 						),
 						'date'  => gmdate( 'Y-m-d H:i:s' ),
 					]
@@ -787,7 +815,7 @@ class Process {
 
 		$message = sprintf(
 			/* translators: %s - error message. */
-			esc_html__( 'Credit Card Payment Error: %s', 'wpforms-lite' ),
+			esc_html__( 'Payment Error: %s', 'wpforms-lite' ),
 			$message
 		);
 

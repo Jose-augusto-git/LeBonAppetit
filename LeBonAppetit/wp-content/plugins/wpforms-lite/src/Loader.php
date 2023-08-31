@@ -51,7 +51,7 @@ class Loader {
 		$this->populate_logger();
 		$this->populate_education();
 		$this->populate_robots();
-		$this->populate_anti_spam_filters();
+		$this->populate_anti_spam();
 	}
 
 	/**
@@ -179,6 +179,10 @@ class Loader {
 				'hook' => 'admin_init',
 			],
 			[
+				'name' => 'Admin\Entries\Handler',
+				'hook' => 'admin_init',
+			],
+			[
 				'name'      => 'Admin\Entries\Overview\Ajax',
 				'hook'      => 'admin_init',
 				'run'       => 'hooks',
@@ -251,6 +255,14 @@ class Loader {
 			],
 			[
 				'name' => 'Forms\Fields\Richtext\EntryViewContent',
+			],
+			[
+				'name' => 'Admin\DashboardWidget',
+				'hook' => wpforms()->is_pro() ? 'admin_init' : 'init',
+			],
+			[
+				'name' => 'Admin\Entries\DefaultScreen',
+				'hook' => 'admin_init',
 			]
 		);
 	}
@@ -578,11 +590,11 @@ class Loader {
 	}
 
 	/**
-	 * Populate Country and Keyword filters from AntiSpam settings.
+	 * Populate AntiSpam loaded classes.
 	 *
 	 * @since 1.7.8
 	 */
-	private function populate_anti_spam_filters() {
+	private function populate_anti_spam() {
 
 		array_push(
 			$this->classes,
@@ -592,6 +604,10 @@ class Loader {
 			],
 			[
 				'name' => 'AntiSpam\KeywordFilter',
+				'hook' => 'init',
+			],
+			[
+				'name' => 'AntiSpam\SpamEntry',
 				'hook' => 'init',
 			]
 		);

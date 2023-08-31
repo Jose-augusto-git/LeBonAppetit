@@ -25,7 +25,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
 			<?php
 			echo wp_kses(
 				sprintf(
-					/* translators: %1$d - Number of minutes; %2$s - Single or plural word 'minute'. */
+					/* translators: %1$d - number of minutes, %2$s - singular or plural form of 'minute'. */
 					__( 'Complete the <b>WPForms Challenge</b> and get up and running within %1$d&nbsp;%2$s.', 'wpforms-lite' ),
 					absint( $minutes ),
 					_n( 'minute', 'minutes', absint( $minutes ), 'wpforms-lite' )

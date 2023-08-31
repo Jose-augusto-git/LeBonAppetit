@@ -139,9 +139,9 @@ class Meta extends WPForms_DB {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
-			"INSERT INTO {$this->table_name}
+			"INSERT INTO $this->table_name
 			( payment_id, meta_key, meta_value )
-			VALUES {$values}"
+			VALUES $values"
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
@@ -163,7 +163,7 @@ class Meta extends WPForms_DB {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$meta_value = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT meta_value FROM {$this->table_name}
+				"SELECT meta_value FROM $this->table_name
 				WHERE payment_id = %d AND meta_key = %s ORDER BY id DESC LIMIT 1",
 				$payment_id,
 				$meta_key
@@ -190,7 +190,7 @@ class Meta extends WPForms_DB {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT meta_key, meta_value as value FROM {$this->table_name}
+				"SELECT meta_key, meta_value as value FROM $this->table_name
 				WHERE payment_id = %d ORDER BY id DESC",
 				$payment_id
 			),

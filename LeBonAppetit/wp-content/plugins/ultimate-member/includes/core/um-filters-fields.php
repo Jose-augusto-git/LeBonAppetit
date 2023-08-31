@@ -209,6 +209,7 @@ function um_profile_field_filter_hook__user_registered( $value, $data ) {
 		return '';
 	}
 	$value = strtotime( $value );
+	// translators: %s: date.
 	$value = sprintf( __( 'Joined %s', 'ultimate-member' ), date_i18n( get_option( 'date_format' ), $value ) );
 	return $value;
 }
@@ -247,16 +248,18 @@ function um_profile_field_filter_hook__textarea( $value, $data ) {
 	if ( ! $value ) {
 		return '';
 	}
-	if ( isset( $data['html'] ) && $data['html'] == 1 ) {
+	if ( ! empty( $data['html'] ) ) {
 		return $value;
 	}
 
+	$description_key = UM()->profile()->get_show_bio_key( UM()->fields()->global_args );
+
 	$value = wp_kses( $value, 'strip' );
 	$value = html_entity_decode( $value );
-	$value = preg_replace('$(https?://[a-z0-9_./?=&#-]+)(?![^<>]*>)$i', ' <a href="$1" target="_blank">$1</a> ', $value." ");
-	$value = preg_replace('$(www\.[a-z0-9_./?=&#-]+)(?![^<>]*>)$i', '<a target="_blank" href="http://$1">$1</a> ', $value." ");
+	$value = preg_replace( '$(https?://[a-z0-9_./?=&#-]+)(?![^<>]*>)$i', ' <a href="$1" target="_blank">$1</a> ', $value . ' ' );
+	$value = preg_replace( '$(www\.[a-z0-9_./?=&#-]+)(?![^<>]*>)$i', '<a target="_blank" href="http://$1">$1</a> ', $value . ' ' );
 
-	if ( ! ( isset( $data['metakey'] ) && 'description' === $data['metakey'] ) ) {
+	if ( ! ( isset( $data['metakey'] ) && $description_key === $data['metakey'] ) ) {
 		$value = wpautop( $value );
 	}
 
@@ -478,6 +481,7 @@ function um_profile_field_filter_hook__( $value, $data, $type = '' ) {
 			if ( UM()->options()->get( 'allow_url_redirect_confirm' ) && $value !== wp_validate_redirect( $value ) ) {
 				$onclick_alert = sprintf(
 					' onclick="' . esc_attr( 'return confirm( "%s" );' ) . '"',
+					// translators: %s: link.
 					esc_js( sprintf( __( 'This link leads to a 3rd-party website. Make sure the link is safe and you really want to go to this website: \'%s\'', 'ultimate-member' ), $value ) )
 				);
 			}
@@ -706,7 +710,9 @@ function um_field_non_utf8_value( $value ) {
 	if ( function_exists( 'mb_detect_encoding' ) ) {
 		$encoding = mb_detect_encoding( $value, 'utf-8, iso-8859-1, ascii', true );
 		if ( strcasecmp( $encoding, 'UTF-8' ) !== 0 ) {
-			$value = iconv( $encoding, 'utf-8', $value );
+			if ( function_exists( 'iconv' ) ) {
+				$value = iconv( $encoding, 'utf-8', $value );
+			}
 		}
 	}
 
@@ -824,16 +830,7 @@ function um_profile_field_filter_xss_validation( $value, $data, $type = '' ) {
 			}
 		} elseif ( 'select' == $type || 'radio' == $type ) {
 
-			/**
-			 * UM hook
-			 *
-			 * @type filter
-			 * @title um_select_option_value
-			 * @description Enable options pair by field $data
-			 * @input_vars
-			 * [{"var":"$options_pair","type":"null","desc":"Enable pairs"},
-			 * {"var":"$data","type":"array","desc":"Field Data"}]
-			 */
+			/** This filter is documented in includes/core/class-fields.php */
 			$option_pairs = apply_filters( 'um_select_options_pair', null, $data );
 
 			$array = empty( $data['options'] ) ? array() : $data['options'];
@@ -859,16 +856,7 @@ function um_profile_field_filter_xss_validation( $value, $data, $type = '' ) {
 	} elseif ( ! empty( $value ) && is_array( $value ) ) {
 		if ( 'multiselect' == $type || 'checkbox' == $type ) {
 
-			/**
-			 * UM hook
-			 *
-			 * @type filter
-			 * @title um_select_option_value
-			 * @description Enable options pair by field $data
-			 * @input_vars
-			 * [{"var":"$options_pair","type":"null","desc":"Enable pairs"},
-			 * {"var":"$data","type":"array","desc":"Field Data"}]
-			 */
+			/** This filter is documented in includes/core/class-fields.php */
 			$option_pairs = apply_filters( 'um_select_options_pair', null, $data );
 
 			$arr = $data['options'];

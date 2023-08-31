@@ -289,6 +289,7 @@ class Search {
 	 * @param int    $n        Word count.
 	 *
 	 * @return string
+	 * @noinspection CallableParameterUseCaseInTypeContextInspection
 	 */
 	private function select_from_meta_table( $meta_key, $operator, $word, $n ) {
 
@@ -298,11 +299,11 @@ class Search {
 		$meta_table    = wpforms()->get( 'payment_meta' )->table_name;
 		$meta_key      = $wpdb->prepare( '%s', $meta_key );
 
-		$query = "SELECT id FROM {$payment_table}
+		$query = "SELECT id FROM $payment_table
 				WHERE id IN ( 
-					SELECT DISTINCT payment_id FROM {$meta_table} 
-					WHERE meta_value {$operator} {$word} 
-					AND meta_key = {$meta_key} 
+					SELECT DISTINCT payment_id FROM $meta_table 
+					WHERE meta_value $operator $word 
+					AND meta_key = $meta_key 
 				)";
 
 		return $this->wrap_in_inner_join( $query, $n );

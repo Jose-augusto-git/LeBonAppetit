@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wpforms-admin-single-navigation">
 	<div class="wpforms-admin-single-navigation-text">
 		<?php
-		printf( /* translators: %1$d - current number of payment; %2$d - total number of payments. */
+		printf( /* translators: %1$d - current number of payment, %2$d - total number of payments. */
 			esc_html__( 'Payment %1$d of %2$d', 'wpforms-lite' ),
 			(int) $prev_count + 1,
 			(int) $count

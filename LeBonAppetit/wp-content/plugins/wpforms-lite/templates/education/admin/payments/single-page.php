@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 		printf(
 			wp_kses( /* translators: %s - WPForms.com Upgrade page URL. */
-				__( 'Unlock conditional logic, coupons (coming soon), lower Stripe fees, and more. <a href="%s" target="_blank" rel="noopener noreferrer">Upgrade to Pro!</a>', 'wpforms-lite' ),
+				__( 'Unlock conditional logic, coupons, lower Stripe fees, and more. <a href="%s" target="_blank" rel="noopener noreferrer">Upgrade to Pro!</a>', 'wpforms-lite' ),
 				[
 					'a' => [
 						'href'   => [],

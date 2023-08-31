@@ -13,7 +13,7 @@
  * * Prefixo do banco de dados
  * * ABSPATH
  *
- * @link https://wordpress.org/support/article/editing-wp-config-php/
+ * @link https://wordpress.org/documentation/article/editing-wp-config-php/
  *
  * @package WordPress
  */
@@ -80,7 +80,7 @@ $table_prefix = 'wp_';
  * Para informações sobre outras constantes que podem ser utilizadas
  * para depuração, visite o Codex.
  *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/
+ * @link https://wordpress.org/documentation/article/debugging-in-wordpress/
  */
 define( 'WP_DEBUG', false );
 

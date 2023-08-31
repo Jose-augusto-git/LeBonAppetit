@@ -64,27 +64,27 @@ $this->preferences['show_extra_actions'] ? $ui_class.= ' show_extra_actions' : f
 $this->preferences['specificity_preference'] ? $ui_class.= ' specificity_preference' : false;
 $this->preferences['auto_publish_mode'] ? $ui_class.= ' auto_publish_mode' : false;
 $this->preferences['sticky_styles_toolbar'] ? $ui_class.= ' sticky_styles_toolbar' : false;
-
-
-
 $this->preferences['dock_folders_left'] ? $ui_class.= ' dock_folders_left' : false;
 $this->preferences['dock_styles_left'] ? $ui_class.= ' dock_styles_left' : false;
 $this->preferences['dock_editor_left'] ? $ui_class.= ' dock_editor_left' : false;
 $this->preferences['full_height_left_sidebar'] ? $ui_class.= ' full_height_left_sidebar' : false;
 $this->preferences['full_height_right_sidebar'] ? $ui_class.= ' full_height_right_sidebar' : false;
 $this->preferences['expand_device_tabs'] ? $ui_class.= ' expand_device_tabs' : false;
-
-
 $ui_class.= ' mt-left-cols-'. $this->preferences['layout']['left']['effective_num_columns'];
 $ui_class.= ' mt-right-cols-'. $this->preferences['layout']['right']['effective_num_columns'];
 $ui_class.= ' mt-top-rows-'. $this->preferences['layout']['top']['effective_num_rows'];
-
 
 $this->preferences['detach_preview'] ? $ui_class.= ' detach_preview' : false;
 !empty($this->preferences['show_sampled_values']) ? $ui_class.= ' show_sampled_values' : false;
 !empty($this->preferences['show_sampled_variables']) ? $ui_class.= ' show_sampled_variables' : false;
 !empty($this->preferences['tape_measure_slider']) ? $ui_class.= ' tape_measure_slider' : false;
+!empty($this->preferences['show_setup_screen_first_time']) ? $ui_class.= ' show_setup_screen_first_time' : false;
 
+// signal if error reporting is disabled
+$repPerm = $this->preferences['reporting']['permission'];
+if (empty($repPerm['file']) && empty($repPerm['data'])){
+	$ui_class.= ' error_reporting_disabled';
+}
 
 // signal if 3rd party plugins are active
 $no_integrations_available = true;
@@ -616,7 +616,7 @@ require_once('common-inline-assets.php');
                     if (!$this->preferences['buyer_validated']){
 	                    echo $this->icon('unlock-alt', array(
 		                    'class' => 'license-action mt-fixed-color unlock-pro-version show-dialog',
-		                    'rel' => 'unlock-microthemer',
+		                    'rel' => 'mt-initial-setup',
 		                    'title' => esc_attr__('Enter license key to unlock the pro version', 'microthemer')
 	                    ));
                     }
@@ -1392,7 +1392,7 @@ require_once('common-inline-assets.php');
 			<?php echo $this->start_dialog(
                     'mt-initial-setup',
                     esc_html__('Microthemer Setup', 'microthemer') .
-                    '<span class="dialog-sub-heading"> - <span class="link close-dialog">Skip setup</span></span>'
+                    '<span class="dialog-sub-heading mt-skip-setup"> - <span class="link close-dialog">Skip setup</span></span>'
             ); ?>
 
             <div id="setup-options">
@@ -1537,7 +1537,7 @@ require_once('common-inline-assets.php');
                             <label class="text-label" title="'. esc_attr__("License key shown in 'My Downloads'", 'microthemer').'">'.
                                 esc_html__('License key', 'microthemer').'
                             </label>
-                            <input type="text" autocomplete="off" name="tvr_preferences[buyer_email]"
+                            <input id="license-key-input" type="text" autocomplete="off" name="tvr_preferences[buyer_email]"
                                    value="'.esc_attr($attempted_email).'" />
                         </li>
                     </ul>';
@@ -1602,27 +1602,35 @@ require_once('common-inline-assets.php');
 
                 <div class="setup-debug">
 
-                    <div class="heading">Error reporting</div>
+                    <div class="heading error-reporting-heading">
+                        <span>Error reporting</span>
+                        <span id="toggle-preview-report-data" class="link toggle-preview-report-data" title="Preview the data Microthemer will send">Preview</span>
+                        <span class="tvr-button tvr-gray mt-manual-error-report" title="Send error report">Send report</span>
+                    </div>
 
                     <!--<p class="setup-section-intro">Optionally share errors with us, so we can fix bugs immediately.</p>-->
 
                     <div class="error-reporting-grid">
 
                         <?php
+                        $freq = $this->reporting['max']['dataSends'] > 1
+                            ? $this->reporting['max']['dataSends'] . ' times'
+                            : 'once';
                         $reportTypes = array(
-                              'file' =>  "Anonymously send us information about the source of an error within a Microthemer file",
-                              'data' =>  "Send us non-sensitive settings for error replication and UX fixes (once a day max)",
-                              'contact' =>  "Include your Themeover account number (for debugging follow-up questions)",
+                              'file' =>  "Send info about JS errors in plugins / themes while using MT (for conflict resolution)",
+                              'data' =>  "Include non-sensitive Microthemer settings for error replication and UX fixes (".$freq." a day max)",
+                              'contact' =>  "Include your domain & Themeover account number (for debugging follow-up questions)",
                         );
 
                         foreach ($reportTypes as $key => $label){
-	                        $on = !empty($this->preferences['error_reporting']['permission'][$key]) ? ' on' : '';
+	                        $on = !empty($this->preferences['reporting']['permission'][$key]) ? ' on' : '';
 	                        $checked = $on ? 'checked="checked"' : '';
                             echo '
-                            <input type="checkbox" name="error_reporting_permission['.$key.']"
+                            <input type="checkbox" name="reporting_permission['.$key.']"
                                value="1" '.$checked.' />' .
                             $this->iconFont('tick-box-unchecked', array(
-                                'class' => 'fake-checkbox' . $on,
+                                'class' => 'fake-checkbox mt-reporting-permission' . $on,
+                                'data-permission-key' => $key,
                             )) .
                             '<span>'.$label.'</span>';
                         }
@@ -1638,6 +1646,7 @@ require_once('common-inline-assets.php');
                     </div>
 
 
+
                 </div>
 
                 <div class="setup-review-mt">
@@ -1647,8 +1656,15 @@ require_once('common-inline-assets.php');
 
                 </div>
 
-
-
+                <div id="data-send-preview">
+                    <div class="mt-panel-header">
+                        <div class="mt-panel-title ui-draggable-handle">Error reporting data Microthemer will send</div>
+                        <span class="mtif mtif-times-circle-regular toggle-preview-report-data"></span>
+                    </div>
+                    <div class="report-data-dump">
+                        <pre></pre>
+                    </div>
+                </div>
 
             </div>
 
@@ -1657,140 +1673,6 @@ require_once('common-inline-assets.php');
             ?>
             </form>
 
-			<!-- Unlock Microthemer -->
-			<form name='tvr_validate_form' method="post"
-				autocomplete="off" action="admin.php?page=<?php echo $this->microthemeruipage;?>" >
-				<?php
-				if ($this->preferences['buyer_validated']){
-					$title = esc_html__('Microthemer Has Been Successfully Unlocked', 'microthemer');
-					if ($this->is_capped_version()){
-						$title = esc_html__('Renew your subscription to get the latest version', 'microthemer');
-					}
-				} else {
-					$title = esc_html__('Enter your License key to unlock Microthemer', 'microthemer');
-				}
-				echo $this->start_dialog('unlock-microthemer', $title, 'small-dialog'); ?>
-				<div class="content-main">
-					<?php
-					if ($this->preferences['buyer_validated'] and !$this->is_capped_version()){
-						$class = '';
-						if (!empty($this->preferences['license_type'])){
-							echo '<p>' . esc_html__('License Type: ', 'microthemer') . '<b>'.$this->preferences['license_type'].'</b></p>';
-						}
-						?>
-						<p><span class="link reveal-unlock"><?php esc_html_e('Validate software using a different license key', 'microthemer'); ?></span>
-						</p>
-					<?php
-					} else {
-						$class = 'show';
-					}
-					?>
-					<div id='tvr_validate_form' class='hidden <?php echo $class; ?>'>
-						<?php wp_nonce_field('tvr_validate_form', 'validate_nonce'); ?>
-						<?php
-						if (!$this->preferences['buyer_validated'] or $this->is_capped_version()){
-							$attempted_email = esc_attr($this->preferences['buyer_email']);
-						} else {
-							$attempted_email = '';
-						}
-
-						// instructions to renew subscription then unlock again.
-						if ($this->is_capped_version()){
-						    ?>
-                            <div class="renew-instructions">
-                                <div class="heading">Step 1</div>
-                                <p>Renew your subscription via <a href="https://themeover.com/my-account/" target="_blank">My Downloads</a>.</p>
-                                <p>Once you've completed the checkout process, move onto step 2.</p>
-                                <br />
-                                <div class="heading">Step 2</div>
-                            </div>
-                            <?php
-                        }
-
-						?>
-						<ul class="form-field-list">
-							<li>
-								<label class="text-label" title="<?php esc_attr_e("Enter license key shown in 'My Downloads'", 'microthemer'); ?>">
-                                    <?php esc_html_e('Enter license key ', 'microthemer'); ?>
-                                    (shown in
-                                    <a href="https://themeover.com/my-account/" target="_blank">
-                                        <?php esc_html_e('My Downloads', 'microthemer'); ?>
-                                    </a>
-                                    )
-                                </label>
-								<input type='text' autocomplete="off" name='tvr_preferences[buyer_email]'
-									value='<?php echo $attempted_email; ?>' />
-							</li>
-						</ul>
-
-                        <?php
-
-                        if ($this->innoFirewall){
-
-	                        $realIP = file_get_contents("http://ipecho.net/plain");
-	                        $debug_info = '';
-
-	                        if (!empty($this->innoFirewall['debug'])){
-		                        $debug_info = '<br /><br /><div class="heading">Debug info</div>
-                                <pre class="connection-debug">'.print_r($this->innoFirewall['debug'], true).'</pre>';
-	                        }
-
-                            echo
-                            '
-                            <div class="firewall-captcha">
-                                <div class="heading">Possible firewall issue</div>
-                                <ol>
-                                    <li>Please make a note of "<b>'.esc_html($realIP).'</b>" as well as any other IP address that may be shown in the box below - <b>before doing step 2.</b></li>
-                                    <li>Fill out the captcha form below, if one is shown.</li>
-                                    <li>Once you have completed the captcha form, try submitting your license key again.</li>
-                                    <li>If you still cannot unlock Microthemer, please <a target="_blank" href="https://themeover.com/support/contact/">send us</a> the IP address(es) you noted down in step 1.</li>
-                                  
-                                </ol>
-                                
-                                <iframe src="'.esc_attr($this->innoFirewall['url']).'" width="100%" height="500"></iframe>
-                                
-                                '.$debug_info.'
-                            </div>
-                            ';
-                        }
-
-                        ?>
-
-
-						<?php echo $this->dialog_button('Validate', 'input', 'ui-validate'); ?>
-
-
-
-						<div class="explain">
-							<div class="heading link explain-link"><?php esc_html_e('About this feature', 'microthemer'); ?></div>
-
-							<div class="full-about">
-								<p><?php echo wp_kses(
-									__('<b>Note:</b> Themeover will record your domain name when you submit your license key for license verification purposes.', 'microthemer'),
-									array( 'b' => array() )
-								) ; ?></p>
-								<p><?php echo wp_kses(
-									sprintf(
-										__('<b>Note:</b> if you have any problems with the validator <a %s>send Themeover a quick email</a> and we"ll get you unlocked ASAP.', 'microthemer'),
-										'href="https://themeover.com/support/pre-sales-enquiries/" target="_blank"'
-									),
-									array( 'a' => array( 'href' => array(), 'target' => array() ), 'b' => array() )
-								); ?></p>
-							</div>
-						</div>
-
-
-					</div>
-
-				</div>
-				<?php
-				if (!$this->preferences['buyer_validated']){
-					echo $this->end_dialog(esc_html__('Validate', 'microthemer'), 'input', 'ui-validate');
-				} else {
-					echo $this->end_dialog(esc_html_x('Close', 'verb', 'microthemer'), 'span', 'close-dialog');
-				}
-				?>
-			</form>
 
 			<?php
 			// this is a separate include because it needs to have separate page for changing gzip

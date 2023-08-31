@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				printf(
 					wp_kses(
-						/* translators: %s - Link to the WPForms documentation page. */
+						/* translators: %s - link to the WPForms documentation page. */
 						__( 'Click the plus button, search for WPForms, click the block to<br>embed it. <a href="%s" target="_blank" rel="noopener noreferrer">Learn More</a>.', 'wpforms-lite' ),
 						[
 							'a'  => [
@@ -57,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				echo wp_kses(
 					sprintf(
-						/* translators: %1$s - Number of minutes in HTML container; %2$s - Single or plural word 'minute'; %3$s - Number of seconds in HTML container; %4$s - Single or plural word 'second'; %5$s - 5 rating star symbols HTML. */
+						/* translators: %1$s - number of minutes in HTML container, %2$s - singular or plural form of 'minute', %3$s - number of seconds in HTML container, %4$s - singular or plural form of 'second', %5$s - 5 rating star symbols HTML. */
 						__( 'You completed the WPForms Challenge in <b>%1$s %2$s %3$s %4$s</b>. Share your success story with other WPForms users and help us spread the word <b>by giving WPForms a 5-star rating (%5$s) on WordPress.org</b>. Thanks for your support and we look forward to bringing you more awesome features.', 'wpforms-lite' ),
 						'<span id="wpforms-challenge-congrats-minutes"></span>',
 						_n( 'minute', 'minutes', absint( $minutes ), 'wpforms-lite' ),
@@ -95,7 +95,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					echo esc_html(
 						sprintf(
-							/* translators: %1$d - Number of minutes; %2$s - Single or plural word 'minute'. */
+							/* translators: %1$d - number of minutes, %2$s - singular or plural form of 'minute'. */
 							__( 'We\'re sorry that it took longer than %1$d %2$s to create a form. Our goal is to create the most beginner friendly WordPress form plugin. Please take a moment to let us know how we can improve WPForms.', 'wpforms-lite' ),
 							absint( $minutes ),
 							_n( 'minute', 'minutes', absint( $minutes ), 'wpforms-lite' )

@@ -51,6 +51,7 @@ class RecordQuery {
 
 		$sql   = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . Repository::get_table_name();
 		$where = [];
+
 		if ( ! empty( $search ) ) {
 			$where[] = $wpdb->prepare(
 				'`title` REGEXP %s OR `message` REGEXP %s',
@@ -58,15 +59,18 @@ class RecordQuery {
 				$search
 			);
 		}
+
 		if ( ! empty( $type ) ) {
 			$where[] = $wpdb->prepare(
 				'`types` REGEXP %s',
 				$type
 			);
 		}
+
 		if ( $where ) {
 			$sql .= ' WHERE ' . implode( ' AND ', $where );
 		}
+
 		$sql .= ' ORDER BY `create_at` DESC, `id` DESC';
 		$sql .= $wpdb->prepare( ' LIMIT %d, %d', absint( $offset ), absint( $limit ) );
 

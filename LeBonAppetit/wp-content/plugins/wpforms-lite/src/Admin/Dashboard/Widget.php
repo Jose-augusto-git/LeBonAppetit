@@ -264,10 +264,38 @@ abstract class Widget {
 		foreach ( $options as $option ) :
 			?>
 			<option value="<?php echo absint( $option ); ?>" <?php selected( $timespan, absint( $option ) ); ?> <?php disabled( ! $enabled ); ?>>
-				<?php /* translators: %d - Number of days. */ ?>
+				<?php /* translators: %d - number of days. */ ?>
 				<?php echo esc_html( sprintf( _n( 'Last %d day', 'Last %d days', absint( $option ), 'wpforms-lite' ), absint( $option ) ) ); ?>
 			</option>
 		<?php
 		endforeach;
+	}
+
+	/**
+	 * Check if the current page is a dashboard page.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @return bool
+	 */
+	protected function is_dashboard_page() {
+
+		global $pagenow;
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return $pagenow === 'index.php' && empty( $_GET['page'] );
+	}
+
+	/**
+	 * Check if is a dashboard widget ajax request.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @return bool
+	 */
+	protected function is_dashboard_widget_ajax_request() {
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return wpforms_is_admin_ajax() && isset( $_REQUEST['action'] ) && strpos( sanitize_key( $_REQUEST['action'] ), 'wpforms_dash_widget' ) !== false;
 	}
 }

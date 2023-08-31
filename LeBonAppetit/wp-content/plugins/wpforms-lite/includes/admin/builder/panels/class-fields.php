@@ -22,6 +22,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 		$this->sidebar = true;
 
 		if ( $this->form ) {
+			add_action( 'wpforms_builder_fields', [ $this, 'search' ], 5 );
 			add_action( 'wpforms_builder_fields', [ $this, 'fields' ] );
 			add_action( 'wpforms_builder_fields_options', [ $this, 'fields_options' ] );
 			add_action( 'wpforms_builder_preview', [ $this, 'preview' ] );
@@ -46,6 +47,14 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 		wp_enqueue_script(
 			'wpforms-builder-drag-fields',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/drag-fields{$min}.js",
+			[ 'wpforms-builder' ],
+			WPFORMS_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'wpforms-builder-search-fields',
+			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/search-fields{$min}.js",
 			[ 'wpforms-builder' ],
 			WPFORMS_VERSION,
 			true
@@ -274,6 +283,10 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 					$field,
 					$this->form_data
 				);
+
+				if ( ! empty( $field['keywords'] ) ) {
+					$atts['data']['field-keywords'] = $field['keywords'];
+				}
 
 				if ( ! empty( $field['class'] ) ) {
 					$atts['class'][] = $field['class'];
@@ -701,6 +714,35 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 				{{ data.message }}
 			</div>
 		</script>
+		<?php
+	}
+
+	/**
+	 * Builder fields search.
+	 *
+	 * @since 1.8.3
+	 */
+	public function search() {
+		?>
+		<div class="wpforms-search-fields-wrapper">
+			<div class="wpforms-search-fields-input-wrapper">
+				<label for="wpforms-search-fields-input" class="wpforms-screen-reader-element"><?php esc_html_e( 'Search fields:', 'wpforms-lite' ); ?></label>
+				<input type="search" id="wpforms-search-fields-input" placeholder="<?php echo esc_attr__( 'Search fields...', 'wpforms-lite' ); ?>" autocomplete="off">
+				<i class="fa fa-times wpforms-search-fields-input-close" aria-hidden="true"></i>
+			</div>
+
+			<div class="wpforms-search-fields-list">
+				<div class="wpforms-add-fields-group">
+					<div class="wpforms-add-fields-buttons"></div>
+				</div>
+			</div>
+
+			<div class="wpforms-search-fields-no-results">
+				<p>
+					<?php esc_html_e( 'Sorry, we didn\'t find any fields that match your criteria.', 'wpforms-lite' ); ?>
+				</p>
+			</div>
+		</div>
 		<?php
 	}
 }

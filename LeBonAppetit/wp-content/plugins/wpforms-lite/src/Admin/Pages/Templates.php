@@ -102,7 +102,7 @@ class Templates {
 				<p class="wpforms-setup-desc secondary-text">
 					<?php
 					printf(
-						wp_kses( /* translators: %1$s - Create template doc link; %2$s - Contact us page link. */
+						wp_kses( /* translators: %1$s - create template doc link; %2$s - Contact us page link. */
 							__( 'Choose a template to speed up the process of creating your form. You can also start with a <a href="#" class="wpforms-trigger-blank">blank form</a> or <a href="%1$s" target="_blank" rel="noopener noreferrer">create your own</a>. <br>Have a suggestion for a new template? <a href="%2$s" target="_blank" rel="noopener noreferrer">We’d love to hear it</a>!', 'wpforms-lite' ),
 							[
 								'strong' => [],

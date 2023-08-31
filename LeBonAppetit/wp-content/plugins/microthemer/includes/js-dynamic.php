@@ -110,6 +110,8 @@ $data.= 'TvrMT.data.dyn.ui_config = ' . json_encode(array(
 	'mt_nonlog_nonce' => wp_create_nonce('mt_nonlog_check'), // note this won't work with browser sync enabled
 	'mt_builder_redirect_nonce' => wp_create_nonce('mt_builder_redirect_check'), // note this won't work with browser sync enabled
 	'preview_item_id' => $this->get_preview_item_id(),
+	'reporting' => $this->reporting,
+	'errorsRequiringData' => $this->errorsRequiringData,
 )) . ';' . "\n\n";
 
 

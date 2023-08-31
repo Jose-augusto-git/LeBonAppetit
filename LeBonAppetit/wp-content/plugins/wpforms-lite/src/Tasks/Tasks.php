@@ -237,7 +237,7 @@ class Tasks {
 		$group = self::GROUP;
 		$sql   = "SELECT a.hook FROM {$wpdb->prefix}actionscheduler_actions a
 					JOIN {$wpdb->prefix}actionscheduler_groups g ON g.group_id = a.group_id
-					WHERE g.slug = '$group' AND a.status IN ('in-progress', 'pending')";
+					WHERE g.slug = '$group' AND a.status IN ( 'in-progress', 'pending' )";
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared

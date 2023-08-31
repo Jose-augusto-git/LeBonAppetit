@@ -39,6 +39,34 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 		public static $starter_templates_slug = 'astra-sites';
 
 		/**
+		 * Astra Addon supported versions map array.
+		 *
+		 * @var array
+		 * @since 4.3.0
+		 */
+		private static $astra_addon_supported_version_map = array(
+			'4.1.6' => '4.1.0',
+			'4.0.2' => '4.0.0',
+			'3.9.4' => '3.9.2',
+			'3.9.1' => '3.9.0',
+			'3.8.5' => '3.6.11',
+			'3.8.4' => '3.6.10',
+			'3.8.2' => '3.6.3',
+			'3.7.4' => '3.6.2',
+			'3.7.3' => '3.6.0',
+			'3.6.9' => '3.5.8',
+			'3.6.7' => '3.5.5',
+			'3.6.4' => '3.5.0',
+			'3.4.8' => '3.4.2',
+			'3.4.2' => '3.4.0',
+			'3.3.3' => '3.3.2',
+			'3.3.2' => '3.3.1',
+			'3.3.1' => '3.3.0',
+			'3.2.0' => '3.1.0',
+			'3.0.3' => '3.0.0',
+		);
+
+		/**
 		 * Constructor
 		 */
 		public function __construct() {
@@ -59,11 +87,6 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 
 			add_action( 'admin_enqueue_scripts', __CLASS__ . '::register_scripts' );
 
-			if ( ! is_customize_preview() ) {
-				// add css on the admin init action to resolve the error in the PWA service worker js.
-				add_action( 'admin_head', __CLASS__ . '::admin_submenu_css' );
-			}
-
 			add_action( 'customize_controls_enqueue_scripts', __CLASS__ . '::customizer_scripts' );
 
 			add_action( 'astra_notice_before_markup_astra-sites-on-active', __CLASS__ . '::load_astra_admin_script' );
@@ -72,6 +95,7 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 			add_action( 'astra_notice_before_markup', __CLASS__ . '::notice_assets' );
 
 			add_action( 'admin_init', __CLASS__ . '::minimum_addon_version_notice' );
+			add_action( 'admin_init', __CLASS__ . '::minimum_addon_supported_version_notice' );
 
 			if ( astra_showcase_upgrade_notices() ) {
 				add_action( 'admin_init', __CLASS__ . '::upgrade_to_pro_wc_notice' );
@@ -141,7 +165,7 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 		 */
 		public static function register_notices() {
 			// Return if white labeled.
-			if ( astra_is_white_labelled() ) {
+			if ( astra_is_white_labelled() || false === apply_filters( 'astra_showcase_starter_templates_notice', true ) ) {
 				return;
 			}
 
@@ -152,38 +176,49 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 			// Force Astra welcome notice on theme activation.
 			if ( current_user_can( 'install_plugins' ) && ! defined( 'ASTRA_SITES_NAME' ) && '1' == get_option( 'fresh_site' ) && ! in_array( $current_slug, array( 'astra-advanced-hook', 'astra_adv_header' ), true ) ) {
 
-				$image_path           = ASTRA_THEME_URI . 'inc/assets/images/astra-logo.svg';
+				// Do not display admin welcome banner notice on theme upload page.
+				/** @psalm-suppress InvalidGlobal */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
+				global $pagenow;
+				/** @psalm-suppress InvalidGlobal */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
+
+				if ( isset( $pagenow ) && 'update.php' === $pagenow ) {
+					return;
+				}
+
+				$image_path           = ASTRA_THEME_URI . 'inc/assets/images/astra-banner.png';
 				$ast_sites_notice_btn = self::astra_sites_notice_button();
 
 				if ( file_exists( WP_PLUGIN_DIR . '/astra-sites/astra-sites.php' ) && is_plugin_inactive( 'astra-sites/astra-sites.php' ) && is_plugin_inactive( 'astra-pro-sites/astra-pro-sites.php' ) ) {
-					$ast_sites_notice_btn['button_text'] = __( 'Get Started', 'astra' );
-					$ast_sites_notice_btn['class']      .= ' button button-primary button-hero';
+					$ast_sites_notice_btn['button_text'] = __( 'Activate Starter Templates', 'astra' );
+					$ast_sites_notice_btn['class']      .= ' button button-primary';
 				} elseif ( ! file_exists( WP_PLUGIN_DIR . '/astra-sites/astra-sites.php' ) && is_plugin_inactive( 'astra-pro-sites/astra-pro-sites.php' ) ) {
-					$ast_sites_notice_btn['button_text'] = __( 'Get Started', 'astra' );
-					$ast_sites_notice_btn['class']      .= ' button button-primary button-hero';
+					$ast_sites_notice_btn['button_text'] = __( 'Install Starter Templates', 'astra' );
+					$ast_sites_notice_btn['class']      .= ' button button-primary';
 					// Astra Premium Sites - Active.
 				} else {
-					$ast_sites_notice_btn['class'] = ' button button-primary button-hero astra-notice-close';
+					$ast_sites_notice_btn['class'] = ' button button-primary astra-notice-close';
 				}
 
 				$astra_sites_notice_args = array(
 					'id'                         => 'astra-sites-on-active',
 					'type'                       => 'info',
 					'message'                    => sprintf(
-						'<div class="notice-image">
-							<img src="%1$s" class="custom-logo" alt="Astra" itemprop="logo"></div>
-							<div class="notice-content">
-								<h2 class="notice-heading">
-									%2$s
-								</h2>
-								<p>%3$s</p>
-								<div class="astra-review-notice-container">
-									<a class="%4$s" %5$s %6$s %7$s %8$s %9$s %10$s> %11$s </a>
+						'<div class="ast-welcome-banner">
+								<div class="ast-col-left">
+									<p class="sub-notice-title">%1$s</p>
+									<h2 class="notice-title">%2$s</h2>
+									<p class="description">%3$s</p>
+									<div class="notice-actions">
+										<button class="%4$s" %5$s %6$s %7$s %8$s %9$s %10$s> %11$s </button>
+									</div>
+								</div>
+								<div class="ast-col-right">
+									<img src="%12$s" alt="Starter Templates" />
 								</div>
 							</div>',
-						$image_path,
-						__( 'Thank you for installing Astra!', 'astra' ),
-						__( 'Did you know Astra comes with dozens of ready-to-use <a href="https://wpastra.com/website-templates/?utm_source=dashboard&utm_medium=free-theme&utm_campaign=starter-templates" target="_blank">starter templates</a>? Install the Starter Templates plugin to get started.', 'astra' ),
+						__( 'Thanks for installing the Astra theme 🎉', 'astra' ),
+						__( 'Get Started with Ready-Made Templates', 'astra' ),
+						__( 'Building a website doesn\'t have to be hard. With Astra\'s Starter Templates, you can easily import ready-made designs and start building your dream website in just a few minutes.', 'astra' ),
 						esc_attr( $ast_sites_notice_btn['class'] ),
 						'href="' . astra_get_prop( $ast_sites_notice_btn, 'link', '' ) . '"',
 						'data-slug="' . astra_get_prop( $ast_sites_notice_btn, 'data_slug', '' ) . '"',
@@ -191,7 +226,8 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 						'data-settings-link-text="' . astra_get_prop( $ast_sites_notice_btn, 'data_settings_link_text', '' ) . '"',
 						'data-settings-link="' . astra_get_prop( $ast_sites_notice_btn, 'data_settings_link', '' ) . '"',
 						'data-activating-text="' . astra_get_prop( $ast_sites_notice_btn, 'activating_text', '' ) . '"',
-						esc_html( $ast_sites_notice_btn['button_text'] )
+						esc_html( $ast_sites_notice_btn['button_text'] ),
+						$image_path
 					),
 					'priority'                   => 5,
 					'display-with-other-notices' => false,
@@ -294,6 +330,87 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 
 				Astra_Notices::add_notice( $notice_args );
 			}
+		}
+
+		/**
+		 * Get minimum supported version for Astra addon.
+		 * This function will be used to inform the user about incompatible version of Astra addon.
+		 *
+		 * @param string $input_version Input version of the addon.
+		 *
+		 * @since 4.3.0
+		 */
+		public static function get_astra_addon_min_supported_version( $input_version ) {
+			if ( defined( 'ASTRA_EXT_VER' ) && version_compare( ASTRA_EXT_VER, ASTRA_EXT_MIN_VER ) < 0 ) {
+				return ASTRA_EXT_MIN_VER;
+			}
+
+			$supported_version = '';
+
+			// First, check if the exact version is supported
+			if ( isset( self::$astra_addon_supported_version_map[ $input_version ] ) ) {
+				$supported_version = self::$astra_addon_supported_version_map[ $input_version ];
+			} else {
+				foreach ( self::$astra_addon_supported_version_map as $index => $supported ) {
+					/** @psalm-suppress TypeDoesNotContainType */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
+					if ( '' !== $supported_version || version_compare( $input_version, $index ) > 0 ) {
+						/** @psalm-suppress TypeDoesNotContainType */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
+						$supported_version = $supported;
+						break;
+					}
+				}
+			}
+
+			return $supported_version;
+		}
+
+		/**
+		 * This constant will be used to inform the user about incompatible version of Astra addon.
+		 *
+		 * @since 4.3.0
+		 */
+		public static function minimum_addon_supported_version_notice() {
+
+			if ( ! defined( 'ASTRA_EXT_VER' ) ) {
+				return;
+			}
+
+			// ASTRA_EXT_MIN_VER < ASTRA_EXT_VER && ASTRA_EXT_VER < 4.0.0.
+			if ( version_compare( ASTRA_EXT_VER, ASTRA_EXT_MIN_VER ) >= 0 || version_compare( '4.0.0', ASTRA_EXT_VER ) < 0 ) {
+				return;
+			}
+
+			$astra_addon_supported_version = self::get_astra_addon_min_supported_version( ASTRA_EXT_VER );
+			$message                       = sprintf(
+				/* translators: %1$s: Plugin Name, %2$s: Theme name, %3$s: Supported required version of the addon */
+				'Your current version of %1$s plugin is incompatible with %2$s theme. Please update to at least version %3$s for optimal functionality.',
+				astra_get_addon_name(),
+				astra_get_theme_name(),
+				$astra_addon_supported_version
+			);
+
+			$ext_min_supported_version = get_user_meta( get_current_user_id(), 'ast-addon-supported-version-notice', true );
+
+			if ( ! $ext_min_supported_version ) {
+				update_user_meta( get_current_user_id(), 'ast-addon-supported-version-notice', $astra_addon_supported_version );
+			}
+
+			if ( version_compare( $ext_min_supported_version, $astra_addon_supported_version, '!=' ) ) {
+				delete_user_meta( get_current_user_id(), 'ast-addon-minimum-supported-version-notice' );
+				update_user_meta( get_current_user_id(), 'ast-addon-supported-version-notice', $astra_addon_supported_version );
+			}
+
+			$notice_args = array(
+				'id'                         => 'ast-addon-minimum-supported-version-notice',
+				'type'                       => 'warning',
+				'message'                    => $message,
+				'show_if'                    => true,
+				'repeat-notice-after'        => false,
+				'priority'                   => 20,
+				'display-with-other-notices' => false,
+			);
+
+			Astra_Notices::add_notice( $notice_args );
 		}
 
 		/**
@@ -440,28 +557,6 @@ if ( ! class_exists( 'Astra_Admin_Settings' ) ) {
 					wp_enqueue_script( 'astra-column-block-comp-js', ASTRA_THEME_URI . 'inc/assets/js/column-block-compatibility.js', array( 'wp-util', 'wp-hooks', 'wp-blocks' ), ASTRA_THEME_VERSION, false );
 				}
 			}
-		}
-
-		/**
-		 * Add custom CSS for admin area sub menu icons.
-		 *
-		 * @since 2.5.4
-		 */
-		public static function admin_submenu_css() {
-
-			echo '<style class="astra-menu-appearance-style">
-					#menu-appearance a[href^="edit.php?post_type=astra-"]:before,
-					#menu-appearance a[href^="themes.php?page=astra-"]:before,
-					#menu-appearance a[href^="themes.php?page=astra_"]:before,
-					#menu-appearance a[href^="edit.php?post_type=astra_"]:before,
-					#menu-appearance a[href^="edit-tags.php?taxonomy=bsf_custom_fonts"]:before,
-					#menu-appearance a[href^="themes.php?page=custom-typekit-fonts"]:before,
-					#menu-appearance a[href^="edit.php?post_type=bsf-sidebar"]:before {
-						content: "\21B3";
-						margin-right: 0.5em;
-						opacity: 0.5;
-					}
-				</style>';
 		}
 
 		/**

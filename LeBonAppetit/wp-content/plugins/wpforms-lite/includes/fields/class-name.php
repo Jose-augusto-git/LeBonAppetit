@@ -15,10 +15,11 @@ class WPForms_Field_Name extends WPForms_Field {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'Name', 'wpforms-lite' );
-		$this->type  = 'name';
-		$this->icon  = 'fa-user';
-		$this->order = 150;
+		$this->name     = esc_html__( 'Name', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'user, first, last', 'wpforms-lite' );
+		$this->type     = 'name';
+		$this->icon     = 'fa-user';
+		$this->order    = 150;
 
 		$this->hooks();
 	}
@@ -506,31 +507,33 @@ class WPForms_Field_Name extends WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int   $field_id
-	 * @param array $field_submit
-	 * @param array $form_data
+	 * @param int   $field_id     Field id.
+	 * @param array $field_submit Field submit.
+	 * @param array $form_data    Form data.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
 
-		// Extended validation needed for the different name fields.
-		if ( ! empty( $form_data['fields'][ $field_id ]['required'] ) ) {
-
-			$form_id  = $form_data['id'];
-			$format   = $form_data['fields'][ $field_id ]['format'];
-			$required = wpforms_get_required_label();
-
-			if ( 'simple' === $format && empty( $field_submit ) ) {
-				wpforms()->process->errors[ $form_id ][ $field_id ] = $required;
-			}
-
-			if ( ( 'first-last' === $format || 'first-middle-last' === $format ) && empty( $field_submit['first'] ) ) {
-				wpforms()->process->errors[ $form_id ][ $field_id ]['first'] = $required;
-			}
-
-			if ( ( 'first-last' === $format || 'first-middle-last' === $format ) && empty( $field_submit['last'] ) ) {
-				wpforms()->process->errors[ $form_id ][ $field_id ]['last'] = $required;
-			}
+		if ( empty( $form_data['fields'][ $field_id ]['required'] ) ) {
+			return;
 		}
+
+		// Extended validation needed for the different name fields.
+		$form_id  = $form_data['id'];
+		$format   = $form_data['fields'][ $field_id ]['format'];
+		$required = wpforms_get_required_label();
+		$process  = wpforms()->get( 'process' );
+
+		if ( $format === 'simple' && empty( $field_submit ) ) {
+			$process->errors[ $form_id ][ $field_id ] = $required;
+
+			return;
+		}
+
+		if ( ! ( $format === 'first-last' || $format === 'first-middle-last' ) ) {
+			return;
+		}
+
+		$this->validate_complicated_formats( $process, $form_id, $field_id, $field_submit, $required );
 	}
 
 	/**
@@ -583,6 +586,33 @@ class WPForms_Field_Name extends WPForms_Field {
 	public function is_field_requires_fieldset( $requires_fieldset, $field ) {
 
 		return isset( $field['format'] ) && $field['format'] !== 'simple';
+	}
+
+	/**
+	 * Validate complicated formats.
+	 *
+	 * @since 1.8.2.3
+	 *
+	 * @param WPForms_Process $process      Process class instance.
+	 * @param int|string      $form_id      Form id.
+	 * @param int|string      $field_id     Field id.
+	 * @param array           $field_submit Field submit.
+	 * @param string          $required     Required message text.
+	 */
+	private function validate_complicated_formats( $process, $form_id, $field_id, $field_submit, $required ) {
+
+		// Prevent PHP Warning: Illegal string offset ‘first’ or 'last'.
+		if ( isset( $process->errors[ $form_id ][ $field_id ] ) ) {
+			$process->errors[ $form_id ][ $field_id ] = (array) $process->errors[ $form_id ][ $field_id ];
+		}
+
+		if ( empty( $field_submit['first'] ) ) {
+			$process->errors[ $form_id ][ $field_id ]['first'] = $required;
+		}
+
+		if ( empty( $field_submit['last'] ) ) {
+			$process->errors[ $form_id ][ $field_id ]['last'] = $required;
+		}
 	}
 }
 

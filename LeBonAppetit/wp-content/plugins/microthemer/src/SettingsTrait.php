@@ -30,6 +30,7 @@ trait SettingsTrait {
 		$last_save_time = !empty($this->serialised_post['last_save_time'])
 			? $this->serialised_post['last_save_time']
 			: false;
+		$new_select_option = '';
 
 
 		/*$debug = true;
@@ -66,7 +67,7 @@ trait SettingsTrait {
 				'notice'
 			);
 
-			$new_select_option = '';
+
 
 			// check if settings need to be exported to a design pack
 			if (!empty($this->serialised_post['export_to_pack']) && $this->serialised_post['export_to_pack'] == 1) {
@@ -85,7 +86,14 @@ trait SettingsTrait {
 
 				// save new sanitised theme in span for updating select menu via jQuery
 				if ($do_option_insert) {
-					$new_select_option = $theme;
+					$meta_file = $this->micro_root_dir.$theme.'/meta.txt';
+					if (file_exists($meta_file)){
+						$meta_info = $this->read_meta_file($meta_file);
+						$new_select_option = $meta_info['Name'];
+					} else {
+						$new_select_option = $this->readable_name($theme);
+					}
+
 				}
 				//$user_action.= sprintf( esc_html__(' & Export to %s', 'microthemer'), '<i>'. $this->readable_name($theme). '</i>');
 			}

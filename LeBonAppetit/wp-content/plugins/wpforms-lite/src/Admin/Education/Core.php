@@ -87,29 +87,70 @@ class Core {
 
 		$strings = [];
 
-		$strings['ok']                 = esc_html__( 'Ok', 'wpforms-lite' );
-		$strings['cancel']             = esc_html__( 'Cancel', 'wpforms-lite' );
-		$strings['close']              = esc_html__( 'Close', 'wpforms-lite' );
-		$strings['ajax_url']           = admin_url( 'admin-ajax.php' );
-		$strings['nonce']              = wp_create_nonce( 'wpforms-education' );
-		/* translators: %s - addon name. */
-		$strings['activate_prompt']    = '<p>' . esc_html( sprintf( __( 'The %s is installed but not activated. Would you like to activate it?', 'wpforms-lite' ), '%name%' ) ) . '</p>';
-		$strings['activate_confirm']   = esc_html__( 'Yes, activate', 'wpforms-lite' );
-		$strings['addon_activated']    = esc_html__( 'Addon activated', 'wpforms-lite' );
-		$strings['plugin_activated']   = esc_html__( 'Plugin activated', 'wpforms-lite' );
-		$strings['activating']         = esc_html__( 'Activating', 'wpforms-lite' );
-		/* translators: %s - addon name. */
-		$strings['install_prompt']     = '<p>' . esc_html( sprintf( __( 'The %s is not installed. Would you like to install and activate it?', 'wpforms-lite' ), '%name%' ) ) . '</p>';
-		$strings['install_confirm']    = esc_html__( 'Yes, install and activate', 'wpforms-lite' );
-		$strings['installing']         = esc_html__( 'Installing', 'wpforms-lite' );
-		$strings['can_install_addons'] = wpforms_can_install( 'addon' );
-		$strings['save_prompt']        = esc_html__( 'Almost done! Would you like to save and refresh the form builder?', 'wpforms-lite' );
-		$strings['save_confirm']       = esc_html__( 'Yes, save and refresh', 'wpforms-lite' );
-		$strings['saving']             = esc_html__( 'Saving ...', 'wpforms-lite' );
+		$strings['ok']               = esc_html__( 'Ok', 'wpforms-lite' );
+		$strings['cancel']           = esc_html__( 'Cancel', 'wpforms-lite' );
+		$strings['close']            = esc_html__( 'Close', 'wpforms-lite' );
+		$strings['ajax_url']         = admin_url( 'admin-ajax.php' );
+		$strings['nonce']            = wp_create_nonce( 'wpforms-education' );
+		$strings['activate_prompt']  = '<p>' . esc_html(
+			sprintf( /* translators: %s - addon name. */
+				__( 'The %s is installed but not activated. Would you like to activate it?', 'wpforms-lite' ),
+				'%name%'
+			)
+		) . '</p>';
+		$strings['activate_confirm'] = esc_html__( 'Yes, activate', 'wpforms-lite' );
+		$strings['addon_activated']  = esc_html__( 'Addon activated', 'wpforms-lite' );
+		$strings['plugin_activated'] = esc_html__( 'Plugin activated', 'wpforms-lite' );
+		$strings['activating']       = esc_html__( 'Activating', 'wpforms-lite' );
+		$strings['install_prompt']   = '<p>' . esc_html(
+			sprintf( /* translators: %s - addon name. */
+				__( 'The %s is not installed. Would you like to install and activate it?', 'wpforms-lite' ),
+				'%name%'
+			)
+		) . '</p>';
+		$strings['install_confirm']  = esc_html__( 'Yes, install and activate', 'wpforms-lite' );
+		$strings['installing']       = esc_html__( 'Installing', 'wpforms-lite' );
+		$strings['save_prompt']      = esc_html__( 'Almost done! Would you like to save and refresh the form builder?', 'wpforms-lite' );
+		$strings['save_confirm']     = esc_html__( 'Yes, save and refresh', 'wpforms-lite' );
+		$strings['saving']           = esc_html__( 'Saving ...', 'wpforms-lite' );
 
-		if ( ! $strings['can_install_addons'] ) {
+		// Check if the user can install addons.
+		// Includes license check.
+		$can_install_addons = wpforms_can_install( 'addon' );
+
+		// Check if the user can install plugins.
+		// Only checks if the user has the capability.
+		// Needed to display the correct message for non-admin users.
+		$can_install_plugins = current_user_can( 'install_plugins' );
+
+		$strings['can_install_addons'] = $can_install_addons && $can_install_plugins;
+
+		if ( ! $can_install_addons ) {
+			$strings['install_prompt'] = '<p>' . esc_html(
+				sprintf( /* translators: %s - addon name. */
+					__( 'The %s is not installed. Please install and activate it to use this feature.', 'wpforms-lite' ),
+					'%name%'
+				)
+			) . '</p>';
+		}
+
+		if ( ! $can_install_plugins ) {
 			/* translators: %s - addon name. */
-			$strings['install_prompt'] = '<p>' . esc_html( sprintf( __( 'The %s is not installed. Please install and activate it to use this feature.', 'wpforms-lite' ), '%name%' ) ) . '</p>';
+			$strings['install_prompt'] = '<p>' . esc_html(
+				sprintf( /* translators: %s - addon name. */
+					__( 'The %s is not installed. Please contact the site administrator.', 'wpforms-lite' ),
+					'%name%'
+				)
+			) . '</p>';
+		}
+
+		// Check if the user can activate plugins.
+		$can_activate_plugins           = current_user_can( 'activate_plugins' );
+		$strings['can_activate_addons'] = $can_activate_plugins;
+
+		if ( ! $can_activate_plugins ) {
+			/* translators: %s - addon name. */
+			$strings['activate_prompt'] = '<p>' . esc_html( sprintf( __( 'The %s is not activated. Please contact the site administrator.', 'wpforms-lite' ), '%name%' ) ) . '</p>';
 		}
 
 		$upgrade_utm_medium = wpforms_is_admin_page() ? 'Settings - Integration' : 'Builder - Settings';
@@ -117,8 +158,12 @@ class Core {
 		$strings['upgrade'] = [
 			'pro'   => [
 				'title'        => esc_html__( 'is a PRO Feature', 'wpforms-lite' ),
-				/* translators: %s - addon name. */
-				'message'      => '<p>' . esc_html( sprintf( __( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'wpforms-lite' ), '%name%' ) ) . '</p>',
+				'message'      => '<p>' . esc_html(
+					sprintf( /* translators: %s - addon name. */
+						__( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'wpforms-lite' ),
+						'%name%'
+					)
+				) . '</p>',
 				'doc'          => sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer" class="already-purchased">%2$s</a>',
 					esc_url( wpforms_utm_link( 'https://wpforms.com/docs/upgrade-wpforms-lite-paid-license/#installing-wpforms', $upgrade_utm_medium, 'AP - %name%' ) ),
@@ -131,8 +176,12 @@ class Core {
 			],
 			'elite' => [
 				'title'        => esc_html__( 'is an Elite Feature', 'wpforms-lite' ),
-				/* translators: %s - addon name. */
-				'message'      => '<p>' . esc_html( sprintf( __( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the Elite plan to unlock all these awesome features.', 'wpforms-lite' ), '%name%' ) ) . '</p>',
+				'message'      => '<p>' . esc_html(
+					sprintf( /* translators: %s - addon name. */
+						__( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the Elite plan to unlock all these awesome features.', 'wpforms-lite' ),
+						'%name%'
+					)
+				) . '</p>',
 				'doc'          => sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer" class="already-purchased">%2$s</a>',
 					esc_url( wpforms_utm_link( 'https://wpforms.com/docs/upgrade-wpforms-lite-paid-license/#installing-wpforms', $upgrade_utm_medium, 'AP - %name%' ) ),

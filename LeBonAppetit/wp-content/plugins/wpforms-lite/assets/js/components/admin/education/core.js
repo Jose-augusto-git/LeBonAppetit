@@ -265,6 +265,8 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 			var feature = $button.data( 'name' ),
 				message = $button.data( 'message' );
 
+			const canActivateAddons = wpforms_education.can_activate_addons;
+
 			$.alert( {
 				title  : false,
 				content: message ? message : wpforms_education.activate_prompt.replace( /%name%/g, feature ),
@@ -273,8 +275,9 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 				buttons: {
 					confirm: {
 						text    : wpforms_education.activate_confirm,
-						btnClass: 'btn-confirm',
+						btnClass: 'btn-confirm' + ( ! canActivateAddons ? ' hidden' : '' ),
 						keys    : [ 'enter' ],
+						isHidden: ! canActivateAddons,
 						action  : function() {
 
 							this.$$confirm
@@ -431,6 +434,8 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 				return;
 			}
 
+			const canInstallAddons = wpforms_education.can_install_addons;
+
 			$.alert( {
 				title   : false,
 				content : message ? message : wpforms_education.install_prompt.replace( /%name%/g, feature ),
@@ -440,9 +445,9 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 				buttons : {
 					confirm: {
 						text    : wpforms_education.install_confirm,
-						btnClass: 'btn-confirm',
+						btnClass: 'btn-confirm' + ( ! canInstallAddons ? ' hidden' : '' ),
 						keys    : [ 'enter' ],
-						isHidden: ! wpforms_education.can_install_addons,
+						isHidden: ! canInstallAddons,
 						action  : function() {
 
 							this.$$confirm.prop( 'disabled', true )

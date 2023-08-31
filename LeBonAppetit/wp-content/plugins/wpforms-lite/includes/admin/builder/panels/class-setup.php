@@ -66,7 +66,7 @@ class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 		<p class="wpforms-setup-desc secondary-text">
 			<?php
 			printf(
-				wp_kses( /* translators: %1$s - Create template doc link; %2$s - Contact us page link. */
+				wp_kses( /* translators: %1$s - create template doc link, %2$s - Contact us page link. */
 					__( 'To speed up the process you can select from one of our pre-made templates, start with a <a href="#" class="wpforms-trigger-blank">blank form</a> or <a href="%1$s" target="_blank" rel="noopener noreferrer">create your own</a>. Have a suggestion for a new template? <a href="%2$s" target="_blank" rel="noopener noreferrer">We’d love to hear it</a>!', 'wpforms-lite' ),
 					[
 						'strong' => [],

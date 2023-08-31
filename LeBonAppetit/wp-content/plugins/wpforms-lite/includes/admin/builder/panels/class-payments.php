@@ -79,7 +79,7 @@ class WPForms_Builder_Panel_Payments extends WPForms_Builder_Panel {
 				<h5>' . esc_html__( 'Install Your Payment Integration', 'wpforms-lite' ) . '</h5>
 				<p>' . sprintf(
 					wp_kses(
-						/* translators: %s - Addons page URL. */
+						/* translators: %s - addons page URL. */
 						__( 'It seems you do not have any payment addons activated. You can head over to the <a href="%s">Addons page</a> to install and activate the addon for your payment service.', 'wpforms-lite' ),
 						[
 							'a' => [

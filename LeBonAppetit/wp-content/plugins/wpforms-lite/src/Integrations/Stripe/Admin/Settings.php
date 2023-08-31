@@ -294,7 +294,7 @@ class Settings {
 		$account_name     = $this->connect->get_connected_account_name( $mode );
 		$connect_url      = $this->connect->get_connect_with_stripe_url( $mode );
 		$connected_status = sprintf(
-			wp_kses( /* translators: %1$s - Stripe account name connected; %2$s - Stripe mode connected (live or test). */
+			wp_kses( /* translators: %1$s - Stripe account name connected, %2$s - Stripe mode connected (live or test). */
 				__( 'Connected to Stripe as <em>%1$s</em> in <strong>%2$s Mode</strong>.', 'wpforms-lite' ),
 				[
 					'strong' => [],

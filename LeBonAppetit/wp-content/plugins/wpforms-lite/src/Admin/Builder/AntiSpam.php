@@ -88,6 +88,8 @@ class AntiSpam {
 		}
 
 		$this->akismet_settings();
+		$this->store_spam_entries_settings();
+		$this->time_limit_settings();
 		$this->captcha_settings();
 
 		/**
@@ -111,6 +113,21 @@ class AntiSpam {
 		);
 
 		echo '</div>';
+	}
+
+	/**
+	 * Check if it is a new setup.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @return bool
+	 */
+	private function is_new_setup() {
+
+		$form_counts = wp_count_posts( 'wpforms' );
+		$form_counts = array_filter( (array) $form_counts );
+
+		return empty( $form_counts );
 	}
 
 	/**
@@ -167,6 +184,68 @@ class AntiSpam {
 				'description' => __( 'Automated tests that help to prevent bots from submitting your forms.', 'wpforms-lite' ),
 				'title'       => __( 'CAPTCHA', 'wpforms-lite' ),
 				'borders'     => [ 'top' ],
+			]
+		);
+	}
+
+	/**
+	 * Output the Spam Entries Store settings.
+	 *
+	 * @since 1.8.3
+	 */
+	public function store_spam_entries_settings() {
+
+		// Enable storing entries by default for new setup.
+		$store_spam_entries = ! empty( $this->form_data['settings']['store_spam_entries'] )
+			? $this->form_data['settings']['store_spam_entries']
+			: $this->is_new_setup();
+
+		wpforms_panel_field(
+			'toggle',
+			'settings',
+			'store_spam_entries',
+			$this->form_data,
+			__( 'Store spam entries in the database', 'wpforms-lite' ),
+			[
+				'value' => $store_spam_entries,
+			]
+		);
+	}
+
+	/**
+	 * Output the Time Limit settings.
+	 *
+	 * @since 1.8.3
+	 */
+	private function time_limit_settings() {
+
+		wpforms_panel_field(
+			'toggle',
+			'anti_spam',
+			'enable',
+			$this->form_data,
+			__( 'Enable minimum time to submit', 'wpforms-lite' ),
+			[
+				'parent'      => 'settings',
+				'subsection'  => 'time_limit',
+				'tooltip'     => __( 'Set a minimum amount of time a user must spend on a form before submitting.', 'wpforms-lite' ),
+				'input_class' => 'wpforms-panel-field-toggle-next-field',
+			]
+		);
+
+		wpforms_panel_field(
+			'text',
+			'anti_spam',
+			'duration',
+			$this->form_data,
+			__( 'Minimum time to submit', 'wpforms-lite' ),
+			[
+				'parent'     => 'settings',
+				'subsection' => 'time_limit',
+				'type'       => 'number',
+				'min'        => 1,
+				'default'    => 3,
+				'after'      => sprintf( '<span class="wpforms-panel-field-after">%s</span>', __( 'seconds', 'wpforms-lite' ) ),
 			]
 		);
 	}

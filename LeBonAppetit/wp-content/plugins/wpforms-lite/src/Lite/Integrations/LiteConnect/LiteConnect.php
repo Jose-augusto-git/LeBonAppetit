@@ -115,7 +115,7 @@ class LiteConnect extends \WPForms\Integrations\LiteConnect\LiteConnect {
 				'control-class' => 'wpforms-setting-lite-connect-auto-save-toggle',
 				'input-attr'    => 'disabled',
 				'desc-on'       => sprintf(
-					wp_kses( /* translators: %s - Upgrade to WPForms PRO landing page URL. */
+					wp_kses( /* translators: %s - upgrade to WPForms Pro landing page URL. */
 						__( '<strong>Your form entries are not being stored locally, but are backed up remotely.</strong> If you <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-upgrade-modal">upgrade to WPForms PRO</a>, you can restore your entries and they’ll be available in the WordPress dashboard.', 'wpforms-lite' ),
 						[
 							'a'      => [
@@ -130,7 +130,7 @@ class LiteConnect extends \WPForms\Integrations\LiteConnect\LiteConnect {
 					esc_url( wpforms_admin_upgrade_link( 'settings-lite-connect-enabled' ) )
 				),
 				'desc-off'      => sprintf(
-					wp_kses( /* translators: %s - Upgrade to WPForms PRO landing page URL. */
+					wp_kses( /* translators: %s - upgrade to WPForms Pro landing page URL. */
 						__( '<strong>Your form entries are not being stored in WordPress, and your entry backups are not active.</strong> If there\'s a problem with deliverability, you\'ll lose form entries. We recommend that you enable Entry Backups, especially if you\'re considering <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-upgrade-modal">upgrading to WPForms PRO</a>.', 'wpforms-lite' ),
 						[
 							'a'      => [

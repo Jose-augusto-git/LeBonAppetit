@@ -19,11 +19,12 @@ trait CreditCard {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'Stripe Credit Card', 'wpforms-lite' );
-		$this->type  = 'stripe-credit-card';
-		$this->icon  = 'fa-credit-card';
-		$this->order = 90;
-		$this->group = 'payment';
+		$this->name     = esc_html__( 'Stripe Credit Card', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'store, ecommerce, credit card, pay, payment, debit card', 'wpforms-lite' );
+		$this->type     = 'stripe-credit-card';
+		$this->icon     = 'fa-credit-card';
+		$this->order    = 90;
+		$this->group    = 'payment';
 
 		// Define additional field properties.
 		add_filter( 'wpforms_field_properties_stripe-credit-card', [ $this, 'field_properties' ], 5, 3 );

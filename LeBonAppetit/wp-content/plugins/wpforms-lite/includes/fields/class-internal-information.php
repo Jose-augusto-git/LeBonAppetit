@@ -401,12 +401,14 @@ class WPForms_Field_Internal_Information extends WPForms_Field {
 			case 'description': // phpcs:ignore WPForms.Formatting.Switch.AddEmptyLineBefore
 				$description = isset( $field['description'] ) && ! empty( $field['description'] ) ? wp_kses( $field['description'], $allowed_tags ) : '';
 				$description = wpautop( $this->replace_checkboxes( $description, $field ) );
+				$description = $this->add_link_attributes( $description );
 
 				return sprintf( '<div class="description %s">%s</div>', $class, $description );
 
 			case 'expanded-description': // phpcs:ignore WPForms.Formatting.Switch.AddEmptyLineBefore
 				$description = isset( $field['expanded-description'] ) && ! wpforms_is_empty_string( $field['expanded-description'] ) ? wp_kses( $field['expanded-description'], $allowed_tags ) : '';
 				$description = wpautop( $this->replace_checkboxes( $description, $field ) );
+				$description = $this->add_link_attributes( $description );
 
 				return sprintf( '<div class="expanded-description %s">%s</div>', esc_attr( $class ), wp_kses( $description, $allowed_tags ) );
 
@@ -782,6 +784,50 @@ class WPForms_Field_Internal_Information extends WPForms_Field {
 		];
 
 		return $allowed_tags;
+	}
+
+	/**
+	 * Adds link parameters to all links in the provided content.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param string $content The content to modify.
+	 *
+	 * @return string The modified content with UTM parameters added to links.
+	 */
+	private function add_link_attributes( $content ) {
+
+		if ( empty( $content ) || ! class_exists( 'DOMDocument' ) ) {
+			return $content;
+		}
+
+		$dom           = new DOMDocument();
+		$form_data     = wpforms()->get( 'form' )->get( $this->form_id, [ 'content_only' => true ] );
+		$template_data = wpforms()->get( 'builder_templates' )->get_template( $form_data['meta']['template'] );
+
+		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_NOWARNING | LIBXML_NOERROR );
+
+		$links = $dom->getElementsByTagName( 'a' );
+
+		foreach ( $links as $link ) {
+			$href          = $link->getAttribute( 'href' );
+			$text          = $link->textContent; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$modified_href = wpforms_utm_link( $href, 'Form Template Information Note', $template_data['name'], $text );
+
+			$link->setAttribute( 'href', $modified_href );
+			$link->setAttribute( 'target', '_blank' );
+			$link->setAttribute( 'rel', 'noopener noreferrer' );
+		}
+
+		// Remove the wrapper elements.
+		$body       = $dom->getElementsByTagName( 'body' )->item( 0 );
+		$inner_html = '';
+
+		foreach ( $body->childNodes as $node ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$inner_html .= $dom->saveHTML( $node );
+		}
+
+		return $inner_html;
 	}
 
 	/**

@@ -63,6 +63,9 @@ class Divi implements IntegrationInterface {
 
 			add_filter( 'wpforms_global_assets', '__return_true' );
 			add_filter( 'wpforms_frontend_missing_assets_error_js_disable', '__return_true', PHP_INT_MAX );
+
+			// Hide CAPTCHA badge in Divi Builder.
+			add_filter( 'wpforms_frontend_recaptcha_disable', '__return_true' );
 		}
 	}
 

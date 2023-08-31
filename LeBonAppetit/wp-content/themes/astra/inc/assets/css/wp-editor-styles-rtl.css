@@ -548,10 +548,6 @@ pre.wp-block code {
   word-break: normal;
 }
 
-.editor-styles-wrapper p {
-  line-height: 1.85714285714286;
-}
-
 .wp-block-quote.is-style-large cite {
   text-align: right;
 }
@@ -727,4 +723,17 @@ body .editor-styles-wrapper > .block-editor-block-list__layout.edit-post-visual-
 
 .wp-block-button button {
   border-radius: 2px;
+}
+
+/**
+ * 6.3 Compatibility fixes in block editor.
+ */
+span.title-visibility svg {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: 16px;
+  height: 40px;
+  fill: var(--wp-admin-theme-color);
 }

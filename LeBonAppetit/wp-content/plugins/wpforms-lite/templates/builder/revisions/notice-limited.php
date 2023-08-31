@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<h2><?php esc_html_e( 'Form Revisions Are Limited', 'wpforms-lite' ); ?></h2>
 	<p>
 		<?php
-		printf( /* translators: %d Maximum number of revisions to keep. */
+		printf( /* translators: %d - maximum number of revisions to keep. */
 			esc_html__( 'Revisions are enabled, but they’re limited to %d. You can increase this by making a simple change to your WordPress configuration.', 'wpforms-lite' ),
 			absint( $revisions_to_keep )
 		);

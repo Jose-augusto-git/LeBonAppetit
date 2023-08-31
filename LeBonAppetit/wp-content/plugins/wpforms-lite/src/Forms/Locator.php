@@ -665,7 +665,7 @@ class Locator {
 
 		$form_ids = $this->get_form_ids( $post->post_content );
 
-		$this->update_form_locations_metas( $post, [], $form_ids );
+		$this->update_form_locations_metas( null, $post, [], $form_ids );
 	}
 
 	/**
@@ -691,7 +691,7 @@ class Locator {
 		$form_ids_before = $this->get_form_ids( $post_before->post_content );
 		$form_ids_after  = $this->get_form_ids( $post_after->post_content );
 
-		$this->update_form_locations_metas( $post_after, $form_ids_before, $form_ids_after );
+		$this->update_form_locations_metas( $post_before, $post_after, $form_ids_before, $form_ids_after );
 	}
 
 	/**
@@ -707,7 +707,7 @@ class Locator {
 		$form_ids_before = $this->get_form_ids( $post->post_content );
 		$form_ids_after  = [];
 
-		$this->update_form_locations_metas( $post, $form_ids_before, $form_ids_after );
+		$this->update_form_locations_metas( null, $post, $form_ids_before, $form_ids_after );
 	}
 
 	/**
@@ -723,7 +723,7 @@ class Locator {
 		$form_ids_before = [];
 		$form_ids_after  = $this->get_form_ids( $post->post_content );
 
-		$this->update_form_locations_metas( $post, $form_ids_before, $form_ids_after );
+		$this->update_form_locations_metas( null, $post, $form_ids_before, $form_ids_after );
 	}
 
 	/**
@@ -1023,28 +1023,64 @@ class Locator {
 	 * Update form locations metas.
 	 *
 	 * @since 1.7.4
+	 * @since 1.8.2.3 Added `$post_before` parameter.
 	 *
-	 * @param WP_Post $post_after      Post after the update.
-	 * @param array   $form_ids_before Form ids before the update.
-	 * @param array   $form_ids_after  Form ids after the update.
+	 * @param WP_Post|null $post_before     The post before the update.
+	 * @param WP_Post      $post_after      The post after the update.
+	 * @param array        $form_ids_before Form IDs before the update.
+	 * @param array        $form_ids_after  Form IDs after the update.
 	 */
-	private function update_form_locations_metas( $post_after, $form_ids_before, $form_ids_after ) {
+	private function update_form_locations_metas( $post_before, $post_after, $form_ids_before, $form_ids_after ) {
 
-		$post_id = $post_after->ID;
-		$url     = get_permalink( $post_id );
-		$url     = ( $url === false || is_wp_error( $url ) ) ? '' : $url;
-		$url     = str_replace( $this->home_url, '', $url );
-
+		// Determine which locations to remove and which to add.
 		$form_ids_to_remove = array_diff( $form_ids_before, $form_ids_after );
 		$form_ids_to_add    = array_diff( $form_ids_after, $form_ids_before );
 
+		// Loop through each form ID to remove the locations meta.
 		foreach ( $form_ids_to_remove as $form_id ) {
-			$locations = $this->get_locations_without_current_post( $form_id, $post_id );
-
-			update_post_meta( $form_id, self::LOCATIONS_META, $locations );
+			update_post_meta(
+				$form_id,
+				self::LOCATIONS_META,
+				$this->get_locations_without_current_post( $form_id, $post_after->ID )
+			);
 		}
 
-		foreach ( $form_ids_to_add as $form_id ) {
+		// Determine the titles and slugs.
+		$old_title = $post_before ? $post_before->post_title : '';
+		$old_slug  = $post_before ? $post_before->post_name : '';
+		$new_title = $post_after->post_title;
+		$new_slug  = $post_after->post_name;
+
+		// If the title and slug are the same and there are no form IDs to add, bail.
+		if ( empty( $form_ids_to_add ) && $old_title === $new_title && $old_slug === $new_slug ) {
+			return;
+		}
+
+		// Merge the form IDs and remove duplicates.
+		$form_ids = array_unique( array_merge( $form_ids_to_add, $form_ids_after ) );
+
+		$this->save_location_meta( $form_ids, $post_after->ID, $post_after );
+	}
+
+	/**
+	 * Save the location meta.
+	 *
+	 * @since 1.8.2.3
+	 *
+	 * @param array   $form_ids   Form IDs.
+	 * @param int     $post_id    Post ID.
+	 * @param WP_Post $post_after Post after the update.
+	 */
+	private function save_location_meta( $form_ids, $post_id, $post_after ) {
+
+		// Build the URL.
+		$url = get_permalink( $post_id );
+		$url = ( $url === false || is_wp_error( $url ) ) ? '' : $url;
+		$url = str_replace( $this->home_url, '', $url );
+
+		// Loop through each Form ID and save the location meta.
+		foreach ( $form_ids as $form_id ) {
+
 			$locations = $this->get_locations_without_current_post( $form_id, $post_id );
 
 			$locations[] = [

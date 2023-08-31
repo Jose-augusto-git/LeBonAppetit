@@ -354,28 +354,28 @@ class BulkActions {
 	private function notices_success( $results ) {
 
 		if ( ! empty( $results['trashed'] ) ) {
-			$notice = sprintf( /* translators: %d - Trashed forms count. */
+			$notice = sprintf( /* translators: %d - trashed forms count. */
 				_n( '%d form was successfully moved to Trash.', '%d forms were successfully moved to Trash.', (int) $results['trashed'], 'wpforms-lite' ),
 				(int) $results['trashed']
 			);
 		}
 
 		if ( ! empty( $results['restored'] ) ) {
-			$notice = sprintf( /* translators: %d - Restored forms count. */
+			$notice = sprintf( /* translators: %d - restored forms count. */
 				_n( '%d form was successfully restored.', '%d forms were successfully restored.', (int) $results['restored'], 'wpforms-lite' ),
 				(int) $results['restored']
 			);
 		}
 
 		if ( ! empty( $results['deleted'] ) ) {
-			$notice = sprintf( /* translators: %d - Deleted forms count. */
+			$notice = sprintf( /* translators: %d - deleted forms count. */
 				_n( '%d form was successfully permanently deleted.', '%d forms were successfully permanently deleted.', (int) $results['deleted'], 'wpforms-lite' ),
 				(int) $results['deleted']
 			);
 		}
 
 		if ( ! empty( $results['duplicated'] ) ) {
-			$notice = sprintf( /* translators: %d - Duplicated forms count. */
+			$notice = sprintf( /* translators: %d - duplicated forms count. */
 				_n( '%d form was successfully duplicated.', '%d forms were successfully duplicated.', (int) $results['duplicated'], 'wpforms-lite' ),
 				(int) $results['duplicated']
 			);

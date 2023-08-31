@@ -324,7 +324,7 @@ class FormsLocatorScanTask extends Task {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
 			$wpdb->prepare(
-				"DELETE FROM {$wpdb->postmeta} WHERE meta_key = %s",
+				"DELETE FROM $wpdb->postmeta WHERE meta_key = %s",
 				Locator::LOCATIONS_META
 			)
 		);
@@ -371,9 +371,9 @@ class FormsLocatorScanTask extends Task {
 		$ids = $wpdb->get_col(
 			"SELECT p.ID
 					FROM (SELECT ID
-						FROM {$wpdb->posts}
-						WHERE post_status IN ({$post_statuses}) AND post_type IN ({$post_types}) ) AS ids
-						INNER JOIN {$wpdb->posts} as p ON ids.ID = p.ID
+						FROM $wpdb->posts
+						WHERE post_status IN ( $post_statuses ) AND post_type IN ( $post_types ) ) AS ids
+						INNER JOIN $wpdb->posts as p ON ids.ID = p.ID
 					WHERE p.post_content REGEXP '\\\[wpforms|wpforms/form-selector'"
 		);
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared

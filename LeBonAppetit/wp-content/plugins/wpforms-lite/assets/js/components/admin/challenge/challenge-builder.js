@@ -128,6 +128,15 @@ WPFormsChallenge.builder = window.WPFormsChallenge.builder || ( function( docume
 
 			// Tooltipster ready.
 			$.tooltipster.on( 'ready', app.tooltipsterReady );
+
+			// Move to step 3 if challenge is forced and exisiting form is opened.
+			$( document ).on( 'wpformsBuilderReady', function() {
+				if ( $( '.wpforms-panel-fields-button' ).hasClass( 'active' ) && WPFormsChallenge.core.loadStep() <= 2 ) {
+					WPFormsChallenge.core.stepCompleted( 1 );
+					WPFormsChallenge.core.stepCompleted( 2 );
+				}
+			} );
+
 		},
 
 		/**

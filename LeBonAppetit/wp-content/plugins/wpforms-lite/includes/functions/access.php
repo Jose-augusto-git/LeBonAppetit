@@ -309,10 +309,11 @@ function wpforms_search_posts( $search_term = '', $args = [] ) {
 			"SELECT ID, post_title, post_author
 					FROM $wpdb->posts
 					WHERE $post_title_where
-					post_type = '{$args['post_type']}' AND
+					post_type = %s AND
 					post_status IN ( $post_statuses ) AND
 					$capability_where
 					ORDER BY post_title LIMIT %d",
+			$args['post_type'],
 			absint( $args['count'] )
 		)
 	);

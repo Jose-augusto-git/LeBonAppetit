@@ -1,5 +1,61 @@
 == Changelog ==
 
+= 1.8.3.1 =
+- Fixed: There were situations when Stripe Credit Card field wasn't working properly in Elementor.
+
+= 1.8.3 =
+- Added: New `{site_name}` smart tag.
+- Added: Fields in the Form Builder can now be searched by name or related keywords.
+- Changed: Adjusted error message for Stripe subscription payment failure.
+- Changed: Elementor integration updated and improved.
+- Changed: Improved cache busting of entry counts on the Dashboard widget.
+- Changed: Anti-spam processing significantly improved.
+- Changed: Various notifications for users without required permissions have been improved.
+- Changed: Updated DOMPurify library to 3.0.5.
+- Changed: Sidebar in the Form Builder now can be collapsed or expanded with a `Ctrl + T` keyboard shortcut.
+- Changed: Updated Icon Choices Font Awesome library to 6.4.0.
+- Changed: Improved empty states for blocks/widgets on Gutenberg and Elementor editor.
+- Fixed: Submit button font family was not inherited from theme styles.
+- Fixed: No spacing between the field label and the field on Settings pages.
+- Fixed: Handling of string to array conversion type error in rare cases when the option in the database contained malformed value.
+- Fixed: Improved the preview for the Dropdown choices with HTML tags in the Form Builder.
+- Fixed: Stripe Payment fields previously ignoring "Include Form Styling" setting.
+- Fixed: Improved responsive styles for multiple choice controls on the Settings pages.
+- Fixed: Removed redundant space between Stripe credit card sub-fields when sub-labels are hidden.
+- Fixed: Handling console error on post/page edit screen when not connected to Stripe.
+- Fixed: Handling a PHP Notice that was generated when the legacy API is used for Stripe payments.
+- Fixed: Revised link to Comprehensive Guide in the Elementor WPForms widget.
+- Fixed: Akismet anti-spam check could be skipped in certain cases.
+- Fixed: Stripe Payment field displaying a warning sign with an empty error message when card validation failed.
+- Fixed: Hierarchical Dynamic Choices list that resulted in a PHP timeout error when the list was more than 3 levels deep.
+- Fixed: CAPTCHA badge preventing the Divi Visual Builder preview from loading.
+- Fixed: Inconsistent email validation between front-end and server.
+- Fixed: Form Location title or slug occasionally not updating after updating a post.
+- Fixed: Buttons in the confirmation modal that were not aligned correctly if they didn't fit in one line.
+
+= 1.8.2.3 =
+- Changed: Admin notice content and design is improved.
+- Changed: We optimized the Help screen performance within the Form Builder.
+- Fixed: The query string rewrite module from the 7G Firewall plugin was conflicting with the WPForms block in the Block Editor.
+- Fixed: Payment fields were not inheriting a newly updated currency from the WPForms Settings > Payments page.
+- Fixed: When duplicating a field in the Form Builder, the options panel for the newly duplicated field was not consistently active.
+- Fixed: WPForms admin area was using a site language instead of the currently logged-in user language if languages were different.
+- Fixed: When an email field contained long words without spaces, words were not properly wrapped.
+- Fixed: Form settings were not reflecting new template settings when switching those templates.
+- Fixed: WPForms Challenge pointers were overlapping text labels in some languages.
+- Fixed: In some cases, the page with a form on the front end was not scrolled to the error field.
+- Fixed: The Dropdown border width was wrong when the input was smaller than the dropdown.
+- Fixed: It was possible to resize the Paragraph field larger than the containers.
+- Fixed: Empty option was replaced with the default one for a duplicated dropdown.
+- Fixed: There was a fatal error on the Analytics page if the MonsterInsights Lite plugin was active.
+- Fixed: Form Location title and slug were incorrect after updating a post with that form embedded.
+- Fixed: The "From Email" option validation message was invisible when the WP Mail SMTP plugin was active.
+- Fixed: PHP warning 'Illegal string offset' appeared on some sites.
+- Fixed: Placeholder text in the Dynamic choices of the Dropdown field was not displayed when the field was duplicated.
+- Fixed: The "Let's Go!" button inside the Form Embed screen was disabled after the page title change.
+- Fixed: Bulk option labels were not inline in some languages.
+- Fixed: Some field titles were broken in Safari in the Twenty Twenty-One theme.
+
 = 1.8.2.2 =
 - Added: Developers can now use a new hook that is fired when the form is duplicated.
 - Fixed: A PHP deprecation notice was generated when enabling or disabling auto-updates of any plugin.

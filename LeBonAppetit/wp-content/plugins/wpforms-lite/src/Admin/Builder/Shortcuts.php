@@ -49,9 +49,11 @@ class Shortcuts {
 				'ctrl s' => __( 'Save Form', 'wpforms-lite' ),
 				'ctrl p' => __( 'Preview Form', 'wpforms-lite' ),
 				'ctrl b' => __( 'Embed Form', 'wpforms-lite' ),
+				'ctrl f' => __( 'Search Fields', 'wpforms-lite' ),
 			],
 			'right' => [
 				'ctrl h' => __( 'Open Help', 'wpforms-lite' ),
+				'ctrl t' => __( 'Toggle Sidebar', 'wpforms-lite' ),
 				'ctrl e' => __( 'View Entries', 'wpforms-lite' ),
 				'ctrl q' => __( 'Close Builder', 'wpforms-lite' ),
 			],

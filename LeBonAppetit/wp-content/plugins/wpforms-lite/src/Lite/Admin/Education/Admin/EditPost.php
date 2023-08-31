@@ -228,7 +228,7 @@ class EditPost implements EducationInterface {
 
 		$message = $this->has_forms
 			? __( 'Don\'t forget to embed your contact form. Simply click the Add Form button below.', 'wpforms-lite' )
-			: sprintf( /* translators: %1$s is link to create a new form. */
+			: sprintf( /* translators: %1$s - link to create a new form. */
 				__( 'Did you know that with <a href="%1$s" target="_blank" rel="noopener noreferrer">WPForms</a>, you can create an easy-to-use contact form in a matter of minutes?', 'wpforms-lite' ),
 				esc_url( add_query_arg( 'page', 'wpforms-overview', admin_url( 'admin.php' ) ) )
 			);
@@ -254,7 +254,7 @@ class EditPost implements EducationInterface {
 
 		$message = $this->has_forms
 			? __( 'You\'ve already created a form, now add it to the page so your customers can get in touch.', 'wpforms-lite' )
-			: sprintf( /* translators: %1$s is link to create a new form. */
+			: sprintf( /* translators: %1$s - link to create a new form. */
 				__( 'Did you know that with <a href="%1$s" target="_blank" rel="noopener noreferrer">WPForms</a>, you can create an easy-to-use contact form in a matter of minutes?', 'wpforms-lite' ),
 				esc_url( add_query_arg( 'page', 'wpforms-overview', admin_url( 'admin.php' ) ) )
 			);

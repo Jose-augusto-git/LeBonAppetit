@@ -25,10 +25,10 @@ $this->permissionshelp = esc_html__('Please see this help article for changing d
 // moved to constructor because __() can't be used on member declarations
 $this->edge_mode = array(
 	'available' => false,
-	'edge_forum_url' => 'https://themeover.com/forum/topic/improvement-enhance-the-visibility-of-edited-values/',
-	'cta' => __("Try out the little blue dots on the property fields to help you find your previous style values.", 'microthemer'),
+	'edge_forum_url' => 'https://themeover.com/forum/topic/were-trialling-automatic-error-reporting/',
+	'cta' => __("Enable automatic error reporting so we can make Microthemer error free!", 'microthemer'),
 	'config' => array(
-		'dots_on_properties' => 1
+		'error_reporting_trial' => 1
 	),
 	'active' => false // evaluated and set at top of ui page (don't change this)
 );
@@ -890,16 +890,21 @@ $this->default_preferences_dont_reset_or_export = array(
 	// Site contingent
 	"version" => $this->version,
 	"previous_version" => '',
-	"error_reporting" => array(
+	"reporting" => array(
 		'anonymous_id' => mt_rand(1000000000, 9999999999),
 		'data' => array(
 			'last_sent' => null,
+			'sends_today' => 0
 		),
 		'file' => array(
 			'last_sent' => null,
-			'sends_today' => 0
+			'sends_today' => 0,
+			'unique_errors' => (object) array()
 		),
-		'permission' => array()
+		'permission' => array(
+			'file' => 1,
+			'data' => 1
+		)
 	),
 	"clean_uninstall" => 0,
 	"recent_logic" => array(),
@@ -954,7 +959,8 @@ $this->default_preferences_dont_reset_or_export = array(
 	"default_sug_values_set" => 0,
 	"default_sug_variables_set" => 0,
 	"manual_recompile_all_css" => 0,
-	"show_setup_screen" => 0, // until the feature is ready
+	"show_setup_screen" => 1,
+	"show_setup_screen_first_time" => 1,
 );
 
 // do export, don't reset
@@ -1015,6 +1021,8 @@ if ($pd_context === 'setup_wp_dependent_vars'){
 		// because they will already be on a global folder, which will apply to the page, and not trigger new auto-folder
 		"auto_folders" => $fresh_install ? 1 : 0,
 		"auto_folders_page" => $fresh_install ? 1 : 0
+
+		// todo remember to update exportable_preferences array merge values if adding new options here
 	);
 
 	$this->default_preferences = array_merge($this->default_preferences, $default_preferences);
@@ -1274,7 +1282,7 @@ $this->menu = array(
 			),
 
 			// prompt to unlock
-			'buyer_validated' => array(
+			/*'buyer_validated' => array(
 				'name' => esc_html__('Unlock Microthemer', 'microthemer'),
 				'title' => $this->preferences['buyer_validated'] ?
 					esc_attr__('Validate license using a different license key', 'microthemer') :
@@ -1282,7 +1290,7 @@ $this->menu = array(
 				'dialog' => 1,
 				'class' => 'unlock-microthemer',
 				'icon_name' => 'unlock-alt'
-			),
+			),*/
 
 			'generated' => array(
 				//'new_set' => 1,

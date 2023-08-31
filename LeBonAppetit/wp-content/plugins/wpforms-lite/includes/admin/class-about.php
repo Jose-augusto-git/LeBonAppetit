@@ -68,21 +68,15 @@ class WPForms_About {
 	 */
 	public function __construct() {
 
-		// In old PHP we can't define this elsewhere.
-		self::$licenses_features = [
-			'entries'      => esc_html__( 'Form Entries', 'wpforms-lite' ),
-			'fields'       => esc_html__( 'Form Fields', 'wpforms-lite' ),
-			'templates'    => esc_html__( 'Form Templates', 'wpforms-lite' ),
-			'antispam'     => esc_html__( 'Spam Protection and Security', 'wpforms-lite' ),
-			'conditionals' => esc_html__( 'Smart Conditional Logic', 'wpforms-lite' ),
-			'marketing'    => esc_html__( 'Marketing Integrations', 'wpforms-lite' ),
-			'payments'     => esc_html__( 'Payment Forms', 'wpforms-lite' ),
-			'surveys'      => esc_html__( 'Surveys & Polls', 'wpforms-lite' ),
-			'advanced'     => esc_html__( 'Advanced Form Features', 'wpforms-lite' ),
-			'addons'       => esc_html__( 'WPForms Addons', 'wpforms-lite' ),
-			'support'      => esc_html__( 'Customer Support', 'wpforms-lite' ),
-			'sites'        => esc_html__( 'Number of Sites', 'wpforms-lite' ),
-		];
+		$this->hooks();
+	}
+
+	/**
+	 * Register hooks.
+	 *
+	 * @since 1.8.2.3
+	 */
+	private function hooks() {
 
 		// Maybe load tools page.
 		add_action( 'admin_init', [ $this, 'init' ] );
@@ -123,7 +117,7 @@ class WPForms_About {
 			) ||
 			wpforms_debug()
 		) {
-			$vs_tab_name = sprintf( /* translators: %1$s - current license type; %2$s - suggested license type. */
+			$vs_tab_name = sprintf( /* translators: %1$s - current license type, %2$s - suggested license type. */
 				esc_html__( '%1$s vs %2$s', 'wpforms-lite' ),
 				ucfirst( $license ),
 				$this->get_next_license( $license )
@@ -252,7 +246,7 @@ class WPForms_About {
 					<?php
 					printf(
 						wp_kses(
-							/* translators: %1$s - WPBeginner URL; %2$s - OptinMonster URL; %3$s - MonsterInsights URL. */
+							/* translators: %1$s - WPBeginner URL, %2$s - OptinMonster URL, %3$s - MonsterInsights URL. */
 							__( 'WPForms is brought to you by the same team that’s behind the largest WordPress resource site, <a href="%1$s" target="_blank" rel="noopener noreferrer">WPBeginner</a>, the most popular lead-generation software, <a href="%2$s" target="_blank" rel="noopener noreferrer">OptinMonster</a>, the best WordPress analytics plugin, <a href="%3$s" target="_blank" rel="noopener noreferrer">MonsterInsights</a>, and more!', 'wpforms-lite' ),
 							[
 								'a' => [
@@ -332,7 +326,7 @@ class WPForms_About {
 									<strong>
 										<?php
 										printf(
-											/* translators: %s - addon status label. */
+											/* translators: %s - status label. */
 											esc_html__( 'Status: %s', 'wpforms-lite' ),
 											'<span class="status-label ' . esc_attr( $plugin_data['status_class'] ) . '">' . wp_kses_post( $plugin_data['status_text'] ) . '</span>'
 										);
@@ -522,7 +516,7 @@ class WPForms_About {
 						<?php
 						printf(
 							wp_kses( /* translators: %s - stars. */
-								__( 'We know that you will truly love WPForms. It has over <strong>12,000+ five star ratings</strong> (%s) and is active on over 5 million websites.', 'wpforms-lite' ),
+								__( 'We know that you will truly love WPForms. It has over <strong>12,000+ five star ratings</strong> (%s) and is active on over 6 million websites.', 'wpforms-lite' ),
 								[
 									'strong' => [],
 								]
@@ -543,7 +537,12 @@ class WPForms_About {
 							<ul class="list-features list-plain">
 								<li>
 									<i class="fa fa-check" aria-hidden="true"></i>
-									<?php esc_html_e( '700+ customizable form templates', 'wpforms-lite' ); ?>
+									<?php
+									printf( /* translators: %s - number of templates. */
+										esc_html__( '%s customizable form templates', 'wpforms-lite' ),
+										'800+'
+									);
+									?>
 								</li>
 								<li>
 									<i class="fa fa-check" aria-hidden="true"></i>
@@ -767,7 +766,7 @@ class WPForms_About {
 
 				<table>
 					<?php
-					foreach ( self::$licenses_features as $slug => $name ) {
+					foreach ( $this->get_licenses_features_list() as $slug => $name ) {
 						$current = $this->get_license_data( $slug, $license );
 						$next    = $this->get_license_data( $slug, strtolower( $next_license ) );
 
@@ -1224,7 +1223,12 @@ class WPForms_About {
 				'pro'   => [
 					'status' => 'full',
 					'text'   => [
-						'<strong>' . esc_html__( 'All Form Templates including Bonus 700+ pre-made form templates', 'wpforms-lite' ) . '</strong>',
+						'<strong>' .
+						sprintf( /* translators: %s - number of templates. */
+							esc_html__( 'All Form Templates including Bonus %s pre-made form templates', 'wpforms-lite' ),
+							'800+'
+						) .
+						'</strong>',
 					],
 				],
 			],
@@ -1613,6 +1617,33 @@ class WPForms_About {
 		}
 
 		return $type;
+	}
+
+	/**
+	 * Get the list of features for the licenses.
+	 *
+	 * @since 1.8.2.3
+	 *
+	 * @return array
+	 */
+	private function get_licenses_features_list() {
+
+		self::$licenses_features = [
+			'entries'      => esc_html__( 'Form Entries', 'wpforms-lite' ),
+			'fields'       => esc_html__( 'Form Fields', 'wpforms-lite' ),
+			'templates'    => esc_html__( 'Form Templates', 'wpforms-lite' ),
+			'antispam'     => esc_html__( 'Spam Protection and Security', 'wpforms-lite' ),
+			'conditionals' => esc_html__( 'Smart Conditional Logic', 'wpforms-lite' ),
+			'marketing'    => esc_html__( 'Marketing Integrations', 'wpforms-lite' ),
+			'payments'     => esc_html__( 'Payment Forms', 'wpforms-lite' ),
+			'surveys'      => esc_html__( 'Surveys & Polls', 'wpforms-lite' ),
+			'advanced'     => esc_html__( 'Advanced Form Features', 'wpforms-lite' ),
+			'addons'       => esc_html__( 'WPForms Addons', 'wpforms-lite' ),
+			'support'      => esc_html__( 'Customer Support', 'wpforms-lite' ),
+			'sites'        => esc_html__( 'Number of Sites', 'wpforms-lite' ),
+		];
+
+		return self::$licenses_features;
 	}
 }
 

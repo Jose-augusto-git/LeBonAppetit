@@ -129,8 +129,10 @@ class ContactForm7 extends Base {
 					1 => [
 						'notification_name' => esc_html__( 'Notification 1', 'wpforms-lite' ),
 						'email'             => '{admin_email}',
-						/* translators: %s - form name. */
-						'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $cf7_form_name ),
+						'subject'           => sprintf( /* translators: %s - form name. */
+							esc_html__( 'New Entry: %s', 'wpforms-lite' ),
+							$cf7_form_name
+						),
 						'sender_name'       => get_bloginfo( 'name' ),
 						'sender_address'    => '{admin_email}',
 						'replyto'           => '',
@@ -439,8 +441,10 @@ class ContactForm7 extends Base {
 			$form['settings']['notifications'][2] = [
 				'notification_name' => esc_html__( 'Notification 2', 'wpforms-lite' ),
 				'email'             => '{admin_email}',
-				/* translators: %s - form name. */
-				'subject'           => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), $cf7_form_name ),
+				'subject'           => sprintf( /* translators: %s - form name. */
+					esc_html__( 'New Entry: %s', 'wpforms-lite' ),
+					$cf7_form_name
+				),
 				'sender_name'       => get_bloginfo( 'name' ),
 				'sender_address'    => '{admin_email}',
 				'replyto'           => '',
@@ -528,7 +532,7 @@ class ContactForm7 extends Base {
 			}
 		}
 
-		$label = sprintf( /* translators: %1$s - field type; %2$s - field name if available. */
+		$label = sprintf( /* translators: %1$s - field type, %2$s - field name if available. */
 			esc_html__( '%1$s Field %2$s', 'wpforms-lite' ),
 			ucfirst( $type ),
 			! empty( $name ) ? "($name)" : ''

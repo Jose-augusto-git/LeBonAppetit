@@ -125,15 +125,6 @@ class Notifications implements IntegrationInterface {
 
 		$args = wp_parse_args( $args, $default );
 
-		$email = empty( $form_data['settings']['notifications'][ $id ]['sender_address'] ) ? '{admin_email}' : $form_data['settings']['notifications'][ $id ]['sender_address'];
-
-		if ( $this->email_domain_matches_site_domain( $email ) || $this->has_active_smtp_plugin() ) {
-			return $args;
-		}
-
-		$args['after']  = $this->get_warning_message();
-		$args['class'] .= ' wpforms-panel-field-warning';
-
 		return $args;
 	}
 
@@ -175,7 +166,7 @@ class Notifications implements IntegrationInterface {
 		);
 
 		$fix_email_delivery_text = sprintf(
-			wp_kses( /* translators: %1$s - Fixing email delivery issues doc URL. */
+			wp_kses( /* translators: %1$s - fixing email delivery issues doc URL. */
 				__(
 					'Please check out our <a href="%1$s" target="_blank" rel="noopener noreferrer">doc on fixing email delivery issues</a> for more details.',
 					'wpforms-lite'

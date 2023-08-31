@@ -79,6 +79,72 @@ I've been happily developing Microthemer and supporting users of varying technic
 
 == Changelog ==
 
+= 7.2.4.1 (August 3rd, 2023) =
+
+# Change
+* Automatic error reports only send MT settings for specific errors, even if permission is enabled. I can fix most errors without this additional info, so have switched to a system of explicitly defining errors that should be accompanied by data.
+
+# Bugs fixed
+* CSS grid highlighting could linger on when switching between selectors in some cases.
+
+= 7.2.4.0 (July 31st, 2023) =
+
+# Bugs fixed
+* Possible error message could display on the frontend if an empty string was passed into a folder logic condition: Cannot parse $parameterString.
+* Microthemer was not targeting draft pages correctly if the Auto folder option was enabled (because the page slug was not yet set).
+
+= 7.2.3.9 (July 26th, 2023) =
+
+# Bugs fixed
+* Microthemer did not notify about user JS errors when working with the full code JS editor.
+
+= 7.2.3.8 (July 25th, 2023) =
+
+# Enhancement
+* Added a preview link to the error reporting options, so you can see exactly what data MT will send depending on which checkboxes are ticked.
+* Microthemer sends error reports for unique JavaScript errors it discovers on your site while using Microthemer (edge mode is no longer required).
+
+= 7.2.3.7 (July 18th, 2023) =
+
+# Change
+* Microthemer does not automatically set the order of selectors within folders when adjusting the selector code, only when selectors are first created (and the Auto folder option is enabled).
+
+# Bugs fixed
+* Deleting a design pack did not work if a design pack screenshot had been uploaded.
+* Syncing the editor and UI did not work on certain properties since the 7.2.3.5 update 6 days ago.
+
+= 7.2.3.6 (July 14th, 2023) =
+
+# Bugs fixed
+* Responsive tabs did not appear to have an effect in certain in browsers, particularly at odd number breakpoints (e.g. 411) or if the browser zoom was set. This is because of pixel rounding issues browsers can encounter. MT fixes this by settings the site preview width slightly above or below the min/max-width media query values.
+* When switching between styles docked top (with the options horizontally scrolled) and then docked left, the options could appear cropped.
+
+= 7.2.3.5 (July 12th, 2023) =
+
+# Bugs fixed
+* When adding comma separated box-shadow values to the single selector code editor, MT tried to sync the values with the UI fields, which stripped away all values after the first comma.
+
+= 7.2.3.4 (July 11th, 2023) =
+
+# Bugs fixed
+* Microthemer page-specific folder logic did not work if the page slug had the word "and" / "or" in it.
+
+= 7.2.3.3 (July 11th, 2023) =
+
+# Bugs fixed
+* CSS added to the full code editor applied to the WordPress admin area, when viewed inside Microthemer.
+
+= 7.2.3.2 (July 10th, 2023) =
+
+# Enhancement
+* A setup screen displays when you first load Microthemer. This supports importing workspace preferences from another MT install, or setting some commonly changed preferences like global !important or Sass support. You can also set up automatic error reporting and watch the top 10 videos, with progress tracking.
+* A new condition function is supported e.g. \Microthemer\has_template('bricks', 215, 'Header template'). Use the conditions menu to generate this kind of logic. It checks if a page loads a particular template, so your custom Microthemer CSS can follow templates around wherever you place them. Right now, only Bricks templates are supported. Feel free to request more.
+
+# Bugs fixed
+* When exporting a design pack, after previously deleting one with the same name, MT presented an error "Create json error".
+* If Auto folder was enabled, setting a custom folder name in the top toolbar during targeting did not work sometimes.
+* An issue with an exported design pack name being a bit different in the Export screen packs menu.
+
 = 7.2.2.8 (June 20th, 2023) =
 
 # Bugs fixed

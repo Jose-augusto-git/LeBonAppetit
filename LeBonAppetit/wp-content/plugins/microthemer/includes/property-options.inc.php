@@ -3515,7 +3515,7 @@ $propertyOptions['dimensions']['object_position'] = array(
 	//'input-class' => 'size-5',
 	//'type' => 'combobox',
 	'last_in_sub' => 1,
-	'multiple' => 1,
+	//'multiple' => 1,
 	'select_options' => array_merge($background_position_values, array(
 		'50% 50%',
 		//'right bottom 20px'

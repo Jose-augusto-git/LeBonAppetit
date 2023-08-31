@@ -345,7 +345,7 @@ class Amp {
 
 			echo '<div class="wpforms-notice wpforms-warning" style="margin: 20px 0;">';
 			printf(
-				wp_kses( /* translators: %1$s - CAPTCHA provider name; %2$s - URL to reCAPTCHA documentation. */
+				wp_kses( /* translators: %1$s - CAPTCHA provider name, %2$s - URL to reCAPTCHA documentation. */
 					__( '%1$s is not supported by AMP and is currently disabled.<br><a href="%2$s" rel="noopener noreferrer" target="_blank">Upgrade to reCAPTCHA v3</a> for full AMP support. <br><em>Please note: this message is only displayed to site administrators.</em>', 'wpforms-lite' ),
 					[
 						'a'  => [

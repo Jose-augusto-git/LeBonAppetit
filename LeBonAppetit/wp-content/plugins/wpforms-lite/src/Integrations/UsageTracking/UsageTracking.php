@@ -130,6 +130,8 @@ class UsageTracking implements IntegrationInterface {
 	 * @since 1.6.1
 	 *
 	 * @return array
+	 * @noinspection PhpUndefinedConstantInspection
+	 * @noinspection PhpUndefinedFunctionInspection
 	 */
 	public function get_data() {
 
@@ -557,7 +559,7 @@ class UsageTracking implements IntegrationInterface {
 					global $wpdb;
 					$count = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
 						"SELECT SUM(meta_value)
-						FROM {$wpdb->postmeta}
+						FROM $wpdb->postmeta
 						WHERE meta_key = 'wpforms_entries_count';"
 					);
 			}

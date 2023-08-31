@@ -7,6 +7,7 @@ class Admin {
     // Use traits to organise this god class into related functions
     // Then, convert the traits into classes one by one over time
     use PluginTrait,
+        LogTrait,
 	    AdminInitTrait,
         PreferencesTrait,
 	    SettingsTrait,
@@ -170,6 +171,25 @@ class Admin {
         'admin_bar_shortcut',
 	    'top_level_shortcut'
     );
+
+	private $reporting = array(
+		'max' => array(
+			'fileSends' => 10,
+			'dataSends' => 1,
+            'auto' => array(
+                'bytes' => (1024 * 1024 * 1.5), // 1.5MB
+                'timeout' => 15
+            ),
+            'manual' => array(
+				'bytes' => null, // we'll check max_post_size at point of send
+				'timeout' => 120
+			),
+		)
+	);
+
+    private $errorsRequiringData = array(
+		//'frontend.js|306|7|Uncaught ReferenceError: consol is not defined' => 1 // paste error key(s) here
+	);
 
 	function __construct(){
 		$this->init();
@@ -536,7 +556,7 @@ class Admin {
 						$explain = '<p>Domain limit ('.intval($response['limit']).') reached. Your license permits 
                                         installing Microthemer on '.intval($response['limit']).' '.$limit_lang.' in total, not '.intval($response['limit']).' '.$limit_lang.' at any one time.</p>';
 
-						// extra text if they have already exceeded their limit
+						// extra text if they have already reached their limit
 						/*if (count($response['domains']) > 3){
 									$explain.= '<p>We started enforcing this restriction after learning that a
                                             few people have been unclear about the terms
@@ -949,6 +969,35 @@ class Admin {
 				$update = true;
 			}
 		}
+
+		// maybe reset the reporting stats for the day
+        $today = date('Y-m-d');
+		$pref_array['reporting'] = isset($this->preferences['reporting'])
+            ? $this->preferences['reporting']
+            : $full_preferences['reporting'];
+
+        // fix missing property added later
+        if (!isset($pref_array['reporting']['file']['unique_errors'])){
+	        $pref_array['reporting']['file']['unique_errors'] = (object) array();
+	        $update = true;
+        }
+
+        foreach(array('file', 'data') as $reportType){
+	        $last_sent = $pref_array['reporting'][$reportType]['last_sent'];
+            if ($last_sent != $today){
+
+	            $pref_array['reporting'][$reportType] = array(
+                   'last_sent' => $today,
+                   'sends_today' => 0,
+                );
+
+                if ($reportType === 'file'){
+	                $pref_array['reporting'][$reportType]['unique_errors'] = (object) array();
+                }
+
+	            $update = true;
+            }
+        }
 
 		// save new preference definitions if found
 		if ($update) {
@@ -2668,7 +2717,14 @@ class Admin {
 			'suggested_screen_layouts' => $this->suggested_screen_layouts,
             'exportable_preferences' => array_merge(
 	            array_keys($this->default_preferences),
-	            array_keys($this->default_preferences_exportable)
+	            array_keys($this->default_preferences_exportable),
+                // and some dynamically set preferences that should also copy over
+                array(
+                    "stylesheet_order",
+                    "page_class_prefix",
+                    "auto_folders",
+                    "auto_folders_page"
+                )
             )
 		);
 
@@ -4049,7 +4105,7 @@ class Admin {
 		// if no revisions, explain
 		if ($total_rows == 0) {
 			return '<span class="no-revisions-table">' .
-			       esc_html__('No Revisions have been created yet. This will happen after your next save.', 'microthemer') .
+			       esc_html__('No revisions have been created.', 'microthemer') .
 			       '</span>';
 		}
 
@@ -4480,107 +4536,6 @@ class Admin {
 	}
 
 
-	function log($short, $long, $type = 'error', $preset = false, $vars = array()){
-		// some errors are the same, reuse the text
-		if ($preset) {
-			if ($preset == 'revisions'){
-				$this->globalmessage[++$this->ei]['short'] = __('Revision log update failed.', 'microthemer');
-				$this->globalmessage[$this->ei]['type'] = 'error';
-				$this->globalmessage[$this->ei]['long'] = '<p>' . esc_html__('Adding your latest save to the revisions table failed.', 'microthemer') . '</p>';
-			} elseif ($preset == 'json-decode'){
-				$this->globalmessage[++$this->ei]['short'] = __('Decode json error', 'microthemer');
-				$this->globalmessage[$this->ei]['type'] = 'error';
-				$this->globalmessage[$this->ei]['long'] = '<p>' . sprintf(esc_html__('WordPress was not able to convert %s into a usable format.', 'microthemer'), $this->root_rel($vars['json_file']) ) . '</p>
-<p>JSON Error code: '. $this->json_last_error() . '</p>';
-
-				//wp_die('<pre>'.$this->globalmessage[++$this->ei].'</pre>');
-
-			}
-
-		} else {
-			$this->globalmessage[++$this->ei]['short'] = $short;
-			$this->globalmessage[$this->ei]['type'] = $type;
-			$this->globalmessage[$this->ei]['long'] = $long;
-		}
-	}
-
-	function json_last_error(){
-		if (function_exists('json_last_error')){
-			return json_last_error();
-		}
-
-		return '';
-	}
-
-	// save ajax-generated global msg in db for showing on next page load
-	// this is now used for debugging too (session and append = true)
-	function cache_global_msg($append = false, $session = false){
-		$pref_array = array();
-		$pref_array['returned_ajax_msg'] = $this->globalmessage;
-		$pref_array['returned_ajax_msg_seen'] = 0;
-		$this->savePreferences($pref_array);
-	}
-
-
-
-
-
-	// display the logs
-	function display_log(){
-
-		// if the page is reloading after an ajax request, we may have unseen status messages to show - merge the two
-		if (!empty($this->preferences['returned_ajax_msg']) and !$this->preferences['returned_ajax_msg_seen']){
-			$cached_global = $this->preferences['returned_ajax_msg'];
-			if (is_array($this->globalmessage)){
-				$this->globalmessage = array_unique(
-					array_merge($this->globalmessage, $cached_global),
-					SORT_REGULAR
-				);
-			} else {
-				$this->globalmessage = $cached_global;
-			}
-			// clear the cached message as it is beign shown
-			$pref_array['returned_ajax_msg'] = '';
-			$pref_array['returned_ajax_msg_seen'] = 1;
-			$this->savePreferences($pref_array);
-		}
-
-		// append the session cached debug messages
-		/* Sessions conflict with WP
-		 * if (TVR_DEV_MODE && !empty($this->globalmessage) && isset($_COOKIE['cached_mt_messages'])){
-			$this->globalmessage = array_merge($this->globalmessage, $_COOKIE['cached_mt_messages']);
-		}*/
-
-		$html = '';
-		if (!empty($this->globalmessage)) {
-			$html.= '<ul class="logs">'; // so 'loading WP site' msg doesn't overwrite
-			foreach ($this->globalmessage as $key => $log) {
-				if ($log['type'] == 'dev-notice'){
-					continue;
-				}
-				$html .= $this->display_log_item($log['type'], $log, $key);
-			}
-			$html .= '</ul><span id="data-msg-pending" rel="1"></span>';
-		}
-
-		else {
-			$html.= '<ul class="logs"></ul><span id="data-msg-pending" rel="0"></span>';
-		}
-		return $html;
-	}
-
-	// display log item - used as template so need as function to keep html consistent
-	function display_log_item($type, $log, $key, $id = ''){
-		$html = '
-				<li '.$id.' class="tvr-'.$type.' tvr-message mt-fixed-opacity mt-fixed-color row-'.($key+1).'">
-					<span class="short">'.$log['short'].'</span>
-					<div class="long">'.$log['long'].'</div>
-				</li>';
-		return $html;
-	}
-
-
-
 	// if global !important preference changes MT needs to do full recompile
 	function preference_settings_changed($keys, $orig, $new){
 
@@ -4917,11 +4872,11 @@ class Admin {
 
                 // update the error reporting preferences (might be done in combo with file upload
                 // so keep separate from save preferences code above
-                $pref_array['error_reporting'] = $this->preferences['error_reporting'];
-				$pref_array['error_reporting']['permission'] = array();
-                if (isset($_POST['error_reporting_permission']) && is_array($_POST['error_reporting_permission'])){
-	                foreach ($_POST['error_reporting_permission'] as $key => $value){
-		                $pref_array['error_reporting']['permission'][$key] = intval($value);
+                $pref_array['reporting'] = $this->preferences['reporting'];
+				$pref_array['reporting']['permission'] = array();
+                if (isset($_POST['reporting_permission']) && is_array($_POST['reporting_permission'])){
+	                foreach ($_POST['reporting_permission'] as $key => $value){
+		                $pref_array['reporting']['permission'][$key] = intval($value);
 	                }
                 }
 				$this->savePreferences($pref_array);
@@ -6225,7 +6180,7 @@ class Admin {
 		}
 
 		$icons = array( // todo
-			'initial-mt-setup' => 'box-open',
+			'mt-initial-setup' => 'box-open',
 			'unlock-microthemer' => 'unlock-alt',
 			'display-preferences' => 'cog',
 			'edit-media-queries' => 'devices',
@@ -7623,7 +7578,11 @@ class Admin {
 				'value' => $path,
 				'category' => $category,
 				'item_id' => $item_id,
-                'logic' => $post_type === 'page' ? 'is_page("'.$item_slug.'")' : 'is_single("'.$item_slug.'")'
+                'logic' => $post_type === 'page'
+                    ? 'is_page("'.$item_slug.'")'
+                    : ($post_type === 'bricks_template'
+                        ? '\Microthemer\has_template("bricks", '.$item_id.', "'.$item->post_title.'")'
+                        : 'is_single("'.$item_slug.'")'),
 				//'all' => $item, // debug
 				//'config' => array_merge($common_config, array('post_type'=> $post_type))
 			);
@@ -9954,16 +9913,39 @@ class Admin {
 				return false;
 		}
 
-		// Create new file if it doesn't already exist
+        // json file
 		$json_file = $this->micro_root_dir.$theme.'/config.json';
-		$task = 'updated';
+        $task = file_exists($json_file) ? 'updated' : 'created';
+
+        // simple test - the json file was not being overwritten for one user, so delete if it exists
+        if ($task === 'updated'){
+            unlink($json_file);
+        }
+
+		// Create new file if it doesn't already exist
 		if (!file_exists($json_file)) {
-			$task = 'created';
+
+            // create directory if it doesn't exist - not doing so caused fopen issues after pack delete,
+            // unless page refreshed
+			$dir = dirname($json_file);
+            if (!is_dir($dir)){
+	            if ( !wp_mkdir_p($dir) ) {
+		            $this->log(
+			            esc_html__('/micro-themes/'.$theme.' create directory error', 'microthemer'),
+			            '<p>' . sprintf(
+				            esc_html__('WordPress was not able to create the directory: %s', 'microthemer'),
+				            $this->root_rel($dir)
+			            ) . $this->permissionshelp . '</p>'
+		            );
+		            return false;
+	            }
+            }
+
 			if (!$write_file = @fopen($json_file, 'w')) { // this creates a blank file for writing
 				$this->log(
 					esc_html__('Create json error', 'microthemer'),
 					'<p>' . esc_html__('WordPress does not have permission to create: ', 'microthemer')
-					. $this->root_rel($json_file) . '. '.$this->permissionshelp.'</p>'
+					. $this->root_rel($json_file) . $this->permissionshelp.'</p>'
 				);
 				return false;
 			}
@@ -10029,7 +10011,7 @@ class Admin {
 			$json_data['non_section']['exported_preferences'] = $preferences;
 		}
 
-		// set handcoded css to nothing if not marked for export
+		// set hand-coded css to nothing if not marked for export
 		if ( empty($this->serialised_post['export_sections']['hand_coded_css'])) {
 			$json_data['non_section']['hand_coded_css'] = '';
 		}
@@ -10081,8 +10063,6 @@ class Admin {
 				'<p>' . esc_html__('WordPress failed to convert your settings into json.', 'microthemer') . '</p>'
 			);
 		}
-
-
 
 		return $theme; // sanitised theme name
 	}
@@ -11277,13 +11257,18 @@ class Admin {
 		$error = false;
 		// loop through files if they exist
 		if (is_array($this->file_structure[$dir_name])) {
-			foreach ($this->file_structure[$dir_name] as $file => $junk) {
+			foreach ($this->file_structure[$dir_name] as $file => $oneOrFileName) {
+
+                // there is an odd inconsistency with screenshot key referring to a filename
+                // rather than the key being the file name
+				$file = $oneOrFileName == 1 ? $file : $oneOrFileName;
+
 				if (!unlink($this->micro_root_dir . $dir_name.'/'.$file)) {
 					$this->log(
 						esc_html__('File delete error', 'microthemer'),
 						'<p>' . esc_html__('Unable to delete: ', 'microthemer') .
 						$this->root_rel($this->micro_root_dir .
-						                $dir_name.'/'.$file) . print_r($this->file_structure[$dir_name], true). '</p>'
+						                $dir_name.'/'.$file) . print_r($this->file_structure, true). '</p>'
 					);
 					$error = true;
 				}
@@ -11324,6 +11309,8 @@ class Admin {
 				if (!$this->savePreferences($pref_array)) {
 					// not much cause for a message
 				}
+
+
 				if ($error){
 					return false;
 				} else {
@@ -11653,13 +11640,13 @@ DateCreated: '.date('Y-m-d').'
 			case 1:
 				$this->log(
 					esc_html__('File upload limit reached', 'microthemer'),
-					'<p>' . esc_html__('The file you uploaded exceeded your "upload_max_filesize" limit. This is a PHP setting on your server.', 'microthemer') . '</p>'
+					'<p>' . esc_html__('The file you uploaded reached your "upload_max_filesize" limit. This is a PHP setting on your server.', 'microthemer') . '</p>'
 				);
 				break;
 			case 2:
 				$this->log(
 					esc_html__('File size too big', 'microthemer'),
-					'<p>' . esc_html__('The file you uploaded exceeded your "max_file_size" limit. This is a PHP setting on your server.', 'microthemer') . '</p>'
+					'<p>' . esc_html__('The file you uploaded reached your "max_file_size" limit. This is a PHP setting on your server.', 'microthemer') . '</p>'
 				);
 				break;
 			case 3:

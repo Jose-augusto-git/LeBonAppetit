@@ -460,3 +460,26 @@ function wpforms_get_field_required_label() {
 
 	return apply_filters( 'wpforms_get_field_required_label', $label_html );
 }
+
+/**
+ * Escape unselected choices for radio/checkbox fields.
+ *
+ * @since 1.8.3
+ *
+ * @param string $formatted_field HTML field.
+ *
+ * @return string
+ */
+function wpforms_esc_unselected_choices( $formatted_field ) {
+
+	$allowed_html = wp_kses_allowed_html( 'post' );
+
+	$allowed_html['input'] = [
+		'type'     => [],
+		'disabled' => [],
+		'checked'  => [],
+	];
+	$allowed_html['label'] = [];
+
+	return wp_kses( $formatted_field, $allowed_html );
+}

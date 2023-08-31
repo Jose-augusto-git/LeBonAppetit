@@ -68,7 +68,7 @@ if ( ! class_exists( 'UAGB_Rest_API' ) ) {
 			$tab_styling_css  = '';
 			$mob_styling_css  = '';
 			$UAGB_Post_Assets = new UAGB_Post_Assets( get_the_ID() );
-			
+
 			$assets = $UAGB_Post_Assets->get_block_css_and_js( $block );
 
 			$desktop_css = isset( $assets['css']['desktop'] ) ? $assets['css']['desktop'] : '';
@@ -87,27 +87,30 @@ if ( ! class_exists( 'UAGB_Rest_API' ) ) {
 
 			$block_css_style = $desktop_css . $tab_styling_css . $mob_styling_css;
 
-			if ( empty( $block_css_style ) ) {
+			if ( empty( $block_css_style ) || empty( $block['attrs'] ) || ! is_array( $block['attrs'] ) ) {
 				return $block;
 			}
 
 			// This line of code creates a new array named $font_family_attrs by searching through the keys of an existing array.
 			$font_family_attrs = preg_grep( '/fontfamily/i', array_keys( $block['attrs'] ) );
 			$link_tag_list     = '';
-			
-			foreach ( $font_family_attrs as $attr ) {
-				if ( ! empty( $block['attrs'][ $attr ] ) ) {
-					// Get the font family value and construct the Google Fonts URL.
-					$gfont_url = 'https://fonts.googleapis.com/css?family=' . urlencode( $block['attrs'][ $attr ] );
-					// Create a link tag for the stylesheet with the constructed URL.
-					$link_tag_list .= '<link rel="stylesheet" href="' . esc_url( $gfont_url ) . '" media="all">';
+
+			if ( ! empty( $font_family_attrs ) && is_array( $font_family_attrs ) ) {
+				foreach ( $font_family_attrs as $attr ) {
+					if ( ! empty( $block['attrs'][ $attr ] ) ) {
+						// Get the font family value and construct the Google Fonts URL.
+						$gfont_url = 'https://fonts.googleapis.com/css?family=' . urlencode( $block['attrs'][ $attr ] );
+						// Create a link tag for the stylesheet with the constructed URL.
+						$link_tag_list .= '<link rel="stylesheet" href="' . esc_url( $gfont_url ) . '" media="all">';
+					}
 				}
 			}
 
-			$style = '<style class="uagb-widgets-style-renderer">' . $block_css_style . '</style>';
-			$style = $style . $link_tag_list;
+				$style = '<style class="uagb-widgets-style-renderer">' . $block_css_style . '</style>';
+				$style = $style . $link_tag_list;
 
-			array_push( $block['innerContent'], $style );
+				array_push( $block['innerContent'], $style );
+
 			return $block;
 		}
 
@@ -170,14 +173,19 @@ if ( ! class_exists( 'UAGB_Rest_API' ) ) {
 				}
 			}
 
+			$unique_ids = get_option( '_uagb_fse_uniqids' );
+			if ( ! empty( $unique_ids ) && is_array( $unique_ids ) ) {
+				foreach ( $unique_ids as $id ) {
+					delete_post_meta( (int) $id, '_uag_page_assets' );
+				}
+			}
 			delete_post_meta( $post_id, '_uag_page_assets' );
 			delete_post_meta( $post_id, '_uag_css_file_name' );
 			delete_post_meta( $post_id, '_uag_js_file_name' );
 
 			$does_post_contain_reusable_blocks = $this->does_post_contain_reusable_blocks( $post_id );
 
-			if ( true === $does_post_contain_reusable_blocks ) {
-
+			if ( true === $does_post_contain_reusable_blocks || 'wp_block' === $current_post_type ) {
 				/* Update the asset version */
 				update_option( '__uagb_asset_version', time() );
 			}
@@ -363,7 +371,7 @@ if ( ! class_exists( 'UAGB_Rest_API' ) ) {
 		 */
 		public function get_items_permissions_check( $request ) {
 
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! current_user_can( 'edit_posts' ) ) {
 				return new \WP_Error( 'uag_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'ultimate-addons-for-gutenberg' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 

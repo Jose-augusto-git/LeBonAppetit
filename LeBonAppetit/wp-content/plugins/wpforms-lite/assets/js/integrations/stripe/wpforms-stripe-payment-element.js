@@ -60,9 +60,9 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 				}
 			);
 
-			app.initializeFormsDefaultObject();
-
 			$( document ).on( 'wpformsReady', function() {
+
+				app.initializeFormsDefaultObject();
 
 				$( '.wpforms-stripe form' ).each( app.setupStripeForm );
 
@@ -348,7 +348,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 					},
 					'.Label': {
 						fontFamily: inputStyle.fontFamily,
-						lineHeight: '1.3',
+						lineHeight: labelHide ? '1.3' : '0',
 						opacity: Number( labelHide ),
 						color: '#000000',
 					},
@@ -420,10 +420,10 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 
 				$fieldRow.data( 'type', event.value.type );
 
-				$fieldRow.find( 'label.wpforms-error' ).toggle( event.value.type === 'card' );
-
 				if ( event.empty ) {
 					$fieldRow.data( 'completed', false );
+
+					$fieldRow.find( 'label.wpforms-error' ).toggle( event.value.type === 'card' );
 
 					return;
 				}
@@ -432,6 +432,8 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 
 				if ( event.complete ) {
 					$fieldRow.data( 'completed', true );
+
+					app.hideStripeFieldError( $form );
 
 					return;
 				}
@@ -554,6 +556,8 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 				}
 
 				$fieldRow.data( 'linkCompleted', true );
+
+				app.hideStripeFieldError( $form );
 			} );
 
 			app.forms[ formId ].linkElement.on( 'loaderror', function( event ) {
@@ -753,13 +757,27 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 				$stripeDiv = $form.find( '.wpforms-field-stripe-credit-card' ),
 				errors = {};
 
-			errors[fieldName] = message;
+			if ( message ) {
+				errors[fieldName] = message;
+			}
 
 			wpforms.displayFormAjaxFieldErrors( $form, errors );
 
 			wpforms.scrollToError( $stripeDiv );
 
 			app.formAjaxUnblock( $form );
+		},
+
+		/**
+		 * Hide a field error.
+		 *
+		 * @param {jQuery} $form Form element.
+		 *
+		 * @since 1.8.2.3
+		 */
+		hideStripeFieldError: function( $form ) {
+
+			$form.find( '.wpforms-field-stripe-credit-card .wpforms-error' ).hide();
 		},
 
 		/**
@@ -793,11 +811,11 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 
 			let	formId = $form.data( 'formid' );
 
-			if ( ! $stripeDiv.length || app.forms[ formId ].paymentType !== 'card' ) {
+			if ( ! $stripeDiv.length || [ 'card', 'link' ].indexOf( app.forms[ formId ].paymentType ) === -1 ) {
 				return;
 			}
 
-			if ( ! app.forms[ formId ].elementsModified ) {
+			if ( ! app.forms[ formId ].elementsModified && app.forms[ formId ].paymentType === 'card' ) {
 				app.forms[ formId ].paymentElement.unmount();
 				app.mountPaymentElement( $form );
 
@@ -820,7 +838,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 			const linkCompleted = typeof $stripeDiv.data( 'linkCompleted' ) !== 'undefined' ? $stripeDiv.data( 'linkCompleted' ) : true;
 
 			if ( $stripeDiv.data( 'completed' ) && linkCompleted ) {
-				$stripeDiv.find( '.wpforms-error' ).hide();
+				app.hideStripeFieldError( $form );
 
 				return;
 			}
@@ -978,6 +996,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 					margin: `0 0 ${cssVars['field-size-sublabel-spacing']} 0`,
 					color: cssVars['label-sublabel-color'],
 					opacity: Number( Boolean( appearance?.sublabelHide ) ),
+					lineHeight : appearance?.sublabelHide ? 'inherit' : '0',
 				},
 				'.Error': {
 					fontSize: cssVars['label-size-sublabel-font-size'],

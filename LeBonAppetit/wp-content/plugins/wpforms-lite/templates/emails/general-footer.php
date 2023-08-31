@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<tr>
 					<td align="center" valign="top" class="footer">
 						<?php
-						/* translators: %s - link to a site. */
+						/* translators: %s - link to the site. */
 						printf( esc_html__( 'Sent from %s', 'wpforms-lite' ), '<a href="' . esc_url( home_url() ) . '">' . esc_html( wp_specialchars_decode( get_bloginfo( 'name' ) ) ) . '</a>' );
 						?>
 					</td>

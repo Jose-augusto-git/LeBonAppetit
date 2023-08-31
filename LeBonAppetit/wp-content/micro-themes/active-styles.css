@@ -19,6 +19,14 @@
 #block-134 .is-style-default {
 	width: 200px !important;
 	margin-top: 50px !important;
+	margin-left: 50px !important;
+	position: absolute !important;
+}
+
+/** Geral >> Column **/
+.wp-container-12 .wp-block-column {
+	width: 0 !important;
+	margin-top: -50px !important;
 }
 
 
@@ -32,26 +40,65 @@
 
 /** Rodapé >> Block 90 _2 **/
 #block-90 {
-	position: absolute !important;
+	position: static !important;
 	left: 500px !important;
+	float: none !important;
 }
 
-/** Rodapé >> Colophon site primary footer inner wrap **/
-#colophon .site-primary-footer-inner-wrap {
+/** Rodapé >> Block 33 uagb ifb desc **/
+#block-33 .uagb-ifb-desc {
+	position: relative !important;
+}
+
+/** Rodapé >> Uagb ifb title wrap **/
+.uagb-block-89ad24f7 .uagb-ifb-title-wrap {
+	/* MT [ google_font: 1 ] */
+	font-family: 'Merriweather' !important;
+	margin-top: 0 !important;
+}
+#content .ast-container {
+	font-family: 'Merriweather' !important;
+}
+.span.cardapio-preco {
+	color: #FFE65A !important;
+	font-weight: bold !important;
+}
+
+/** Rodapé >> Block 46 uagb ifb desc **/
+#block-46 .uagb-ifb-desc {
 	
+}
+#colophon .uagb-google-map__iframe {
+	
+}
+
+/** Rodapé >> Uagb block 2d3a2b6f **/
+#post-23 .uagb-block-2d3a2b6f {
+	padding-top: 50px !important;
+	padding-bottom: 50px !important;
+}
+
+/** Rodapé >> Uagb ifb desc **/
+#post-25 .uagb-ifb-desc {
+	/* MT [ google_font: 1 ] */
+	font-family: 'Merriweather' !important;
+	margin-top: 0 !important;
+}
+#content .ast-container {
+	font-family: 'Merriweather' !important;
+}
+.cardapio-preco {
+	color: #cbb84a !important;
+	font-weight: bold !important;
+}
+.titulo-cardapio {
+	font-weight: bold !important;
+	text-transform: uppercase !important;
 }
 
 
 /*( < 1200 )*/
 @media (max-width: 1199.98px) {
-
-	/*= Geral ===================== */
-
-	/** Geral >> Post 23 wp block button link **/
-	#post-23 .wp-block-button__link {
-	
-}
-
 	/** Geral >> Post 23 wp block button link (:hover) **/
 	#post-23 .wp-block-button__link:hover {
 	color: #fff !important;
@@ -62,6 +109,42 @@
 	font-family: Berkshire Swash !important;
 }
 
+}
+
+
+/*( < 980 )*/
+@media (max-width: 979.98px) {
+	/** Geral >> Block 134 is style default **/
+	#block-134 .is-style-default {
+	display: none !important;
+}
+
+	/** Rodapé >> Block 46 uagb ifb desc **/
+	#block-46 .uagb-ifb-desc {
+	
+}
+#colophon .uagb-google-map__iframe {
+	display: none !important;
+}
+
+}
+
+
+/*( < 480 )*/
+@media (max-width: 479.98px) {
+	/** Rodapé >> Uagb ifb title wrap **/
+	.uagb-block-89ad24f7 .uagb-ifb-title-wrap {
+	
+}
+.uagb-ifb-title-prefix {
+	font-size: 70px !important;
+	text-align: center !important;
+	line-height: 1 !important;
+	font-size: 25px !important;
+}
+.wp-block-uagb-container.uagb-block-9072aa4c {
+	display: none !important;
+}
 
 }
 

@@ -230,7 +230,7 @@ trait FormTemplates {
 		}
 
 		$template_license = ! empty( $template['license'] ) ? $template['license'] : '';
-		$template_name    = sprintf( /* translators: %s - Form template name. */
+		$template_name    = sprintf( /* translators: %s - form template name. */
 			esc_html__( '%s template', 'wpforms-lite' ),
 			esc_html( $template['name'] )
 		);

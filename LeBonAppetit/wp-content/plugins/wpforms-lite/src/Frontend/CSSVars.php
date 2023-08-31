@@ -313,4 +313,68 @@ class CSSVars {
 
 		return $result;
 	}
+
+	/**
+	 * Get customized CSS vars.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param array $attr Attributes passed by integration.
+	 *
+	 * @return array
+	 */
+	public function get_customized_css_vars( $attr ) {
+
+		$root_css_vars = $this->get_vars( ':root' );
+		$css_vars      = [];
+
+		foreach ( $attr as $key => $value ) {
+
+			$var_name = strtolower( preg_replace( '/[A-Z]/', '-$0', $key ) );
+
+			// Skip attribute that is not the CSS var or has the default value.
+			if ( empty( $root_css_vars[ $var_name ] ) || $root_css_vars[ $var_name ] === $value ) {
+				continue;
+			}
+
+			$css_vars[ $var_name ] = $value;
+		}
+
+		$css_vars = array_merge(
+			$css_vars,
+			$this->get_size_css_vars( $attr, $css_vars )
+		);
+
+		return $css_vars;
+	}
+
+	/**
+	 * Get size CSS vars.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param array $attr     Attributes passed by integration.
+	 * @param array $css_vars Current CSS vars.
+	 *
+	 * @return array
+	 */
+	private function get_size_css_vars( $attr, $css_vars ) {
+
+		$size_items = [ 'field', 'label', 'button' ];
+
+		foreach ( $size_items as $item ) {
+
+			$item_attr     = $item . 'Size';
+			$item_key      = $item . '-size';
+			$item_constant = 'self::' . strtoupper( $item ) . '_SIZE';
+
+			if ( empty( $attr[ $item_attr ] ) ) {
+				continue;
+			}
+
+			$css_vars += $this->get_complex_vars( $item_key, constant( $item_constant )[ $attr[ $item_attr ] ] );
+		}
+
+		return $css_vars;
+	}
 }

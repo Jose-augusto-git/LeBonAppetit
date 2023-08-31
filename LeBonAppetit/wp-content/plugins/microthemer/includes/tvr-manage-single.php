@@ -76,7 +76,8 @@ require_once('common-inline-assets.php');
 
 			<div class="summary-text">
 				<?php
-				$h2 = '<div class="title-text">' . $this->readable_name($this->preferences['theme_in_focus']);
+                $readableName = $this->readable_name($this->preferences['theme_in_focus']);
+				$h2 = '<div class="title-text">' . $readableName;
 				// version
 				if (!empty($meta_info['Version'])) {
 					$h2.=' <span class="version">'.$meta_info['Version'] . '</span>';
@@ -139,7 +140,7 @@ require_once('common-inline-assets.php');
 						}
 						?>
                         <li class="pack-action <?php echo $class; ?> pack-action-<?php echo $button; ?>"
-                            rel="<?php echo $button; ?>" data-dir-name="<?php echo $this->preferences['theme_in_focus']; ?>">
+                            rel="<?php echo $button; ?>" data-dir-name="<?php echo $this->preferences['theme_in_focus']; ?>" data-dir-label="<?php echo $readableName; ?>">
                             <span class="pack-icon icon tvr-icon"></span>
                             <span class="action-text"><?php echo $button; ?></span>
                         </li>

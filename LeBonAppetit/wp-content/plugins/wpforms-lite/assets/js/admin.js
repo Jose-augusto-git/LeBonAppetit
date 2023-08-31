@@ -152,6 +152,27 @@
 
 			// Action available for each binding.
 			$( document ).trigger( 'wpformsReady' );
+
+			// Start listening for screen options changes.
+			$( '#screen-options-wrap .hide-column-tog' ).on( 'change', WPFormsAdmin.handleOnChangeScreenOptions );
+		},
+
+		/**
+		 * For styling purposes, we will add a dedicated class name for determining the number of visible columns.
+		 *
+		 * @since 1.8.3
+		 */
+		handleOnChangeScreenOptions: function() {
+
+			const $table         = $( '.wpforms-table-list' );
+			const $columns       = $table.find( 'thead .manage-column' );
+			const $hidden        = $columns.filter( '.hidden' );
+			const hasManyColumns = Boolean( ( $columns.length - $hidden.length ) > 5 );
+
+			// This is used to adjust the table layout.
+			// Add a class to the table to indicate the number of columns.
+			$table.toggleClass( 'has-many-columns', hasManyColumns );
+			$table.toggleClass( 'has-few-columns', ! hasManyColumns );
 		},
 
 		/**
@@ -375,11 +396,11 @@
 
 				event.preventDefault();
 
-				var $this  = $( this ),
-					task   = '',
-					total  = Number( $( '#wpforms-entries-list .starred-num' ).text() ),
-					id     = $this.data( 'id' ),
-					formId = $this.data( 'form-id' );
+				const $this    = $( this );
+				const $counter = $( '#wpforms-entries-list .starred-num' );
+
+				let task  = '';
+				let total = Number( $counter.text() );
 
 				if ( $this.hasClass( 'star' ) ) {
 					task = 'star';
@@ -390,16 +411,21 @@
 					total--;
 					$this.attr( 'title', wpforms_admin.entry_star );
 				}
-				$this.toggleClass( 'star unstar' );
-				$( '#wpforms-entries-list .starred-num' ).text( total );
 
-				var data = {
+				$this.toggleClass( 'star unstar' );
+
+				if ( ! $this.parents( 'table' ).hasClass( 'wpforms-entries-table-spam' ) ) {
+					$counter.text( total );
+				}
+
+				const data = {
 					task    : task,
 					action  : 'wpforms_entry_list_star',
 					nonce   : wpforms_admin.nonce,
-					entryId : id,
-					formId  : formId,
+					entryId : $this.data( 'id' ),
+					formId  : $this.data( 'form-id' ),
 				};
+
 				$.post( wpforms_admin.ajax_url, data );
 			} );
 
@@ -408,10 +434,11 @@
 
 				event.preventDefault();
 
-				var $this = $( this ),
-					task  = '',
-					total = Number( $( '#wpforms-entries-list .unread-num' ).text() ),
-					id    = $this.data( 'id' );
+				const $this    = $( this );
+				const $counter = $( '#wpforms-entries-list .unread-num' );
+
+				let task  = '';
+				let total = Number( $counter.text() );
 
 				if ( $this.hasClass( 'read' ) ) {
 					task = 'read';
@@ -422,16 +449,21 @@
 					total++;
 					$this.attr( 'title', wpforms_admin.entry_read );
 				}
-				$this.toggleClass( 'read unread' );
-				$( '#wpforms-entries-list .unread-num' ).text( total );
 
-				var data = {
+				$this.toggleClass( 'read unread' );
+
+				if ( ! $this.parents( 'table' ).hasClass( 'wpforms-entries-table-spam' ) ) {
+					$counter.text( total );
+				}
+
+				const data = {
 					task    : task,
 					action  : 'wpforms_entry_list_read',
 					nonce   : wpforms_admin.nonce,
-					entryId : id,
+					entryId : $this.data( 'id' ),
 					formId  : $this.data( 'form-id' ),
 				};
+
 				$.post( wpforms_admin.ajax_url, data );
 			} );
 
@@ -1272,7 +1304,7 @@
 				$this
 					.parent()
 					.find( '.wpforms-settings-provider-accounts' )
-					.stop()
+					.stop( false, true )
 					.slideToggle( '', function() {
 						$this.parent().find( '.wpforms-settings-provider-logo i' ).toggleClass( 'fa-chevron-right fa-chevron-down' );
 					} );

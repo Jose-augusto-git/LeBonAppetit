@@ -15,10 +15,12 @@ class WPForms_Field_Textarea extends WPForms_Field {
 	public function init() {
 
 		// Define field type information.
-		$this->name  = esc_html__( 'Paragraph Text', 'wpforms-lite' );
-		$this->type  = 'textarea';
-		$this->icon  = 'fa-paragraph';
-		$this->order = 50;
+		$this->name     = esc_html__( 'Paragraph Text', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'textarea', 'wpforms-lite' );
+		$this->type     = 'textarea';
+		$this->icon     = 'fa-paragraph';
+		$this->order    = 50;
+
 		add_action( 'wpforms_frontend_js', [ $this, 'frontend_js' ] );
 	}
 

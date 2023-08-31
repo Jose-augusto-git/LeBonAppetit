@@ -46,7 +46,7 @@ trait ContentTrait {
 
 		$content  = '<p class="wpforms-alert wpforms-alert-info">';
 		$content .= sprintf(
-			wp_kses( /* translators: %s - Admin area Payments settings page URL. */
+			wp_kses( /* translators: %s - admin area Payments settings page URL. */
 				__( 'Heads up! Stripe payments can\'t be enabled yet. First, please connect to your Stripe account on the <a href="%s">WPForms Settings</a> page.', 'wpforms-lite' ),
 				[
 					'a' => [

@@ -59,7 +59,7 @@ class DefaultContent implements IntegrationInterface {
 		$content['posts']['contact']['post_content'] .= sprintf(
 			$format,
 			wp_kses(
-				sprintf( /* translators: %s - The WPForms Overview page URL. */
+				sprintf( /* translators: %s - forms overview page URL. */
 					_x( 'Create your <a href="%s" target="_blank" rel="noopener noreferrer">contact form</a> with WPForms in minutes.', 'Theme starter content', 'wpforms-lite' ),
 					esc_url( admin_url( 'admin.php?page=wpforms-overview' ) )
 				),

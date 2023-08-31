@@ -157,7 +157,7 @@ function wpforms_admin_scripts() {
 		'addon_inactive'                  => esc_html__( 'Inactive', 'wpforms-lite' ),
 		'addon_install'                   => esc_html__( 'Install Addon', 'wpforms-lite' ),
 		'addon_error'                     => sprintf(
-			wp_kses( /* translators: %1$s - An addon download URL, %2$s - Link to manual installation guide. */
+			wp_kses( /* translators: %1$s - addon download URL, %2$s - link to manual installation guide. */
 				__( 'Could not install the addon. Please <a href="%1$s" target="_blank" rel="noopener noreferrer">download it from wpforms.com</a> and <a href="%2$s" target="_blank" rel="noopener noreferrer">install it manually</a>.', 'wpforms-lite' ),
 				[
 					'a' => [
@@ -254,7 +254,7 @@ function wpforms_admin_scripts() {
 		'success'                         => esc_html__( 'Success', 'wpforms-lite' ),
 		'loading'                         => esc_html__( 'Loading...', 'wpforms-lite' ),
 		'use_simple_contact_form'         => esc_html__( 'Use Simple Contact Form Template', 'wpforms-lite' ),
-		'error_select_template'           => esc_html__( 'Something went wrong while applying the template.', 'wpforms-lite' ),
+		'error_select_template'           => esc_html__( 'Please close the form builder and try again. If the error persists, contact our support team.', 'wpforms-lite' ),
 		'payment_delete_confirm'          => esc_html__( 'Are you sure you want to delete this payment and all its information (details, notes, logs, etc.)?', 'wpforms-lite' ),
 	];
 
@@ -598,7 +598,7 @@ function wpforms_get_upgrade_modal_text( $type = 'pro' ) {
 			'</p>' .
 			'<p>' .
 			sprintf(
-				wp_kses( /* translators: %s - WPForms.com upgrade license docs page URL. */
+				wp_kses( /* translators: %s - WPForms.com upgrade from Lite to paid docs page URL. */
 					__( 'Check out <a href="%s" target="_blank" rel="noopener noreferrer">our documentation</a> for step-by-step instructions.', 'wpforms-lite' ),
 					[
 						'a' => [

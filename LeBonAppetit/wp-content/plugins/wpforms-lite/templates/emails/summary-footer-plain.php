@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 echo "\n---\n\n";
-printf( /* translators: %s - link to a site. */
+printf( /* translators: %s - link to the site. */
 	esc_html__( 'This email was auto-generated and sent from %s.', 'wpforms-lite' ),
 	esc_html( wp_specialchars_decode( get_bloginfo( 'name' ) ) )
 );

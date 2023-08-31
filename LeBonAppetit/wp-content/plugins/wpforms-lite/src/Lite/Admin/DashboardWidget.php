@@ -21,38 +21,54 @@ class DashboardWidget extends Widget {
 	public $settings;
 
 	/**
-	 * Constructor.
-	 *
-	 * @since 1.5.0
-	 */
-	public function __construct() {
-
-		add_action( 'admin_init', [ $this, 'init' ] );
-	}
-	/**
 	 * Init class.
 	 *
 	 * @since 1.5.5
 	 */
-	public function init() {
+	public function init() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+
+		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+		/**
+		 * Allow disabling the widget.
+		 *
+		 * @since 1.5.1
+		 *
+		 * @param bool $load Should the widget be loaded?
+		 */
+		if ( ! apply_filters( 'wpforms_admin_dashboardwidget', true ) ) {
+			return;
+		}
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
+
+		add_action( 'wpforms_process_complete', [ static::class, 'clear_widget_cache' ] );
+		add_action( 'admin_init', [ $this, 'admin_init' ] );
+	}
+
+	/**
+	 * Admin init class.
+	 *
+	 * @since 1.8.3
+	 */
+	public function admin_init() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		// This widget should be displayed for certain high-level users only.
-		if ( ! wpforms_current_user_can() ) {
+		if ( ! wpforms_current_user_can( 'view_forms' ) ) {
 			return;
 		}
 
-		global $pagenow;
+		add_action( 'wpforms_create_form', [ static::class, 'clear_widget_cache' ] );
+		add_action( 'wpforms_save_form', [ static::class, 'clear_widget_cache' ] );
+		add_action( 'wpforms_delete_form', [ static::class, 'clear_widget_cache' ] );
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		$is_admin_page   = $pagenow === 'index.php' && empty( $_GET['page'] );
-		$is_ajax_request = wp_doing_ajax() && isset( $_REQUEST['action'] ) && strpos( sanitize_key( $_REQUEST['action'] ), 'wpforms_dash_widget' ) !== false;
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+		/**
+		 * Clear cache after Lite plugin deactivation.
+		 *
+		 * Also triggered when the user upgrades plugin to the Pro version.
+		 * After activation of the Pro version the cache will be cleared.
+		 */
+		add_action( 'deactivate_wpforms-lite/wpforms.php', [ static::class, 'clear_widget_cache' ] );
 
-		if ( ! $is_admin_page && ! $is_ajax_request ) {
-			return;
-		}
-
-		if ( ! apply_filters( 'wpforms_admin_dashboardwidget', true ) ) {
+		if ( ! $this->is_dashboard_page() && ! $this->is_dashboard_widget_ajax_request() ) {
 			return;
 		}
 
@@ -100,11 +116,6 @@ class DashboardWidget extends Widget {
 		add_action( 'wp_dashboard_setup', [ $this, 'widget_register' ] );
 		add_action( 'admin_init', [ $this, 'hide_widget' ] );
 		add_action( "wp_ajax_wpforms_{$widget_slug}_save_widget_meta", [ $this, 'save_widget_meta_ajax' ] );
-
-		add_action( 'wpforms_create_form', [ static::class, 'clear_widget_cache' ] );
-		add_action( 'wpforms_save_form', [ static::class, 'clear_widget_cache' ] );
-		add_action( 'wpforms_delete_form', [ static::class, 'clear_widget_cache' ] );
-		add_action( 'wpforms_process_entry_save', [ static::class, 'clear_widget_cache' ] );
 	}
 
 	/**

@@ -446,7 +446,7 @@ abstract class FormBuilder implements FormBuilderInterface {
 				 */
 				echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					"wpforms_providers_provider_settings_formbuilder_display_content_default_screen_{$slug}",
-					sprintf( /* translators: %s - Provider name. */
+					sprintf( /* translators: %s - provider name. */
 						'<p>' . esc_html__( 'Get the most out of WPForms &mdash; use it with an active %s account.', 'wpforms-lite' ) . '</p>',
 						esc_html( $name )
 					)

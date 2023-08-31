@@ -16,6 +16,7 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 
 		// Define field type information.
 		$this->name     = esc_html__( 'Checkboxes', 'wpforms-lite' );
+		$this->keywords = esc_html__( 'choice', 'wpforms-lite' );
 		$this->type     = 'checkbox';
 		$this->icon     = 'fa-check-square-o';
 		$this->order    = 110;

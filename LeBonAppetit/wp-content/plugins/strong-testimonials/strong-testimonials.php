@@ -5,7 +5,7 @@
  * Description: Collect and display your testimonials or reviews.
  * Author: WPChill
  * Author URI: https://wpchill.com/
- * Version: 3.1.7
+ * Version: 3.1.8
  * Text Domain: strong-testimonials
  * Domain Path: /languages
  * Requires: 4.6 or higher
@@ -45,12 +45,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPMTST_VERSION', '3.1.7' );
+define( 'WPMTST_VERSION', '3.1.8' );
 
 define( 'WPMTST_PLUGIN', plugin_basename( __FILE__ ) ); // strong-testimonials/strong-testimonials.php
 define( 'WPMTST', dirname( WPMTST_PLUGIN ) );           // strong-testimonials
 define( 'WPMTST_LOGS', wp_upload_dir()['basedir'] . '/st-logs/' );
 defined( 'WPMTST_STORE_URL' ) || define( 'WPMTST_STORE_URL', 'https://strongtestimonials.com/' );
+defined( 'WPMTST_ALT_STORE_URL' ) || define( 'WPMTST_ALT_STORE_URL', 'https://license.wpchill.com/strongtestimonials/' );
 defined( 'WPMTST_STORE_UPGRADE_URL' ) || define( 'WPMTST_STORE_UPGRADE_URL', 'https://strongtestimonials.com/pricing' );
 
 if ( ! class_exists( 'Strong_Testimonials' ) ) :
@@ -154,9 +155,41 @@ if ( ! class_exists( 'Strong_Testimonials' ) ) :
 		/**
 		 * Plugin activation
 		 */
-		static function plugin_activation() {
+		static function plugin_activation( $network_wide = false ) {
+
 			$first_install = ! get_option( 'wpmtst_db_version' ) ? true : false;
-			wpmtst_update_tables();
+
+			// check if
+			if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+			}
+
+			// check if it's multisite.
+			if ( is_multisite() && true === $network_wide ) {
+
+				// get websites
+				$sites = get_sites();
+
+				// loop
+				if ( count( $sites ) > 0 ) {
+					foreach ( $sites as $site ) {
+
+						// switch to blog
+						switch_to_blog( $site->blog_id );
+
+						// run installer on blog
+						wpmtst_update_tables();
+
+						// restore current blog
+						restore_current_blog();
+					}
+				}
+
+			} else {
+				// no multisite so do normal install
+				wpmtst_update_tables();
+			}
+
 			wpmtst_register_cpt();
 			flush_rewrite_rules();
 
@@ -170,6 +203,31 @@ if ( ! class_exists( 'Strong_Testimonials' ) ) :
 					$extensions = $license->get_installed_extensions();
 					$license->force_license_activation( false, $extensions, 'activate-st' );
 				}
+			}
+		}
+
+
+		/**
+		 * Run installer for new blogs on multisite when plugin is network activated
+		 *
+		 * @param array $site Blog - WP_Site object.
+		 * @param array $args Arguments.
+		 *
+		 * @since 3.1.8
+		 */
+		static function mu_new_blog( $site, $args ) {
+
+			// check if plugin is network activated.
+			if ( is_plugin_active_for_network( 'strong-testimonials/strong-testimonials.php' ) ) {
+
+				// switch to new blog
+				switch_to_blog( $site->blog_id );
+
+				// run installer on blog
+				wpmtst_update_tables();
+
+				// restore current blog
+				restore_current_blog();
 			}
 		}
 
@@ -325,7 +383,6 @@ if ( ! class_exists( 'Strong_Testimonials' ) ) :
 				require_once WPMTST_ADMIN . 'view-list-order.php';
 				require_once WPMTST_ADMIN . 'views-validate.php';
 
-
 				require_once WPMTST_INC . 'class-strong-testimonials-order.php';
 
 				// Uninstall form
@@ -354,6 +411,7 @@ if ( ! class_exists( 'Strong_Testimonials' ) ) :
 		 */
 		private function add_actions() {
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+			add_action( 'plugins_loaded', array( $this, 'remove_license_tab' ) );
 
 			/**
 			 * Plugin setup.
@@ -373,14 +431,6 @@ if ( ! class_exists( 'Strong_Testimonials' ) ) :
 
 			add_filter( 'views_edit-wpm-testimonial', array( $this, 'add_onboarding_view' ), 10, 1 );
 
-			// Remove license tab added by premium extensions.
-			if ( class_exists( 'Strong_Testimonials_Settings_License' ) ) {
-				remove_action( 'wpmtst_settings_tabs', array(
-					'Strong_Testimonials_Settings_License',
-					'register_tab'
-				),             90 );
-			}
-
 			// License checker initiation
 			// Need to put store_url like this because it doesn't know who the constant is.
 			$args = array(
@@ -395,6 +445,29 @@ if ( ! class_exists( 'Strong_Testimonials' ) ) :
 
 			require_once WPMTST_INC . 'submodules/license-checker/class-wpchill-license-checker.php';
 			$wpchill_license_checker = Wpchill_License_Checker::get_instance( 'strong-testimonials', $args );
+
+			if ( is_admin() ) {
+				// Check if we need to add lite vs pro page
+				$license = get_option( 'strong_testimonials_license_key' );
+				$status  = get_option( 'strong_testimonials_license_status', false );
+				if ( '' === $license || $status === false || ! isset( $status->license ) || $status->license != 'valid' ) {
+					if ( class_exists( 'Strong_Testimonials_Lite_vs_PRO_page' ) ) {
+						new Strong_Testimonials_Lite_vs_PRO_page();
+					}
+				}
+			}
+		}
+
+		/**
+		 * Remove license tab added by premium extensions.
+		 */
+		public function remove_license_tab(){
+			if ( class_exists( 'Strong_Testimonials_Settings_License' ) ) {
+				remove_action( 'wpmtst_settings_tabs', array(
+					'Strong_Testimonials_Settings_License',
+					'register_tab'
+				),             90 );
+			}
 		}
 
 		/**
@@ -639,27 +712,10 @@ if ( ! class_exists( 'Strong_Testimonials' ) ) :
 
 endif; // class_exists check.
 
-if ( ! class_exists( 'Strong_Testimonials_Usage_Tracker' ) ) {
-	require_once dirname( __FILE__ ) . '/includes/tracking/class-strong-testimonials-usage-tracker.php';
-}
-if ( ! function_exists( 'strong_testimonials_start_plugin_tracking' ) ) {
-	function strong_testimonials_start_plugin_tracking() {
-		$wisdom = new Strong_Testimonials_Usage_Tracker(
-			__FILE__,
-			'https://tracking.strongtestimonials.com',
-			array(),
-			true,
-			true,
-			0
-		);
-	}
-
-	strong_testimonials_start_plugin_tracking();
-}
-
-
 register_activation_hook( __FILE__, array( 'Strong_Testimonials', 'plugin_activation' ) );
 register_deactivation_hook( __FILE__, array( 'Strong_Testimonials', 'plugin_deactivation' ) );
+
+add_action( 'wp_initialize_site', array( 'Strong_Testimonials', 'mu_new_blog' ), 10, 2 );
 
 function WPMST() {
 	return Strong_Testimonials::instance();

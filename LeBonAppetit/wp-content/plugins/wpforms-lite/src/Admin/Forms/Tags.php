@@ -263,7 +263,7 @@ class Tags {
 				__( '<strong>1 form</strong> selected for Bulk Edit.', 'wpforms-lite' ),
 				[ 'strong' => [] ]
 			),
-			'bulk_edit_n_forms'        => wp_kses( /* translators: %d - Number of forms selected for Bulk Edit. */
+			'bulk_edit_n_forms'        => wp_kses( /* translators: %d - number of forms selected for Bulk Edit. */
 				__( '<strong>%d forms</strong> selected for Bulk Edit.', 'wpforms-lite' ),
 				[ 'strong' => [] ]
 			),
@@ -274,7 +274,7 @@ class Tags {
 				__( 'You have <strong>1 tag</strong> selected for deletion.', 'wpforms-lite' ),
 				[ 'strong' => [] ]
 			),
-			'manage_tags_n_tags'       => wp_kses( /* translators: %d - Number of forms selected for Bulk Edit. */
+			'manage_tags_n_tags'       => wp_kses( /* translators: %d - number of forms selected for Bulk Edit. */
 				__( 'You have <strong>%d tags</strong> selected for deletion.', 'wpforms-lite' ),
 				[ 'strong' => [] ]
 			),
@@ -283,7 +283,7 @@ class Tags {
 				[ 'br' => [] ]
 			),
 			'manage_tags_one_deleted'  => esc_html__( '1 tag was successfully deleted.', 'wpforms-lite' ),
-			/* translators: %d - Number of deleted tags. */
+			/* translators: %d - number of deleted tags. */
 			'manage_tags_n_deleted'    => esc_html__( '%d tags were successfully deleted.', 'wpforms-lite' ),
 			'manage_tags_result_title' => esc_html__( 'Almost done!', 'wpforms-lite' ),
 			'manage_tags_result_text'  => esc_html__( 'In order to update the tags in the forms list, please refresh the page.', 'wpforms-lite' ),
@@ -389,7 +389,7 @@ class Tags {
 		}
 
 		return [
-			/* translators: Used between list items, there is a space after the comma. */
+			/* translators: used between list items, there is a space after the comma. */
 			'tags_links'   => implode( __( ', ', 'wpforms-lite' ), $tags_links ),
 			'tags_ids'     => implode( ',', array_filter( $tags_ids ) ),
 			'tags_options' => implode( '', $tags_options ),

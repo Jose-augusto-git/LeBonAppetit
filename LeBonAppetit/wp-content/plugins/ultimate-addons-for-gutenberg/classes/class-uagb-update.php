@@ -41,6 +41,8 @@ if ( ! class_exists( 'UAGB_Update' ) ) :
 		 */
 		public function __construct() {
 			add_action( 'admin_init', array( $this, 'init' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+			add_action( 'in_plugin_update_message-' . UAGB_BASE, array( $this, 'plugin_update_notification' ), 10 );
 		}
 
 		/**
@@ -156,6 +158,54 @@ if ( ! class_exists( 'UAGB_Update' ) ) :
 			if ( UAGB_Helper::is_uag_dir_has_write_permissions() ) {
 				update_option( '_uagb_allow_file_generation', 'enabled' );
 			}
+		}
+
+		/**
+		 * Plugin update notification.
+		 *
+		 * @param array $data Plugin update data.
+		 * @since 2.7.2
+		 * @return void
+		 */
+		public function plugin_update_notification( $data ) {
+			if ( ! empty( $data['upgrade_notice'] ) ) { ?>
+				<hr class="uagb-plugin-update-notification__separator" />
+				<div class="uagb-plugin-update-notification">
+					<div class="uagb-plugin-update-notification__icon">
+						<span class="dashicons dashicons-info"></span>
+					</div>
+					<div>
+						<div class="uagb-plugin-update-notification__title">
+							<?php echo esc_html__( 'Heads up!', 'ultimate-addons-for-gutenberg' ); ?>
+						</div>
+						<div class="uagb-plugin-update-notification__message">
+							<?php
+								printf(
+									wp_kses(
+										$data['upgrade_notice'],
+										array( 'a' => array( 'href' => array() ) )
+									)
+								);
+							?>
+						</div>
+					</div>
+				</div>
+				<?php
+			} //end if
+		}
+
+		/**
+		 * Enqueue styles.
+		 *
+		 * @since 2.7.2
+		 * @return void
+		 */
+		public function enqueue_styles() {
+			$screen = get_current_screen();
+			if ( empty( $screen->id ) || 'plugins' !== $screen->id ) {
+				return;
+			}
+			wp_enqueue_style( 'uagb-update-notice', UAGB_URL . 'admin/assets/css/update-notice.css', array(), UAGB_VER );
 		}
 	}
 

@@ -7,7 +7,7 @@
  * Requires PHP:      5.6
  * Author:            WPForms
  * Author URI:        https://wpforms.com
- * Version:           1.8.2.2
+ * Version:           1.8.3.1
  * Text Domain:       wpforms-lite
  * Domain Path:       assets/languages
  *
@@ -36,7 +36,7 @@ if ( ! defined( 'WPFORMS_VERSION' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	define( 'WPFORMS_VERSION', '1.8.2.2' );
+	define( 'WPFORMS_VERSION', '1.8.3.1' );
 }
 
 // Plugin Folder Path.
@@ -145,10 +145,13 @@ if ( function_exists( 'wpforms' ) ) {
 
 			// Currently tried to activate Lite with Pro still active, so display the message.
 			printf(
-				'<div class="notice notice-warning">
-					<p>%1$s</p>
-					<p>%2$s</p>
+				'<div class="notice wpforms-notice notice-warning wpforms-license-notice" id="wpforms-notice-pro-active">
+					<h3 style="margin: .75em 0 0 0;">
+						<img src="%1$s" style="vertical-align: text-top; width: 20px; margin-right: 7px;">%2$s
+					</h3>
+					<p>%3$s</p>
 				</div>',
+				esc_url( WPFORMS_PLUGIN_URL . 'assets/images/exclamation-triangle.svg' ),
 				esc_html__( 'Heads up!', 'wpforms-lite' ),
 				esc_html__( 'Your site already has WPForms Pro activated. If you want to switch to WPForms Lite, please first go to Plugins → Installed Plugins and deactivate WPForms. Then, you can activate WPForms Lite.', 'wpforms-lite' )
 			);

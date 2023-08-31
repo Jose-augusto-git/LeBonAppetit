@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<p>
 		<?php
 		printf(
-			wp_kses( /* translators: %1$s - Link to the update Internet Explorer page, %2$s - link to the browse happy page. */
+			wp_kses( /* translators: %1$s - link to the update Internet Explorer page, %2$s - link to the browse happy page. */
 				__( 'The Internet Explorer browser no more supported.<br>Our form builder is optimized for modern browsers.<br>Please <a href="%1$s" target="_blank" rel="nofollow noopener">install Microsoft Edge</a> or learn<br>how to <a href="%2$s" target="_blank" rel="nofollow noopener">browse happy</a>.', 'wpforms-lite' ),
 				[
 					'a'  => [

@@ -234,7 +234,7 @@ class Export extends View {
 		?>
 
 		<span class="choicesjs-select-wrap">
-			<select id="<?php echo esc_attr( $select_id ); ?>" class="choicesjs-select" name="<?php echo esc_attr( $select_name ); ?>" <?php if ( $multiple ) { //phpcs:ignore ?> multiple <?php } ?> data-search="true">
+			<select id="<?php echo esc_attr( $select_id ); ?>" class="choicesjs-select" name="<?php echo esc_attr( $select_name ); ?>" <?php if ( $multiple ) { //phpcs:ignore ?> multiple <?php } ?> data-search="<?php echo esc_attr( wpforms_choices_js_is_search_enabled( $this->forms ) ); ?>">
 				<option value=""><?php echo esc_attr( $placeholder ); ?></option>
 				<?php foreach ( $this->forms as $form ) { ?>
 					<option value="<?php echo absint( $form->ID ); ?>"><?php echo esc_html( $form->post_title ); ?></option>

@@ -362,12 +362,12 @@ class EventDriven {
 			return $count;
 		}
 
-		$query = "SELECT COUNT({$entry_handler->primary_key})
-				FROM {$entry_handler->table_name}
-				WHERE {$entry_handler->primary_key}
+		$query = "SELECT COUNT( $entry_handler->primary_key )
+				FROM $entry_handler->table_name
+				WHERE $entry_handler->primary_key
 				NOT IN (
 					SELECT entry_id
-					FROM {$entry_meta_handler->table_name}
+					FROM $entry_meta_handler->table_name
 					WHERE type = 'backup_id'
 				);";
 
@@ -520,7 +520,10 @@ class EventDriven {
 			'welcome-message'        => [
 				'id'        => 'welcome-message',
 				'title'     => esc_html__( 'Welcome to WPForms!', 'wpforms-lite' ),
-				'content'   => esc_html__( 'We’re grateful that you chose WPForms for your website! Now that you’ve installed the plugin, you’re less than 5 minutes away from publishing your first form. To make it easy, we’ve got 700+ form templates to get you started!', 'wpforms-lite' ),
+				'content'   => sprintf( /* translators: %s - number of templates. */
+					esc_html__( 'We’re grateful that you chose WPForms for your website! Now that you’ve installed the plugin, you’re less than 5 minutes away from publishing your first form. To make it easy, we’ve got %s form templates to get you started!', 'wpforms-lite' ),
+					'800+'
+				),
 				'btns'      => [
 					'main' => [
 						'url'  => admin_url( 'admin.php?page=wpforms-builder' ),

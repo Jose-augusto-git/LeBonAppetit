@@ -53,7 +53,7 @@ class Analytics {
 	 */
 	public function __construct() {
 
-		if ( ! \wpforms_current_user_can() ) {
+		if ( ! wpforms_current_user_can() ) {
 			return;
 		}
 
@@ -72,10 +72,11 @@ class Analytics {
 		}
 
 		// Check what page we are on.
-		$page = isset( $_GET['page'] ) ? \sanitize_key( \wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.CSRF.NonceVerification
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 
 		// Only load if we are actually on the Analytics page.
-		if ( self::SLUG !== $page ) {
+		if ( $page !== self::SLUG ) {
 			return;
 		}
 
@@ -95,7 +96,7 @@ class Analytics {
 	 */
 	public function enqueue_assets() {
 
-		$min = \wpforms_get_min_suffix();
+		$min = wpforms_get_min_suffix();
 
 		// Lity.
 		wp_enqueue_style(
@@ -121,7 +122,7 @@ class Analytics {
 			true
 		);
 
-		\wp_localize_script(
+		wp_localize_script(
 			'wpforms-admin-page-analytics',
 			'wpforms_pluginlanding',
 			$this->get_js_strings()
@@ -433,14 +434,16 @@ class Analytics {
 	 * @since 1.5.7
 	 *
 	 * @return array Step data.
+	 * @noinspection PhpUndefinedFunctionInspection
 	 */
 	protected function get_data_step_setup() {
 
 		$step = [];
 
 		$this->output_data['plugin_setup'] = false;
+
 		if ( $this->output_data['plugin_activated'] ) {
-			$this->output_data['plugin_setup'] = '' !== (string) \monsterinsights_get_ua();
+			$this->output_data['plugin_setup'] = function_exists( 'monsterinsights_get_ua' ) && '' !== (string) monsterinsights_get_ua();
 		}
 
 		$step['icon']          = 'step-2.svg';
@@ -465,6 +468,7 @@ class Analytics {
 	 * @since 1.5.7
 	 *
 	 * @return array Step data.
+	 * @noinspection PhpUndefinedFunctionInspection
 	 */
 	protected function get_data_step_addon() {
 
@@ -477,10 +481,12 @@ class Analytics {
 		$step['button_url']    = '';
 
 		$plugin_license_level = false;
+
 		if ( $this->output_data['plugin_activated'] ) {
-			$mi = \MonsterInsights();
+			$mi = MonsterInsights();
 
 			$plugin_license_level = 'lite';
+
 			if ( is_object( $mi->license ) && method_exists( $mi->license, 'license_can' ) ) {
 				$plugin_license_level = $mi->license->license_can( 'plus' ) ? 'lite' : $plugin_license_level;
 				$plugin_license_level = $mi->license->license_can( 'pro' ) || $mi->license->license_can( 'agency' ) ? 'pro' : $plugin_license_level;
@@ -509,6 +515,8 @@ class Analytics {
 	 * Used to properly init step 2 section after completing step 1.
 	 *
 	 * @since 1.5.7
+	 *
+	 * @noinspection PhpUndefinedFunctionInspection
 	 */
 	public function ajax_check_plugin_status() {
 
@@ -534,12 +542,13 @@ class Analytics {
 			);
 		}
 
-		$result['setup_status'] = (int) ( '' !== (string) \monsterinsights_get_ua() );
+		$result['setup_status'] = (int) ( '' !== (string) monsterinsights_get_ua() );
 
-		$mi = \MonsterInsights();
+		$mi = MonsterInsights();
 
 		$result['license_level']    = 'lite';
 		$result['step3_button_url'] = $this->config['mi_forms_addon_page'];
+
 		if ( is_object( $mi->license ) && method_exists( $mi->license, 'license_can' ) ) {
 			$result['license_level']    = $mi->license->license_can( 'pro' ) || $mi->license->license_can( 'agency' ) ? 'pro' : $result['license_level'];
 			$result['step3_button_url'] = admin_url( $this->config['mi_addons'] );

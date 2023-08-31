@@ -29,6 +29,7 @@ class Actions {
 		add_action( 'admin_init', [ $this, 'do_optimize' ] );
 		add_action( 'admin_init', [ $this, 'update_settings' ] );
 		add_action( 'in_plugin_update_message-' . OMGF_PLUGIN_BASENAME, [ $this, 'render_update_notice' ], 11, 2 );
+		add_action( 'omgf_pre_update_setting_cache_keys', [ $this, 'clean_stale_cache' ], 10, 2 );
 	}
 
 	/**
@@ -64,19 +65,27 @@ class Actions {
 		}
 
 		// phpcs:ignore
-		$post_data = $this->clean($_POST);
+		$updated_settings = $this->clean($_POST);
 
-		foreach ( $post_data as $option_name => $option_value ) {
-			if ( strpos( $option_name, 'omgf_' ) !== 0 || empty( $option_value ) ) {
+		foreach ( $updated_settings as $option_name => $option_value ) {
+			if ( strpos( $option_name, 'omgf_' ) !== 0 || ( empty( $option_value ) && $option_value !== '0' ) ) {
 				continue;
+			}
+
+			if ( is_array( $option_value ) ) {
+				foreach ( $option_value as $setting_name => $setting_value ) {
+					do_action( 'omgf_pre_update_setting_' . $setting_name, $setting_name, $setting_value );
+				}
 			}
 
 			$merged = [];
 
-			if ( is_string( $option_value ) ) {
+			if ( is_string( $option_value ) && $option_value !== '0' ) {
 				$merged = $option_value;
+			} elseif ( $option_value === '0' ) {
+				$merged = [];
 			} else {
-				$current_options = OMGF::get_option( $option_name, [] );
+				$current_options = ! empty( OMGF::get_option( $option_name, [] ) ) ? OMGF::get_option( $option_name ) : [];
 				$merged          = array_replace( $current_options, $option_value );
 			}
 
@@ -88,7 +97,7 @@ class Actions {
 		 *
 		 * @since v5.6.0
 		 */
-		do_action( 'omgf_update_settings' );
+		do_action( 'omgf_update_settings', $updated_settings );
 
 		// Redirect back to the settings page that was submitted.
 		$goback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
@@ -146,5 +155,69 @@ class Actions {
 
 			wp_kses( sprintf( ' <strong>' . __( 'This update includes major changes, please <a href="%s" target="_blank">read this</a> before continuing.' ) . '</strong>', $update_notices[ $new_version ]->url ), $allowed_html );
 		}
+	}
+
+	/**
+	 * Cleans up the old (unused) cache directories.
+	 */
+	public function clean_stale_cache( $option_name, $option_value ) {
+		$old_keys = OMGF::cache_keys();
+		$new_keys = explode( ',', $option_value );
+		$diff     = array_diff( $new_keys, $old_keys );
+
+		foreach ( $diff as $new_cache_key ) {
+			$dir_to_remove = '';
+			$base_key      = preg_replace( '/-mod.*?$/', '', $new_cache_key );
+
+			foreach ( $old_keys as $old_cache_key ) {
+				if ( strpos( $old_cache_key, $base_key ) !== false ) {
+					$dir_to_remove = $old_cache_key;
+
+					break;
+				}
+			}
+
+			if ( ! $dir_to_remove ) {
+				continue;
+			}
+
+			$dir = OMGF_UPLOAD_DIR . '/' . $dir_to_remove;
+
+			$this->delete_files( $dir );
+
+			if ( $this->dir_is_empty( $dir ) ) {
+				rmdir( OMGF_UPLOAD_DIR . '/' . $dir_to_remove );
+			}
+		}
+	}
+
+	/**
+	 * Delete files from $dir.
+	 *
+	 * @param mixed $dir
+	 *
+	 * @return void
+	 */
+	private function delete_files( $dir ) {
+		array_map( 'unlink', glob( $dir . '/*.*' ) );
+	}
+
+	/**
+	 * Check if directory is empty.
+	 *
+	 * This works because a new FilesystemIterator will initially point to the first file in the folder -
+	 * if there are no files in the folder, valid() will return false
+	 *
+	 * @param mixed $dir
+	 * @return bool
+	 */
+	private function dir_is_empty( $dir ) {
+		if ( ! file_exists( $dir ) ) {
+			return false;
+		}
+
+		$iterator = new \FilesystemIterator( $dir );
+
+		return ! $iterator->valid();
 	}
 }

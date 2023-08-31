@@ -34,7 +34,6 @@ class Loader {
 
 		$core_class_names = [
 			'Connect',
-			'DashboardWidget',
 			'FlyoutMenu',
 			'Builder\LicenseAlert',
 			'Builder\Builder',

@@ -90,7 +90,7 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 		if ( strpos( $field['value_raw']['value_display'], '{value}' ) !== false ) {
 			$html_value = str_replace(
 				'{value}',
-				/* translators: %1$s - Number slider selected value; %2$s - its minimum value; %3$s - its maximum value. */
+				/* translators: %1$s - Number slider selected value, %2$s - its minimum value, %3$s - its maximum value. */
 				sprintf( esc_html__( '%1$s (%2$s min / %3$s max)', 'wpforms-lite' ), $value, $min, $max ),
 				$field['value_raw']['value_display']
 			);

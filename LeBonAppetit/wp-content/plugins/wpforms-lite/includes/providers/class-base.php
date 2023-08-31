@@ -1112,7 +1112,7 @@ abstract class WPForms_Provider {
 					data-provider="<?php echo esc_attr( $this->slug ); ?>"
 					data-type="<?php echo esc_attr( strtolower( $this->type ) ); ?>">
 					<?php
-					printf( /* translators: %s - Provider type. */
+					printf( /* translators: %s - provider type. */
 						esc_html__( 'Add New %s', 'wpforms-lite' ),
 						esc_html( $this->type )
 					);
@@ -1265,7 +1265,7 @@ abstract class WPForms_Provider {
 
 			$account  = '<li class="wpforms-clear">';
 			$account .= '<span class="label">' . sanitize_text_field( $data['label'] ) . '</span>';
-			/* translators: %s - Connection date. */
+			/* translators: %s - connection date. */
 			$account .= '<span class="date">' . sprintf( esc_html__( 'Connected on: %s', 'wpforms-lite' ), date_i18n( get_option( 'date_format', time() ) ) ) . '</span>';
 			$account .= '<span class="remove"><a href="#" data-provider="' . $this->slug . '" data-key="' . esc_attr( $auth ) . '">' . esc_html__( 'Disconnect', 'wpforms-lite' ) . '</a></span>';
 			$account .= '</li>';
@@ -1319,8 +1319,10 @@ abstract class WPForms_Provider {
 					<h3><?php echo esc_html( $this->name ); ?></h3>
 					<p>
 						<?php
-						/* translators: %s - provider name. */
-						printf( esc_html__( 'Integrate %s with WPForms', 'wpforms-lite' ), esc_html( $this->name ) );
+						printf( /* translators: %s - provider name. */
+							esc_html__( 'Integrate %s with WPForms', 'wpforms-lite' ),
+							esc_html( $this->name )
+						);
 						?>
 					</p>
 					<span class="connected-indicator green"><i class="fa fa-check-circle-o"></i>&nbsp;<?php esc_html_e( 'Connected', 'wpforms-lite' ); ?></span>
@@ -1337,7 +1339,7 @@ abstract class WPForms_Provider {
 							foreach ( $accounts as $key => $account ) {
 								echo '<li class="wpforms-clear">';
 								echo '<span class="label">' . esc_html( $account['label'] ) . '</span>';
-								/* translators: %s - Connection date. */
+								/* translators: %s - connection date. */
 								echo '<span class="date">' . sprintf( esc_html__( 'Connected on: %s', 'wpforms-lite' ), date_i18n( get_option( 'date_format' ), intval( $account['date'] ) ) ) . '</span>';
 								echo '<span class="remove"><a href="#" data-provider="' . esc_attr( $this->slug ) . '" data-key="' . esc_attr( $key ) . '">' . esc_html__( 'Disconnect', 'wpforms-lite' ) . '</a></span>';
 								echo '</li>';

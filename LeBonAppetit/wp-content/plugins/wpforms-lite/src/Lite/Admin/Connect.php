@@ -44,13 +44,13 @@ class Connect {
 	 */
 	public function settings_enqueues() {
 
-		$min = \wpforms_get_min_suffix();
+		$min = wpforms_get_min_suffix();
 
-		\wp_enqueue_script(
+	 	wp_enqueue_script(
 			'wpforms-connect',
-			\WPFORMS_PLUGIN_URL . "assets/lite/js/admin/connect{$min}.js",
+		 	WPFORMS_PLUGIN_URL . "assets/lite/js/admin/connect{$min}.js",
 			[ 'jquery' ],
-			\WPFORMS_VERSION,
+		 	WPFORMS_VERSION,
 			true
 		);
 	}
@@ -63,73 +63,75 @@ class Connect {
 	public function generate_url() {
 
 		// Run a security check.
-		\check_ajax_referer( 'wpforms-admin', 'nonce' );
+	 	check_ajax_referer( 'wpforms-admin', 'nonce' );
 
 		// Check for permissions.
-		if ( ! \current_user_can( 'install_plugins' ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'You are not allowed to install plugins.', 'wpforms-lite' ) ] );
+		if ( ! current_user_can( 'install_plugins' ) ) {
+		 	wp_send_json_error( [ 'message' => esc_html__( 'You are not allowed to install plugins.', 'wpforms-lite' ) ] );
 		}
 
-		$key = ! empty( $_POST['key'] ) ? \sanitize_text_field( \wp_unslash( $_POST['key'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$key = ! empty( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 
 		if ( empty( $key ) ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Please enter your license key to connect.', 'wpforms-lite' ) ] );
+		 	wp_send_json_error( [ 'message' => esc_html__( 'Please enter your license key to connect.', 'wpforms-lite' ) ] );
 		}
 
 		if ( wpforms()->is_pro() ) {
-			\wp_send_json_error( [ 'message' => \esc_html__( 'Only the Lite version can be upgraded.', 'wpforms-lite' ) ] );
+		 	wp_send_json_error( [ 'message' => esc_html__( 'Only the Lite version can be upgraded.', 'wpforms-lite' ) ] );
 		}
 
 		// Verify pro version is not installed.
-		$active = \activate_plugin( 'wpforms/wpforms.php', false, false, true );
+		$active = activate_plugin( 'wpforms/wpforms.php', false, false, true );
 
-		if ( ! \is_wp_error( $active ) ) {
+		if ( ! is_wp_error( $active ) ) {
 
 			// Deactivate Lite.
-			$plugin = \plugin_basename( WPFORMS_PLUGIN_FILE );
+			$plugin = plugin_basename( WPFORMS_PLUGIN_FILE );
 
-			\deactivate_plugins( $plugin );
+		 	deactivate_plugins( $plugin );
 
+			 // phpcs:ignore WPForms.Comments.PHPDocHooks.RequiredHookDocumentation, WPForms.PHP.ValidateHooks.InvalidHookName
 			do_action( 'wpforms_plugin_deactivated', $plugin );
 
-			\wp_send_json_success(
+		 	wp_send_json_success(
 				[
-					'message' => \esc_html__( 'WPForms Pro is installed but not activated.', 'wpforms-lite' ),
+					'message' => esc_html__( 'WPForms Pro is installed but not activated.', 'wpforms-lite' ),
 					'reload'  => true,
 				]
 			);
 		}
 
 		// Generate URL.
-		$oth = hash( 'sha512', \wp_rand() );
+		$oth        = hash( 'sha512', wp_rand() );
+		$hashed_oth = hash_hmac( 'sha512', $oth, wp_salt() );
 
-		\update_option( 'wpforms_connect_token', $oth );
-		\update_option( 'wpforms_connect', $key );
+	 	update_option( 'wpforms_connect_token', $oth );
+	 	update_option( 'wpforms_connect', $key );
 
 		$version  = WPFORMS_VERSION;
-		$endpoint = \admin_url( 'admin-ajax.php' );
-		$redirect = \admin_url( 'admin.php?page=wpforms-settings' );
-		$url      = \add_query_arg(
+		$endpoint = admin_url( 'admin-ajax.php' );
+		$redirect = admin_url( 'admin.php?page=wpforms-settings' );
+		$url      = add_query_arg(
 			[
 				'key'      => $key,
-				'oth'      => $oth,
+				'oth'      => $hashed_oth,
 				'endpoint' => $endpoint,
 				'version'  => $version,
-				'siteurl'  => \admin_url(),
-				'homeurl'  => \home_url(),
+				'siteurl'  => admin_url(),
+				'homeurl'  => home_url(),
 				'redirect' => rawurldecode( base64_encode( $redirect ) ), // phpcs:ignore
 				'v'        => 2,
 			],
 			'https://upgrade.wpforms.com'
 		);
 
-		\wp_send_json_success(
+	 	wp_send_json_success(
 			[
 				'url'      => $url,
-				'back_url' => \add_query_arg(
+				'back_url' => add_query_arg(
 					[
 						'action' => 'wpforms_connect',
-						'oth'    => $oth,
+						'oth'    => $hashed_oth,
 					],
 					$endpoint
 				),
@@ -142,63 +144,68 @@ class Connect {
 	 *
 	 * @since 1.5.5
 	 */
-	public function process() {
+	public function process() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		$error = esc_html__( 'There was an error while installing an upgrade. Please download the plugin from wpforms.com and install it manually.', 'wpforms-lite' );
 
 		// Verify params present (oth & download link).
-		$post_oth = ! empty( $_REQUEST['oth'] ) ? \sanitize_text_field( \wp_unslash( $_REQUEST['oth'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
-		$post_url = ! empty( $_REQUEST['file'] ) ? \esc_url_raw( \wp_unslash( $_REQUEST['file'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$post_oth = ! empty( $_REQUEST['oth'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['oth'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$post_url = ! empty( $_REQUEST['file'] ) ? esc_url_raw( wp_unslash( $_REQUEST['file'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 
 		if ( empty( $post_oth ) || empty( $post_url ) ) {
-			\wp_send_json_error( $error );
+		 	wp_send_json_error( $error );
 		}
 
 		// Verify oth.
-		$oth = \get_option( 'wpforms_connect_token' );
+		$oth = get_option( 'wpforms_connect_token' );
 
-		if ( empty( $oth ) || ! hash_equals( $oth, $post_oth ) ) {
-			\wp_send_json_error( $error );
+		if ( empty( $oth ) ) {
+		 	wp_send_json_error( $error );
+		}
+
+		if ( hash_hmac( 'sha512', $oth, wp_salt() ) !== $post_oth ) {
+		 	wp_send_json_error( $error );
 		}
 
 		// Delete so cannot replay.
-		\delete_option( 'wpforms_connect_token' );
+	 	delete_option( 'wpforms_connect_token' );
 
 		// Set the current screen to avoid undefined notices.
-		\set_current_screen( 'wpforms_page_wpforms-settings' );
+	 	set_current_screen( 'wpforms_page_wpforms-settings' );
 
 		// Prepare variables.
-		$url = \esc_url_raw(
-			\add_query_arg(
+		$url = esc_url_raw(
+		 	add_query_arg(
 				[ 'page' => 'wpforms-settings' ],
-				\admin_url( 'admin.php' )
+			 	admin_url( 'admin.php' )
 			)
 		);
 
 		// Verify pro not activated.
 		if ( wpforms()->is_pro() ) {
-			\wp_send_json_success( \esc_html__( 'Plugin installed & activated.', 'wpforms-lite' ) );
+		 	wp_send_json_success( esc_html__( 'Plugin installed & activated.', 'wpforms-lite' ) );
 		}
 
 		// Verify pro not installed.
-		$active = \activate_plugin( 'wpforms/wpforms.php', $url, false, true );
+		$active = activate_plugin( 'wpforms/wpforms.php', $url, false, true );
 
-		if ( ! \is_wp_error( $active ) ) {
+		if ( ! is_wp_error( $active ) ) {
 			$plugin = plugin_basename( WPFORMS_PLUGIN_FILE );
 
-			\deactivate_plugins( $plugin );
+		 	deactivate_plugins( $plugin );
 
+			// phpcs:ignore WPForms.Comments.PHPDocHooks.RequiredHookDocumentation, WPForms.PHP.ValidateHooks.InvalidHookName
 			do_action( 'wpforms_plugin_deactivated', $plugin );
 
-			\wp_send_json_success( esc_html__( 'Plugin installed & activated.', 'wpforms-lite' ) );
+		 	wp_send_json_success( esc_html__( 'Plugin installed & activated.', 'wpforms-lite' ) );
 		}
 
-		$creds = \request_filesystem_credentials( $url, '', false, false, null );
+		$creds = request_filesystem_credentials( $url, '', false, false );
 
 		// Check for file system permissions.
-		if ( false === $creds || ! \WP_Filesystem( $creds ) ) {
-			\wp_send_json_error(
-				\esc_html__( 'There was an error while installing an upgrade. Please check file system permissions and try again. Also, you can download the plugin from wpforms.com and install it manually.', 'wpforms-lite' )
+		if ( $creds === false || ! WP_Filesystem( $creds ) ) {
+		 	wp_send_json_error(
+			 	esc_html__( 'There was an error while installing an upgrade. Please check file system permissions and try again. Also, you can download the plugin from wpforms.com and install it manually.', 'wpforms-lite' )
 			);
 		}
 
@@ -207,24 +214,24 @@ class Connect {
 		 */
 
 		// Do not allow WordPress to search/download translations, as this will break JS output.
-		\remove_action( 'upgrader_process_complete', [ 'Language_Pack_Upgrader', 'async_upgrade' ], 20 );
+	 	remove_action( 'upgrader_process_complete', [ 'Language_Pack_Upgrader', 'async_upgrade' ], 20 );
 
 		// Create the plugin upgrader with our custom skin.
 		$installer = new PluginSilentUpgrader( new ConnectSkin() );
 
 		// Error check.
 		if ( ! method_exists( $installer, 'install' ) ) {
-			\wp_send_json_error( $error );
+		 	wp_send_json_error( $error );
 		}
 
 		// Check license key.
-		$key = \get_option( 'wpforms_connect', false );
+		$key = get_option( 'wpforms_connect', false );
 
 		if ( empty( $key ) ) {
-			\wp_send_json_error(
+		 	wp_send_json_error(
 				new WP_Error(
 					'403',
-					\esc_html__( 'No key provided.', 'wpforms-lite' )
+				 	esc_html__( 'No key provided.', 'wpforms-lite' )
 				)
 			);
 		}
@@ -232,32 +239,33 @@ class Connect {
 		$installer->install( $post_url ); // phpcs:ignore
 
 		// Flush the cache and return the newly installed plugin basename.
-		\wp_cache_flush();
+	 	wp_cache_flush();
 
 		$plugin_basename = $installer->plugin_info();
 
 		if ( $plugin_basename ) {
 
 			// Deactivate the lite version first.
-			$plugin = \plugin_basename( WPFORMS_PLUGIN_FILE );
+			$plugin = plugin_basename( WPFORMS_PLUGIN_FILE );
 
-			\deactivate_plugins( $plugin );
+		 	deactivate_plugins( $plugin );
 
+			// phpcs:ignore WPForms.Comments.PHPDocHooks.RequiredHookDocumentation, WPForms.PHP.ValidateHooks.InvalidHookName
 			do_action( 'wpforms_plugin_deactivated', $plugin );
 
 			// Activate the plugin silently.
-			$activated = \activate_plugin( $plugin_basename, '', false, true );
+			$activated = activate_plugin( $plugin_basename, '', false, true );
 
-			if ( ! \is_wp_error( $activated ) ) {
-				\add_option( 'wpforms_install', 1 );
-				\wp_send_json_success( \esc_html__( 'Plugin installed & activated.', 'wpforms-lite' ) );
+			if ( ! is_wp_error( $activated ) ) {
+			 	add_option( 'wpforms_install', 1 );
+			 	wp_send_json_success( esc_html__( 'Plugin installed & activated.', 'wpforms-lite' ) );
 			} else {
 				// Reactivate the lite plugin if pro activation failed.
-				\activate_plugin( \plugin_basename( WPFORMS_PLUGIN_FILE ), '', false, true );
-				\wp_send_json_error( \esc_html__( 'Pro version installed but needs to be activated on the Plugins page inside your WordPress admin.', 'wpforms-lite' ) );
+			 	activate_plugin( plugin_basename( WPFORMS_PLUGIN_FILE ), '', false, true );
+			 	wp_send_json_error( esc_html__( 'Pro version installed but needs to be activated on the Plugins page inside your WordPress admin.', 'wpforms-lite' ) );
 			}
 		}
 
-		\wp_send_json_error( $error );
+	 	wp_send_json_error( $error );
 	}
 }

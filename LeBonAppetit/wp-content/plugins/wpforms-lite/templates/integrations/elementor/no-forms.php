@@ -12,7 +12,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
 ?>
 <div class="wpforms-admin-empty-state-container wpforms-elementor-no-forms">
 
-	<img src="<?php echo esc_url( WPFORMS_PLUGIN_URL . 'assets/images/empty-states/no-forms.svg' ); ?>" alt=""/>
+	<img src="<?php echo esc_url( WPFORMS_PLUGIN_URL . 'assets/images/empty-states/no-form-elementor.svg' ); ?>" alt=""/>
 
 	<p>
 		<?php
@@ -23,18 +23,19 @@ if ( ! \defined( 'ABSPATH' ) ) {
 		?>
 	</p>
 
-	<button type="button" class="wpforms-btn"><?php esc_html_e( 'Create a form', 'wpforms-lite' ); ?></button>
+	<button type="button" class="wpforms-btn"><?php esc_html_e( 'Get Started', 'wpforms-lite' ); ?></button>
 
 	<p class="wpforms-admin-no-forms-footer">
 		<?php
 		printf(
 			wp_kses( /* translators: %s - URL to the documentation article. */
-				__( 'Need some help? Check out our <a href="%s" target="_blank" rel="noopener noreferrer">comprehensive guide</a>.', 'wpforms-lite' ),
+				__( 'Need some help? Check out our <a href="%s" class="wpforms-comprehensive-link" target="_blank" rel="noopener noreferrer">comprehensive guide</a>.', 'wpforms-lite' ),
 				[
 					'a' => [
 						'href'   => [],
 						'target' => [],
 						'rel'    => [],
+						'class'  => [],
 					],
 				]
 			),

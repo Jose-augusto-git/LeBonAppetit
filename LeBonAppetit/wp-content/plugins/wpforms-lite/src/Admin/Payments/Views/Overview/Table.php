@@ -356,7 +356,9 @@ class Table extends \WP_List_Table {
 		// The ideal threshold for applying responsive styling is set at "5" columns based on the need for "Tablet" view.
 		$columns_class = $this->get_column_count() > 5 ? 'many' : 'few';
 
-		return array_merge( $classes, [ "has-{$columns_class}-columns" ] );
+		$classes[] = "has-{$columns_class}-columns";
+
+		return $classes;
 	}
 
 	/**
@@ -572,7 +574,7 @@ class Table extends \WP_List_Table {
 		$date      = $item['date_updated_gmt'];
 		$timestamp = strtotime( $date );
 
-		/* translators: %s - Relative time difference, e.g. "5 minutes", "12 days". */
+		/* translators: %s - relative time difference, e.g. "5 minutes", "12 days". */
 		$human = sprintf( esc_html__( '%s ago', 'wpforms-lite' ), human_time_diff( $timestamp ) );
 
 		return sprintf( '<span title="%s">%s</span>', gmdate( 'Y-m-d H:i', $timestamp ), $human );

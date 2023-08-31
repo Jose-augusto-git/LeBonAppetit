@@ -177,11 +177,7 @@ abstract class Base {
 
 			$this->migrated[ $upgrade_version ] = $migrated ? time() : static::FAILED;
 
-			$message = $migrated ?
-				sprintf( 'Migration of %1$s to %2$s completed.', $plugin_name, $upgrade_version ) :
-				sprintf( 'Migration of %1$s to %2$s failed.', $plugin_name, $upgrade_version );
-
-			$this->log( $message );
+			$this->log_migration_message( $migrated, $plugin_name, $upgrade_version );
 		}
 	}
 
@@ -306,6 +302,8 @@ abstract class Base {
 	 * @since 1.7.5
 	 *
 	 * @param string $message The error message that should be logged.
+	 *
+	 * @noinspection ForgottenDebugOutputInspection
 	 */
 	protected function log( $message ) {
 
@@ -445,5 +443,25 @@ abstract class Base {
 	protected function is_core_plugin() {
 
 		return strpos( static::MIGRATED_OPTION_NAME, 'wpforms_versions' ) === 0;
+	}
+
+	/**
+	 * Log migration message.
+	 *
+	 * @since 1.8.2.3
+	 *
+	 * @param bool   $migrated        Migration status.
+	 * @param string $plugin_name     Plugin name.
+	 * @param string $upgrade_version Upgrade version.
+	 *
+	 * @return void
+	 */
+	private function log_migration_message( $migrated, $plugin_name, $upgrade_version ) {
+
+		$message = $migrated ?
+			sprintf( 'Migration of %1$s to %2$s completed.', $plugin_name, $upgrade_version ) :
+			sprintf( 'Migration of %1$s to %2$s failed.', $plugin_name, $upgrade_version );
+
+		$this->log( $message );
 	}
 }

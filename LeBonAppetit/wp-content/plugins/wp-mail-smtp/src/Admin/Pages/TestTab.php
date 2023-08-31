@@ -326,12 +326,14 @@ class TestTab extends PageAbstract {
 
 		/* translators: %s - email address a test email will be sent to. */
 		$subject = 'WP Mail SMTP: ' . sprintf( esc_html__( 'Test email to %s', 'wp-mail-smtp' ), $data['test']['email'] );
+		$headers = [ 'X-Mailer-Type:WPMailSMTP/Admin/Test' ];
 
 		if ( $is_html ) {
 			add_filter( 'wp_mail_content_type', array( __CLASS__, 'set_test_html_content_type' ) );
 
 			/* translators: %s - email address a test email will be sent to. */
-			$subject = 'WP Mail SMTP: HTML ' . sprintf( esc_html__( 'Test email to %s', 'wp-mail-smtp' ), $data['test']['email'] );
+			$subject   = 'WP Mail SMTP: HTML ' . sprintf( esc_html__( 'Test email to %s', 'wp-mail-smtp' ), $data['test']['email'] );
+			$headers[] = 'Content-Type: text/html';
 		}
 
 		// Clear debug before send test email.
@@ -345,9 +347,7 @@ class TestTab extends PageAbstract {
 			$data['test']['email'],
 			$subject,
 			$this->get_email_message( $is_html ),
-			array(
-				'X-Mailer-Type:WPMailSMTP/Admin/Test',
-			)
+			$headers
 		);
 
 		$smtp_debug = ob_get_clean();
@@ -814,7 +814,7 @@ Co-Founder, WP Mail SMTP';
 					esc_html__( 'Typically this error is returned when you are sending too many e-mails or e-mails that have been identified as spam.', 'wp-mail-smtp' ),
 				],
 				'steps'       => [
-					esc_html__( 'Check the emails that are sending are sending individually. Example: email is not sending to 30 recipients. You can install any WordPress e-mail logging plugin to do that.', 'wp-mail-smtp' ),
+					esc_html__( 'Make sure you are not sending emails with too many recipients. Example: single email should not have 10+ recipients. You can install any WordPress e-mail logging plugin to check your recipients (TO, CC and BCC).', 'wp-mail-smtp' ),
 					esc_html__( 'Contact your SMTP host to ask about sending/rate limits.', 'wp-mail-smtp' ),
 					esc_html__( 'Verify with them your SMTP account is in good standing and your account has not been flagged.', 'wp-mail-smtp' ),
 				],
@@ -938,12 +938,12 @@ Co-Founder, WP Mail SMTP';
 				],
 				'title'       => esc_html__( 'Mailgun failed.', 'wp-mail-smtp' ),
 				'description' => [
-					esc_html__( 'Typically this error occurs because there is an issue with your Mailgun settings, in many cases Private API Key, Domain Name, or Region is incorrect.', 'wp-mail-smtp' ),
+					esc_html__( 'Typically this error occurs because there is an issue with your Mailgun settings, in many cases Mailgun API Key, Domain Name, or Region is incorrect.', 'wp-mail-smtp' ),
 				],
 				'steps'       => [
 					sprintf(
 						wp_kses( /* translators: %1$s - Mailgun API Key area URL. */
-							__( 'Go to your Mailgun account and verify that your <a href="%1$s" target="_blank" rel="noopener noreferrer">Private API Key</a> is correct.', 'wp-mail-smtp' ),
+							__( 'Go to your Mailgun account and verify that your <a href="%1$s" target="_blank" rel="noopener noreferrer">Mailgun API Key</a> is correct.', 'wp-mail-smtp' ),
 							[
 								'a' => [
 									'href'   => [],
@@ -952,7 +952,7 @@ Co-Founder, WP Mail SMTP';
 								],
 							]
 						),
-						'https://app.mailgun.com/app/account/security/api_keys'
+						'https://app.mailgun.com/settings/api_security'
 					),
 					sprintf(
 						wp_kses( /* translators: %1$s - Mailgun domains area URL. */
@@ -1033,7 +1033,7 @@ Co-Founder, WP Mail SMTP';
 						. '<li>' .
 							sprintf(
 								wp_kses( /* translators: %s - Google support article URL. */
-									__( 'if you are using G Suite, please <a href="%s" target="_blank" rel="noopener noreferrer">read this article</a> to proceed.', 'wp-mail-smtp' ),
+									__( 'if you are using Google Workspace, please <a href="%s" target="_blank" rel="noopener noreferrer">read this article</a> to proceed.', 'wp-mail-smtp' ),
 									[
 										'a' => [
 											'href'   => [],
@@ -1124,8 +1124,8 @@ Co-Founder, WP Mail SMTP';
 				],
 				'steps'       => [
 					sprintf(
-						wp_kses( /* translators: %s - Google G Suite Admin area URL. */
-							__( 'Make sure that your G Suite trial period has not expired. You can check the status <a href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'wp-mail-smtp' ),
+						wp_kses( /* translators: %s - Google Workspace Admin area URL. */
+							__( 'Make sure that your Google Workspace trial period has not expired. You can check the status <a href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'wp-mail-smtp' ),
 							[
 								'a' => [
 									'href'   => [],
@@ -1137,8 +1137,8 @@ Co-Founder, WP Mail SMTP';
 						'https://admin.google.com'
 					),
 					sprintf(
-						wp_kses( /* translators: %s - Google G Suite Admin area URL. */
-							__( 'Make sure that Gmail app in your G Suite is actually enabled. You can check that in Apps list in <a href="%s" target="_blank" rel="noopener noreferrer">G Suite Admin</a> area.', 'wp-mail-smtp' ),
+						wp_kses( /* translators: %s - Google Workspace Admin area URL. */
+							__( 'Make sure that Gmail app in your Google Workspace is actually enabled. You can check that in Apps list in <a href="%s" target="_blank" rel="noopener noreferrer">Google Workspace Admin</a> area.', 'wp-mail-smtp' ),
 							[
 								'a' => [
 									'href'   => [],
@@ -1357,7 +1357,7 @@ Co-Founder, WP Mail SMTP';
 				. '</ul>',
 			],
 			'steps'       => [
-				esc_html__( 'Triple check the plugin settings, consider reconfiguring to make sure everything is correct (eg bad copy and paste).', 'wp-mail-smtp' ),
+				esc_html__( 'Triple-check the plugin settings and consider reconfiguring to make sure everything is correct. Maybe there was an issue with copy&pasting.', 'wp-mail-smtp' ),
 				wp_kses(
 					__( 'Contact your web hosting provider and ask them to verify your server can make outside connections. Additionally, ask them if a firewall or security policy may be preventing the connection - many shared hosts block certain ports.<br><strong>Note: this is the most common cause of this issue.</strong>', 'wp-mail-smtp' ),
 					[

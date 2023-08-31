@@ -14,6 +14,11 @@ if ( ! class_exists( 'um\core\Shortcodes' ) ) {
 	class Shortcodes {
 
 		/**
+		 * @var array
+		 */
+		public $forms_exist = array();
+
+		/**
 		 * @var string
 		 */
 		public $profile_role = '';
@@ -350,11 +355,11 @@ if ( ! class_exists( 'um\core\Shortcodes' ) ) {
 				$classes .= ' um-err';
 			}
 
-			if (UM()->fields()->editing == true) {
+			if ( true === UM()->fields()->editing ) {
 				$classes .= ' um-editing';
 			}
 
-			if (UM()->fields()->viewing == true) {
+			if ( true === UM()->fields()->viewing ) {
 				$classes .= ' um-viewing';
 			}
 
@@ -597,6 +602,34 @@ if ( ! class_exists( 'um\core\Shortcodes' ) ) {
 		 * @return string
 		 */
 		public function ultimatemember( $args = array() ) {
+			/**
+			 * Filters variable for enable singleton shortcode loading on the same page.
+			 * Note: Set it to `false` if you don't need to render the same form twice or more on the same page.
+			 *
+			 * @since 2.6.8
+			 * @since 2.6.9 $disable argument set to `true` by default
+			 *
+			 * @hook  um_ultimatemember_shortcode_disable_singleton
+			 *
+			 * @param {bool}  $disable Disabled singleton. By default, it's `true`.
+			 * @param {array} $args    Shortcode arguments.
+			 *
+			 * @return {bool} Disabled singleton or not.
+			 *
+			 * @example <caption>Turn off ability to use ultimatemember shortcode twice.</caption>
+			 * add_filter( 'um_ultimatemember_shortcode_disable_singleton', '__return_false' );
+			 */
+			$disable_singleton_shortcode = apply_filters( 'um_ultimatemember_shortcode_disable_singleton', true, $args );
+			if ( false === $disable_singleton_shortcode ) {
+				if ( isset( $args['form_id'] ) ) {
+					$id = $args['form_id'];
+					if ( isset( $this->forms_exist[ $id ] ) && true === $this->forms_exist[ $id ] ) {
+						return '';
+					}
+					$this->forms_exist[ $id ] = true;
+				}
+			}
+
 			return $this->load( $args );
 		}
 

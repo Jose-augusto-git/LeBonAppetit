@@ -507,7 +507,7 @@ class Templates {
 	 *
 	 * @return array
 	 */
-	private function get_template( $slug ) {
+	public function get_template( $slug ) {
 
 		$template = $this->get_template_by_slug( $slug );
 

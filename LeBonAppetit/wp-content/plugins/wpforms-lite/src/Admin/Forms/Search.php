@@ -180,8 +180,8 @@ class Search {
 		// Prepare the WHERE clause to search form title and description.
 		$where .= $wpdb->prepare(
 			" AND (
-				{$wpdb->posts}.post_title LIKE %s OR
-				{$wpdb->posts}.post_excerpt LIKE %s
+				$wpdb->posts.post_title LIKE %s OR
+				$wpdb->posts.post_excerpt LIKE %s
 			)",
 			'%' . $wpdb->esc_like( esc_html( $this->term ) ) . '%',
 			'%' . $wpdb->esc_like( $this->term ) . '%'
