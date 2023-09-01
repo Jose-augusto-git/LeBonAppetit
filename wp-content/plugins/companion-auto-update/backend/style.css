@@ -1,0 +1,582 @@
+/* Default Stylings */
+.nowrap {
+	white-space: nowrap;
+}
+.cau_spacing {
+	height: 25px;
+}
+.cau_support_buttons {
+	display: inline-block;
+}
+
+/* Welcome screen */
+.welcome-to-cau {
+    background: #FFF;
+    border: 1px solid #CCD0D4;
+    margin: 25px 0;
+    padding: 30px;
+    background-size: 140px;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+.welcome-to-cau .welcome-image {
+	display: inline-block;
+	vertical-align: middle;
+	width: 100px;
+	height: 100px;
+    background-image: url('images/welcome.svg');
+    background-size: contain;
+    background-position: center;
+	box-sizing: border-box;
+}
+.welcome-to-cau .welcome-content {
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 100px);
+	padding-left: 25px;
+	box-sizing: border-box;
+}
+.welcome-to-cau .welcome-content strong {
+	color: #000;
+}
+.welcome-to-cau .welcome-content p {
+	margin: 2px 0;
+}
+.welcome-to-cau.help-bg {
+    background-image: url('images/help.svg');
+}
+.welcome-to-cau.support-bg {
+    background-image: url('images/support.svg');
+}
+.welcome-to-cau.love-bg {
+    background-image: url('images/love.svg');
+}
+.welcome-to-cau.update-bg {
+    background-image: url('images/update.svg');
+}
+.welcome-to-cau.email-bg {
+    background-image: url('images/email.svg');
+}
+.welcome-to-cau.interval-bg {
+    background-image: url('images/interval.svg');
+}
+.welcome-to-cau.advanced-bg {
+	background-image: url('images/settings.svg');
+}
+.welcome-to-cau h2 {
+	margin: 0;
+	margin-bottom: 25px;
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+.welcome-to-cau h2.title {
+	margin-bottom: 10px;
+}
+.welcome-to-cau h3 {
+    font-size: 16px;
+    margin-top: 0;
+}
+.welcome-to-cau a {
+	text-decoration: none;
+}
+.welcome-to-cau .welcome-column {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+}
+.welcome-to-cau.cau-show-love .welcome-column {
+	vertical-align: middle;
+}
+.welcome-to-cau .welcome-column.welcome-column-first {
+	display: block;
+	width: 100%;
+}
+.first-column {
+	padding-left: 140px;
+}
+.welcome-to-cau .welcome-column.welcome-column-half {
+	width: 50%;
+}
+.welcome-to-cau .welcome-column.welcome-column-third {
+	width: 33%;
+}
+.welcome-to-cau .welcome-column.welcome-column-quarter {
+	width: 25%;
+}
+.welcome-to-cau a.minimal-button {
+	display: inline-block;
+	padding: 5px;
+}
+select.schedule_interval {
+	max-width: 90%;
+	width: 225px;
+}
+.cau_save_button.fixed_button {
+	background: #FFF;
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    margin-left: -25px;
+    z-index: 1001;
+    padding: 5px;
+    box-shadow: 0 -8px 16px 0 rgb(85 93 102 / 30%);
+}
+.cau_save_button.fixed_button p.submit {
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+.cau_save_button.fixed_button p.submit input {
+	width: 100%;
+	max-width: 250px;
+	height: 100%;
+	padding: 5px;
+}
+.cau_save_button__space {
+	height: 75px;
+}
+
+/* Overwrite core UI */
+/*.cau_content input[type="checkbox"]:checked::before {
+	content: "";
+	background: url( 'images/check.svg' );
+	background-size: contain;
+	background-position: center center;
+}*/
+.cau_content a {
+	color: #9178B7;
+}
+.cau_content a.nav-tab {
+	color: #23282D;
+}
+.cau_content .button-primary {
+	background-color: #9178B7!important;
+	border-color: #9178B7!important;
+}
+.cau_content .button-alt {
+	color: #9178B7!important;
+	border-color: #9178B7!important;
+}
+.cau_content .button-hero {
+	font-weight: 500;
+	padding: 2px 15px!important;
+}
+#message.cau {
+	background: #FFF;
+    border: 1px solid #CCD0D4;
+    border-left-width: 4px;
+    border-left-color: #9178B7;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    margin: 25px 0px 5px 0;
+	padding: 15px;
+}
+#message.cau a, #message.cau strong {
+	color: #9178B7;
+}
+
+/* Dashboard */
+.cau-column-wide {
+	box-sizing: border-box;
+	display: inline-block;
+	vertical-align: top;
+	width: calc(100% - 450px);
+	padding-right: 25px;
+}
+.cau-column-small {
+	display: inline-block;
+	vertical-align: top;
+	width: 450px;
+}
+.cau-dashboard-box {
+	background-position: right bottom;
+}
+.cau-column-wide .cau-dashboard-box {
+	padding-right: 125px;
+}
+.cau-dashboard-box a {
+	margin-left: 0px;
+	margin-top: 10px;
+}
+.cau-dashboard-box .welcome-column {
+	padding-right: 25px;
+}
+.support-sidebar-list {
+	margin-bottom: 25px;
+}
+.cau_content .nav-tab {
+	position: relative;
+}
+.cau_content .nav-tab .cau_melding {
+	display: inline-block;
+	width: 11px;
+	height: 11px;
+	border-radius: 10px;
+	margin-left: 5px;
+	position: relative;
+	bottom: -1px;
+}
+.cau_content .nav-tab .cau_melding.level-okay {
+	background: #7AD03A;
+}
+.cau_content .nav-tab .cau_melding.level-low {
+	background: #FFBA00;
+}
+.cau_content .nav-tab .cau_melding.level-high {
+	background: #FF0000;
+}
+
+/* Table Styling */
+.cau_content .widefat td {
+	vertical-align: middle!important;
+}
+table.autoupdate th.head-plugin {
+	min-width: 250px;
+}
+table.autoupdate th.head-status {
+	min-width: 150px;
+}
+table.autoupdate th.check-column {
+	position: relative;
+	min-width: 55px;
+}
+table.autoupdate tr.inactive {
+	background: #FEF7F1;
+}
+table.autoupdate tr.active .check-column {
+	border-left: 3px solid transparent;
+}
+table.autoupdate tr.inactive .check-column {
+	border-left: 3px solid #D54E21;
+}
+table.autoupdate tr.inactive td.column-status p {
+	color: #BF3D3C;
+}
+table.autoupdate tr.active td.column-status p {
+	color: #000;
+}
+table.autoupdate tr td.column-description p { 
+	overflow: hidden;
+	max-height: 18px;
+}
+
+/* Update Log */
+table.autoupdatelog {
+	margin-top: 25px;
+}
+table.autoupdatelog strong {
+	color: #000;
+}
+table.autoupdatelog .dashicons {
+	color: #00A0D2;
+}
+
+/* Status */
+table.cau_status_list {
+	margin-top: 25px;
+}
+table.cau_status_list:not(.no_column_width) th, table.cau_status_list:not(.no_column_width) td {
+	width: 25%;
+}
+.cau_enabled {
+	color: #7AD03A;
+}
+.cau_disabled {
+	color: #FF0000;
+}
+.cau_warning {
+	color: #FFBA00;
+}
+.cau_mobile_prefix {
+	display: none;
+}
+table.cau_status_list .cau_status_icon {
+	width: 50px!important;
+}
+table.cau_status_list .cau_status_icon .dashicons, table.cau_status_list .cau_status_icon .dashicons-before:before {
+	height: 25px;
+	font-size: 2em;
+}
+
+/* Rollback list */
+table.rollbacklist {
+	max-width: 650px;
+}
+table.rollbacklist td {
+	vertical-align: middle;
+}
+table.rollbacklist td a.versionselectbutton {
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+}
+
+/* Plugin list */
+.pluginListButtons {
+	display: block;
+	padding: 15px 0;
+}
+.pluginListButtons p.submit {
+	display: inline-block;
+	margin: 0!important;
+	padding: 0!important;
+}
+.cau_content #the-list input[type="checkbox"]:not(:checked), .cau_content #the-list input[type="checkbox"]:checked {
+	width: 45px;
+	height: 45px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 100;
+	display: block;
+	opacity: 0;
+}
+.cau_content #the-list input[type="checkbox"]:not(:checked) + label, .cau_content #the-list input[type="checkbox"]:checked + label {
+	position: absolute;
+	top: 15px;
+	left: 12px;
+	cursor: pointer;
+}
+.cau_content #the-list input[type="checkbox"]:not(:checked) + label:before, .cau_content #the-list input[type="checkbox"]:checked + label:before, .cau_content #the-list input[type="checkbox"]:not(:checked) + label:after, .cau_content #the-list input[type="checkbox"]:checked + label:after {
+	content: '';
+	position: absolute;
+}
+.cau_content #the-list input[type="checkbox"]:not(:checked) + label:before, .cau_content #the-list input[type="checkbox"]:checked + label:before {
+	left: 0; 
+	top: -3px;
+	width: 30px; 
+	height: 16px;
+	background: transparent;
+	border: 2px solid #9178B7;
+	border-radius: 15px;
+	transition: background-color .2s;
+}
+.cau_content #the-list input[type="checkbox"]:not(:checked) + label:after, .cau_content #the-list input[type="checkbox"]:checked + label:after {
+	width: 8px; 
+	height: 8px;
+	transition: all .2s;
+	border-radius: 500px;
+	background: transparent;
+	border: 2px solid #9178B7;
+	top: 1px; 
+	left: 5px;
+}
+.cau_content #the-list input[type="checkbox"]:not(:checked) + label:before {
+ 	background: #9178B7; 
+	border: 2px solid #9178B7;
+}
+.cau_content #the-list input[type="checkbox"]:not(:checked) + label:after {
+	background: #9178B7;
+	border-color: #FFF;
+	left: 18px;
+}
+
+/* Scheduling */
+.cau_schedule_input {
+	display: inline-block;
+	vertical-align: middle;
+	width: 50px;
+	padding-top: 5px;
+}
+.cau_schedule_input input {
+	max-width: 100%;
+	text-align: center;
+}
+.cau_schedule_input_div {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0 6px;
+	font-weight: bold;
+}
+.cau_shedule_notation {
+	display: inline-block;
+	vertical-align: middle;
+	width: 125px;
+	padding-left: 5px;
+}
+.cau_shedule_notation .dashicons {
+	position: relative;
+	bottom: -5px;
+}
+
+/* Tooltip */
+.cau_tooltip {
+	position: relative;
+}
+.cau_tooltip .cau_tooltip_text {
+    visibility: hidden;
+    background-color: rgba(0,0,0,0.7);	
+    color: #FFF;
+    text-align: left;
+    font-size: 14px;
+    padding: 15px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 240px;
+    bottom: 100%;
+    left: 50%; 
+    margin-left: -60px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: .3s;
+    font-weight: normal;
+}
+.cau_tooltip:hover .cau_tooltip_text {
+    visibility: visible;
+    opacity: 1;
+}
+.cau_tooltip .cau_tooltip_text::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -75px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.7) transparent transparent transparent;
+}
+
+/* Responsive */
+@media screen and (max-width: 1400px) {
+
+	.cau-column-wide {
+		width: calc(100% - 350px);
+	}
+	.cau-column-small {
+		width: 350px;
+	}
+	.welcome-to-cau .welcome-column.welcome-column-quarter {
+		width: 50%;
+		padding-bottom: 35px;
+	}
+	.cau-column-small .welcome-to-cau {
+		background-image: none;
+	}
+
+}
+@media screen and (max-width: 1150px) {
+
+	.cau-column-wide, .cau-column-small {
+		width: 100%;
+		padding: 0;
+	}
+
+}
+@media screen and (max-width: 1000px) {
+
+	/* Basics */
+	.cau_hide_on_mobile, table.autoupdate thead {
+		display: none!important;
+	}
+	.form-table td fieldset p {
+		display: block;
+		padding: 5px 0;
+	}
+	.form-table td fieldset input[type="checkbox"] {
+		display: inline-block;
+		vertical-align: middle;
+		width: 25px;
+	}
+	.form-table td fieldset label {
+		display: inline-block;
+		vertical-align: middle;
+		width: calc(100% - 40px);
+		box-sizing: border-box;
+		padding-left: 5px;
+	}
+	.cau_content .nav-tab-wrapper {
+		position: relative;
+		top: -20px;
+		border-bottom: 1px solid #CCC!important;
+		padding-bottom: 15px!important;
+		margin-bottom: 0px!important;
+	}
+	.cau_content .nav-tab {
+		font-size: 12px;
+		margin: 5px 5px 0 0!important;
+		box-sizing: border-box;
+		text-align: center;
+	}
+
+	/* Scheduling */
+	.cau_schedule_input {
+		width: 75px;
+	}
+
+	/* Custom buttons */
+	.cau-button {
+		display: block;
+		text-align: center;
+		margin: 5px 0;
+	}
+	.cau-button .dashicons {
+		float: left;
+	}
+
+	/* Dashboard */
+	.welcome-to-cau {
+		background-position: right bottom;
+	}
+	.welcome-to-cau.love-bg {
+		background-image: none;
+	}
+	.welcome-to-cau .welcome-column {
+		min-width: 100%;
+	}
+	.welcome-to-cau .welcome-column.welcome-column-first {
+		padding-left: 0px;
+	}
+	.cau-column-wide .cau-dashboard-box {
+		padding-right: 30px;
+		padding-bottom: 125px
+	}
+	.majorMinorExplain {
+		display: none;
+	}
+
+	/* Status */
+	table.cau_status_list .cau_status_name {
+		display: inline-block;
+		width: 50%;
+		box-sizing: border-box;
+		font-weight: 500;
+	}
+	table.cau_status_list .cau_status_interval {
+		display: none;
+	}
+	table.cau_status_list th.cau_status_next {
+		display: none;
+	}
+	table.cau_status_list td.cau_status_next {
+		display: block;
+		width: 100%;
+	}
+	table.cau_status_list .cau_status_active_state {
+		display: inline-block;
+		width: 50%;
+		box-sizing: border-box;
+		text-align: right;
+	}
+	.cau_mobile_prefix {
+		display: inline-block;
+		padding-right: 5px;
+	}
+	table.cau_status_list.cau_status_warnings td {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	table.cau_status_list.cau_status_warnings th.cau_plugin_issue_explain, table.cau_status_list.cau_status_warnings th.cau_plugin_issue_fixit {
+		display: none;
+	}
+	table.cau_status_list.cau_status_warnings td.cau_plugin_issue_name {
+		font-weight: 500;
+	}
+
+}

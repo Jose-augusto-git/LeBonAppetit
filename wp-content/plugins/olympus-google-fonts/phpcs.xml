@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Example Project" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+
+	<description>A custom set of rules to check for a WPized WordPress project</description>
+
+	<!-- Exclude the Composer Vendor directory. -->
+	<exclude-pattern>/vendor/*</exclude-pattern>
+
+	<!-- Exclude the Node Modules directory. -->
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+
+	<!-- Exclude minified Javascript files. -->
+	<exclude-pattern>*.min.js</exclude-pattern>
+
+		<!--
+	#############################################################################
+	SNIFF AGAINST THE WordPress RULESET
+	Exclude a few select sniffs/errorcodes for specific reasons and
+	add configuration for a sniff.
+	#############################################################################
+	-->
+	<rule ref="WordPress">
+		<properties>
+			<property name="minimum_supported_version" value="5.9"/>
+		</properties>
+
+		<!-- WPCS demands long arrays. YoastCS demands short arrays. -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+
+		<!-- Demanding Yoda conditions is stupid. -->
+		<exclude name="WordPress.PHP.YodaConditions"/>
+
+		<!-- A while loop is the only valid control structure where an assignment can be justified. -->
+		<exclude name="WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition"/>
+
+		<!-- If a conscious choice has been made for a non-strict comparison, that's ok.
+		I.e. when `strict` has been explicitely set to `false` in an array comparison,
+		it will be allowed. -->
+		<exclude name="WordPress.PHP.StrictInArray.FoundNonStrictFalse"/>
+	</rule>
+
+	<!-- Add in some extra rules from other standards. -->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+	<rule ref="Generic.Commenting.Todo"/>
+</ruleset>

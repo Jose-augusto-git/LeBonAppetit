@@ -1,0 +1,25 @@
+
+# BEGIN WPForms
+# As diretrizes (linhas) entre "BEGIN WPForms" e "END WPForms" são
+# geradas dinamicamente e só devem ser modificadas através de filtros do WordPress.
+# Quaisquer alterações nas diretivas entre esses marcadores serão sobrescritas.
+# Disable PHP and Python scripts parsing.
+<Files *>
+  SetHandler none
+  SetHandler default-handler
+  RemoveHandler .cgi .php .php3 .php4 .php5 .phtml .pl .py .pyc .pyo
+  RemoveType .cgi .php .php3 .php4 .php5 .phtml .pl .py .pyc .pyo
+</Files>
+<IfModule mod_php5.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+  php_flag engine off
+</IfModule>
+<IfModule headers_module>
+  Header set X-Robots-Tag "noindex"
+</IfModule>
+# END WPForms

@@ -1,0 +1,182 @@
+[
+  {
+    "label": "[bug]",
+    "value": "mask-image/animals/bug.svg",
+    "category": "animals"
+  },
+  {
+    "label": "[butterfly]",
+    "value": "mask-image/animals/butterfly.svg",
+    "category": "animals"
+  },
+  {
+    "label": "[dolphin]",
+    "value": "mask-image/animals/dolphin.svg",
+    "category": "animals"
+  },
+  {
+    "label": "[eagle]",
+    "value": "mask-image/animals/eagle.svg",
+    "category": "animals"
+  },
+  {
+    "label": "[gold-fish]",
+    "value": "mask-image/animals/gold-fish.svg",
+    "category": "animals"
+  },
+  {
+    "label": "[blobs]",
+    "value": "mask-image/backgrounds/blobs.svg",
+    "category": "backgrounds"
+  },
+  {
+    "label": "[rivers]",
+    "value": "mask-image/backgrounds/rivers.svg",
+    "category": "backgrounds"
+  },
+  {
+    "label": "[skewed]",
+    "value": "mask-image/backgrounds/skewed.svg",
+    "category": "backgrounds"
+  },
+  {
+    "label": "[stripes]",
+    "value": "mask-image/backgrounds/stripes.svg",
+    "category": "backgrounds"
+  },
+  {
+    "label": "[trianglify]",
+    "value": "mask-image/backgrounds/trianglify.svg",
+    "category": "backgrounds"
+  },
+  {
+    "label": "[wave-lines]",
+    "value": "mask-image/backgrounds/wave-lines.svg",
+    "category": "backgrounds"
+  },
+  {
+    "label": "[forest]",
+    "value": "mask-image/dividers/forest.svg",
+    "category": "dividers"
+  },
+  {
+    "label": "[waves-bottom-opacity]",
+    "value": "mask-image/dividers/waves-bottom-opacity.svg",
+    "category": "dividers"
+  },
+  {
+    "label": "[waves-bottom]",
+    "value": "mask-image/dividers/waves-bottom.svg",
+    "category": "dividers"
+  },
+  {
+    "label": "[waves-multiple]",
+    "value": "mask-image/dividers/waves-multiple.svg",
+    "category": "dividers"
+  },
+  {
+    "label": "[waves-top-opacity]",
+    "value": "mask-image/dividers/waves-top-opacity.svg",
+    "category": "dividers"
+  },
+  {
+    "label": "[waves-top]",
+    "value": "mask-image/dividers/waves-top.svg",
+    "category": "dividers"
+  },
+  {
+    "label": "[pebble-1]",
+    "value": "mask-image/pebbles/pebble-1.svg",
+    "category": "pebbles"
+  },
+  {
+    "label": "[pebble-2]",
+    "value": "mask-image/pebbles/pebble-2.svg",
+    "category": "pebbles"
+  },
+  {
+    "label": "[pebble-3]",
+    "value": "mask-image/pebbles/pebble-3.svg",
+    "category": "pebbles"
+  },
+  {
+    "label": "[pebble-4]",
+    "value": "mask-image/pebbles/pebble-4.svg",
+    "category": "pebbles"
+  },
+  {
+    "label": "[pebble-5]",
+    "value": "mask-image/pebbles/pebble-5.svg",
+    "category": "pebbles"
+  },
+  {
+    "label": "[pebble-set]",
+    "value": "mask-image/pebbles/pebble-set.svg",
+    "category": "pebbles"
+  },
+  {
+    "label": "[doughnut]",
+    "value": "mask-image/sharp/doughnut.svg",
+    "category": "sharp"
+  },
+  {
+    "label": "[frame]",
+    "value": "mask-image/sharp/frame.svg",
+    "category": "sharp"
+  },
+  {
+    "label": "[hour-glass]",
+    "value": "mask-image/sharp/hour-glass.svg",
+    "category": "sharp"
+  },
+  {
+    "label": "[sharp-top]",
+    "value": "mask-image/sharp/sharp-top.svg",
+    "category": "sharp"
+  },
+  {
+    "label": "[sharp-tops]",
+    "value": "mask-image/sharp/sharp-tops.svg",
+    "category": "sharp"
+  },
+  {
+    "label": "[slant-rounded]",
+    "value": "mask-image/sharp/slant-rounded.svg",
+    "category": "sharp"
+  },
+  {
+    "label": "[slant]",
+    "value": "mask-image/sharp/slant.svg",
+    "category": "sharp"
+  },
+  {
+    "label": "[drop]",
+    "value": "mask-image/rounded/drop.svg",
+    "category": "rounded"
+  },
+  {
+    "label": "[lozenger-up]",
+    "value": "mask-image/rounded/lozenger-up.svg",
+    "category": "rounded"
+  },
+  {
+    "label": "[opacity-circles]",
+    "value": "mask-image/rounded/opacity-circles.svg",
+    "category": "rounded"
+  },
+  {
+    "label": "[quote]",
+    "value": "mask-image/rounded/quote.svg",
+    "category": "rounded"
+  },
+  {
+    "label": "[side-tunnel]",
+    "value": "mask-image/rounded/side-tunnel.svg",
+    "category": "rounded"
+  },
+  {
+    "label": "[tunnel]",
+    "value": "mask-image/rounded/tunnel.svg",
+    "category": "rounded"
+  }
+]

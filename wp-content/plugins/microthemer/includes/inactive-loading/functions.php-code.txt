@@ -1,0 +1,12 @@
+/* Begin Microthemer Code */
+if (!defined('MT_IS_ACTIVE')) {
+
+	$file = ABSPATH . 'wp-content/micro-themes/AssetLoad.php'; // modify this for WP multisite
+
+	// Load MT AssetLoad class if it's available, and hasn't been loaded yet
+	if (!class_exists('\Microthemer\AssetLoad') && file_exists($file)){
+		require_once $file;
+		new Microthemer\AssetLoad(true);
+	}
+}
+/* End Microthemer Code */
