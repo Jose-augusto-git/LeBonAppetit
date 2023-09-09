@@ -13,8 +13,8 @@
 namespace Microthemer\Dependencies\Minify;
 
 use Microthemer\Dependencies\Minify\Exceptions\FileImportException;
-use MatthiasMullie\PathConverter\Converter;
-use MatthiasMullie\PathConverter\ConverterInterface;
+use Microthemer\Dependencies\Minify\PathConverter\Converter;
+use Microthemer\Dependencies\Minify\PathConverter\ConverterInterface;
 
 /**
  * CSS minifier.

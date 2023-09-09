@@ -669,6 +669,8 @@ $this->default_preferences = array(
 	"fold_threshold" => 1440, // a conservative fold threshold, but still below 4K screens - user can customise of course
 	"hover_inspect_off_initially" => 0,
 	"scroll_to_elements" => 1, // scroll to out of view elements in reposition_overlays
+	"autofocus_editor" => 0,
+	"wireframe_mode" => 0,
 	"allow_scss" => 0, // if enabled by default, invalid css/scss will prevent stylesheet update.
 	"sync_browser_tabs" => 0,
 	"specificity_preference" => 1, // 1 = high, 0 = low
@@ -1530,6 +1532,18 @@ $this->menu = array(
 				'toggle' => $this->preferences['show_rulers'],
 				'data-pos' => esc_attr__('Show rulers', 'microthemer'),
 				'data-neg' => esc_attr__('hide rulers', 'microthemer'),
+			),
+
+			'wireframe_mode' => array(
+				//'new_set' => 1,
+				'name' => esc_html__('Wireframe mode', 'microthemer'),
+				'title' => esc_attr__("Toggle wireframe mode", 'microthemer'),
+				'class' => 'toggle-rulers',
+				'toggle' => !empty($this->preferences['wireframe_mode']),
+				'data-pos' => esc_attr__('Enable wireframe mode', 'microthemer'),
+				'data-neg' => esc_attr__('Disable wireframe mode', 'microthemer'),
+				'data-no-save' => 1,
+				'data-fhtml' => 1
 			),
 
 			// detach preview

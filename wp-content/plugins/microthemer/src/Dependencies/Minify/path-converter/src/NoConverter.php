@@ -1,6 +1,6 @@
 <?php
 
-namespace MatthiasMullie\PathConverter;
+namespace Microthemer\Dependencies\Minify\PathConverter;
 
 /**
  * Don't convert paths.

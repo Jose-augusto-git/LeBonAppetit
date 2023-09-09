@@ -197,6 +197,10 @@ $this->display_log();
 			            'label' => __('Auto-scroll to the current element, if out of view', 'microthemer'),
 			            'explain' =>__('If your selector targets elements that are off-screen, the browser will auto-scroll them into view', 'microthemer')
 		            ),
+		            'autofocus_editor' => array(
+			            'label' => __('Auto-focus the code editor cursor after selecting an element', 'microthemer'),
+			            'explain' =>__('This saves time clicking on the code editor after selecting an element, but can also lead to accidental typing in the editor', 'microthemer')
+		            ),
 
 		            /*'tooltip_delay' => array(
 			            'label' => __('Tooltip delay time (in milliseconds)', 'microthemer'),

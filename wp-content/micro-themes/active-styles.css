@@ -78,6 +78,11 @@
 	padding-bottom: 50px !important;
 }
 
+/** Rodapé >> WP image 357 **/
+#block-134 .is-style-default {
+	position: relative !important;
+}
+
 /** Rodapé >> Uagb ifb desc **/
 #post-25 .uagb-ifb-desc {
 	/* MT [ google_font: 1 ] */

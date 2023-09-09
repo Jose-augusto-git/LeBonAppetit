@@ -90,7 +90,7 @@ class Updates {
 	private function update_already_displayed( $basename ) {
 		$available_updates = $this->get_available_updates();
 
-		if ( ! is_object( $available_updates ) ) {
+		if ( ! is_object( $available_updates ) || ! isset( $available_updates->response ) || ! is_array( $available_updates->response ) ) {
 			return false;
 		}
 
@@ -268,7 +268,8 @@ class Updates {
 			$plugin_data     = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin['basename'] );
 			$current_version = $plugin_data['Version'] ?? '';
 
-			if ( version_compare( $current_version, $latest_version, '==' ) ) {
+			// Due to stored, non-expired transients, it might be possible that the latest version is lower than the current version.
+			if ( version_compare( $current_version, $latest_version, '>=' ) ) {
 				continue;
 			}
 
