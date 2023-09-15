@@ -1,0 +1,1 @@
+T e<?php exit; ?>a:1:{s:7:"content";s:307:"{"common.install":1694734661,"common.install_version":"2.4.1","license.status":"no_key","license.next_check":1695166661,"license.terms":"","license.community_terms":"accept","minify.hide_minify_help":true,"common.show_note.flush_posts_needed":true,"common.show_note.flush_posts_needed.timestamp":1694735464}";}
