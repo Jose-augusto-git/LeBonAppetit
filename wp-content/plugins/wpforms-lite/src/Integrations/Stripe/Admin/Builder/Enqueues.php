@@ -2,6 +2,8 @@
 
 namespace WPForms\Integrations\Stripe\Admin\Builder;
 
+use WPForms\Integrations\Stripe\Helpers;
+
 /**
  * Script enqueues for the Stripe Builder settings panel.
  *
@@ -66,6 +68,14 @@ class Enqueues {
 			false
 		);
 
+		wp_enqueue_script(
+			'wpforms-builder-modern-stripe',
+			WPFORMS_PLUGIN_URL . "assets/js/integrations/stripe/admin-builder-modern-stripe{$min}.js",
+			[],
+			WPFORMS_VERSION,
+			false
+		);
+
 		/**
 		 * Allow to filter builder stripe script data.
 		 *
@@ -73,7 +83,16 @@ class Enqueues {
 		 *
 		 * @param array $data Script data.
 		 */
-		$script_data = apply_filters( 'wpforms_integrations_stripe_admin_builder_enqueues_data', [ 'field_slugs' => [ 'stripe-credit-card' ] ] );
+		$script_data = apply_filters(
+			'wpforms_integrations_stripe_admin_builder_enqueues_data',
+			[
+				'field_slugs'        => [ 'stripe-credit-card' ],
+				'is_pro'             => Helpers::is_pro(),
+				'plan_placeholder'   => esc_html__( 'Plan Name', 'wpforms-lite' ),
+				'disabled_recurring' => esc_html__( 'You can only use one payment type at a time. If you\'d like to enable Recurring Payments, please disable One-Time Payments.', 'wpforms-lite' ),
+				'disabled_one_time'  => esc_html__( 'You can only use one payment type at a time. If you\'d like to enable One-Time Payments, please disable Recurring Payments.', 'wpforms-lite' ),
+			]
+		);
 
 		wp_localize_script(
 			'wpforms-builder-stripe',

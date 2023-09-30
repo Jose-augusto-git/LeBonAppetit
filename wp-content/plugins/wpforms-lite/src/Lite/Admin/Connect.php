@@ -16,6 +16,15 @@ use WPForms\Helpers\PluginSilentUpgrader;
 class Connect {
 
 	/**
+	 * WPForms Pro plugin basename.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @var string
+	 */
+	const PRO_PLUGIN = 'wpforms/wpforms.php';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.5.5
@@ -70,28 +79,36 @@ class Connect {
 		 	wp_send_json_error( [ 'message' => esc_html__( 'You are not allowed to install plugins.', 'wpforms-lite' ) ] );
 		}
 
+		$current_plugin = plugin_basename( WPFORMS_PLUGIN_FILE );
+		$is_pro         = wpforms()->is_pro();
+
+		// Local development environment.
+		if ( $current_plugin === self::PRO_PLUGIN && ! $is_pro ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'There must be a non-developer Lite version installed to upgrade.', 'wpforms-lite' ) ] );
+		}
+
 		$key = ! empty( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 
+		// Empty license key.
 		if ( empty( $key ) ) {
 		 	wp_send_json_error( [ 'message' => esc_html__( 'Please enter your license key to connect.', 'wpforms-lite' ) ] );
 		}
 
-		if ( wpforms()->is_pro() ) {
+		// Whether it is the pro version.
+		if ( $is_pro ) {
 		 	wp_send_json_error( [ 'message' => esc_html__( 'Only the Lite version can be upgraded.', 'wpforms-lite' ) ] );
 		}
 
 		// Verify pro version is not installed.
-		$active = activate_plugin( 'wpforms/wpforms.php', false, false, true );
+		$active = activate_plugin( self::PRO_PLUGIN, false, false, true );
 
 		if ( ! is_wp_error( $active ) ) {
 
 			// Deactivate Lite.
-			$plugin = plugin_basename( WPFORMS_PLUGIN_FILE );
-
-		 	deactivate_plugins( $plugin );
+		 	deactivate_plugins( $current_plugin );
 
 			 // phpcs:ignore WPForms.Comments.PHPDocHooks.RequiredHookDocumentation, WPForms.PHP.ValidateHooks.InvalidHookName
-			do_action( 'wpforms_plugin_deactivated', $plugin );
+			do_action( 'wpforms_plugin_deactivated', $current_plugin );
 
 		 	wp_send_json_success(
 				[
@@ -187,7 +204,7 @@ class Connect {
 		}
 
 		// Verify pro not installed.
-		$active = activate_plugin( 'wpforms/wpforms.php', $url, false, true );
+		$active = activate_plugin( self::PRO_PLUGIN, $url, false, true );
 
 		if ( ! is_wp_error( $active ) ) {
 			$plugin = plugin_basename( WPFORMS_PLUGIN_FILE );

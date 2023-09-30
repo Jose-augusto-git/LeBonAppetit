@@ -84,6 +84,15 @@ class Process {
 	private $is_payment_processed = false;
 
 	/**
+	 * Save matched subscription settings.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @var array
+	 */
+	private $subscription_settings = [];
+
+	/**
 	 * Initialize.
 	 *
 	 * @since 1.8.2
@@ -104,7 +113,7 @@ class Process {
 	 */
 	private function hooks() {
 
-		add_action( 'wpforms_process', [ $this, 'process_entry' ], 10, 4 );
+		add_action( 'wpforms_process', [ $this, 'process_entry' ], 10, 3 );
 		add_action( 'wpforms_process_payment_saved', [ $this, 'process_payment_saved' ], 10, 3 );
 		add_action( 'wpformsstripe_api_common_set_error_from_exception', [ $this, 'process_card_error' ] );
 		add_filter( 'wpforms_forms_submission_prepare_payment_data', [ $this, 'prepare_payment_data' ] );
@@ -154,9 +163,6 @@ class Process {
 
 			return;
 		}
-
-		// Set payment processing flag.
-		$this->is_payment_processed = true;
 
 		$this->process_payment();
 	}
@@ -229,7 +235,7 @@ class Process {
 		$subscription = $this->api->get_subscription();
 
 		if ( ! empty( $subscription->id ) ) {
-			$payment_meta['subscription_period'] = sanitize_text_field( $this->settings['recurring']['period'] );
+			$payment_meta['subscription_period'] = sanitize_text_field( $this->subscription_settings['period'] );
 		}
 
 		if ( ! empty( $charge_details['brand'] ) ) {
@@ -300,7 +306,7 @@ class Process {
 		$payment_url = add_query_arg(
 			[
 				'page'       => 'wpforms-payments',
-				'view'       => 'single',
+				'view'       => 'payment',
 				'payment_id' => $payment_id,
 			],
 			admin_url( 'admin.php' )
@@ -329,7 +335,7 @@ class Process {
 			}
 		);
 
-		$payment->save();
+		$payment->update( $payment->id, $payment->serializeParameters(), Helpers::get_auth_opts() );
 
 		$subscription = $this->api->get_subscription();
 
@@ -338,23 +344,15 @@ class Process {
 			$subscription->metadata['payment_id']  = $payment_id;
 			$subscription->metadata['payment_url'] = esc_url_raw( $payment_url );
 
-			$subscription->save();
+			$subscription->update( $subscription->id, $subscription->serializeParameters(), Helpers::get_auth_opts() );
 		}
 
-		wpforms()->get( 'payment_meta' )->add(
-			[
-				'payment_id' => $payment_id,
-				'meta_key'   => 'log', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-				'meta_value' => wp_json_encode( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-					[
-						'value' => sprintf(
-							'Stripe charge complete. (Charge ID: %s)',
-							isset( $payment->latest_charge ) ? $payment->latest_charge : $payment->id
-						),
-						'date'  => gmdate( 'Y-m-d H:i:s' ),
-					]
-				),
-			]
+		wpforms()->get( 'payment_meta' )->add_log(
+			$payment_id,
+			sprintf(
+				'Stripe charge processed. (Charge ID: %1$s)',
+				isset( $payment->latest_charge ) ? $payment->latest_charge : $payment->id
+			)
 		);
 
 		/**
@@ -515,6 +513,10 @@ class Process {
 			return false;
 		}
 
+		if ( ! $this->is_payment_processed ) {
+			return false;
+		}
+
 		return empty( $this->api->get_error() );
 	}
 
@@ -589,24 +591,40 @@ class Process {
 	 */
 	public function process_payment() {
 
-		$this->api->setup_stripe();
-
-		$error = $this->api->get_error();
-
-		if ( $error ) {
-			$this->process_api_error( 'general' );
-
+		if ( $this->is_api_errors() ) {
 			return;
 		}
 
 		// Proceed to executing the purchase.
-		if ( empty( $this->settings['recurring']['enable'] ) ) {
-			$this->process_payment_single();
+		if ( ! empty( $this->settings['enable_recurring'] ) || ! empty( $this->settings['recurring']['enable'] ) ) {
+			$this->process_payment_subscription();
 
 			return;
 		}
 
-		$this->process_payment_subscription();
+		$this->process_payment_single();
+	}
+
+	/**
+	 * Process a subscription payment for forms with old payments interface.
+	 *
+	 * @since 1.8.4
+	 */
+	protected function process_legacy_payment_subscription() {
+
+		if ( ! $this->is_recurring_settings_ok( $this->settings['recurring'] ) ) {
+			return;
+		}
+
+		$args = $this->get_base_subscription_args();
+
+		$args['email']    = sanitize_email( $this->fields[ $this->settings['recurring']['email'] ]['value'] );
+		$args['settings'] = $this->settings['recurring'];
+
+		$this->process_subscription( $args );
+
+		// Set payment processing flag.
+		$this->is_payment_processed = true;
 	}
 
 	/**
@@ -616,7 +634,7 @@ class Process {
 	 */
 	public function process_payment_single() {
 
-		$amount_decimals = $this->get_decimals_amount();
+		$amount_decimals = Helpers::get_decimals_amount();
 
 		// Define the basic payment details.
 		$args = [
@@ -649,6 +667,9 @@ class Process {
 
 		$this->api->process_single( $args );
 
+		// Set payment processing flag.
+		$this->is_payment_processed = true;
+
 		$this->update_credit_card_field_value();
 
 		$this->process_api_error( 'single' );
@@ -661,46 +682,53 @@ class Process {
 	 */
 	public function process_payment_subscription() {
 
-		$error = '';
-
-		// Check subscription settings are provided.
-		if ( empty( $this->settings['recurring']['period'] ) || empty( $this->settings['recurring']['email'] ) ) {
-			$error = esc_html__( 'Stripe subscription payment stopped, missing form settings.', 'wpforms-lite' );
-		}
-
-		// Check for required customer email.
-		if ( empty( $this->fields[ $this->settings['recurring']['email'] ]['value'] ) ) {
-			$error = esc_html__( 'Stripe subscription payment stopped, customer email not found.', 'wpforms-lite' );
-		}
-
-		// Before proceeding, check if any basic errors were detected.
-		if ( $error ) {
-			$this->log_error( $error );
-			$this->display_error( $error );
+		if ( Helpers::is_legacy_payment_settings( $this->form_data ) ) {
+			$this->process_legacy_payment_subscription();
 
 			return;
 		}
 
-		$amount_decimals = $this->get_decimals_amount();
+		$args = $this->get_base_subscription_args();
 
-		$args = [
-			'form_id'    => $this->form_id,
-			'form_title' => sanitize_text_field( $this->form_data['settings']['form_title'] ),
-			'amount'     => $this->amount * $amount_decimals,
-			'email'      => sanitize_email( $this->fields[ $this->settings['recurring']['email'] ]['value'] ),
-			'settings'   => $this->settings['recurring'],
-		];
+		foreach ( $this->settings['recurring'] as $recurring ) {
 
-		if ( ! Helpers::is_license_ok() && Helpers::is_application_fee_supported() ) {
-			$args['application_fee_percent'] = 3;
+			if ( ! $this->is_subscription_plan_valid( $recurring ) ) {
+				continue;
+			}
+
+			$args['email']    = sanitize_email( $this->fields[ $recurring['email'] ]['value'] );
+			$args['settings'] = $recurring;
+
+			$this->process_subscription( $args );
+
+			return;
 		}
 
-		$this->api->process_subscription( $args );
+		if ( ! empty( $this->settings['enable_one_time'] ) ) {
+			$this->process_payment_single();
 
-		// Update the credit card field value to contain basic details.
-		$this->update_credit_card_field_value();
+			return;
+		}
 
-		$this->process_api_error( 'subscription' );
+		$this->log_error(
+			esc_html__( 'Stripe Subscription payment stopped validation error.', 'wpforms-lite' ),
+			$this->fields,
+			'conditional_logic'
+		);
+	}
+
+	/**
+	 * Validate plan before process.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $plan Plan settings.
+	 *
+	 * @return bool
+	 */
+	protected function is_subscription_plan_valid( $plan ) {
+
+		return ! empty( $plan['email'] ) && $this->is_recurring_settings_ok( $plan );
 	}
 
 	/**
@@ -905,14 +933,100 @@ class Process {
 	}
 
 	/**
-	 * Get decimals amount.
+	 * Check if any API errors occurs.
 	 *
-	 * @since 1.8.2
+	 * @since 1.8.4
 	 *
-	 * @return int
+	 * @return bool
 	 */
-	private function get_decimals_amount() {
+	protected function is_api_errors() {
 
-		return (int) str_pad( 1, wpforms_get_currency_decimals( strtolower( wpforms_get_currency() ) ) + 1, 0, STR_PAD_RIGHT );
+		$this->api->setup_stripe();
+
+		$error = $this->api->get_error();
+
+		if ( $error ) {
+			$this->process_api_error( 'general' );
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if recurring settings is configured correctly.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param {array} $settings Settings data.
+	 *
+	 * @return bool
+	 */
+	protected function is_recurring_settings_ok( $settings ) {
+
+		$error = '';
+
+		// Check subscription settings are provided.
+		if ( empty( $settings['period'] ) || empty( $settings['email'] ) ) {
+			$error = esc_html__( 'Stripe subscription payment stopped, missing form settings.', 'wpforms-lite' );
+		}
+
+		// Check for required customer email.
+		if ( ! $error && empty( $this->fields[ $settings['email'] ]['value'] ) ) {
+			$error = esc_html__( 'Stripe subscription payment stopped, customer email not found.', 'wpforms-lite' );
+		}
+
+		// Before proceeding, check if any basic errors were detected.
+		if ( $error ) {
+			$this->log_error( $error );
+			$this->display_error( $error );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Process subscription API call.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $args Prepared subscription arguments.
+	 */
+	protected function process_subscription( $args ) {
+
+		$this->subscription_settings = $args['settings'];
+
+		if ( ! Helpers::is_license_ok() && Helpers::is_application_fee_supported() ) {
+			$args['application_fee_percent'] = 3;
+		}
+
+		$this->api->process_subscription( $args );
+
+		// Set payment processing flag.
+		$this->is_payment_processed = true;
+
+		// Update the credit card field value to contain basic details.
+		$this->update_credit_card_field_value();
+
+		$this->process_api_error( 'subscription' );
+	}
+
+	/**
+	 * Get base subscription arguments.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return array
+	 */
+	protected function get_base_subscription_args() {
+
+		return [
+			'form_id'    => $this->form_id,
+			'form_title' => sanitize_text_field( $this->form_data['settings']['form_title'] ),
+			'amount'     => $this->amount * Helpers::get_decimals_amount(),
+		];
 	}
 }

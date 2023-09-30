@@ -135,7 +135,7 @@ function wpforms_settings_license_callback( $args ) {
 	$output .= '<hr><p>' . esc_html__( 'Already purchased? Simply enter your license key below to enable WPForms PRO!', 'wpforms-lite' ) . '</p>';
 	$output .= '<p>';
 	$output .= '<input type="password" spellcheck="false" id="wpforms-settings-upgrade-license-key" placeholder="' . esc_attr__( 'Paste license key here', 'wpforms-lite' ) . '" value="">';
-	$output .= '<button type="button" class="wpforms-btn wpforms-btn-md wpforms-btn-orange" id="wpforms-settings-connect-btn">' . esc_html__( 'Verify Key', 'wpforms-lite' ) . '</button>';
+	$output .= '<button type="button" class="wpforms-btn wpforms-btn-md wpforms-btn-blue" id="wpforms-settings-connect-btn">' . esc_html__( 'Verify Key', 'wpforms-lite' ) . '</button>';
 	$output .= '</p>';
 
 	/**
@@ -153,23 +153,41 @@ function wpforms_settings_license_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Settings arguments.
  *
  * @return string
  */
 function wpforms_settings_text_callback( $args ) {
 
+	if ( ! in_array( $args['type'], [ 'text', 'password' ], true ) ) {
+		$args['type'] = 'text';
+	}
+
 	$default = isset( $args['default'] ) ? esc_html( $args['default'] ) : '';
 	$value   = wpforms_setting( $args['id'], $default );
 	$id      = wpforms_sanitize_key( $args['id'] );
 
-	$output = '<input type="text" id="wpforms-setting-' . $id . '" name="' . $id . '" value="' . esc_attr( $value ) . '">';
+	$output = '<input type="' . esc_attr( $args['type'] ) . '" id="wpforms-setting-' . $id . '" name="' . $id . '" value="' . esc_attr( $value ) . '">';
 
 	if ( ! empty( $args['desc'] ) ) {
 		$output .= '<p class="desc">' . wp_kses_post( $args['desc'] ) . '</p>';
 	}
 
 	return $output;
+}
+
+/**
+ * Settings password input field callback.
+ *
+ * @since 1.8.4
+ *
+ * @param array $args Setting field arguments.
+ *
+ * @return string
+ */
+function wpforms_settings_password_callback( $args ) {
+
+	return wpforms_settings_text_callback( $args );
 }
 
 /**
@@ -235,9 +253,12 @@ function wpforms_settings_select_callback( $args ) {
 		$data['placeholder'] = $args['placeholder'];
 	}
 
+	$size_attr = '';
+
 	if ( $choices && ! empty( $args['multiple'] ) ) {
 		$attr[]      = 'multiple';
 		$select_name = $id . '[]';
+		$size_attr   = ' size="1"';
 	}
 
 	foreach ( $data as $name => $val ) {
@@ -248,7 +269,7 @@ function wpforms_settings_select_callback( $args ) {
 	$attr = implode( ' ', array_map( 'sanitize_html_class', $attr ) );
 
 	$output  = $choices ? '<span class="choicesjs-select-wrap">' : '';
-	$output .= '<select id="wpforms-setting-' . $id . '" name="' . $select_name . '" class="' . $class . '"' . $data . $attr . '>';
+	$output .= '<select id="wpforms-setting-' . $id . '" name="' . $select_name . '" class="' . $class . '"' . $data . $attr . $size_attr . '>';
 
 	foreach ( $args['options'] as $option => $name ) {
 		if ( empty( $args['selected'] ) ) {
@@ -351,10 +372,15 @@ function wpforms_settings_toggle_callback( $args ) {
 	$class      = ! empty( $args['control-class'] ) ? $args['control-class'] : '';
 	$class     .= ! empty( $args['is-important'] ) ? ' wpforms-important' : '';
 	$input_attr = ! empty( $args['input-attr'] ) ? $args['input-attr'] : '';
-	$output     = wpforms_panel_field_toggle_control(
-		[
-			'control-class' => $class,
-		],
+
+	$default_args = [
+		'control-class' => $class,
+	];
+
+	$args = wp_parse_args( $args, $default_args );
+
+	$output = wpforms_panel_field_toggle_control(
+		$args,
 		'wpforms-setting-' . $id,
 		$id,
 		! empty( $args['label'] ) ? $args['label'] : '',
@@ -465,6 +491,33 @@ function wpforms_settings_providers_callback( $args ) {
 	$output .= ob_get_clean();
 
 	$output .= '</div>';
+
+	return $output;
+}
+
+/**
+ * Webhooks' endpoint field callback.
+ *
+ * @since 1.8.4
+ *
+ * @param array $args Field arguments.
+ *
+ * @return string
+ */
+function wpforms_settings_webhook_endpoint_callback( $args ) {
+
+	$output = '';
+
+	if ( ! empty( $args['url'] ) ) {
+		$output  = '<div class="wpforms-stripe-webhook-endpoint-url">';
+		$output .= '<input type="text" disabled id="wpforms-stripe-webhook-endpoint-url" value="' . esc_url_raw( $args['url'] ) . '" />';
+		$output .= '<a class="button button-secondary wpforms-copy-to-clipboard" data-clipboard-target="#wpforms-stripe-webhook-endpoint-url" href="" ><span class="dashicons dashicons-admin-page"></span></a>';
+		$output .= '</div>';
+
+		if ( ! empty( $args['desc'] ) ) {
+			$output .= '<p class="desc">' . wp_kses_post( $args['desc'] ) . '</p>';
+		}
+	}
 
 	return $output;
 }

@@ -24,10 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php
 		foreach ( $details_list as $item ) :
-
-			if ( empty( $item['value'] ) ) {
-				continue;
-			}
 			?>
 
 			<div class="wpforms-payment-advanced-item" >

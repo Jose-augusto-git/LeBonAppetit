@@ -142,7 +142,7 @@ class Page {
 		$settings[ self::VIEW ] = [
 			self::VIEW . '-heading'  => [
 				'id'       => self::VIEW . '-heading',
-				'content'  => '<h4>' . esc_html__( 'CAPTCHA', 'wpforms-lite' ) . '</h4><p>' . esc_html__( 'A CAPTCHA is an anti-spam technique which helps to protect your website from spam and abuse while letting real people pass through with ease. WPForms supports two popular services.', 'wpforms-lite' ) . '</p>',
+				'content'  => '<h4>' . esc_html__( 'CAPTCHA', 'wpforms-lite' ) . '</h4><p>' . esc_html__( 'A CAPTCHA is an anti-spam technique which helps to protect your website from spam and abuse while letting real people pass through with ease.', 'wpforms-lite' ) . '</p>',
 				'type'     => 'content',
 				'no_label' => true,
 				'class'    => [ 'wpforms-setting-captcha-heading', 'section-heading' ],
@@ -181,20 +181,21 @@ class Page {
 		$settings[ self::VIEW ] = array_merge(
 			$settings[ self::VIEW ],
 			[
+				'recaptcha-noconflict'  => [
+					'id'     => 'recaptcha-noconflict',
+					'name'   => esc_html__( 'No-Conflict Mode', 'wpforms-lite' ),
+					'desc'   => esc_html__( 'Forcefully remove other CAPTCHA occurrences in order to prevent conflicts. Only enable this option if your site is having compatibility issues or instructed by support.', 'wpforms-lite' ),
+					'type'   => 'toggle',
+					'status' => true,
+				],
 				self::VIEW . '-preview' =>
 					[
 						'id'      => self::VIEW . '-preview',
 						'name'    => esc_html__( 'Preview', 'wpforms-lite' ),
-						'content' => '<p class="desc">' . esc_html__( 'Please save settings to generate a preview of your CAPTCHA here.', 'wpforms-lite' ) . '</p>',
+						'content' => '<p class="desc wpforms-captcha-preview-desc">' . esc_html__( 'Please save settings to generate a preview of your CAPTCHA here.', 'wpforms-lite' ) . '</p>',
 						'type'    => 'content',
 						'class'   => [ 'wpforms-hidden' ],
 					],
-				'recaptcha-noconflict'  => [
-					'id'   => 'recaptcha-noconflict',
-					'name' => esc_html__( 'No-Conflict Mode', 'wpforms-lite' ),
-					'desc' => esc_html__( 'Check this option to forcefully remove other CAPTCHA occurrences in order to prevent conflicts. Only enable this option if your site is having compatibility issues or instructed by support.', 'wpforms-lite' ),
-					'type' => 'checkbox',
-				],
 			]
 		);
 

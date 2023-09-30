@@ -33,6 +33,11 @@ $last_key = key( $forms_data['forms'] );
 					<a class="ab-item" href="<?php echo esc_url( $form['entries_url'] ); ?>"><?php echo esc_html( $forms_data['entry_text'] ); ?></a>
 				</li>
 			<?php endif; ?>
+			<?php if ( ! empty( $form['payments_url'] ) ) : ?>
+				<li id="wp-admin-bar-wpforms-form-id-<?php echo esc_attr( $form['form_id'] ); ?>-payments">
+					<a class="ab-item" href="<?php echo esc_url( $form['payments_url'] ); ?>"><?php echo esc_html( $forms_data['payment_text'] ); ?></a>
+				</li>
+			<?php endif; ?>
 			<?php if ( ! empty( $form['survey_url'] ) ) : ?>
 				<li id="wp-admin-bar-wpforms-form-id-<?php echo esc_attr( $form['form_id'] ); ?>-survey">
 					<a class="ab-item" href="<?php echo esc_url( $form['survey_url'] ); ?>"><?php echo esc_html( $forms_data['survey_text'] ); ?></a>

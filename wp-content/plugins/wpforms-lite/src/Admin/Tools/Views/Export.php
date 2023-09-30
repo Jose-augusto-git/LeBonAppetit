@@ -141,20 +141,19 @@ class Export extends View {
 	private function forms_export_block() {
 		?>
 
-		<div class="wpforms-setting-row tools">
+		<div class="wpforms-setting-row tools wpforms-settings-row-divider">
 
-			<h4 id="form-export"><?php esc_html_e( 'Form Export', 'wpforms-lite' ); ?></h4>
+			<h4 id="form-export"><?php esc_html_e( 'Export Forms', 'wpforms-lite' ); ?></h4>
 
-			<p><?php esc_html_e( 'Form exports files can be used to create a backup of your forms or to import forms into another site.', 'wpforms-lite' ); ?></p>
+			<p><?php esc_html_e( 'Use form export files to create a backup of your forms or to import forms to another site.', 'wpforms-lite' ); ?></p>
 
 			<?php if ( ! empty( $this->forms ) ) { ?>
 
 				<form method="post" action="<?php echo esc_attr( $this->get_link() ); ?>">
 					<?php $this->forms_select_html( 'wpforms-tools-form-export', 'forms[]', esc_html__( 'Select Form(s)', 'wpforms-lite' ) ); ?>
-					<br>
 					<input type="hidden" name="action" value="export_form">
 					<?php $this->nonce_field(); ?>
-					<button name="submit-export" class="wpforms-btn wpforms-btn-md wpforms-btn-orange">
+					<button name="submit-export" class="wpforms-btn wpforms-btn-md wpforms-btn-orange" id="wpforms-export-form" aria-disabled="true">
 						<?php esc_html_e( 'Export', 'wpforms-lite' ); ?>
 					</button>
 				</form>
@@ -175,7 +174,7 @@ class Export extends View {
 
 		<div class="wpforms-setting-row tools">
 
-			<h4 id="template-export"><?php esc_html_e( 'Form Template Export', 'wpforms-lite' ); ?></h4>
+			<h4 id="template-export"><?php esc_html_e( 'Export a Form Template', 'wpforms-lite' ); ?></h4>
 
 			<?php
 			if ( $this->template ) {
@@ -196,7 +195,7 @@ class Export extends View {
 			?>
 			<p><?php esc_html_e( 'The following code can be used to register your custom form template. Copy and paste the following code to your theme\'s functions.php file or include it within an external file.', 'wpforms-lite' ); ?><p>
 			<p><?php echo $doc_link; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><p>
-			<textarea class="info-area" readonly><?php echo esc_textarea( $this->template ); ?></textarea><br>
+			<textarea class="info-area" readonly><?php echo esc_textarea( $this->template ); ?></textarea>
 			<?php
 			}
 			?>
@@ -206,10 +205,9 @@ class Export extends View {
 			<?php if ( ! empty( $this->forms ) ) { ?>
 				<form method="post" action="<?php echo esc_attr( $this->get_link() ); ?>">
 					<?php $this->forms_select_html( 'wpforms-tools-form-template', 'form', esc_html__( 'Select a Template', 'wpforms-lite' ), false ); ?>
-					<br>
 					<input type="hidden" name="action" value="export_template">
 					<?php $this->nonce_field(); ?>
-					<button name="submit-export" class="wpforms-btn wpforms-btn-md wpforms-btn-orange">
+					<button name="submit-export" class="wpforms-btn wpforms-btn-md wpforms-btn-orange" id="wpforms-export-template" aria-disabled="true">
 						<?php esc_html_e( 'Export Template', 'wpforms-lite' ); ?>
 					</button>
 				</form>
@@ -234,7 +232,7 @@ class Export extends View {
 		?>
 
 		<span class="choicesjs-select-wrap">
-			<select id="<?php echo esc_attr( $select_id ); ?>" class="choicesjs-select" name="<?php echo esc_attr( $select_name ); ?>" <?php if ( $multiple ) { //phpcs:ignore ?> multiple <?php } ?> data-search="<?php echo esc_attr( wpforms_choices_js_is_search_enabled( $this->forms ) ); ?>">
+			<select id="<?php echo esc_attr( $select_id ); ?>" class="choicesjs-select" name="<?php echo esc_attr( $select_name ); ?>" <?php if ( $multiple ) { //phpcs:ignore ?> multiple size="1" <?php } ?> data-search="<?php echo esc_attr( wpforms_choices_js_is_search_enabled( $this->forms ) ); ?>">
 				<option value=""><?php echo esc_attr( $placeholder ); ?></option>
 				<?php foreach ( $this->forms as $form ) { ?>
 					<option value="<?php echo absint( $form->ID ); ?>"><?php echo esc_html( $form->post_title ); ?></option>

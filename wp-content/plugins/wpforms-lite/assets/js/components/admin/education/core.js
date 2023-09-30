@@ -1,4 +1,4 @@
-/* global wpforms_education, WPFormsBuilder */
+/* global wpforms_education, WPFormsBuilder, wpf */
 /**
  * WPForms Education Core.
  *
@@ -163,7 +163,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {jQuery} $el Element.
 		 *
-		 * @returns {string} UTM content string.
+		 * @return {string} UTM content string.
 		 */
 		getUTMContentValue: function( $el ) {
 
@@ -422,19 +422,17 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {jQuery} $button jQuery button element.
 		 */
-		installModal: function( $button ) {
-
-			var feature = $button.data( 'name' ),
-				message = $button.data( 'message' ),
-				url = $button.data( 'url' ),
-				licenseType = $button.data( 'license' );
+		installModal( $button ) {
+			const feature = $button.data( 'name' ),
+				url = $button.data( 'url' );
 
 			if ( ! url || '' === url ) {
-				app.upgradeModal( feature, '', 'Empty install URL', licenseType, '' );
+				wpf.debug( `Couldn't install the ${ feature } addon: Empty install URL.` );
 				return;
 			}
 
-			const canInstallAddons = wpforms_education.can_install_addons;
+			const canInstallAddons = wpforms_education.can_install_addons,
+				message = $button.data( 'message' );
 
 			$.alert( {
 				title   : false,
@@ -448,8 +446,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 						btnClass: 'btn-confirm' + ( ! canInstallAddons ? ' hidden' : '' ),
 						keys    : [ 'enter' ],
 						isHidden: ! canInstallAddons,
-						action  : function() {
-
+						action() {
 							this.$$confirm.prop( 'disabled', true )
 								.html( spinner + wpforms_education.installing );
 

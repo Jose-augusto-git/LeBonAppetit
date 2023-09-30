@@ -5,6 +5,10 @@
  * @since 1.3.9
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WPForms\Admin\Notice;
 
 /**
@@ -65,7 +69,7 @@ function wpforms_admin_styles() {
 		);
 	}
 }
-add_action( 'admin_enqueue_scripts', 'wpforms_admin_styles' );
+add_action( 'admin_enqueue_scripts', 'wpforms_admin_styles', 5 );
 
 /**
  * Load scripts for all WPForms-related admin screens.
@@ -174,7 +178,9 @@ function wpforms_admin_scripts() {
 		'addon_search'                    => esc_html__( 'Searching Addons', 'wpforms-lite' ),
 		'ajax_url'                        => admin_url( 'admin-ajax.php' ),
 		'cancel'                          => esc_html__( 'Cancel', 'wpforms-lite' ),
+		'continue'                        => esc_html__( 'Continue', 'wpforms-lite' ),
 		'close'                           => esc_html__( 'Close', 'wpforms-lite' ),
+		'close_refresh'                   => esc_html__( 'Close and Refresh', 'wpforms-lite' ),
 		'entry_delete_confirm'            => esc_html__( 'Are you sure you want to delete this entry and all its information (files, notes, logs, etc.)?', 'wpforms-lite' ),
 		'entry_delete_all_confirm'        => esc_html__( 'Are you sure you want to delete ALL entries and all their information (files, notes, logs, etc.)?', 'wpforms-lite' ),
 		'entry_delete_n_confirm'          => sprintf( /* translators: %s - entry count. */
@@ -255,7 +261,19 @@ function wpforms_admin_scripts() {
 		'loading'                         => esc_html__( 'Loading...', 'wpforms-lite' ),
 		'use_simple_contact_form'         => esc_html__( 'Use Simple Contact Form Template', 'wpforms-lite' ),
 		'error_select_template'           => esc_html__( 'Please close the form builder and try again. If the error persists, contact our support team.', 'wpforms-lite' ),
-		'payment_delete_confirm'          => esc_html__( 'Are you sure you want to delete this payment and all its information (details, notes, logs, etc.)?', 'wpforms-lite' ),
+		'try_again'                       => sprintf(
+			wp_kses( /* translators: %s - link to WPForms.com docs page. */
+				__( 'Something went wrong. Please try again, and if the problem persists, <a href="%1$s" target="_blank" rel="noopener noreferrer">contact our support team</a>.', 'wpforms-lite' ),
+				[
+					'a' => [
+						'href'   => [],
+						'target' => [],
+						'rel'    => [],
+					],
+				]
+			),
+			esc_url( wpforms_utm_link( 'https://wpforms.com/contact/', 'error-modal', 'contact our support team' ) )
+		),
 	];
 
 	/**
@@ -495,11 +513,12 @@ function wpforms_admin_upgrade_link( $medium = 'link', $content = '' ) {
  * @since 1.4.0.1
  * @since 1.5.0 Raising this awareness of old PHP version message from 5.2 to 5.3.
  * @since 1.7.9 Raising this awareness of old PHP version message to 7.1.
+ * @since 1.8.4 Raising this awareness of old PHP version message to 7.3.
  */
 function wpforms_check_php_version() {
 
-	// Display for PHP below 7.2.
-	if ( PHP_VERSION_ID >= 70200 ) {
+	// Display for PHP below 7.4.
+	if ( PHP_VERSION_ID >= 70400 ) {
 		return;
 	}
 
@@ -532,7 +551,7 @@ function wpforms_check_php_version() {
 		) .
 		'<br><br><em>' .
 		wp_kses(
-			__( '<strong>Please Note:</strong> Support for PHP 7.1 and below will be discontinued soon. After this, if no further action is taken, WPForms functionality will be disabled.', 'wpforms-lite' ),
+			__( '<strong>Please Note:</strong> Support for PHP 7.3 and below will be discontinued soon. After this, if no further action is taken, WPForms functionality will be disabled.', 'wpforms-lite' ),
 			[
 				'strong' => [],
 				'em'     => [],

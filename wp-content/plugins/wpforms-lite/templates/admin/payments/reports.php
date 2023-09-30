@@ -21,7 +21,7 @@ if ( empty( $statcards ) ) {
 	<p id="wpforms-payments-overview-reports-helptext" class="screen-reader-text">
 		<?php esc_html_e( 'List of data points available for filtering. Click a data point for a detailed report.', 'wpforms-lite' ); ?>
 	</p>
-	<ul class="wpforms-payments-overview-reports-legend <?php echo wpforms_sanitize_classes( sprintf( 'has-%d-statcards', count( $statcards ) ) ); ?>">
+	<ul class="wpforms-payments-overview-reports-legend">
 
 		<?php
 		foreach ( $statcards as $chart => $attributes ) :

@@ -4,6 +4,11 @@
  *
  * @since 1.7.6
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 ?>
 <span class="icon expanded">
 	<svg viewBox="0 0 10 7">

@@ -1,0 +1,12 @@
+# Duplicator config, In case of file downloading problem, you can disable/enable it at Duplicator > Settings > Storage > Apache .htaccess
+
+Options -Indexes
+<Files *.php>
+    deny from all
+</Files>
+<IfModule mod_headers.c>
+    <FilesMatch "\.(daf)$">
+        ForceType application/octet-stream
+        Header set Content-Disposition attachment
+    </FilesMatch>
+</IfModule>

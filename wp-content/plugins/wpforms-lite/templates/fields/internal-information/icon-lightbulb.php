@@ -4,6 +4,11 @@
  *
  * @since 1.7.6
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 ?>
 <div class="internal-information-lightbulb">
 	<svg viewBox="0 0 14 20">

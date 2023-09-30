@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WPForms\Forms\Locator;
 use WPForms\Integrations\LiteConnect\LiteConnect;
 use WPForms\Integrations\LiteConnect\Integration as LiteConnectIntegration;
@@ -94,7 +98,7 @@ class WPForms_Overview_Table extends WP_List_Table {
 			'tags'      => esc_html__( 'Tags', 'wpforms-lite' ),
 			'author'    => esc_html__( 'Author', 'wpforms-lite' ),
 			'shortcode' => esc_html__( 'Shortcode', 'wpforms-lite' ),
-			'created'   => esc_html__( 'Created', 'wpforms-lite' ),
+			'created'   => esc_html__( 'Date', 'wpforms-lite' ),
 		];
 
 		if ( LiteConnect::is_allowed() && LiteConnect::is_enabled() ) {
@@ -139,8 +143,25 @@ class WPForms_Overview_Table extends WP_List_Table {
 				$value = '[wpforms id="' . $form->ID . '"]';
 				break;
 
+			// This slug is not changed to 'date' for backward compatibility.
 			case 'created':
-				$value = get_the_date( get_option( 'date_format' ), $form );
+				if ( gmdate( 'Ymd', strtotime( $form->post_date ) ) === gmdate( 'Ymd', strtotime( $form->post_modified ) ) ) {
+					$value = wp_kses(
+						sprintf( /* translators: %1$s - Post created date. */
+							__( 'Created<br/>%1$s', 'wpforms-lite' ),
+							esc_html( wpforms_datetime_format( $form->post_date ) )
+						),
+						[ 'br' => [] ]
+					);
+				} else {
+					$value = wp_kses(
+						sprintf( /* translators: %1$s - Post modified date. */
+							__( 'Last Modified<br/>%1$s', 'wpforms-lite' ),
+							esc_html( wpforms_datetime_format( $form->post_modified ) )
+						),
+						[ 'br' => [] ]
+					);
+				}
 				break;
 
 			case 'entries':
@@ -427,6 +448,13 @@ class WPForms_Overview_Table extends WP_List_Table {
 		$orderby  = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'ID';
 		$per_page = $this->get_items_per_page( 'wpforms_forms_per_page', $this->per_page );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		if ( $orderby === 'date' ) {
+			$orderby = [
+				'modified' => $order,
+				'date'     => $order,
+			];
+		}
 
 		$args = [
 			'orderby'        => $orderby,

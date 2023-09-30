@@ -71,7 +71,7 @@ class Turnstile extends Captcha {
 				'content'  => $this->get_field_desc(),
 				'type'     => 'content',
 				'no_label' => true,
-				'class'    => [ 'section-heading' ],
+				'class'    => [ 'section-heading', 'specific-note' ],
 			],
 			'turnstile-site-key'   => [
 				'id'   => 'turnstile-site-key',

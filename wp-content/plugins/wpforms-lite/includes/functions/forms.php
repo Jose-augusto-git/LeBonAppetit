@@ -173,6 +173,8 @@ function wpforms_setting( $key, $default = false, $option = 'wpforms_settings' )
  */
 function wpforms_update_settings( $settings ) {
 
+	$old_settings = (array) get_option( 'wpforms_settings', [] );
+
 	/**
 	 * Allows plugin settings to be modified before persisting in the database.
 	 *
@@ -190,11 +192,13 @@ function wpforms_update_settings( $settings ) {
 	 * The `$updated` parameter allows to check whether the update was actually successful.
 	 *
 	 * @since 1.6.1
+	 * @since 1.8.4 The `$old_settings` parameter was added.
 	 *
-	 * @param array  $settings An array of plugin settings.
-	 * @param bool   $updated  Whether an option was updated or not.
+	 * @param array $settings     An array of plugin settings.
+	 * @param bool  $updated      Whether an option was updated or not.
+	 * @param array $old_settings An old array of plugin settings.
 	 */
-	do_action( 'wpforms_settings_updated', $settings, $updated );
+	do_action( 'wpforms_settings_updated', $settings, $updated, $old_settings );
 
 	return $updated;
 }

@@ -6,6 +6,8 @@ use WPForms\Admin\Payments\Views\Coupons\Education;
 use WPForms\Admin\Payments\Views\Overview\BulkActions;
 use WPForms\Admin\Payments\Views\Single;
 use WPForms\Admin\Payments\Views\Overview\Page;
+use WPForms\Admin\Payments\Views\Overview\Coupon;
+use WPForms\Admin\Payments\Views\Overview\Filters;
 use WPForms\Admin\Payments\Views\Overview\Search;
 
 /**
@@ -62,7 +64,11 @@ class Payments {
 			return;
 		}
 
+		$this->update_request_uri();
+
 		( new ScreenOptions() )->init();
+		( new Coupon() )->init();
+		( new Filters() )->init();
 		( new Search() )->init();
 		( new BulkActions() )->init();
 
@@ -79,7 +85,7 @@ class Payments {
 		$view_ids = array_keys( $this->get_views() );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$this->active_view_slug = isset( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'overview';
+		$this->active_view_slug = isset( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'payments';
 
 		// If the user tries to load an invalid view - fallback to the first available.
 		if ( ! in_array( $this->active_view_slug, $view_ids, true ) ) {
@@ -121,11 +127,11 @@ class Payments {
 		 */
 		$this->views = (array) apply_filters( 'wpforms_admin_payments_payments_get_views', $views );
 
-		$this->views['overview'] = new Page();
-		$this->views['single']   = new Single();
+		$this->views['payments'] = new Page();
+		$this->views['payment']  = new Single();
 
-		// Overview view should be the first one.
-		$this->views = array_merge( [ 'overview' => $this->views['overview'] ], $this->views );
+		// Payments view should be the first one.
+		$this->views = array_merge( [ 'payments' => $this->views['payments'] ], $this->views );
 
 		$this->views = array_filter(
 			$this->views,
@@ -251,5 +257,43 @@ class Payments {
 		}
 
 		return $args;
+	}
+
+	/**
+	 * Update view param in request URI.
+	 *
+	 * Backward compatibility for old URLs.
+	 *
+	 * @since 1.8.4
+	 */
+	private function update_request_uri() {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		if ( ! isset( $_GET['view'], $_SERVER['REQUEST_URI'] ) ) {
+			return;
+		}
+
+		$old_new = [
+			'single'   => 'payment',
+			'overview' => 'payments',
+		];
+
+		if (
+			! array_key_exists( $_GET['view'], $old_new )
+			|| in_array( $_GET['view'], $old_new, true )
+		) {
+			return;
+		}
+
+		wp_safe_redirect(
+			str_replace(
+				'view=' . $_GET['view'],
+				'view=' . $old_new[ $_GET['view'] ],
+				esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+			)
+		);
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		exit;
 	}
 }

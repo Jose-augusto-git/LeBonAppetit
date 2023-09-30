@@ -112,8 +112,8 @@ class Requirements {
 	 * @var string[]
 	 */
 	private $defaults = [
-		self::PHP     => '5.6',
-		self::WP      => '5.2',
+		self::PHP     => '7.0',
+		self::WP      => '5.5',
 		self::WPFORMS => self::WPFORMS_DEV_VERSION_IN_ADDON,
 		self::LICENSE => self::PRO_AND_TOP,
 	];
@@ -289,7 +289,7 @@ class Requirements {
 	 *
 	 * @return Requirements
 	 */
-	public static function get_instance() {
+	public static function get_instance(): Requirements {
 
 		static $instance;
 
@@ -336,7 +336,7 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	public function validate( $addon_requirements ) {
+	public function validate( array $addon_requirements ): bool {
 
 		$this->addon_requirements = $addon_requirements;
 
@@ -368,7 +368,7 @@ class Requirements {
 
 		$this->requirements[ $this->basename ] = $this->addon_requirements;
 
-		return empty( $this->not_validated );
+		return empty( $this->not_validated[ $this->basename ] );
 	}
 
 	/**
@@ -380,7 +380,7 @@ class Requirements {
 	 *
 	 * @return bool True if addon was deactivated.
 	 */
-	public function deactivate_not_valid_addon( $plugin ) {
+	public function deactivate_not_valid_addon( string $plugin ): bool {
 
 		if ( ! self::DEACTIVATE_IF_NOT_MET ) {
 			// No more actions if we not demand deactivation.
@@ -417,7 +417,7 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	private function is_wpforms_addon( $plugin ) {
+	private function is_wpforms_addon( string $plugin ): bool {
 
 		if ( strpos( $plugin, 'wpforms-' ) !== 0 ) {
 			// No more actions for general plugin.
@@ -444,15 +444,14 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_addon_load_function( $plugin ) {
+	private function get_addon_load_function( string $plugin ): string {
 
 		global $wp_filter;
 
-		$wpforms_loaded_hooks = $wp_filter['wpforms_loaded'];
-		$callbacks            = $wpforms_loaded_hooks->callbacks;
-		$prefix               = explode( '/', $plugin )[0];
-		$prefix               = str_replace( '-', '_', $prefix );
-		$addon_load_function  = '';
+		$callbacks           = $wp_filter['wpforms_loaded']->callbacks;
+		$prefix              = explode( '/', $plugin, 2 )[0];
+		$prefix              = str_replace( '-', '_', $prefix );
+		$addon_load_function = '';
 
 		// Find addon load function.
 		foreach ( $callbacks as $callbacks_at_priority ) {
@@ -475,9 +474,9 @@ class Requirements {
 	 *
 	 * @param string $key Requirements key.
 	 *
-	 * @return array|string[]
+	 * @return string[]
 	 */
-	private function normalize_version_requirement( $key ) {
+	private function normalize_version_requirement( string $key ): array {
 
 		if ( ! isset( $this->addon_requirements[ $key ] ) ) {
 			$this->addon_requirements[ $key ] = [];
@@ -511,9 +510,9 @@ class Requirements {
 	 *
 	 * @param string $key Requirements key.
 	 *
-	 * @return array|string[]
+	 * @return string[]
 	 */
-	private function normalize_array_requirement( $key ) {
+	private function normalize_array_requirement( string $key ): array {
 
 		if ( ! isset( $this->addon_requirements[ $key ] ) ) {
 			$this->addon_requirements[ $key ] = [];
@@ -544,7 +543,7 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	private function validate_php() {
+	private function validate_php(): bool {
 
 		$php = $this->normalize_version_requirement( self::PHP );
 
@@ -571,11 +570,9 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	private function validate_ext() {
+	private function validate_ext(): bool {
 
-		$extensions = $this->normalize_array_requirement( self::EXT );
-
-		foreach ( $extensions as $extension ) {
+		foreach ( $this->normalize_array_requirement( self::EXT ) as $extension ) {
 			if ( ! extension_loaded( $extension ) ) {
 				$this->not_validated[ $this->basename ][] = self::EXT;
 
@@ -593,7 +590,7 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	private function validate_wp() {
+	private function validate_wp(): bool {
 
 		global $wp_version;
 
@@ -622,7 +619,7 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	private function validate_wpforms() {
+	private function validate_wpforms(): bool {
 
 		$wpforms = $this->normalize_version_requirement( self::WPFORMS );
 
@@ -653,7 +650,7 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	private function validate_license() {
+	private function validate_license(): bool {
 
 		$license = $this->normalize_array_requirement( self::LICENSE );
 
@@ -677,7 +674,7 @@ class Requirements {
 	 *
 	 * @return bool
 	 */
-	private function validate_addon() {
+	private function validate_addon(): bool {
 
 		$addon                  = $this->normalize_version_requirement( self::ADDON );
 		$addon_version_constant = trim( $this->addon_requirements[ self::ADDON_VERSION_CONSTANT ] );
@@ -743,9 +740,7 @@ class Requirements {
 	 */
 	public function show_notices() {
 
-		$notices = $this->get_notices();
-
-		foreach ( $notices as $notice ) {
+		foreach ( $this->get_notices() as $notice ) {
 			$this->show_notice( $notice );
 		}
 	}
@@ -759,7 +754,7 @@ class Requirements {
 	 *
 	 * @noinspection HtmlUnknownTarget
 	 */
-	public function get_notices() {
+	public function get_notices(): array {
 
 		$notices = [];
 
@@ -812,7 +807,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_validation_message( $errors, $basename ) {
+	private function get_validation_message( array $errors, string $basename ): string {
 
 		$messages = [];
 
@@ -838,7 +833,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_php_validation_message( $errors, $basename ) {
+	private function get_php_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_PHP_NOTICE && in_array( self::PHP, $errors, true ) ) {
 			return 'PHP ' . $this->list_version( $this->requirements[ $basename ][ self::PHP ] );
@@ -857,7 +852,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_ext_validation_message( $errors, $basename ) {
+	private function get_ext_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_EXT_NOTICE && in_array( self::EXT, $errors, true ) ) {
 			$extension = $this->list_array( $this->requirements[ $basename ][ self::EXT ] );
@@ -887,7 +882,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_wp_validation_message( $errors, $basename ) {
+	private function get_wp_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_WP_NOTICE && in_array( self::WP, $errors, true ) ) {
 			return 'WordPress ' . $this->list_version( $this->requirements[ $basename ][ self::WP ] );
@@ -906,7 +901,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_wpforms_validation_message( $errors, $basename ) {
+	private function get_wpforms_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_WPFORMS_NOTICE && in_array( self::WPFORMS, $errors, true ) ) {
 			return 'WPForms ' . $this->list_version( $this->requirements[ $basename ][ self::WPFORMS ] );
@@ -925,7 +920,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_license_validation_message( $errors, $basename ) {
+	private function get_license_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_LICENSE_NOTICE && in_array( self::LICENSE, $errors, true ) ) {
 			$license = $this->list_array(
@@ -953,7 +948,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function get_addon_validation_message( $errors, $basename ) {
+	private function get_addon_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_ADDON_NOTICE && in_array( self::ADDON, $errors, true ) ) {
 			$self_version = $this->list_version( $this->requirements[ $basename ][ self::ADDON ] );
@@ -975,7 +970,7 @@ class Requirements {
 	 *
 	 * @param string $notice Message.
 	 */
-	private function show_notice( $notice ) {
+	private function show_notice( string $notice ) {
 
 		echo '<div class="notice notice-error"><p>';
 		echo wp_kses_post( $notice );
@@ -989,7 +984,7 @@ class Requirements {
 	 *
 	 * @param string $basename Addon basename.
 	 */
-	private function init_addon_requirements( $basename ) {
+	private function init_addon_requirements( string $basename ) {
 
 		if ( ! array_key_exists( $basename, $this->requirements ) ) {
 			$this->requirements[ $basename ] = [];
@@ -1003,7 +998,7 @@ class Requirements {
 		$const = str_replace(
 			'-',
 			'_',
-			strtoupper( explode( '/', $basename )[0] ) . '_VERSION'
+			strtoupper( explode( '/', $basename, 2 )[0] ) . '_VERSION'
 		);
 
 		$this->requirements[ $basename ][ self::ADDON_VERSION_CONSTANT ] = $const;
@@ -1019,7 +1014,7 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function list_array( $arr, $sep = true ) {
+	private function list_array( array $arr, bool $sep = true ): string {
 
 		$separator = $sep ?
 			__( 'and', 'wpforms-lite' ) :
@@ -1041,9 +1036,9 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function list_version( $arr ) {
+	private function list_version( array $arr ): string {
 
-		$compare = $arr[ self::COMPARE ];
+		$compare = (string) $arr[ self::COMPARE ];
 		$compare = $compare === '>=' ? '' : $compare . ' ';
 
 		return $compare . $arr[ self::VERSION ];

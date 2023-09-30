@@ -85,14 +85,28 @@ class ValueValidator {
 	public static function get_allowed_statuses() {
 
 		return array_merge(
-			[
-				'processed' => __( 'Processed', 'wpforms-lite' ),
-				'completed' => __( 'Completed', 'wpforms-lite' ),
-				'pending'   => __( 'Pending', 'wpforms-lite' ),
-				'refunded'  => __( 'Refunded', 'wpforms-lite' ),
-			],
+			self::get_allowed_one_time_statuses(),
 			self::get_allowed_subscription_statuses()
 		);
+	}
+
+	/**
+	 * Get allowed one-time payment statuses.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return array
+	 */
+	public static function get_allowed_one_time_statuses() {
+
+		return [
+			'processed'  => __( 'Processed', 'wpforms-lite' ),
+			'completed'  => __( 'Completed', 'wpforms-lite' ),
+			'pending'    => __( 'Pending', 'wpforms-lite' ),
+			'failed'     => __( 'Failed', 'wpforms-lite' ),
+			'refunded'   => __( 'Refunded', 'wpforms-lite' ),
+			'partrefund' => __( 'Partially Refunded', 'wpforms-lite' ),
+		];
 	}
 
 	/**
@@ -105,10 +119,10 @@ class ValueValidator {
 	public static function get_allowed_subscription_statuses() {
 
 		return [
-			'not-synced' => __( 'Not Synced', 'wpforms-lite' ),
 			'active'     => __( 'Active', 'wpforms-lite' ),
-			'failed'     => __( 'Failed', 'wpforms-lite' ),
 			'cancelled'  => __( 'Cancelled', 'wpforms-lite' ),
+			'not-synced' => __( 'Not Synced', 'wpforms-lite' ),
+			'failed'     => __( 'Failed', 'wpforms-lite' ),
 		];
 	}
 
@@ -123,7 +137,7 @@ class ValueValidator {
 
 		return array_merge(
 			[
-				'one-time' => __( 'One-time', 'wpforms-lite' ),
+				'one-time' => __( 'One-Time', 'wpforms-lite' ),
 			],
 			self::get_allowed_subscription_types()
 		);

@@ -90,16 +90,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 		<div class="wpforms-challenge-popup-content">
 			<form id="wpforms-challenge-contact-form">
-				<h3><?php esc_html_e( 'Help us improve WPForms', 'wpforms-lite' ); ?></h3>
+				<h3><?php esc_html_e( 'Do you need more help?', 'wpforms-lite' ); ?></h3>
 				<p>
 					<?php
-					echo esc_html(
+					echo wp_kses(
 						sprintf(
 							/* translators: %1$d - number of minutes, %2$s - singular or plural form of 'minute'. */
-							__( 'We\'re sorry that it took longer than %1$d %2$s to create a form. Our goal is to create the most beginner friendly WordPress form plugin. Please take a moment to let us know how we can improve WPForms.', 'wpforms-lite' ),
+							__( 'We\'re sorry that it took longer than %1$d %2$s minutes to publish your form. Our goal is to create the most beginner-friendly WordPress form plugin.<br>How can we help you to be successful? Please send us your feedback. Our support team is standing by to help.', 'wpforms-lite' ),
 							absint( $minutes ),
 							_n( 'minute', 'minutes', absint( $minutes ), 'wpforms-lite' )
-						)
+						),
+						[ 'br' => [] ]
 					);
 					?>
 				</p>

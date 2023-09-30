@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Name text field.
  *
@@ -507,9 +511,9 @@ class WPForms_Field_Name extends WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int   $field_id     Field id.
-	 * @param array $field_submit Field submit.
-	 * @param array $form_data    Form data.
+	 * @param int          $field_id     Field id.
+	 * @param array|string $field_submit Field submit.
+	 * @param array        $form_data    Form data.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
 
@@ -523,7 +527,7 @@ class WPForms_Field_Name extends WPForms_Field {
 		$required = wpforms_get_required_label();
 		$process  = wpforms()->get( 'process' );
 
-		if ( $format === 'simple' && empty( $field_submit ) ) {
+		if ( $format === 'simple' && wpforms_is_empty_string( $field_submit ) ) {
 			$process->errors[ $form_id ][ $field_id ] = $required;
 
 			return;
@@ -541,17 +545,16 @@ class WPForms_Field_Name extends WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int   $field_id
-	 * @param array $field_submit
-	 * @param array $form_data
+	 * @param int   $field_id     Field ID.
+	 * @param mixed $field_submit Field value that was submitted.
+	 * @param array $form_data    Form data and settings.
 	 */
 	public function format( $field_id, $field_submit, $form_data ) {
-
 		// Define data.
-		$name   = ! empty( $form_data['fields'][ $field_id ]['label'] ) ? $form_data['fields'][ $field_id ]['label'] : '';
-		$first  = ! empty( $field_submit['first'] ) ? $field_submit['first'] : '';
-		$middle = ! empty( $field_submit['middle'] ) ? $field_submit['middle'] : '';
-		$last   = ! empty( $field_submit['last'] ) ? $field_submit['last'] : '';
+		$name   = isset( $form_data['fields'][ $field_id ]['label'] ) && ! wpforms_is_empty_string( $form_data['fields'][ $field_id ]['label'] ) ? $form_data['fields'][ $field_id ]['label'] : '';
+		$first  = isset( $field_submit['first'] ) && ! wpforms_is_empty_string( $field_submit['first'] ) ? $field_submit['first'] : '';
+		$middle = isset( $field_submit['middle'] ) && ! wpforms_is_empty_string( $field_submit['middle'] ) ? $field_submit['middle'] : '';
+		$last   = isset( $field_submit['last'] ) && ! wpforms_is_empty_string( $field_submit['last'] ) ? $field_submit['last'] : '';
 
 		if ( is_array( $field_submit ) ) {
 			$value = implode( ' ', array_filter( [ $first, $middle, $last ] ) );
@@ -606,11 +609,11 @@ class WPForms_Field_Name extends WPForms_Field {
 			$process->errors[ $form_id ][ $field_id ] = (array) $process->errors[ $form_id ][ $field_id ];
 		}
 
-		if ( empty( $field_submit['first'] ) ) {
+		if ( isset( $field_submit['first'] ) && wpforms_is_empty_string( $field_submit['first'] ) ) {
 			$process->errors[ $form_id ][ $field_id ]['first'] = $required;
 		}
 
-		if ( empty( $field_submit['last'] ) ) {
+		if ( isset( $field_submit['last'] ) && wpforms_is_empty_string( $field_submit['last'] ) ) {
 			$process->errors[ $form_id ][ $field_id ]['last'] = $required;
 		}
 	}

@@ -89,26 +89,37 @@ class Summaries {
 			return $settings;
 		}
 
-		$url = \add_query_arg(
+		$url = add_query_arg(
 			[
 				'wpforms_email_template' => 'summary',
 				'wpforms_email_preview'  => '1',
 			],
-			\admin_url()
+			admin_url()
 		);
 
-		$desc = \esc_html__( 'Disable Email Summaries weekly delivery.', 'wpforms-lite' );
+		$desc = esc_html__( 'Disable Email Summaries weekly delivery.', 'wpforms-lite' );
 
 		if ( ! $this->is_disabled() ) {
-			$desc .= '<br><a href="' . $url . '" target="_blank">' . \esc_html__( 'View Email Summary Example', 'wpforms-lite' ) . '</a>';
+			$desc .= ' <a href="' . $url . '" target="_blank">' . esc_html__( 'View Email Summary Example', 'wpforms-lite' ) . '</a>.';
 		}
 
+		// Get the uninstall data setting.
+		$uninstall_data = $settings['misc']['uninstall-data'];
+
+		// Remove the uninstall data setting.
+		unset( $settings['misc']['uninstall-data'] );
+
+		// Add the email summaries setting.
 		$settings['misc']['email-summaries-disable'] = [
-			'id'   => 'email-summaries-disable',
-			'name' => \esc_html__( 'Disable Email Summaries', 'wpforms-lite' ),
-			'desc' => $desc,
-			'type' => 'checkbox',
+			'id'     => 'email-summaries-disable',
+			'name'   => esc_html__( 'Disable Email Summaries', 'wpforms-lite' ),
+			'desc'   => $desc,
+			'type'   => 'toggle',
+			'status' => true,
 		];
+
+		// Add the uninstall data setting to the end.
+		$settings['misc']['uninstall-data'] = $uninstall_data;
 
 		return $settings;
 	}

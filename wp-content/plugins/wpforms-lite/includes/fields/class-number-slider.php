@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Number Slider field.
  *
@@ -189,27 +193,6 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 			]
 		);
 
-		// Options close markup.
-		$args = [
-			'markup' => 'close',
-		];
-
-		$this->field_option( 'basic-options', $field, $args );
-
-		/*
-		 * Advanced field options.
-		 */
-
-		// Options open markup.
-		$args = [
-			'markup' => 'open',
-		];
-
-		$this->field_option( 'advanced-options', $field, $args );
-
-		// Size.
-		$this->field_option( 'size', $field );
-
 		// Default value.
 		$lbl = $this->field_element(
 			'label',
@@ -248,38 +231,6 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 			]
 		);
 
-		// Value display.
-		$lbl = $this->field_element(
-			'label',
-			$field,
-			[
-				'slug'    => 'value_display',
-				'value'   => esc_html__( 'Value Display', 'wpforms-lite' ),
-				'tooltip' => esc_html__( 'Displays the currently selected value below the slider.', 'wpforms-lite' ),
-			],
-			false
-		);
-
-		$fld = $this->field_element(
-			'text',
-			$field,
-			[
-				'slug'  => 'value_display',
-				'class' => 'wpforms-number-slider-value-display',
-				'value' => isset( $field['value_display'] ) ? $field['value_display'] : $this->get_default_display_value(),
-			],
-			false
-		);
-
-		$this->field_element(
-			'row',
-			$field,
-			[
-				'slug'    => 'value_display',
-				'content' => $lbl . $fld,
-			]
-		);
-
 		// Steps.
 		$lbl = $this->field_element(
 			'label',
@@ -313,6 +264,59 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 			$field,
 			[
 				'slug'    => 'step',
+				'content' => $lbl . $fld,
+			]
+		);
+
+		// Options close markup.
+		$args = [
+			'markup' => 'close',
+		];
+
+		$this->field_option( 'basic-options', $field, $args );
+
+		/*
+		 * Advanced field options.
+		 */
+
+		// Options open markup.
+		$args = [
+			'markup' => 'open',
+		];
+
+		$this->field_option( 'advanced-options', $field, $args );
+
+		// Size.
+		$this->field_option( 'size', $field );
+
+		// Value display.
+		$lbl = $this->field_element(
+			'label',
+			$field,
+			[
+				'slug'    => 'value_display',
+				'value'   => esc_html__( 'Value Display', 'wpforms-lite' ),
+				'tooltip' => esc_html__( 'Displays the currently selected value below the slider.', 'wpforms-lite' ),
+			],
+			false
+		);
+
+		$fld = $this->field_element(
+			'text',
+			$field,
+			[
+				'slug'  => 'value_display',
+				'class' => 'wpforms-number-slider-value-display',
+				'value' => isset( $field['value_display'] ) ? $field['value_display'] : $this->get_default_display_value(),
+			],
+			false
+		);
+
+		$this->field_element(
+			'row',
+			$field,
+			[
+				'slug'    => 'value_display',
 				'content' => $lbl . $fld,
 			]
 		);

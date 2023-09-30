@@ -159,6 +159,8 @@ trait FormTemplates {
 	 */
 	private function output_categories( $categories, $templates_count ) {
 
+		$all_subcategories = wpforms()->get( 'builder_templates' )->get_subcategories();
+
 		foreach ( $categories as $slug => $name ) {
 
 			$class = '';
@@ -172,13 +174,50 @@ trait FormTemplates {
 			$count = isset( $templates_count[ $slug ] ) ? $templates_count[ $slug ] : '0';
 
 			printf(
-				'<li data-category="%1$s"%2$s>%3$s<span>%4$s</span></li>',
+				'<li data-category="%1$s"%2$s><div>%3$s<span>%4$s</span></div>%5$s</li>',
 				esc_attr( $slug ),
 				$class, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				esc_html( $name ),
-				esc_html( $count )
+				esc_html( $count ),
+				$this->output_subcategories( $all_subcategories, $slug ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
+	}
+
+	/**
+	 * Output subcategories list.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $all_subcategories Subcategories list.
+	 * @param array $parent_slug       Parent category slug.
+	 */
+	private function output_subcategories( $all_subcategories, $parent_slug ) {
+
+		$subcategories = [];
+		$output        = '';
+
+		foreach ( $all_subcategories as $subcategory_slug => $subcategory ) {
+			if ( $subcategory['parent'] === $parent_slug ) {
+				$subcategories[ $subcategory_slug ] = $subcategory;
+			}
+		}
+
+		if ( ! empty( $subcategories ) ) {
+			$output .= '<ul class="wpforms-setup-templates-subcategories">';
+
+			foreach ( $subcategories as $slug => $subcategory ) {
+				$output .= sprintf(
+					'<li data-subcategory="%1$s"><i class="fa fa-angle-right"></i><span>%2$s</span></li>',
+					esc_attr( $slug ),
+					esc_html( $subcategory['name'] )
+				);
+			}
+
+			$output .= '</ul>';
+		}
+
+		return $output;
 	}
 
 	/**
@@ -220,9 +259,10 @@ trait FormTemplates {
 
 		$args = [];
 
-		$args['template_id'] = ! empty( $template['id'] ) ? $template['id'] : $template['slug'];
-		$args['categories']  = $this->get_template_categories( $template );
-		$args['demo_url']    = '';
+		$args['template_id']   = ! empty( $template['id'] ) ? $template['id'] : $template['slug'];
+		$args['categories']    = $this->get_template_categories( $template );
+		$args['subcategories'] = $this->get_template_subcategories( $template );
+		$args['demo_url']      = '';
 
 		if ( ! empty( $template['url'] ) ) {
 			$medium           = wpforms_is_admin_page( 'templates' ) ? 'Form Templates Subpage' : 'builder-templates';
@@ -290,11 +330,11 @@ trait FormTemplates {
 	private function get_action_button_text( $template ) {
 
 		if ( $template['slug'] === 'blank' ) {
-			 return __( 'Create Blank Form', 'wpforms-lite' );
+			return __( 'Create Blank Form', 'wpforms-lite' );
 		}
 
 		if ( wpforms_is_admin_page( 'templates' ) ) {
-			 return __( 'Create Form', 'wpforms-lite' );
+			return __( 'Create Form', 'wpforms-lite' );
 		}
 
 		return __( 'Use Template', 'wpforms-lite' );
@@ -402,6 +442,23 @@ trait FormTemplates {
 		}
 
 		return implode( ',', $categories );
+	}
+
+	/**
+	 * Determine template subcategories.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $template Template data.
+	 *
+	 * @return string Template subcategories coma separated.
+	 */
+	private function get_template_subcategories( $template ) {
+
+		$subcategories = ! empty( $template['subcategories'] ) ? (array) $template['subcategories'] : [];
+		$subcategories = array_keys( $subcategories );
+
+		return implode( ',', $subcategories );
 	}
 
 	/**

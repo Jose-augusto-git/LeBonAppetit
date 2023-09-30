@@ -3,10 +3,12 @@ Contributors: DaanvandenBergh
 Tags: google, fonts, gdpr, dsgvo, cache, speed, preload, font-display, webfonts, subsets, remove, minimize, external, requests
 Requires at least: 4.6
 Tested up to: 6.3
-Stable tag: 5.7.2
+Stable tag: 5.7.4
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+**OMGF can be downloaded for free without any paid subscription from [the official WordPress repository](https://wordpress.org/plugins/host-webfonts-local/).**
 
 OMGF automagically caches the Google Fonts used by your theme/plugins locally. No configuration (or brains) required!
 
@@ -76,6 +78,16 @@ For the FAQ, [click here](https://daan.dev/docs/omgf-pro-faq/).
 5. Advanced Settings. Change these to make OMGF work with your configuration (if needed). The default settings will suffice for most configurations.
 
 == Changelog ==
+
+= 5.7.4 | September 25th, 2023 =
+* Fixed: get_option() function would always fallback to an empty string as the default, now it properly returns the value set as $default.
+* Improved: Minor code improvement in frontend.
+* Added: omgf_frontend_process_url filter.
+* Added: notice to readme.txt for users viewing this plugin in wordpress.com.
+
+= 5.7.3 | September 11th, 2023 =
+* Fixed: warning - attempt to modify propery "response" on string in Updates class.
+* Fixed: warning - array_keys() expects first parameter to be array, bool given in Helper class.
 
 = 5.7.2 =
 * Fixed: don't minify font-family names.

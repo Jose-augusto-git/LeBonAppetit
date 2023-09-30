@@ -424,6 +424,27 @@ class Views {
 			);
 		}
 
+		// Payments.
+		if (
+			wpforms_current_user_can( wpforms_get_capability_manage_options(), $form->ID ) &&
+			wpforms()->get( 'payment' )->get_by( 'form_id', $form->ID )
+		) {
+			$row_actions['payments'] = sprintf(
+				'<a href="%s" title="%s">%s</a>',
+				esc_url(
+					add_query_arg(
+						[
+							'page'    => 'wpforms-payments',
+							'form_id' => $form->ID,
+						],
+						admin_url( 'admin.php' )
+					)
+				),
+				esc_attr__( 'View payments', 'wpforms-lite' ),
+				esc_html__( 'Payments', 'wpforms-lite' )
+			);
+		}
+
 		// Preview.
 		if ( wpforms_current_user_can( 'view_form_single', $form->ID ) ) {
 			$row_actions['preview_'] = sprintf(

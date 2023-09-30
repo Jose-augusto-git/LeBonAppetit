@@ -147,6 +147,66 @@ class Meta extends WPForms_DB {
 	}
 
 	/**
+	 * Update or add payment meta.
+	 *
+	 * If the meta key already exists for given payment id, update the meta value. Otherwise, add the meta key and value.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param int    $payment_id Payment ID.
+	 * @param string $meta_key   Payment meta key.
+	 * @param mixed  $meta_value Payment meta value.
+	 *
+	 * @return bool
+	 */
+	public function update_or_add( $payment_id, $meta_key, $meta_value ) {
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+		$row = $this->get_last_by( $meta_key, $payment_id );
+
+		if ( $row ) {
+			return $this->update( $row->id, [ 'meta_value' => maybe_serialize( $meta_value ) ], '', $this->type );
+		}
+
+		return (bool) $this->add(
+			[
+				'payment_id' => $payment_id,
+				'meta_key'   => $meta_key,
+				'meta_value' => maybe_serialize( $meta_value ),
+			],
+			$this->type
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+	}
+
+	/**
+	 * Add payment log.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param int    $payment_id Payment ID.
+	 * @param string $content    Log content.
+	 *
+	 * @return bool
+	 */
+	public function add_log( $payment_id, $content ) {
+
+		return (bool) $this->add(
+			[
+				'payment_id' => $payment_id,
+				'meta_key'   => 'log', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value' => wp_json_encode( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+					[
+						'value' => wp_kses_post( $content ),
+						'date'  => gmdate( 'Y-m-d H:i:s' ),
+					]
+				),
+			],
+			$this->type
+		);
+	}
+
+	/**
 	 * Get single payment meta.
 	 *
 	 * @since 1.8.2
@@ -226,5 +286,133 @@ class Meta extends WPForms_DB {
 			),
 			ARRAY_A
 		);
+	}
+
+	/**
+	 * Check if there are valid entries with a specific meta key.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $meta_key The meta key to check.
+	 *
+	 * @return bool
+	 */
+	public function is_valid_meta_by_meta_key( $meta_key ) {
+
+		// Check if the meta key is empty and return false.
+		if ( empty( $meta_key ) ) {
+			return false;
+		}
+
+		// Retrieve the global database instance.
+		global $wpdb;
+
+		$payment_handler        = wpforms()->get( 'payment' );
+		$payment_table_name     = $payment_handler->table_name;
+		$secondary_where_clause = $payment_handler->add_secondary_where_conditions();
+
+		// Prepare and execute the SQL query to check if there are valid entries with the given meta key.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return (bool) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT 1 FROM {$this->table_name} AS pm
+				WHERE meta_key = %s AND meta_value IS NOT NULL
+				AND EXISTS (SELECT 1 FROM {$payment_table_name} AS p WHERE p.id = pm.payment_id {$secondary_where_clause})
+				LIMIT 1",
+				$meta_key
+			)
+		);
+	}
+
+	/**
+	 * Check if the given meta key and value exist in the payment meta table.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $meta_key   Meta key value.
+	 * @param string $meta_value Meta value.
+	 *
+	 * @return bool
+	 */
+	public function is_valid_meta( $meta_key, $meta_value ) {
+
+		// Check if the meta key or value is empty and return false.
+		if ( empty( $meta_key ) || empty( $meta_value ) ) {
+			return false;
+		}
+
+		// Retrieve the global database instance.
+		global $wpdb;
+
+		// Prepare and execute the SQL query to check if the given meta key and value exist in the payment meta table.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return (bool) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT EXISTS( SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND meta_value = %s )",
+				$meta_key,
+				$meta_value
+			)
+		);
+	}
+
+	/**
+	 * Retrieve payment meta data by given meta key and value.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $meta_key   Meta key value.
+	 * @param string $meta_value Meta value.
+	 *
+	 * @return array
+	 */
+	public function get_all_by_meta( $meta_key, $meta_value ) {
+
+		// Check if the meta key or value is empty and return null.
+		if ( empty( $meta_key ) || empty( $meta_value ) ) {
+			return [];
+		}
+
+		// Retrieve the global database instance.
+		global $wpdb;
+
+		// Prepare and execute the SQL query to retrieve payment meta data based on the given meta key and value.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT meta_key, meta_value AS value FROM {$this->table_name}
+				WHERE payment_id = ( SELECT payment_id FROM {$this->table_name}
+				WHERE meta_key = %s AND meta_value = %s LIMIT 1 )",
+				$meta_key,
+				$meta_value
+			),
+			OBJECT_K
+		);
+	}
+
+	/**
+	 * Get row from the payment meta table for given payment id and meta key.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $meta_key   Meta key value.
+	 * @param int    $payment_id Payment ID.
+	 *
+	 * @return object|null
+	 */
+	public function get_last_by( $meta_key, $payment_id ) {
+
+		global $wpdb;
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT * FROM $this->table_name
+				WHERE payment_id = %d AND meta_key = %s
+				ORDER BY id DESC LIMIT 1",
+				$payment_id,
+				$meta_key
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 	}
 }

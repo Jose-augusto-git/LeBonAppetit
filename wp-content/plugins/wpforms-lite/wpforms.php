@@ -3,11 +3,11 @@
  * Plugin Name:       WPForms Lite
  * Plugin URI:        https://wpforms.com
  * Description:       Beginner friendly WordPress contact form plugin. Use our Drag & Drop form builder to create your WordPress forms.
- * Requires at least: 5.2
- * Requires PHP:      5.6
+ * Requires at least: 5.5
+ * Requires PHP:      7.0
  * Author:            WPForms
  * Author URI:        https://wpforms.com
- * Version:           1.8.3.1
+ * Version:           1.8.4
  * Text Domain:       wpforms-lite
  * Domain Path:       assets/languages
  *
@@ -36,7 +36,7 @@ if ( ! defined( 'WPFORMS_VERSION' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	define( 'WPFORMS_VERSION', '1.8.3.1' );
+	define( 'WPFORMS_VERSION', '1.8.4' );
 }
 
 // Plugin Folder Path.
@@ -169,8 +169,8 @@ if ( function_exists( 'wpforms' ) ) {
 	return;
 }
 
-// We require PHP version 5.6+ for the whole plugin to work.
-if ( version_compare( phpversion(), '5.6', '<' ) ) {
+// We require PHP version 7.0+ for the whole plugin to work.
+if ( version_compare( phpversion(), '7.0', '<' ) ) {
 
 	if ( ! function_exists( 'wpforms_php52_notice' ) ) {
 
@@ -238,8 +238,8 @@ if ( version_compare( phpversion(), '5.6', '<' ) ) {
 	return;
 }
 
-// We require WP version 5.2+ for the whole plugin to work.
-if ( version_compare( $GLOBALS['wp_version'], '5.2', '<' ) ) {
+// We require WP version 5.5+ for the whole plugin to work.
+if ( version_compare( $GLOBALS['wp_version'], '5.5', '<' ) ) {
 
 	if ( ! function_exists( 'wpforms_wp_notice' ) ) {
 
@@ -257,7 +257,7 @@ if ( version_compare( $GLOBALS['wp_version'], '5.2', '<' ) ) {
 					printf(
 						/* translators: %s - WordPress version. */
 						esc_html__( 'The WPForms plugin is disabled because it requires WordPress %s or later.', 'wpforms-lite' ),
-						'5.2'
+						'5.5'
 					);
 					?>
 				</p>

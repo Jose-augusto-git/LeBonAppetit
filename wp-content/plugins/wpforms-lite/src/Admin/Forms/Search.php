@@ -116,8 +116,12 @@ class Search {
 	 */
 	public function get_forms_args( $args ) {
 
-		$args['search']['term']         = $this->term;
-		$args['search']['term_escaped'] = $this->term_escaped;
+		if ( is_numeric( $this->term ) ) {
+			$args['post__in'] = [ absint( $this->term ) ];
+		} else {
+			$args['search']['term']         = $this->term;
+			$args['search']['term_escaped'] = $this->term_escaped;
+		}
 
 		return $args;
 	}
@@ -164,6 +168,10 @@ class Search {
 	 * @return string
 	 */
 	public function search_by_term_where( $where, $wp_query ) {
+
+		if ( is_numeric( $this->term ) ) {
+			return $where;
+		}
 
 		global $wpdb;
 

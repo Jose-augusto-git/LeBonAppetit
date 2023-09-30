@@ -43,6 +43,9 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 */
 		events: function() {
 
+			$( document )
+				.on( 'wpforms_elementor_form_fields_initialized', app.initPageBreakButtons );
+
 			$( 'form.wpforms-form' )
 				.on( 'wpformsCombinedUploadsSizeError', app.combinedUploadsSizeError )
 				.on( 'wpformsFormSubmitButtonDisable', app.formSubmitButtonDisable )
@@ -145,8 +148,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 */
-		initPageBreakButtons: function() {
-
+		initPageBreakButtons() {
 			$( '.wpforms-page-button' )
 				.removeClass( 'wpforms-disabled' )
 				.attr( 'aria-disabled', 'false' )

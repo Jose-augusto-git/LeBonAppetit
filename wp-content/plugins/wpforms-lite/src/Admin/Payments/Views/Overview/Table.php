@@ -2,7 +2,12 @@
 
 namespace WPForms\Admin\Payments\Views\Overview;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WPForms\Db\Payments\ValueValidator;
+use WPForms\Db\Payments\Queries;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
@@ -14,6 +19,13 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  * @since 1.8.2
  */
 class Table extends \WP_List_Table {
+
+	/**
+	 * Trait for using notices.
+	 *
+	 * @since 1.8.4
+	 */
+	use Traits\ResetNotices;
 
 	/**
 	 * Payment type: one-time.
@@ -43,6 +55,15 @@ class Table extends \WP_List_Table {
 	private $counts;
 
 	/**
+	 * Table query arguments.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @var array
+	 */
+	private $table_query_args = [];
+
+	/**
 	 * Retrieve the table columns.
 	 *
 	 * @since 1.8.2
@@ -69,6 +90,10 @@ class Table extends \WP_List_Table {
 
 		if ( wpforms()->get( 'payment_queries' )->has_different_values( 'type' ) ) {
 			$columns['type'] = esc_html__( 'Type', 'wpforms-lite' );
+		}
+
+		if ( wpforms()->get( 'payment_meta' )->is_valid_meta_by_meta_key( 'coupon_id' ) ) {
+			$columns['coupon'] = esc_html__( 'Coupon', 'wpforms-lite' );
 		}
 
 		$columns['total'] = esc_html__( 'Total', 'wpforms-lite' );
@@ -125,35 +150,68 @@ class Table extends \WP_List_Table {
 	 */
 	public function prepare_items() {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$page      = $this->get_pagenum();
-		$order     = isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'DESC';
-		$orderby   = $this->get_order_by();
 		$per_page  = $this->get_items_per_page( 'wpforms_payments_per_page', 20 );
 		$data_args = [
 			'number'            => $per_page,
 			'offset'            => $per_page * ( $page - 1 ),
-			'order'             => $order,
-			'orderby'           => $orderby,
+			'orderby'           => $this->get_order_by(),
 			'search'            => $this->get_search_query(),
 			'search_conditions' => $this->get_search_conditions(),
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			'status'            => $this->get_valid_status_from_request(),
 			'is_published'      => $this->is_trash_view() ? 0 : 1,
 		];
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		$this->items = wpforms()->get( 'payment' )->get_payments( $data_args );
+		// Set the table query arguments for later use.
+		$this->table_query_args = $this->prepare_table_query_args( $data_args );
 
-		$this->setup_counts( $data_args );
+		// Retrieve the payment records for the given data arguments.
+		$this->items = wpforms()->get( 'payment' )->get_payments( $this->table_query_args );
+
+		// Setup the counts.
+		$this->setup_counts();
+
+		// Check if we can continue.
+		$this->can_prepare_records();
+
+		// Get the proper total number of records depending on the current status view.
+		$total_items = $this->get_valid_status_count_from_request();
+		$total_pages = ceil( $total_items / $per_page );
 
 		// Finalize pagination.
 		$this->set_pagination_args(
 			[
-				'total_items' => $this->counts['total'],
-				'total_pages' => ceil( $this->counts['total'] / $per_page ),
+				'total_items' => $total_items,
+				'total_pages' => $total_pages,
 				'per_page'    => $per_page,
 			]
 		);
+	}
+
+	/**
+	 * Prepare the query arguments for the overview table.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $args Array of data arguments.
+	 *
+	 * @return array
+	 */
+	private function prepare_table_query_args( $args = [] ) {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		return wp_parse_args(
+			$args,
+			[
+				'table_query'         => true,
+				'order'               => isset( $_GET['order'] ) ? sanitize_key( $_GET['order'] ) : 'DESC',
+				'form_id'             => isset( $_GET['form_id'] ) ? absint( $_GET['form_id'] ) : '',
+				'type'                => isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( $_GET['type'] ) ) : '',
+				'gateway'             => isset( $_GET['gateway'] ) ? sanitize_text_field( wp_unslash( $_GET['gateway'] ) ) : '',
+				'subscription_status' => isset( $_GET['subscription_status'] ) ? sanitize_text_field( wp_unslash( $_GET['subscription_status'] ) ) : '',
+			]
+		);
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -176,6 +234,36 @@ class Table extends \WP_List_Table {
 		}
 
 		esc_html_e( 'No payments found.', 'wpforms-lite' );
+	}
+
+	/**
+	 * Generates content for a single row of the table.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $item Item data.
+	 */
+	public function single_row( $item ) {
+
+		// Leave the default row if the item is not a subscription.
+		if ( empty( $item['subscription_id'] ) || empty( $item['subscription_status'] ) ) {
+			parent::single_row( $item );
+
+			return;
+		}
+
+		$has_renewal = wpforms()->get( 'payment_queries' )->if_subscription_has_renewal( $item['subscription_id'] );
+
+		// Leave the default row if the subscription has no renewal.
+		if ( ! $has_renewal ) {
+			parent::single_row( $item );
+
+			return;
+		}
+
+		echo '<tr class="subscription-has-renewal">';
+		$this->single_row_columns( $item );
+		echo '</tr>';
 	}
 
 	/**
@@ -245,6 +333,121 @@ class Table extends \WP_List_Table {
 	}
 
 	/**
+	 * Extra filtering controls to be displayed between bulk actions and pagination.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $which Position of the extra controls: 'top' or 'bottom'.
+	 */
+	protected function extra_tablenav( $which ) {
+
+		// We only want to show the extra controls on the top.
+		if ( $which !== 'top' ) {
+			return;
+		}
+
+		$tablenav_data = [
+			'type'                => [
+				'data'         => ValueValidator::get_allowed_types(),
+				'plural_label' => __( 'types', 'wpforms-lite' ),
+			],
+			'gateway'             => [
+				'data'         => ValueValidator::get_allowed_gateways(),
+				'plural_label' => __( 'gateways', 'wpforms-lite' ),
+			],
+			'subscription_status' => [
+				'data'         => ValueValidator::get_allowed_subscription_statuses(),
+				'plural_label' => __( 'subscriptions', 'wpforms-lite' ),
+			],
+		];
+
+		// Special case for showing all available types, gateways and subscription statuses.
+		if ( ! $this->has_items() ) {
+			unset(
+				$this->table_query_args['type'],
+				$this->table_query_args['gateway'],
+				$this->table_query_args['subscription_status']
+			);
+		}
+
+		// Output the reset filter notice.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wpforms_render(
+			'admin/payments/tablenav-filters',
+			[
+				'filters' => $this->prepare_extra_tablenav_filters( $tablenav_data ),
+			],
+			true
+		);
+	}
+
+	/**
+	 * Iterate through each given filter option and remove the ones that don't have any records.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $tablenav_data Array of filter options.
+	 *
+	 * @return string
+	 */
+	private function prepare_extra_tablenav_filters( $tablenav_data ) {
+
+		$rendered_nav_data = [];
+
+		foreach ( $tablenav_data as $nav_key => $nav_attributes ) {
+
+			$filtered_data = [];
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$selected = isset( $_GET[ $nav_key ] ) ? explode( '|', wp_unslash( $_GET[ $nav_key ] ) ) : [];
+
+			foreach ( $nav_attributes['data'] as $attribute_key => $attribute_value ) {
+				$query_args = array_merge( $this->table_query_args, [ $nav_key => $attribute_key ] );
+
+				if ( in_array( $attribute_key, $selected, true ) || wpforms()->get( 'payment_queries' )->if_exists( $query_args ) ) {
+					$filtered_data[ $attribute_key ] = $attribute_value;
+				}
+			}
+
+			$selected = array_filter(
+				$selected,
+				static function ( $value ) use ( $filtered_data ) {
+
+					return isset( $filtered_data[ $value ] );
+				}
+			);
+
+			if ( empty( $filtered_data ) || ( count( $filtered_data ) === 1 && empty( $selected ) ) ) {
+				continue;
+			}
+
+			$rendered_nav_data[] = wpforms_render(
+				'admin/payments/tablenav-filter-multiselect',
+				[
+					'selected'      => $selected,
+					'options'       => $filtered_data,
+					'name'          => $nav_key,
+					'data_settings' => [
+						'i18n' => [
+							'multiple' => sprintf( /* translators: %s - plural label. */
+								__( 'Multiple %s selected', 'wpforms-lite' ),
+								esc_attr( $nav_attributes['plural_label'] )
+							),
+							'all'      => sprintf( /* translators: %s - plural label. */
+								__( 'All %s', 'wpforms-lite' ),
+								esc_attr( $nav_attributes['plural_label'] )
+							),
+						],
+					],
+				],
+				true
+			);
+		}
+
+		return implode( '', $rendered_nav_data );
+	}
+
+	/**
 	 * Display the search box.
 	 *
 	 * @since 1.8.2
@@ -269,9 +472,9 @@ class Table extends \WP_List_Table {
 			</select>
 			<label class="screen-reader-text" for="search_mode"><?php esc_html_e( 'Select which comparison method to use when searching for payments', 'wpforms-lite' ); ?></label>
 			<select name="search_mode">
+				<option value="<?php echo esc_attr( Search::MODE_CONTAINS ); ?>" <?php selected( $search_mode, Search::MODE_CONTAINS ); ?> ><?php echo esc_html( $this->get_search_mode( Search::MODE_CONTAINS ) ); ?></option>
 				<option value="<?php echo esc_attr( Search::MODE_EQUALS ); ?>" <?php selected( $search_mode, Search::MODE_EQUALS ); ?> ><?php echo esc_html( $this->get_search_mode( Search::MODE_EQUALS ) ); ?></option>
 				<option value="<?php echo esc_attr( Search::MODE_STARTS ); ?>" <?php selected( $search_mode, Search::MODE_STARTS ); ?> ><?php echo esc_html( $this->get_search_mode( Search::MODE_STARTS ) ); ?></option>
-				<option value="<?php echo esc_attr( Search::MODE_CONTAINS ); ?>" <?php selected( $search_mode, Search::MODE_CONTAINS ); ?> ><?php echo esc_html( $this->get_search_mode( Search::MODE_CONTAINS ) ); ?></option>
 			</select>
 			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $text ); ?></label>
 			<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_attr( $this->get_search_query() ); ?>" />
@@ -324,6 +527,7 @@ class Table extends \WP_List_Table {
 			echo '</div>';
 		}
 
+		$this->extra_tablenav( $which );
 		echo '<br class="clear" />';
 		echo '</div>';
 	}
@@ -372,6 +576,22 @@ class Table extends \WP_List_Table {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		return ! empty( $_REQUEST['status'] ) && ( ValueValidator::is_valid( $_REQUEST['status'], 'status' ) || $_REQUEST['status'] === self::TRASH ) ? $_REQUEST['status'] : '';
+	}
+
+	/**
+	 * Get number of payments for the current status.
+	 * Note that this function also validates the status internally.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return string
+	 */
+	private function get_valid_status_count_from_request() {
+
+		// Retrieve the current status.
+		$current_status = $this->get_valid_status_from_request();
+
+		return $current_status && isset( $this->counts[ $current_status ] ) ? $this->counts[ $current_status ] : $this->counts['total'];
 	}
 
 	/**
@@ -459,7 +679,7 @@ class Table extends \WP_List_Table {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$where_mode = isset( $_GET['search_mode'] ) ? sanitize_key( $_GET['search_mode'] ) : '';
 
-		return isset( $this->get_allowed_search_modes()[ $where_mode ] ) ? $where_mode : Search::MODE_EQUALS;
+		return isset( $this->get_allowed_search_modes()[ $where_mode ] ) ? $where_mode : Search::MODE_CONTAINS;
 	}
 
 	/**
@@ -476,9 +696,9 @@ class Table extends \WP_List_Table {
 		if ( ! $search_modes ) {
 
 			$search_modes = [
-				Search::MODE_EQUALS   => __( 'equals to', 'wpforms-lite' ),
-				Search::MODE_STARTS   => __( 'starts with', 'wpforms-lite' ),
 				Search::MODE_CONTAINS => __( 'contains', 'wpforms-lite' ),
+				Search::MODE_EQUALS   => __( 'equals', 'wpforms-lite' ),
+				Search::MODE_STARTS   => __( 'starts with', 'wpforms-lite' ),
 			];
 		}
 
@@ -489,23 +709,42 @@ class Table extends \WP_List_Table {
 	 * Prepare counters.
 	 *
 	 * @since 1.8.2
-	 *
-	 * @param array $args Query data arguments.
 	 */
-	private function setup_counts( $args ) {
+	private function setup_counts() {
 
-		$this->counts = [
-			'total'     => 0,
-			'published' => wpforms()->get( 'payment_queries' )->count_all( array_merge( $args, [ 'is_published' => 1 ] ) ),
-			'trash'     => wpforms()->get( 'payment_queries' )->count_all( array_merge( $args, [ 'is_published' => 0 ] ) ),
+		// Define the general views with their respective arguments.
+		$views = [
+			'published' => [
+				'is_published' => 1,
+				'status'       => '',
+			],
+			'trash'     => [
+				'is_published' => 0,
+				'status'       => '',
+			],
 		];
 
+		// Generate filterable status views with their respective arguments.
+		foreach ( ValueValidator::get_allowed_one_time_statuses() as $status => $label ) {
+			$views[ $status ] = [
+				'is_published' => 1,
+				'status'       => $status,
+			];
+		}
+
+		// Calculate the counts for each view and store them in the $this->counts array.
+		foreach ( $views as $status => $status_args ) {
+			$this->counts[ $status ] = wpforms()->get( 'payment_queries' )->count_all( array_merge( $this->table_query_args, $status_args ) );
+		}
+
+		// If the current view is the trash view, set the 'total' count to the 'trash' count.
 		if ( $this->is_trash_view() ) {
 			$this->counts['total'] = $this->counts['trash'];
 
 			return;
 		}
 
+		// Otherwise, set the 'total' count to the 'published' count.
 		$this->counts['total'] = $this->counts['published'];
 	}
 
@@ -548,10 +787,15 @@ class Table extends \WP_List_Table {
 
 		$title      = $this->get_payment_title( $item );
 		$na_status  = empty( $title ) ? sprintf( '<span class="payment-title-is-empty">- %s</span>', Helpers::get_placeholder_na_text() ) : '';
+
+		if ( ! $item['is_published'] ) {
+			return sprintf( '<span>#%1$d %2$s</span> %3$s', $item['id'], esc_html( $title ), $na_status );
+		}
+
 		$single_url = add_query_arg(
 			[
 				'page'       => 'wpforms-payments',
-				'view'       => 'single',
+				'view'       => 'payment',
 				'payment_id' => absint( $item['id'] ),
 			],
 			admin_url( 'admin.php' )
@@ -628,16 +872,18 @@ class Table extends \WP_List_Table {
 			return Helpers::get_placeholder_na_text();
 		}
 
+		$form = wpforms()->get( 'form' )->get( $item['form_id'] );
+
+		if ( ! $form || $form->post_status !== 'publish' ) {
+			return Helpers::get_placeholder_na_text();
+		}
+
 		// Display the form name with a link to the form builder.
-		$form = get_post( $item['form_id'] );
 		$name = ! empty( $form->post_title ) ? $form->post_title : $form->post_name;
 		$url  = add_query_arg(
-			[
-				'form_id' => absint( $form->ID ),
-				'page'    => 'wpforms-builder',
-				'view'    => 'fields',
-			],
-			Page::get_url()
+			'form_id',
+			absint( $form->ID ),
+			remove_query_arg( 'paged' )
 		);
 
 		return sprintf( '<a href="%s">%s</a>', esc_url( $url ), wp_kses_post( $name ) );
@@ -672,7 +918,7 @@ class Table extends \WP_List_Table {
 				]
 			),
 			strtolower( $item['status'] ),
-			ValueValidator::get_allowed_statuses()[ $item['status'] ]
+			$item['status'] === 'partrefund' ? __( '% Refunded', 'wpforms-lite' ) : ValueValidator::get_allowed_statuses()[ $item['status'] ]
 		);
 	}
 
@@ -693,10 +939,12 @@ class Table extends \WP_List_Table {
 
 		$amount      = $this->get_formatted_amount_from_item( $item );
 		$description = Helpers::get_subscription_description( $item['id'], $amount );
+		$status      = $this->get_subscription_status( $item );
 
 		return sprintf(
-			'<span class="wpforms-subscription-status status-%1$s">%2$s</span>',
-			sanitize_html_class( $item['subscription_status'] ),
+			'<span class="wpforms-subscription-status status-%1$s" title="%2$s">%3$s</span>',
+			sanitize_html_class( $status ),
+			$status ? ValueValidator::get_allowed_subscription_statuses()[ $status ] : '',
 			$description
 		);
 	}
@@ -717,6 +965,64 @@ class Table extends \WP_List_Table {
 		}
 
 		return ValueValidator::get_allowed_types()[ $item['type'] ];
+	}
+
+	/**
+	 * Show the coupon code used for the payment.
+	 * If the coupon code is not found, show N/A.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $item Payment item.
+	 *
+	 * @return string
+	 */
+	private function get_column_coupon( $item ) {
+
+		$payment_meta = wpforms()->get( 'payment_meta' )->get_all( $item['id'] );
+
+		// If the coupon info is empty, show N/A.
+		if ( empty( $payment_meta['coupon_info'] ) || empty( $payment_meta['coupon_id'] ) ) {
+			return Helpers::get_placeholder_na_text();
+		}
+
+		$url = add_query_arg(
+			'coupon_id',
+			$payment_meta['coupon_id']->value,
+			remove_query_arg( 'paged' )
+		);
+
+		return sprintf(
+			'<a href="%1$s" aria-label="%2$s">%3$s</a>',
+			esc_url( $url ),
+			esc_attr__( 'Filter entries by coupon',  'wpforms-lite' ),
+			esc_html( $this->get_coupon_name_by_info( $payment_meta['coupon_info']->value ) )
+		);
+	}
+
+	/**
+	 * Get subscription status.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $item Payment item.
+	 *
+	 * @return string
+	 */
+	private function get_subscription_status( $item ) {
+
+		if ( ! in_array( $item['type'], [ 'subscription', 'renewal' ], true ) ) {
+			return '';
+		}
+
+		if ( $item['type'] === 'subscription' ) {
+			return $item['subscription_status'];
+		}
+
+		// For renewals, get subscription status from the parent subscription.
+		$parent_subscription = ( new Queries() )->get_subscription( $item['subscription_id'] );
+
+		return ! empty( $parent_subscription->subscription_status ) ? $parent_subscription->subscription_status : '';
 	}
 
 	/**
@@ -770,53 +1076,7 @@ class Table extends \WP_List_Table {
 			return '';
 		}
 
-		return wpforms_format_amount( wpforms_sanitize_amount( $item['total_amount'] ), true );
-	}
-
-	/**
-	 * Show reset filter box.
-	 *
-	 * @since 1.8.2
-	 */
-	private function show_reset_filter() {
-
-		if ( ! Search::is_search() ) {
-			return;
-		}
-
-		$search_where = $this->get_search_where( $this->get_search_where_key() );
-		$search_mode  = $this->get_search_mode( $this->get_search_mode_key() );
-		?>
-			<div id="wpforms-reset-filter" class="wpforms-reset-filter">
-				<?php
-				printf(
-					wp_kses( /* translators: %d - number of payments found. */
-						_n(
-							'Found <strong>%d payment</strong> where',
-							'Found <strong>%d payments</strong> where',
-							$this->counts['total'],
-							'wpforms-lite'
-						),
-						[
-							'strong' => [],
-						]
-					),
-					(int) $this->counts['total']
-				);
-
-				// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-				printf(
-					' <em>%s</em> %s "<em>%s</em>" <a href="%s" class="reset fa fa-times-circle" title="%s"></a>',
-					esc_html( $search_where ),
-					esc_html( $search_mode ),
-					esc_html( wp_unslash( $_GET['s'] ) ),
-					esc_url( Page::get_url() ),
-					esc_attr__( 'Reset search', 'wpforms-lite' )
-				);
-				// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-				?>
-			</div>
-		<?php
+		return wpforms_format_amount( wpforms_sanitize_amount( $item['total_amount'], $item['currency'] ), true, $item['currency'] );
 	}
 
 	/**
@@ -828,7 +1088,7 @@ class Table extends \WP_List_Table {
 	 */
 	protected function get_views() {
 
-		$base          = remove_query_arg( [ 'type', 'status', 'paged' ] );
+		$base          = remove_query_arg( [ 'status', 'paged' ] );
 		$is_trash_view = $this->is_trash_view();
 
 		$views = [
@@ -841,6 +1101,9 @@ class Table extends \WP_List_Table {
 			),
 		];
 
+		// Iterate through the filterable statuses and add them to the "$views" array.
+		$views = array_merge( $views, $this->get_views_for_filterable_statuses( $base ) );
+
 		/** This filter is documented in \WPForms\Admin\Payments\Views\Overview\Table::display_tablenav(). */
 		if ( $this->counts['trash'] || $is_trash_view ) {
 			$views['trash'] = sprintf(
@@ -852,7 +1115,7 @@ class Table extends \WP_List_Table {
 			);
 		}
 
-		return $views;
+		return array_filter( $views );
 	}
 
 	/**
@@ -866,16 +1129,25 @@ class Table extends \WP_List_Table {
 	 */
 	private function is_current_view( $view ) {
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		if ( $view === 'trash' && isset( $_GET['status'] ) && $_GET['status'] === self::TRASH ) {
 			return true;
 		}
 
-		if ( $view === 'search' && Search::is_search() ) {
+		if ( ( $view === 'search' || $view === 'all' ) && Search::is_search() ) {
+			return ! isset( $_GET['status'] );
+		}
+
+		if ( ValueValidator::is_valid( $view, 'status' ) && isset( $_GET['status'] ) && $_GET['status'] === $view ) {
 			return true;
 		}
 
-		return $view === 'all';
+		if ( $view === 'all' && ! isset( $_GET['status'] ) && ! Search::is_search() ) {
+			return true;
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		return false;
 	}
 
 	/**
@@ -911,6 +1183,46 @@ class Table extends \WP_List_Table {
 	}
 
 	/**
+	 * This function is responsible for determining whether the table items could be displayed.
+	 *
+	 * @since 1.8.4
+	 */
+	private function can_prepare_records() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		if ( isset( $_GET['form_id'] ) && get_post_status( $_GET['form_id'] ) !== 'publish' ) {
+			wp_safe_redirect( Page::get_url() );
+			exit;
+		}
+
+		if ( isset( $_GET['status'] ) && $_GET['status'] !== $this->get_valid_status_from_request() ) {
+			wp_safe_redirect( Page::get_url() );
+			exit;
+		}
+
+		if ( isset( $_GET['coupon_id'] ) && ! wpforms()->get( 'payment_meta' )->is_valid_meta( 'coupon_id', absint( $_GET['coupon_id'] ) ) ) {
+			wp_safe_redirect( Page::get_url() );
+			exit;
+		}
+
+		// Validate the "type," "gateway," and "subscription_status" parameters.
+		foreach ( [ 'type', 'gateway', 'subscription_status' ] as $column_name ) {
+			// Leave the loop if the parameter is not set.
+			if ( empty( $_GET[ $column_name ] ) ) {
+				continue;
+			}
+
+			foreach ( explode( '|', $_GET[ $column_name ] ) as $value ) {
+				if ( ! ValueValidator::is_valid( $value, $column_name ) ) {
+					wp_safe_redirect( Page::get_url() );
+					exit;
+				}
+			}
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	}
+
+	/**
 	 * Display table form's hidden fields.
 	 *
 	 * @since 1.8.2
@@ -923,6 +1235,8 @@ class Table extends \WP_List_Table {
 
 		$this->display_status_hidden_field();
 		$this->display_order_hidden_fields();
+		$this->display_coupon_id_hidden_field();
+		$this->display_form_id_hidden_field();
 	}
 
 	/**
@@ -934,9 +1248,21 @@ class Table extends \WP_List_Table {
 
 		$status = $this->get_valid_status_from_request();
 
-		if ( $status ) {
-			printf( '<input type="hidden" name="status" value="%s">', esc_attr( wp_unslash( $status ) ) );
+		// Bail early if status is not valid.
+		if ( ! $status ) {
+			return;
 		}
+
+		// Output the hidden field.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wpforms_render(
+			'admin/payments/hidden-field',
+			[
+				'name'  => 'status',
+				'value' => $status,
+			],
+			true
+		);
 	}
 
 	/**
@@ -946,16 +1272,129 @@ class Table extends \WP_List_Table {
 	 */
 	private function display_order_hidden_fields() {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		foreach ( [ 'orderby', 'order' ] as $param ) {
-			if ( ! empty( $_GET[ $param ] ) ) {
-				printf(
-					'<input type="hidden" name="%s" value="%s">',
-					esc_attr( $param ),
-					esc_attr( wp_unslash( $_GET[ $param ] ) )
-				);
+			// Skip if param is not set.
+			if ( empty( $_GET[ $param ] ) ) {
+				continue;
 			}
+
+			// Output the hidden field.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo wpforms_render(
+				'admin/payments/hidden-field',
+				[
+					'name'  => $param,
+					'value' => sanitize_text_field( wp_unslash( $_GET[ $param ] ) ),
+				],
+				true
+			);
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	}
+
+	/**
+	 * Display hidden field with coupon ID value.
+	 *
+	 * @since 1.8.4
+	 */
+	private function display_coupon_id_hidden_field() {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( empty( $_GET['coupon_id'] ) ) {
+			return;
+		}
+
+		// Output the hidden field.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wpforms_render(
+			'admin/payments/hidden-field',
+			[
+				'name'  => 'coupon_id',
+				'value' => absint( $_GET['coupon_id'] ),
+			],
+			true
+		);
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	}
+
+	/**
+	 * Display hidden field with form ID value.
+	 *
+	 * @since 1.8.4
+	 */
+	private function display_form_id_hidden_field() {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( empty( $_GET['form_id'] ) ) {
+			return;
+		}
+
+		// Output the hidden field.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wpforms_render(
+			'admin/payments/hidden-field',
+			[
+				'name'  => 'form_id',
+				'value' => absint( $_GET['form_id'] ),
+			],
+			true
+		);
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	}
+
+	/**
+	 * Get the coupon name from the coupon info.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $coupon_info Coupon information.
+	 *
+	 * @return string
+	 */
+	private function get_coupon_name_by_info( $coupon_info ) {
+
+		// Extract the coupon code from the coupon info using regex.
+		if ( preg_match( '/^(.+)/i', $coupon_info, $coupon_code ) ) {
+			return $coupon_code[0];
+		}
+
+		return Helpers::get_placeholder_na_text();
+	}
+
+	/**
+	 * Get the filterable statuses views for the overview table.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $base Base URL for the view links.
+	 *
+	 * @return array
+	 */
+	private function get_views_for_filterable_statuses( $base ) {
+
+		$views    = [];
+		$statuses = ValueValidator::get_allowed_one_time_statuses();
+
+		// Remove the "Partially Refunded" status from the views.
+		unset( $statuses['partrefund'] );
+
+		foreach ( $statuses as $status => $label ) {
+			// Skip if the count is zero and the view is not the current status.
+			if ( ! $this->counts[ $status ] && ! $this->is_current_view( $status ) ) {
+				continue;
+			}
+
+			// Add the view link to the $views array with the status as the key.
+			$views[ $status ] = sprintf(
+				'<a href="%s"%s>%s <span class="count">(%d)</span></a>',
+				esc_url( add_query_arg( [ 'status' => $status ], $base ) ),
+				$this->is_current_view( $status ) ? ' class="current"' : '',
+				esc_html( $label ),
+				(int) $this->counts[ $status ]
+			);
+		}
+
+		return $views;
 	}
 }

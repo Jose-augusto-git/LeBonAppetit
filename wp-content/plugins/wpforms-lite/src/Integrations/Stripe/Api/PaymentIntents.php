@@ -7,12 +7,14 @@ use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
 use Stripe\Stripe;
 use Stripe\Subscription;
+use Stripe\Refund;
 use Stripe\Exception\ApiErrorException;
 use WPForms\Integrations\Stripe\Fields\StripeCreditCard;
 use WPForms\Integrations\Stripe\Fields\PaymentElementCreditCard;
 use WPForms\Integrations\Stripe\Helpers;
 use WPForms\Helpers\Crypto;
 use Exception;
+use Stripe\Charge;
 
 /**
  * Stripe PaymentIntents API.
@@ -272,6 +274,126 @@ class PaymentIntents extends Common implements ApiInterface {
 	}
 
 	/**
+	 * Refund a payment.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $payment_intent_id PaymentIntent id.
+	 *
+	 * @return bool
+	 */
+	public function refund_payment( $payment_intent_id ) {
+
+		try {
+
+			$intent = $this->retrieve_payment_intent( $payment_intent_id );
+
+			if ( ! $intent ) {
+				return false;
+			}
+
+			$refund = Refund::create(
+				[
+					'payment_intent' => $payment_intent_id,
+					'metadata'       => [
+						'refunded_by' => 'wpforms_dashboard',
+					],
+				],
+				Helpers::get_auth_opts()
+			);
+
+			if ( ! $refund ) {
+				return false;
+			}
+		} catch ( Exception $e ) {
+
+			$this->handle_exception( $e );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get a charge.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $charge_id Charge id.
+	 *
+	 * @return Charge|bool
+	 */
+	public function get_charge( $charge_id ) {
+
+		try {
+
+			$charge = Charge::retrieve(
+				$charge_id,
+				Helpers::get_auth_opts()
+			);
+
+			if ( ! $charge ) {
+				return false;
+			}
+		} catch ( Exception $e ) {
+
+			$this->handle_exception( $e );
+
+			return false;
+		}
+
+		return $charge;
+	}
+
+	/**
+	 * Cancel a subscription.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $subscription_id Subscription id.
+	 *
+	 * @return bool
+	 */
+	public function cancel_subscription( $subscription_id ) {
+
+		try {
+
+			$subscription = Subscription::retrieve(
+				$subscription_id,
+				Helpers::get_auth_opts()
+			);
+
+			if ( ! $subscription ) {
+				return false;
+			}
+
+			Subscription::update(
+				$subscription_id,
+				[
+					'metadata' => array_merge(
+						$subscription->metadata->values(),
+						[
+							'canceled_by' => 'wpforms_dashboard',
+						]
+					),
+				],
+				Helpers::get_auth_opts()
+			);
+
+			$subscription->cancel();
+
+		} catch ( Exception $e ) {
+
+			$this->handle_exception( $e );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Request a single payment charge to be made by Stripe.
 	 *
 	 * @since 1.8.2
@@ -313,7 +435,7 @@ class PaymentIntents extends Common implements ApiInterface {
 			$this->intent = PaymentIntent::create( $args, Helpers::get_auth_opts() );
 
 			if ( ! in_array( $this->intent->status, [ 'succeeded', 'requires_action', 'requires_confirmation' ], true ) ) {
-				$this->error = esc_html__( 'Stripe payment stopped. invalid PaymentIntent status.', 'wpforms-lite' );
+				$this->error = esc_html__( 'Stripe payment stopped. Invalid PaymentIntent status.', 'wpforms-lite' );
 
 				return;
 			}
@@ -387,7 +509,7 @@ class PaymentIntents extends Common implements ApiInterface {
 	 *
 	 * @since 1.8.2
 	 *
-	 * @param array $args Single payment arguments.
+	 * @param array $args Subscription payment arguments.
 	 */
 	protected function charge_subscription( $args ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
@@ -750,7 +872,7 @@ class PaymentIntents extends Common implements ApiInterface {
 
 		$this->intent->metadata['captcha_3dsecure_token'] = Crypto::encrypt( $this->intent->id );
 
-		$this->intent->save();
+		$this->intent->update( $this->intent->id, $this->intent->serializeParameters(), Helpers::get_auth_opts() );
 	}
 
 	/**
@@ -772,7 +894,7 @@ class PaymentIntents extends Common implements ApiInterface {
 		// 1) Sanity check to prevent possible tinkering with captcha on non-payment forms.
 		// 2) Both reCAPTCHA and hCaptcha are enabled by the same setting.
 		if (
-			empty( $form_data['payments']['stripe']['enable'] ) ||
+			! Helpers::is_payments_enabled( $form_data ) ||
 			empty( $form_data['settings']['recaptcha'] ) ||
 			empty( $entry['payment_intent_id'] )
 		) {
@@ -796,7 +918,7 @@ class PaymentIntents extends Common implements ApiInterface {
 		// Cleanup the token to prevent its repeated usage and declutter the metadata.
 		$intent->metadata['captcha_3dsecure_token'] = null;
 
-		$intent->save();
+		$intent->update( $intent->id, $intent->serializeParameters(), Helpers::get_auth_opts() );
 
 		return true;
 	}

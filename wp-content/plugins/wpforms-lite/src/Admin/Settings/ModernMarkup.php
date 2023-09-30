@@ -78,22 +78,24 @@ class ModernMarkup {
 		}
 
 		$modern_markup = [
-			'id'   => 'modern-markup',
-			'name' => esc_html__( 'Use Modern Markup', 'wpforms-lite' ),
-			'desc' => sprintf(
+			'id'     => 'modern-markup',
+			'name'   => esc_html__( 'Use Modern Markup', 'wpforms-lite' ),
+			'desc'   => sprintf(
 				wp_kses( /* translators: %s - WPForms.com form markup setting URL. */
-					__( 'Check this option to use modern markup, which has increased accessibility and allows you to easily customize your forms in the block editor. <a href="%s" target="_blank" rel="noopener noreferrer">Read our form styling documentation</a> to learn more.', 'wpforms-lite' ),
+					__( 'Use modern markup, which has increased accessibility and allows you to easily customize your forms in the block editor. <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-learn-more">Learn More</a>', 'wpforms-lite' ),
 					[
 						'a' => [
 							'href'   => [],
 							'target' => [],
 							'rel'    => [],
+							'class'  => [],
 						],
 					]
 				),
 				wpforms_utm_link( 'https://wpforms.com/docs/styling-your-forms/', 'settings-license', 'Form Markup Documentation' )
 			),
-			'type' => 'checkbox',
+			'type'   => 'toggle',
+			'status' => true,
 		];
 
 		$is_disabled_transient = Transient::get( 'modern_markup_setting_disabled' );

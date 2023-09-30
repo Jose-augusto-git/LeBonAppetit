@@ -4,10 +4,12 @@
  * Form templates list item template.
  *
  * @since 1.6.8
+ * @since 1.8.4 Added subcategories attribute.
  *
  * @var string $selected_class       Selected item class.
  * @var string $license_class        License class (in the case of higher license needed).
  * @var string $categories           Categories, coma separated.
+ * @var string $subcategories        Subcategories, comma separated.
  * @var string $badge_text           Badge text.
  * @var string $demo_url             Template demo URL.
  * @var string $template_id          Template ID (Slug or ID if available).
@@ -42,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 	<!-- As requirment for Lists.js library data attribute slug is used in classes list. -->
-	<h3 class="wpforms-template-name categories has-access favorite slug" data-categories="<?php echo esc_attr( $categories ); ?>" data-has-access="<?php echo esc_attr( $template['has_access'] ); ?>" data-favorite="<?php echo esc_attr( $template['favorite'] ); ?>" data-slug="<?php echo esc_attr( $template['slug'] ); ?>">
+	<h3 class="wpforms-template-name categories has-access favorite slug subcategories" data-categories="<?php echo esc_attr( $categories ); ?>" data-subcategories="<?php echo esc_attr( $subcategories ); ?>" data-has-access="<?php echo esc_attr( $template['has_access'] ); ?>" data-favorite="<?php echo esc_attr( $template['favorite'] ); ?>" data-slug="<?php echo esc_attr( $template['slug'] ); ?>">
 		<?php echo esc_html( $template['name'] ); ?>
 	</h3>
 

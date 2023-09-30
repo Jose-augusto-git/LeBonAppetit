@@ -202,7 +202,7 @@ class Import extends View {
 	private function wpforms_block() {
 		?>
 
-		<div class="wpforms-setting-row tools">
+		<div class="wpforms-setting-row tools wpforms-settings-row-divider">
 			<h4><?php esc_html_e( 'WPForms Import', 'wpforms-lite' ); ?></h4>
 			<p><?php esc_html_e( 'Select a WPForms export file.', 'wpforms-lite' ); ?></p>
 
@@ -214,13 +214,12 @@ class Import extends View {
 					<label for="wpforms-tools-form-import">
 						<span class="fld"><span class="placeholder"><?php esc_html_e( 'No file chosen', 'wpforms-lite' ); ?></span></span>
 						<strong class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey">
-							<i class="fa fa-upload"></i><?php esc_html_e( 'Choose a file&hellip;', 'wpforms-lite' ); ?>
+							<i class="fa fa-cloud-upload"></i><?php esc_html_e( 'Choose a File', 'wpforms-lite' ); ?>
 						</strong>
 					</label>
 				</div>
-				<br>
 				<input type="hidden" name="action" value="import_form">
-				<button name="submit-import" class="wpforms-btn wpforms-btn-md wpforms-btn-orange">
+				<button name="submit-import" class="wpforms-btn wpforms-btn-md wpforms-btn-orange" id="wpforms-import" aria-disabled="true">
 					<?php esc_html_e( 'Import', 'wpforms-lite' ); ?>
 				</button>
 				<?php $this->nonce_field(); ?>
@@ -248,7 +247,7 @@ class Import extends View {
 				<?php } else { ?>
 					<form action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
 						<span class="choicesjs-select-wrap">
-							<select class="choicesjs-select" name="provider" data-search="<?php echo esc_attr( wpforms_choices_js_is_search_enabled( $this->importers ) ); ?>" required>
+							<select id="wpforms-tools-form-other-import" class="choicesjs-select" name="provider" data-search="<?php echo esc_attr( wpforms_choices_js_is_search_enabled( $this->importers ) ); ?>" required>
 								<option value=""><?php esc_html_e( 'Select previous contact form plugin...', 'wpforms-lite' ); ?></option>
 								<?php
 								foreach ( $this->importers as $importer ) {
@@ -270,10 +269,9 @@ class Import extends View {
 								?>
 							</select>
 						</span>
-						<br />
 						<input type="hidden" name="page" value="<?php echo esc_attr( Tools::SLUG ); ?>">
 						<input type="hidden" name="view" value="importer">
-						<button class="wpforms-btn wpforms-btn-md wpforms-btn-orange">
+						<button class="wpforms-btn wpforms-btn-md wpforms-btn-orange" id="wpforms-import-other" aria-disabled="true">
 							<?php esc_html_e( 'Import', 'wpforms-lite' ); ?>
 						</button>
 					</form>

@@ -189,6 +189,8 @@ abstract class Captcha {
 	 */
 	public function get_field_desc() {
 
-		return wpforms_render( 'admin/settings/' . static::$slug . '-description' );
+		$content = wpforms_render( 'admin/settings/' . static::$slug . '-description' );
+
+		return wpforms_render( 'admin/settings/specific-note', [ 'content' => $content ], true );
 	}
 }

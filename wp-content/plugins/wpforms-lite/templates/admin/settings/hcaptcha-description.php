@@ -1,3 +1,14 @@
+<?php
+/**
+ * Description template for hCaptcha.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
+
 <p><?php esc_html_e( "hCaptcha is a free and privacy-oriented spam prevention service. Within your forms, hCaptcha will display a checkbox asking users to prove they're human (much like Google's v2 Checkbox reCAPTCHA). This is a simple step for legitimate site visitors, but is extremely effective at blocking spam.", 'wpforms-lite' ); ?></p>
 <p>
 	<?php

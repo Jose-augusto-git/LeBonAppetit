@@ -6,6 +6,10 @@
  * @since 1.8.0 Split into multiple files, see `includes/functions/`.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 require_once __DIR__ . '/functions/access.php';
 require_once __DIR__ . '/functions/checks.php';
 require_once __DIR__ . '/functions/colors.php';

@@ -426,14 +426,18 @@ class Field extends \WPForms_Field {
 							wpforms_html_attributes( $choice['label']['id'], $choice['label']['class'], $choice['label']['data'], $choice['label']['attr'] ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						);
 
+							echo '<span class="wpforms-image-choices-image">';
+
 							if ( ! empty( $choice['image'] ) ) {
 								printf(
-									'<span class="wpforms-image-choices-image"><img src="%s" alt="%s"%s></span>',
+									'<img src="%s" alt="%s"%s>',
 									esc_url( $choice['image'] ),
 									esc_attr( $choice['label']['text'] ),
 									! empty( $choice['label']['text'] ) ? ' title="' . esc_attr( $choice['label']['text'] ) . '"' : ''
 								);
 							}
+
+							echo '</span>';
 
 							if ( $field['choices_images_style'] === 'none' ) {
 								echo '<br>';

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WPForms\Lite\Integrations\LiteConnect\LiteConnect;
 use WPForms\Lite\Integrations\LiteConnect\Integration as LiteConnectIntegration;
 
@@ -248,14 +252,11 @@ class WPForms_Lite {
 							],
 							'parent'     => 'settings',
 							'subsection' => $id,
-							'readonly'   => ! empty( $from_name_after ),
-							'after'      => ! empty( $from_name_after ) ? '<div class="wpforms-alert wpforms-alert-warning">' . $from_name_after . '</div>' : '',
-							'class'      => ! empty( $from_name_after ) ? 'wpforms-panel-field-warnings' : '',
 						],
 						$settings->form_data,
 						$id
 					)
-					// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
+				// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 				);
 				wpforms_panel_field(
 					'text',
@@ -623,7 +624,7 @@ class WPForms_Lite {
 						<?php
 						printf( /* translators: %s - number of templates. */
 							esc_html__( '%s customizable form templates', 'wpforms-lite' ),
-							'800+'
+							'1000+'
 						);
 						?>
 					</li>

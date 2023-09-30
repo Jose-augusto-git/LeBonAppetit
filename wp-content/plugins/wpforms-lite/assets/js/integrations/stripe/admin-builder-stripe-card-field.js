@@ -83,7 +83,10 @@ var WPFormsStripeCardField = window.WPFormsStripeCardField || ( function( docume
 		paymentsEnabledCheck: function() {
 
 			if ( ! $( `.wpforms-field.wpforms-field-${ wpforms_builder_stripe_card_field.field_slug }:visible` ).length ||
-				$( '#wpforms-panel-field-stripe-enable' ).is( ':checked' ) ) {
+				$( '#wpforms-panel-field-stripe-enable' ).is( ':checked' ) ||
+				$( '#wpforms-panel-field-stripe-enable_one_time' ).is( ':checked' ) ||
+				$( '#wpforms-panel-field-stripe-enable_recurring' ).is( ':checked' )
+			) {
 				return;
 			}
 

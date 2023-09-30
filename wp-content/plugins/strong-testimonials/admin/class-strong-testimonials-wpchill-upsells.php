@@ -108,10 +108,10 @@ if ( ! class_exists( 'Strong_Testimonials_WPChill_Upsells' ) ) {
 		 * Lets check for license
 		 *
 		 * @return bool
-		 *
-		 * @since 2.5.2
-		 * @since 2.5.6 moved here from class-modula-pro-upsells.php.
-		 */
+		*
+		* @since 2.5.2
+		* @since 2.5.6 moved here from class-modula-pro-upsells.php.
+		*/
 		public static function check_for_license() {
 
 			$license_status = get_option( 'strong_testimonials_license_status' );
@@ -190,12 +190,12 @@ if ( ! class_exists( 'Strong_Testimonials_WPChill_Upsells' ) ) {
 			$packages_transient = get_transient( $this->get_transient( $rest_calls['packages'] ));
 
 			//If the transient exists then we will not make another call to the main server
-			if ( $packages_transient && ! empty( $packages_transient ) ) {
-				$this->packages = $packages_transient;
-				$this->upsell_extensions = $this->get_extensions_upsell($this->packages);
+			 if ( $packages_transient && ! empty( $packages_transient ) ) {
+			 	$this->packages = $packages_transient;
+			 	$this->upsell_extensions = $this->get_extensions_upsell($this->packages);
 
-				return;
-			}
+			 	return;
+			 }
 
 			$query_var = $rest_calls['route'];
 
@@ -413,12 +413,12 @@ if ( ! class_exists( 'Strong_Testimonials_WPChill_Upsells' ) ) {
 							$checkout_page = trailingslashit( $this->shop_url ) . $this->endpoints['checkout'];
 
 							$url           = add_query_arg( array(
-								                                'edd_action'   => 'add_to_cart',
-								                                'download_id'  => $package['id'],
-								                                'utm_source'   => 'upsell',
-								                                'utm_medium'   => 'litevspro',
-								                                'utm_campaign' => $slug,
-							                                ), $checkout_page );
+									'edd_action'   => 'add_to_cart',
+									'download_id'  => $package['id'],
+									'utm_source'   => 'upsell',
+									'utm_medium'   => 'litevspro',
+									'utm_campaign' => $slug,
+							), $checkout_page );
 
 							$buy_button = apply_filters(
 								'wpchill-st-upsells-buy-button',
@@ -431,11 +431,11 @@ if ( ! class_exists( 'Strong_Testimonials_WPChill_Upsells' ) ) {
 							?>
 							<p class="description"><?php echo ( isset( $package['excerpt'] ) ) ? esc_html( $package['excerpt'] ) : ' '; ?></p>
 							<div class="wpchill-price">
-								<?php if ( $normal_price ) { ?>
-									<p class="old-price"><?php echo '$<strong>' . esc_html( $normal_price_parts[0] ) . '</strong><sup>.' . esc_html( $normal_price_parts[1] ) . '</sup>'; ?></p>
-								<?php } ?>
+							<?php if ( $normal_price ) { ?>
+								<p class="old-price"><?php echo '$<strong>' . esc_html( $normal_price_parts[0] ) . '</strong><sup>.' . esc_html( $normal_price_parts[1] ) . '</sup>'; ?></p>
+							<?php } ?>
 
-								<p><?php echo '<sup>$</sup><strong>' . esc_html( $price_parts[0] ) . '</strong><sup>.' . esc_html( $price_parts[1] ) . '</sup>'; ?></p>
+							<p><?php echo '<sup>$</sup><strong>' . esc_html( $price_parts[0] ) . '</strong><sup>.' . esc_html( $price_parts[1] ) . '</sup>'; ?></p>
 
 							</div>
 							<a href="<?php echo esc_url( $buy_button['url'] ); ?>" target="_blank" class="button button-primary button-hero">

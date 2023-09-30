@@ -1,0 +1,483 @@
+0000.001 (0) Opened log file at time: Wed, 20 Sep 2023 23:51:32 +0000 on http://localhost/LeBonAppetit
+0000.004 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.23.10 WP: 6.3.1 PHP: 8.0.26 (apache2handler, Windows NT YUNO 10.0 build 22621 (Windows 10) AMD64) MySQL: 8.0.31 (max packet size=67108864) WPLANG: pt_BR Server: Apache/2.4.54 (Win64) PHP/8.0.26 mod_fcgid/2.3.10-dev safe_mode: 0 max_execution_time: 900 memory_limit: 1500000M (used: 22.2M | 24M) multisite: N openssl: OpenSSL 1.1.1s  1 Nov 2022 mcrypt: N LANG:  ZipArchive::addFile: Y
+0000.005 (0) Free space on disk containing Updraft's temporary directory: 77841.6 MB
+0000.009 (0) Tasks: Backup files: 1 (schedule: manual) Backup DB: 1 (schedule: manual)
+0000.012 (0) Semaphore (fd, cp_options) being initialised
+0000.014 (0) Requesting semaphore lock (fd) (apparently not via scheduler)
+0000.017 (0) Set semaphore last lock (fd) time to 2023-09-20 23:51:32
+0000.018 (0) Semaphore lock (fd) complete
+0000.021 (0) Backup run: resumption=0, nonce=75e954cb5855, file_nonce=75e954cb5855 begun at=1695253892 (0s ago), job type=backup
+0000.022 (0) Scheduling a resumption (1) after 300 seconds (1695254192) in case this run gets aborted
+0000.042 (0) Checking if we have a zip executable available
+0000.044 (0) Creation of backups of directories: beginning
+0000.047 (0) Beginning creation of dump of plugins (split every: 400 MB)
+0010.800 (0) Total entities for the zip file: 3227 directories, 13359 files (0 skipped as non-modified), 197.1 MB
+0010.812 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 2.0 seconds have passed since the last write (0 MB, 1 (1) files added so far); re-opening (prior size: 0 KB)
+0010.967 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 100 files added (on-disk size: 607 KB)
+0010.999 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 200 files added (on-disk size: 607 KB)
+0011.030 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 300 files added (on-disk size: 607 KB)
+0011.067 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 400 files added (on-disk size: 607 KB)
+0011.099 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 500 files added (on-disk size: 607 KB)
+0011.130 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 600 files added (on-disk size: 607 KB)
+0011.159 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 700 files added (on-disk size: 607 KB)
+0011.186 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 800 files added (on-disk size: 607 KB)
+0011.214 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 900 files added (on-disk size: 607 KB)
+0011.240 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1000 files added (on-disk size: 607 KB)
+0011.242 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 25 MB added on this batch (25.1 MB, 13359 files batched, 1000 (1001) added so far); re-opening (prior size: 607 KB)
+0017.266 (0) A useful amount of data was added after this amount of zip processing: 7.2 s (normalised: 7.2 s, rate: 3558.6 KB/s)
+0017.309 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1100 files added (on-disk size: 11107.2 KB)
+0017.336 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1200 files added (on-disk size: 11107.2 KB)
+0017.365 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1300 files added (on-disk size: 11107.2 KB)
+0017.394 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1400 files added (on-disk size: 11107.2 KB)
+0017.423 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1500 files added (on-disk size: 11107.2 KB)
+0017.452 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1600 files added (on-disk size: 11107.2 KB)
+0017.480 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1700 files added (on-disk size: 11107.2 KB)
+0017.508 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1800 files added (on-disk size: 11107.2 KB)
+0017.533 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 1900 files added (on-disk size: 11107.2 KB)
+0017.560 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2000 files added (on-disk size: 11107.2 KB)
+0017.561 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (15.2 MB, 13359 files batched, 1001 (2002) added so far); re-opening (prior size: 11107.2 KB)
+0022.187 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2100 files added (on-disk size: 15283.5 KB)
+0022.213 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2200 files added (on-disk size: 15283.5 KB)
+0022.238 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2300 files added (on-disk size: 15283.5 KB)
+0022.263 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2400 files added (on-disk size: 15283.5 KB)
+0022.289 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2500 files added (on-disk size: 15283.5 KB)
+0022.314 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2600 files added (on-disk size: 15283.5 KB)
+0022.339 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2700 files added (on-disk size: 15283.5 KB)
+0022.364 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2800 files added (on-disk size: 15283.5 KB)
+0022.390 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 2900 files added (on-disk size: 15283.5 KB)
+0022.415 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3000 files added (on-disk size: 15283.5 KB)
+0022.417 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (15.6 MB, 13359 files batched, 1001 (3003) added so far); re-opening (prior size: 15283.5 KB)
+0027.170 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3100 files added (on-disk size: 19716.9 KB)
+0027.196 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3200 files added (on-disk size: 19716.9 KB)
+0027.222 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3300 files added (on-disk size: 19716.9 KB)
+0027.248 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3400 files added (on-disk size: 19716.9 KB)
+0027.272 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3500 files added (on-disk size: 19716.9 KB)
+0027.298 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3600 files added (on-disk size: 19716.9 KB)
+0027.323 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3700 files added (on-disk size: 19716.9 KB)
+0027.350 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3800 files added (on-disk size: 19716.9 KB)
+0027.375 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 3900 files added (on-disk size: 19716.9 KB)
+0027.400 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4000 files added (on-disk size: 19716.9 KB)
+0027.402 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (9.1 MB, 13359 files batched, 1001 (4004) added so far); re-opening (prior size: 19716.9 KB)
+0032.046 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4100 files added (on-disk size: 22657.5 KB)
+0032.076 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4200 files added (on-disk size: 22657.5 KB)
+0032.106 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4300 files added (on-disk size: 22657.5 KB)
+0032.134 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4400 files added (on-disk size: 22657.5 KB)
+0032.163 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4500 files added (on-disk size: 22657.5 KB)
+0032.192 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4600 files added (on-disk size: 22657.5 KB)
+0032.217 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4700 files added (on-disk size: 22657.5 KB)
+0032.243 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4800 files added (on-disk size: 22657.5 KB)
+0032.268 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 4900 files added (on-disk size: 22657.5 KB)
+0032.294 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5000 files added (on-disk size: 22657.5 KB)
+0032.296 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (10.8 MB, 13359 files batched, 1001 (5005) added so far); re-opening (prior size: 22657.5 KB)
+0035.822 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5100 files added (on-disk size: 26676.8 KB)
+0035.848 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5200 files added (on-disk size: 26676.8 KB)
+0035.873 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5300 files added (on-disk size: 26676.8 KB)
+0035.897 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5400 files added (on-disk size: 26676.8 KB)
+0035.921 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5500 files added (on-disk size: 26676.8 KB)
+0035.945 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5600 files added (on-disk size: 26676.8 KB)
+0035.970 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5700 files added (on-disk size: 26676.8 KB)
+0035.995 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5800 files added (on-disk size: 26676.8 KB)
+0036.022 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 5900 files added (on-disk size: 26676.8 KB)
+0036.048 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6000 files added (on-disk size: 26676.8 KB)
+0036.050 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (17.6 MB, 13359 files batched, 1001 (6006) added so far); re-opening (prior size: 26676.8 KB)
+0040.134 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6100 files added (on-disk size: 31548.7 KB)
+0040.159 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6200 files added (on-disk size: 31548.7 KB)
+0040.185 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6300 files added (on-disk size: 31548.7 KB)
+0040.210 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6400 files added (on-disk size: 31548.7 KB)
+0040.236 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6500 files added (on-disk size: 31548.7 KB)
+0040.261 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6600 files added (on-disk size: 31548.7 KB)
+0040.285 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6700 files added (on-disk size: 31548.7 KB)
+0040.310 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6800 files added (on-disk size: 31548.7 KB)
+0040.336 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 6900 files added (on-disk size: 31548.7 KB)
+0040.361 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7000 files added (on-disk size: 31548.7 KB)
+0040.364 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (21.2 MB, 13359 files batched, 1001 (7007) added so far); re-opening (prior size: 31548.7 KB)
+0045.424 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7100 files added (on-disk size: 37376.9 KB)
+0045.451 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7200 files added (on-disk size: 37376.9 KB)
+0045.476 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7300 files added (on-disk size: 37376.9 KB)
+0045.500 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7400 files added (on-disk size: 37376.9 KB)
+0045.526 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7500 files added (on-disk size: 37376.9 KB)
+0045.550 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7600 files added (on-disk size: 37376.9 KB)
+0045.575 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7700 files added (on-disk size: 37376.9 KB)
+0045.600 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7800 files added (on-disk size: 37376.9 KB)
+0045.624 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 7900 files added (on-disk size: 37376.9 KB)
+0045.647 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8000 files added (on-disk size: 37376.9 KB)
+0045.650 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (7.1 MB, 13359 files batched, 1001 (8008) added so far); re-opening (prior size: 37376.9 KB)
+0048.492 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8100 files added (on-disk size: 39601.9 KB)
+0048.519 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8200 files added (on-disk size: 39601.9 KB)
+0048.546 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8300 files added (on-disk size: 39601.9 KB)
+0048.573 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8400 files added (on-disk size: 39601.9 KB)
+0048.600 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8500 files added (on-disk size: 39601.9 KB)
+0048.626 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8600 files added (on-disk size: 39601.9 KB)
+0048.653 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8700 files added (on-disk size: 39601.9 KB)
+0048.682 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8800 files added (on-disk size: 39601.9 KB)
+0048.709 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 8900 files added (on-disk size: 39601.9 KB)
+0048.748 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9000 files added (on-disk size: 39601.9 KB)
+0048.754 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (17.5 MB, 13359 files batched, 1001 (9009) added so far); re-opening (prior size: 39601.9 KB)
+0053.944 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9100 files added (on-disk size: 41737.5 KB)
+0053.990 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9200 files added (on-disk size: 41737.5 KB)
+0054.038 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9300 files added (on-disk size: 41737.5 KB)
+0054.085 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9400 files added (on-disk size: 41737.5 KB)
+0054.132 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9500 files added (on-disk size: 41737.5 KB)
+0054.179 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9600 files added (on-disk size: 41737.5 KB)
+0054.245 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9700 files added (on-disk size: 41737.5 KB)
+0054.307 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9800 files added (on-disk size: 41737.5 KB)
+0054.370 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 9900 files added (on-disk size: 41737.5 KB)
+0054.436 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10000 files added (on-disk size: 41737.5 KB)
+0054.443 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (4.8 MB, 13359 files batched, 1001 (10010) added so far); re-opening (prior size: 41737.5 KB)
+0058.341 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10100 files added (on-disk size: 43058.1 KB)
+0058.389 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10200 files added (on-disk size: 43058.1 KB)
+0058.445 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10300 files added (on-disk size: 43058.1 KB)
+0058.533 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10400 files added (on-disk size: 43058.1 KB)
+0058.622 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10500 files added (on-disk size: 43058.1 KB)
+0058.706 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10600 files added (on-disk size: 43058.1 KB)
+0058.775 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10700 files added (on-disk size: 43058.1 KB)
+0058.850 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10800 files added (on-disk size: 43058.1 KB)
+0058.930 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 10900 files added (on-disk size: 43058.1 KB)
+0059.037 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11000 files added (on-disk size: 43058.1 KB)
+0059.049 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (22 MB, 13359 files batched, 1001 (11011) added so far); re-opening (prior size: 43058.1 KB)
+0064.801 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11100 files added (on-disk size: 51228.8 KB)
+0064.897 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11200 files added (on-disk size: 51228.8 KB)
+0064.976 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11300 files added (on-disk size: 51228.8 KB)
+0065.044 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11400 files added (on-disk size: 51228.8 KB)
+0065.139 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11500 files added (on-disk size: 51228.8 KB)
+0065.239 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11600 files added (on-disk size: 51228.8 KB)
+0065.331 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11700 files added (on-disk size: 51228.8 KB)
+0065.440 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11800 files added (on-disk size: 51228.8 KB)
+0065.529 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 11900 files added (on-disk size: 51228.8 KB)
+0065.590 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12000 files added (on-disk size: 51228.8 KB)
+0065.600 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (12.4 MB, 13359 files batched, 1001 (12012) added so far); re-opening (prior size: 51228.8 KB)
+0070.008 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12100 files added (on-disk size: 56327.8 KB)
+0070.087 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12200 files added (on-disk size: 56327.8 KB)
+0070.172 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12300 files added (on-disk size: 56327.8 KB)
+0070.259 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12400 files added (on-disk size: 56327.8 KB)
+0070.336 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12500 files added (on-disk size: 56327.8 KB)
+0070.409 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12600 files added (on-disk size: 56327.8 KB)
+0070.487 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12700 files added (on-disk size: 56327.8 KB)
+0070.566 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12800 files added (on-disk size: 56327.8 KB)
+0070.640 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 12900 files added (on-disk size: 56327.8 KB)
+0070.734 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 13000 files added (on-disk size: 56327.8 KB)
+0070.747 (0) Adding batch to zip file (UpdraftPlus_ZipArchive): over 1000 files added on this batch (16.1 MB, 13359 files batched, 1001 (13013) added so far); re-opening (prior size: 56327.8 KB)
+0074.957 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 13100 files added (on-disk size: 63088.1 KB)
+0075.074 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 13200 files added (on-disk size: 63088.1 KB)
+0075.218 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.tmp: 13300 files added (on-disk size: 63088.1 KB)
+0077.460 (0) Creating zip file manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.list-temp.tmp)
+0077.509 (0) Successfully created zip file manifest (size: 1163635)
+0077.957 (0) Created plugins zip (0) - 63930.1 KB in 77.9 s (820.6 KB/s) (sha1: edb78a130ab0f642083d0d3e01241d787c246596, sha256: a99f816597c4b512fa010e5d6684ab3d1625251a2dda10c556399997c82ce42a)
+0077.966 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0077.968 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-844abbbcdad914a63eee1e1d3066fffc)
+0078.823 (0) Google Drive: creating path: /UpdraftPlus
+0080.273 (0) Google Drive: quota usage: used=6454 MB, total=15360 MB, available=8906 MB
+0080.274 (0) Google Drive: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip: Attempting to upload to Google Drive (into folder id: 1b6u26TbtLZskBjWl9PQPEGCxI2x0tlCD)
+0081.667 (0) Googledrive chunked upload: 1.6 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 25.2 / 30)
+0082.360 (0) Googledrive chunked upload: 4.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 25.2 / 30)
+0083.250 (0) Googledrive chunked upload: 11.2 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 25.2 / 30)
+0084.493 (0) Googledrive chunked upload: 24 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 25.2 / 30)
+0086.458 (0) Googledrive chunked upload: 49.7 % uploaded (32505856 - increasing chunk size to 32768 KB - memory usage: 25.2 / 30)
+0091.993 (0) Googledrive chunked upload: 100 % uploaded (32505856)
+0091.995 (0) Google Drive: OK: Archive backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip uploaded in 11.72 seconds
+0091.996 (0) Recording as successfully uploaded: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip
+0092.003 (0) Deleting local file: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip: OK
+0092.008 (0) Beginning creation of dump of themes (split every: 400 MB)
+0092.364 (0) Total entities for the zip file: 306 directories, 685 files (0 skipped as non-modified), 19 MB
+0092.391 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.tmp: 100 files added (on-disk size: 0 KB)
+0092.417 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.tmp: 200 files added (on-disk size: 0 KB)
+0092.447 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.tmp: 300 files added (on-disk size: 0 KB)
+0092.476 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.tmp: 400 files added (on-disk size: 0 KB)
+0092.502 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.tmp: 500 files added (on-disk size: 0 KB)
+0092.528 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.tmp: 600 files added (on-disk size: 0 KB)
+0095.090 (0) Creating zip file manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.list-temp.tmp)
+0095.095 (0) Successfully created zip file manifest (size: 59617)
+0095.142 (0) Created themes zip (0) - 6101.9 KB in 3.1 s (1948.7 KB/s) (sha1: 40c63cf23d50701fc20e9b5b54c3a75871519e97, sha256: e51c2d2cffefebb1d51f40e0c9c9896193df72bb850d53064afa81448cde8947)
+0095.146 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0095.147 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-844abbbcdad914a63eee1e1d3066fffc)
+0095.593 (0) Google Drive: quota usage: used=6516.4 MB, total=15360 MB, available=8843.6 MB
+0095.594 (0) Google Drive: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip: Attempting to upload to Google Drive (into folder id: 1b6u26TbtLZskBjWl9PQPEGCxI2x0tlCD)
+0097.084 (0) Googledrive chunked upload: 16.8 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 23.2 / 28)
+0097.806 (0) Googledrive chunked upload: 50.3 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 23.2 / 28)
+0100.022 (0) Googledrive chunked upload: 100 % uploaded (3145728)
+0100.024 (0) Google Drive: OK: Archive backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip uploaded in 4.43 seconds
+0100.025 (0) Recording as successfully uploaded: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip
+0100.027 (0) Deleting local file: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip: OK
+0100.031 (0) Exclusion option setting (uploads): backup*,*backups,backwpup*,wp-clone,snapshots
+0100.032 (0) Looking for candidates to backup in: C:\wamp64\www\LeBonAppetit/wp-content/uploads
+0100.033 (0) finding files: .htaccess: adding to list (1)
+0100.033 (0) finding files: 2023: adding to list (2)
+0100.034 (0) finding files: fonts: adding to list (3)
+0100.034 (0) finding files: omgf: adding to list (4)
+0100.035 (0) finding files: uag-plugin: adding to list (5)
+0100.036 (0) finding files: wp-cerber-H42WKVTA7DB0N6CR9: adding to list (6)
+0100.036 (0) finding files: wp-file-manager-pro: adding to list (7)
+0100.037 (0) finding files: wpforms: adding to list (8)
+0100.038 (0) Beginning creation of dump of uploads (split every: 400 MB)
+0100.185 (0) Total entities for the zip file: 19 directories, 282 files (0 skipped as non-modified), 24.2 MB
+0100.210 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip.tmp: 100 files added (on-disk size: 0 KB)
+0100.235 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip.tmp: 200 files added (on-disk size: 0 KB)
+0101.161 (0) Creating zip file manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip.list-temp.tmp)
+0101.164 (0) Successfully created zip file manifest (size: 21762)
+0101.331 (0) Created uploads zip (0) - 22916.5 KB in 1.3 s (17766.2 KB/s) (sha1: 565b74472c4334d7d35738fdb4cde79e30b837fb, sha256: 98fd92c0af18a2c2d8ea2e0799561c39a360f05d1b65f9d8e78750da2027c76b)
+0101.335 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0101.336 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-844abbbcdad914a63eee1e1d3066fffc)
+0101.792 (0) Google Drive: quota usage: used=6522.3 MB, total=15360 MB, available=8837.7 MB
+0101.793 (0) Google Drive: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip: Attempting to upload to Google Drive (into folder id: 1b6u26TbtLZskBjWl9PQPEGCxI2x0tlCD)
+0103.249 (0) Googledrive chunked upload: 4.5 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 23.2 / 28)
+0104.037 (0) Googledrive chunked upload: 13.4 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 23.2 / 28)
+0104.892 (0) Googledrive chunked upload: 31.3 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 23.2 / 28)
+0106.092 (0) Googledrive chunked upload: 67 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 23.2 / 28)
+0108.639 (0) Googledrive chunked upload: 100 % uploaded (15728640)
+0108.641 (0) Google Drive: OK: Archive backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip uploaded in 6.85 seconds
+0108.642 (0) Recording as successfully uploaded: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip
+0108.646 (0) Deleting local file: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip: OK
+0108.649 (0) Beginning backup of other directories found in the content directory (index: 0)
+0108.650 (0) Exclusion option setting (others): upgrade,cache,updraft,backup*,*backups,mysql.sql,debug.log
+0108.650 (0) Looking for candidates to backup in: C:\wamp64\www\LeBonAppetit/wp-content
+0108.651 (0) finding files: backups-dup-lite: skipping: excluded by options (glob)
+0108.652 (0) finding files: cache: skipping: excluded by options
+0108.653 (0) finding files: ewww: adding to list (1)
+0108.653 (0) finding files: index.php: adding to list (2)
+0108.654 (0) finding files: languages: adding to list (3)
+0108.655 (0) finding files: micro-themes: adding to list (4)
+0108.655 (0) finding files: mu-plugins: adding to list (5)
+0108.656 (0) finding files: plugins: skipping: this is the plugins directory
+0108.657 (0) finding files: themes: skipping: this is the themes directory
+0108.657 (0) finding files: updraft: skipping: this is the updraft directory
+0108.658 (0) finding files: upgrade: skipping: excluded by options
+0108.659 (0) finding files: upgrade-temp-backup: adding to list (6)
+0108.659 (0) finding files: uploads: skipping: this is the uploads directory
+0108.660 (0) finding files: w3tc-config: adding to list (7)
+0108.661 (0) finding files: wp-cache-config.php: adding to list (8)
+0108.752 (0) Total entities for the zip file: 24 directories, 230 files (0 skipped as non-modified), 7.4 MB
+0108.777 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip.tmp: 100 files added (on-disk size: 0 KB)
+0108.802 (0) Zip: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip.tmp: 200 files added (on-disk size: 0 KB)
+0109.776 (0) Creating zip file manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip.list-temp.tmp)
+0109.779 (0) Successfully created zip file manifest (size: 15093)
+0109.802 (0) Created others zip (0) - 2302.2 KB in 1.1 s (2023.4 KB/s) (sha1: ca741325234431778f442222c30232b946eb13af, sha256: b899ce2b3a5d56ea2f9d3004d5c41cb73d2ec815534a922e4e3c1afc69a2e0b8)
+0109.807 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0109.808 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-844abbbcdad914a63eee1e1d3066fffc)
+0110.239 (0) Google Drive: quota usage: used=6544.7 MB, total=15360 MB, available=8815.3 MB
+0110.240 (0) Google Drive: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip: Attempting to upload to Google Drive (into folder id: 1b6u26TbtLZskBjWl9PQPEGCxI2x0tlCD)
+0111.743 (0) Googledrive chunked upload: 44.5 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 23.1 / 28)
+0113.684 (0) Googledrive chunked upload: 100 % uploaded (1048576)
+0113.687 (0) Google Drive: OK: Archive backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip uploaded in 3.45 seconds
+0113.688 (0) Recording as successfully uploaded: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip
+0113.690 (0) Deleting local file: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip: OK
+0113.695 (0) Saving backup status to database (elements: 8)
+0113.697 (0) Beginning creation of database dump (WordPress DB)
+0113.698 (0) Couldn't get the sql_mode value (N;); will not attempt any adjustment
+0113.739 (0) Table cp_options: Total expected rows (via COUNT): 428
+0113.739 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0113.824 (0) Table cp_options: Rows added in this batch (next record: 4930): 424 (uncompressed bytes in this segment=4273852) in 0.11 seconds
+0113.829 (0) Table cp_options: finishing file(s) (2, 593.4 KB)
+0113.837 (0) Table cp_users: Total expected rows (via COUNT): 1
+0113.838 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0113.840 (0) Table cp_users: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=1400) in 0.01 seconds
+0113.844 (0) Table cp_users: finishing file(s) (2, 0.6 KB)
+0113.855 (0) Table cp_usermeta: Total expected rows (via COUNT): 29
+0113.855 (0) Table is relatively small; fetch_rows will thus be: 50 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0113.858 (0) Table cp_usermeta: Rows added in this batch (next record: 32): 29 (uncompressed bytes in this segment=2954) in 0.01 seconds
+0113.863 (0) Table cp_usermeta: finishing file(s) (2, 1.5 KB)
+0113.874 (0) Table cp_actionscheduler_actions: Total expected rows (via COUNT): 81
+0113.875 (0) Table is relatively small; fetch_rows will thus be: 100 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0113.880 (0) Table cp_actionscheduler_actions: Rows added in this batch (next record: 145): 81 (uncompressed bytes in this segment=31605) in 0.01 seconds
+0113.888 (0) Table cp_actionscheduler_actions: finishing file(s) (2, 2.9 KB)
+0113.895 (0) Table cp_actionscheduler_claims: Total expected rows (via COUNT): 0
+0113.897 (0) Table cp_actionscheduler_claims: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=622) in 0.00 seconds
+0113.902 (0) Table cp_actionscheduler_claims: finishing file(s) (2, 0.4 KB)
+0113.910 (0) Table cp_actionscheduler_groups: Total expected rows (via COUNT): 2
+0113.911 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0113.913 (0) Table cp_actionscheduler_groups: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=702) in 0.00 seconds
+0113.917 (0) Table cp_actionscheduler_groups: finishing file(s) (2, 0.4 KB)
+0113.927 (0) Table cp_actionscheduler_logs: Total expected rows (via COUNT): 233
+0113.928 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0113.935 (0) Table cp_actionscheduler_logs: Rows added in this batch (next record: 410): 233 (uncompressed bytes in this segment=20794) in 0.01 seconds
+0113.940 (0) Table cp_actionscheduler_logs: finishing file(s) (2, 2.7 KB)
+0113.949 (0) Table cp_commentmeta: Total expected rows (via COUNT): 0
+0113.951 (0) Table cp_commentmeta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=677) in 0.01 seconds
+0113.959 (0) Table cp_commentmeta: finishing file(s) (2, 0.4 KB)
+0113.967 (0) Table cp_comments: Total expected rows (via COUNT): 1
+0113.968 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0113.971 (0) Table cp_comments: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=2135) in 0.01 seconds
+0113.975 (0) Table cp_comments: finishing file(s) (2, 0.8 KB)
+0113.990 (0) Table cp_links: Total expected rows (via COUNT): 0
+0113.992 (0) Table cp_links: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1298) in 0.00 seconds
+0113.997 (0) Table cp_links: finishing file(s) (2, 0.5 KB)
+0114.008 (0) Table cp_postmeta: Total expected rows (via COUNT): 363
+0114.009 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.031 (0) Table cp_postmeta: Rows added in this batch (next record: 1634): 363 (uncompressed bytes in this segment=1064854) in 0.03 seconds
+0114.036 (0) Table cp_postmeta: finishing file(s) (2, 75 KB)
+0114.101 (0) Table cp_posts: Total expected rows (via COUNT): 433
+0114.102 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.235 (0) Table cp_posts: Rows added in this batch (next record: 627): 433 (uncompressed bytes in this segment=7948596) in 0.19 seconds
+0114.241 (0) Table cp_posts: finishing file(s) (2, 769.3 KB)
+0114.249 (0) Table cp_term_relationships: Total expected rows (approximate): 13
+0114.251 (0) Table cp_term_relationships: Rows added in this batch (next record: 100000): 13 (uncompressed bytes in this segment=856) in 0.00 seconds
+0114.256 (0) Table cp_term_relationships: finishing file(s) (2, 0.4 KB)
+0114.265 (0) Table cp_term_taxonomy: Total expected rows (via COUNT): 11
+0114.266 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.269 (0) Table cp_term_taxonomy: Rows added in this batch (next record: 11): 11 (uncompressed bytes in this segment=1242) in 0.01 seconds
+0114.276 (0) Table cp_term_taxonomy: finishing file(s) (2, 0.5 KB)
+0114.288 (0) Table cp_termmeta: Total expected rows (via COUNT): 0
+0114.290 (0) Table cp_termmeta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=650) in 0.01 seconds
+0114.295 (0) Table cp_termmeta: finishing file(s) (2, 0.4 KB)
+0114.306 (0) Table cp_terms: Total expected rows (via COUNT): 11
+0114.306 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.309 (0) Table cp_terms: Rows added in this batch (next record: 11): 11 (uncompressed bytes in this segment=1081) in 0.01 seconds
+0114.314 (0) Table cp_terms: finishing file(s) (2, 0.6 KB)
+0114.314 (0) Skipping table (lacks our prefix (cp_)): cerber_acl
+0114.315 (0) Skipping table (lacks our prefix (cp_)): cerber_blocks
+0114.316 (0) Skipping table (lacks our prefix (cp_)): cerber_countries
+0114.316 (0) Skipping table (lacks our prefix (cp_)): cerber_lab
+0114.317 (0) Skipping table (lacks our prefix (cp_)): cerber_lab_ip
+0114.318 (0) Skipping table (lacks our prefix (cp_)): cerber_lab_net
+0114.319 (0) Skipping table (lacks our prefix (cp_)): cerber_log
+0114.320 (0) Skipping table (lacks our prefix (cp_)): cerber_qmem
+0114.321 (0) Skipping table (lacks our prefix (cp_)): cerber_traffic
+0114.328 (0) Table cp_auto_updates: Total expected rows (via COUNT): 23
+0114.329 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.331 (0) Table cp_auto_updates: Rows added in this batch (next record: 23): 23 (uncompressed bytes in this segment=1262) in 0.01 seconds
+0114.336 (0) Table cp_auto_updates: finishing file(s) (2, 0.6 KB)
+0114.350 (0) Table cp_cerber_files: Total expected rows (approximate): 0
+0114.352 (0) Table cp_cerber_files: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=1426) in 0.00 seconds
+0114.359 (0) Table cp_cerber_files: finishing file(s) (2, 0.5 KB)
+0114.372 (0) Table cp_cerber_sets: Total expected rows (approximate): 19
+0114.374 (0) Table cp_cerber_sets: Rows added in this batch (next record: 1000): 19 (uncompressed bytes in this segment=4074) in 0.00 seconds
+0114.379 (0) Table cp_cerber_sets: finishing file(s) (2, 1.5 KB)
+0114.392 (0) Table cp_cerber_uss: Total expected rows (approximate): 1
+0114.393 (0) Table cp_cerber_uss: Rows added in this batch (next record: 1000): 1 (uncompressed bytes in this segment=933) in 0.00 seconds
+0114.397 (0) Table cp_cerber_uss: finishing file(s) (2, 0.5 KB)
+0114.407 (0) Table cp_duplicator_packages: Total expected rows (via COUNT): 1
+0114.408 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.411 (0) Table cp_duplicator_packages: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=18215) in 0.01 seconds
+0114.418 (0) Table cp_duplicator_packages: finishing file(s) (2, 5.1 KB)
+0114.426 (0) Table cp_ewwwio_images: Total expected rows (via COUNT): 209
+0114.426 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.438 (0) Table cp_ewwwio_images: Rows added in this batch (next record: 221): 209 (uncompressed bytes in this segment=45427) in 0.01 seconds
+0114.445 (0) Table cp_ewwwio_images: finishing file(s) (2, 7.5 KB)
+0114.451 (0) Table cp_ewwwio_queue: Total expected rows (via COUNT): 0
+0114.454 (0) Table cp_ewwwio_queue: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=629) in 0.00 seconds
+0114.459 (0) Table cp_ewwwio_queue: finishing file(s) (2, 0.4 KB)
+0114.520 (0) Table cp_micro_revisions: Total expected rows (via COUNT): 51
+0114.521 (0) Table is relatively small; fetch_rows will thus be: 100 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.538 (0) Table cp_micro_revisions: Rows added in this batch (next record: 383): 51 (uncompressed bytes in this segment=1401058) in 0.07 seconds
+0114.544 (0) Table cp_micro_revisions: finishing file(s) (2, 35.4 KB)
+0114.556 (0) Table cp_strong_views: Total expected rows (via COUNT): 1
+0114.557 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.559 (0) Table cp_strong_views: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=3673) in 0.00 seconds
+0114.563 (0) Table cp_strong_views: finishing file(s) (2, 1.4 KB)
+0114.572 (0) Table cp_update_log: Total expected rows (via COUNT): 32
+0114.573 (0) Table is relatively small; fetch_rows will thus be: 50 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.578 (0) Table cp_update_log: Rows added in this batch (next record: 32): 32 (uncompressed bytes in this segment=2828) in 0.01 seconds
+0114.589 (0) Table cp_update_log: finishing file(s) (2, 0.9 KB)
+0114.609 (0) Table cp_wpfm_backup: Total expected rows (via COUNT): 0
+0114.612 (0) Table cp_wpfm_backup: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=510) in 0.01 seconds
+0114.622 (0) Table cp_wpfm_backup: finishing file(s) (2, 0.3 KB)
+0114.645 (0) Table cp_wpforms_payment_meta: Total expected rows (via COUNT): 0
+0114.648 (0) Table cp_wpforms_payment_meta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=731) in 0.01 seconds
+0114.663 (0) Table cp_wpforms_payment_meta: finishing file(s) (2, 0.4 KB)
+0114.677 (0) Table cp_wpforms_payments: Total expected rows (via COUNT): 0
+0114.679 (0) Table cp_wpforms_payments: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1958) in 0.00 seconds
+0114.684 (0) Table cp_wpforms_payments: finishing file(s) (2, 0.6 KB)
+0114.693 (0) Table cp_wpforms_tasks_meta: Total expected rows (via COUNT): 4
+0114.694 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0114.696 (0) Table cp_wpforms_tasks_meta: Rows added in this batch (next record: 26): 4 (uncompressed bytes in this segment=972) in 0.01 seconds
+0114.703 (0) Table cp_wpforms_tasks_meta: finishing file(s) (2, 0.5 KB)
+0114.704 (0) PHP event: code E_WARNING: filemtime(): stat failed for C:\wamp64\www\LeBonAppetit/wp-content/updraft/backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz (line 1976, C:\wamp64\www\LeBonAppetit\wp-content\plugins\updraftplus\backup.php)
+0114.706 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_options.table.tmpr4931.gz (1/39/fopen): adding to final database dump
+0114.720 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_options.table.gz (2/39/fopen): adding to final database dump
+0114.722 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_users.table.tmpr2.gz (3/39/fopen): adding to final database dump
+0114.722 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_users.table.gz (4/39/fopen): adding to final database dump
+0114.723 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_usermeta.table.tmpr33.gz (5/39/fopen): adding to final database dump
+0114.724 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_usermeta.table.gz (6/39/fopen): adding to final database dump
+0114.725 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_actions.table.tmpr146.gz (7/39/fopen): adding to final database dump
+0114.726 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_actions.table.gz (8/39/fopen): adding to final database dump
+0114.727 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_claims.table.tmpr0.gz (9/39/fopen): adding to final database dump
+0114.728 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_claims.table.gz (10/39/fopen): adding to final database dump
+0114.729 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_groups.table.tmpr3.gz (11/39/fopen): adding to final database dump
+0114.729 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_groups.table.gz (12/39/fopen): adding to final database dump
+0114.730 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_logs.table.tmpr411.gz (13/39/fopen): adding to final database dump
+0114.731 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_actionscheduler_logs.table.gz (14/39/fopen): adding to final database dump
+0114.732 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_commentmeta.table.tmpr0.gz (15/39/fopen): adding to final database dump
+0114.732 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_commentmeta.table.gz (16/39/fopen): adding to final database dump
+0114.733 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_comments.table.tmpr2.gz (17/39/fopen): adding to final database dump
+0114.734 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_comments.table.gz (18/39/fopen): adding to final database dump
+0114.735 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_links.table.tmpr0.gz (19/39/fopen): adding to final database dump
+0114.736 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_links.table.gz (20/39/fopen): adding to final database dump
+0114.737 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_postmeta.table.tmpr1635.gz (21/39/fopen): adding to final database dump
+0114.739 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_postmeta.table.gz (22/39/fopen): adding to final database dump
+0114.740 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_posts.table.tmpr628.gz (23/39/fopen): adding to final database dump
+0114.759 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_posts.table.gz (24/39/fopen): adding to final database dump
+0114.760 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_term_relationships.table.tmpr100001.gz (25/39/fopen): adding to final database dump
+0114.761 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_term_relationships.table.gz (26/39/fopen): adding to final database dump
+0114.761 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_term_taxonomy.table.tmpr12.gz (27/39/fopen): adding to final database dump
+0114.762 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_term_taxonomy.table.gz (28/39/fopen): adding to final database dump
+0114.763 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_termmeta.table.tmpr0.gz (29/39/fopen): adding to final database dump
+0114.764 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_termmeta.table.gz (30/39/fopen): adding to final database dump
+0114.765 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_terms.table.tmpr12.gz (31/39/fopen): adding to final database dump
+0114.765 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_terms.table.gz (32/39/fopen): adding to final database dump
+0114.766 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_auto_updates.table.tmpr24.gz (33/39/fopen): adding to final database dump
+0114.767 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_auto_updates.table.gz (34/39/fopen): adding to final database dump
+0114.768 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_cerber_files.table.tmpr1.gz (35/39/fopen): adding to final database dump
+0114.769 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_cerber_files.table.gz (36/39/fopen): adding to final database dump
+0114.771 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_cerber_sets.table.tmpr1001.gz (37/39/fopen): adding to final database dump
+0114.772 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_cerber_sets.table.gz (38/39/fopen): adding to final database dump
+0114.773 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_cerber_uss.table.tmpr1001.gz (39/39/fopen): adding to final database dump
+0114.774 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_cerber_uss.table.gz (40/39/fopen): adding to final database dump
+0114.774 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_duplicator_packages.table.tmpr2.gz (41/39/fopen): adding to final database dump
+0114.775 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_duplicator_packages.table.gz (42/39/fopen): adding to final database dump
+0114.776 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_ewwwio_images.table.tmpr222.gz (43/39/fopen): adding to final database dump
+0114.777 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_ewwwio_images.table.gz (44/39/fopen): adding to final database dump
+0114.778 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_ewwwio_queue.table.tmpr0.gz (45/39/fopen): adding to final database dump
+0114.779 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_ewwwio_queue.table.gz (46/39/fopen): adding to final database dump
+0114.780 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_micro_revisions.table.tmpr384.gz (47/39/fopen): adding to final database dump
+0114.782 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_micro_revisions.table.gz (48/39/fopen): adding to final database dump
+0114.783 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_strong_views.table.tmpr2.gz (49/39/fopen): adding to final database dump
+0114.783 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_strong_views.table.gz (50/39/fopen): adding to final database dump
+0114.784 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_update_log.table.tmpr33.gz (51/39/fopen): adding to final database dump
+0114.786 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_update_log.table.gz (52/39/fopen): adding to final database dump
+0114.787 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpfm_backup.table.tmpr0.gz (53/39/fopen): adding to final database dump
+0114.788 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpfm_backup.table.gz (54/39/fopen): adding to final database dump
+0114.789 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpforms_payment_meta.table.tmpr0.gz (55/39/fopen): adding to final database dump
+0114.790 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpforms_payment_meta.table.gz (56/39/fopen): adding to final database dump
+0114.791 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpforms_payments.table.tmpr0.gz (57/39/fopen): adding to final database dump
+0114.792 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpforms_payments.table.gz (58/39/fopen): adding to final database dump
+0114.792 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpforms_tasks_meta.table.tmpr27.gz (59/39/fopen): adding to final database dump
+0114.793 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db-table-cp_wpforms_tasks_meta.table.gz (60/39/fopen): adding to final database dump
+0114.815 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz: finished writing out complete database file (1505.3 KB)
+0114.839 (0) Total database tables backed up: 30 (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz, size: 1541512, sha1: 5018fe57888f6c533c62ebf40ec12b8f71f2f2aa, sha256: cf1772b086392402f63f55d8b80287e0453027ffd9927484ac333d67b19df0ee)
+0114.844 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip: plugins: This file has already been successfully uploaded
+0114.844 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip: themes: This file has already been successfully uploaded
+0114.845 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip: uploads: This file has already been successfully uploaded
+0114.845 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip: others: This file has already been successfully uploaded
+0114.846 (0) backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz: db: This file has not yet been successfully uploaded: will queue
+0114.846 (0) Saving backup history. Total backup size: 94.5 MB
+0114.848 (0) Requesting upload of the files that have not yet been successfully uploaded (1)
+0114.851 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0114.853 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-844abbbcdad914a63eee1e1d3066fffc)
+0115.276 (0) Google Drive: quota usage: used=6547 MB, total=15360 MB, available=8813 MB
+0115.277 (0) Google Drive: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz: Attempting to upload to Google Drive (into folder id: 1b6u26TbtLZskBjWl9PQPEGCxI2x0tlCD)
+0116.722 (0) Googledrive chunked upload: 68 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 23.1 / 44)
+0118.619 (0) Googledrive chunked upload: 100 % uploaded (1048576)
+0118.622 (0) Google Drive: OK: Archive backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz uploaded in 3.34 seconds
+0118.623 (0) Recording as successfully uploaded: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz
+0118.625 (0) Deleting local file: backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-db.gz: OK
+0118.627 (0) Retain: beginning examination of existing backup sets; user setting: retain_files=5, retain_db=2
+0118.628 (0) Number of backup sets in history: 1; groups (db): 1
+0118.629 (0) Examining (for databases) backup set with group_id=0, nonce=75e954cb5855, datestamp=1695253892 (Sep 20 2023 23:51:32)
+0118.630 (0) This backup set is the backup set just made, so will not be deleted.
+0118.630 (0) Number of backup sets in history: 1; groups (files): 1
+0118.630 (0) Examining (for files) backup set with nonce=75e954cb5855, datestamp=1695253892 (Sep 20 2023 23:51:32)
+0118.630 (0) This backup set is the backup set just made, so will not be deleted.
+0118.631 (0) This backup set is the backup set just made, so will not be deleted.
+0118.631 (0) This backup set is the backup set just made, so will not be deleted.
+0118.631 (0) This backup set is the backup set just made, so will not be deleted.
+0118.631 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+0118.632 (0) Retain: saving new backup history (sets now: 1) and finishing retain operation
+0118.634 (0) Resume backup (75e954cb5855, 0): finish run
+0118.638 (0) Decremented the semaphore (fd) by 1
+0118.639 (0) Semaphore (fd) unlocked
+0118.640 (0) There were no errors in the uploads, so the 'resume' event (1) is being unscheduled
+0118.643 (0) Deleting zip manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-plugins.zip.list.tmp)
+0118.644 (0) Deleting zip manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-themes.zip.list.tmp)
+0118.645 (0) Deleting zip manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-uploads.zip.list.tmp)
+0118.647 (0) Deleting zip manifest (backup_2023-09-20-2051_localhost_LeBonAppetit_75e954cb5855-others.zip.list.tmp)
+0118.648 (0) No email will/can be sent - the user has not configured an email address.
+0118.649 (0) The backup succeeded and is now complete

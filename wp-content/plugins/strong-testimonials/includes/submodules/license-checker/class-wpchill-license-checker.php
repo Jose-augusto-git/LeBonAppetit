@@ -72,6 +72,13 @@ if ( ! class_exists( 'Wpchill_License_Checker' ) ) {
 		private $license_data_trans;
 
 		/**
+		 * plugins.php addons prefix
+		 *
+		 * @var array
+		 */
+		private $addons_prefix;
+
+		/**
 		 * The instance of the class
 		 *
 		 * @var
@@ -151,6 +158,7 @@ if ( ! class_exists( 'Wpchill_License_Checker' ) ) {
 			$this->item_id         = $args['item_id'];
 			$this->license         = $args['license'];
 			$this->license_status  = $args['license_status'];
+			$this->addons_prefix   = $args['addons_prefix'];
 		}
 
 		/**
@@ -369,12 +377,17 @@ if ( ! class_exists( 'Wpchill_License_Checker' ) ) {
 		}
 
 		/**
-		 * Display expiry notice for Srong Testimonials
+		 * Display expiry notice for Srong Testimonials.
 		 *
 		 */
 		public function st_expiry_notice( $html ) {
-			// If notice was dismissed don't show it again
-			if ( ! $this->license_data_trans ) {
+
+			$plugins    = get_option( 'active_plugins' );
+			$st_prefix  = $this->addons_prefix;
+			$st_plugins = array_filter( $plugins, function( $var ) use ( $st_prefix ) { return preg_match( "/\b$st_prefix\b/i", $var ); } );
+
+			// If notice was dismissed don't show it again.
+			if ( ! $this->license_data_trans || empty( $st_plugins ) ) {
 				return $html;
 			}
 

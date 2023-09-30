@@ -51,7 +51,7 @@ class ReCaptcha extends Captcha {
 				'content'  => $this->get_field_desc(),
 				'type'     => 'content',
 				'no_label' => true,
-				'class'    => [ 'wpforms-setting-recaptcha', 'section-heading' ],
+				'class'    => [ 'wpforms-setting-recaptcha', 'section-heading', 'specific-note' ],
 			],
 			'recaptcha-type'         => [
 				'id'      => 'recaptcha-type',

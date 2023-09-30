@@ -1899,6 +1899,7 @@ abstract class WPForms_Field {
 					[
 						'slug'    => 'label_hide',
 						'content' => $output,
+						'class'   => ! empty( $args['class'] ) ? wpforms_sanitize_classes( $args['class'] ) : '',
 					],
 					false
 				);

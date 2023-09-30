@@ -75,7 +75,7 @@ class Frontend {
 			return $class;
 		}
 
-		if ( ! empty( $form_data['payments']['stripe']['enable'] ) ) {
+		if ( Helpers::is_payments_enabled( $form_data ) ) {
 			$class[] = 'wpforms-stripe';
 		}
 

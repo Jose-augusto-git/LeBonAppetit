@@ -765,7 +765,13 @@ class Notifications {
 		$data_attr_lity = wp_is_mobile() ? '' : 'data-lity';
 
 		return sprintf(
-			'<a class="wpforms-notifications-badge" href="%1$s" %2$s><i class="fa fa-youtube-play" aria-hidden="true"></i>%3$s</a>',
+			'<a class="wpforms-notifications-badge" href="%1$s" %2$s>
+				<svg fill="none" viewBox="0 0 15 13" aria-hidden="true">
+					<path fill="#fff" d="M4 2.5h7v8H4z"/>
+					<path fill="#D63638" d="M14.2 10.5v-8c0-.4-.2-.8-.5-1.1-.3-.3-.7-.5-1.1-.5H2.2c-.5 0-.8.2-1.1.5-.4.3-.5.7-.5 1.1v8c0 .4.2.8.5 1.1.3.3.6.5 1 .5h10.5c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1Zm-8.8-.8V3.3l4.8 3.2-4.8 3.2Z"/>
+				</svg>
+				%3$s
+			</a>',
 			esc_url( $video_url ),
 			esc_attr( $data_attr_lity ),
 			esc_html__( 'Watch Video', 'wpforms-lite' )

@@ -27,12 +27,31 @@ class Chart {
 	 */
 	private function allow_load() {
 
-		// Avoid displaying the chart when search request is performed.
-		if ( Search::is_search() ) {
-			return false;
-		}
+		$disallowed_views = [
+			's',                   // Search.
+			'type',                // Payment type.
+			'status',              // Payment status.
+			'gateway',             // Payment gateway.
+			'subscription_status', // Subscription status.
+			'form_id',             // Form ID.
+			'coupon_id',           // Coupon ID.
+		];
 
-		return true;
+		// Avoid displaying the chart when filtering of payment records is performed.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		return array_reduce(
+			array_keys( $_GET ),
+			static function ( $carry, $key ) use ( $disallowed_views ) {
+
+				if ( ! $carry ) {
+					return false;
+				}
+
+				return ! in_array( $key, $disallowed_views, true ) || empty( $_GET[ $key ] );
+			},
+			true
+		);
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -184,6 +203,10 @@ class Chart {
 	/**
 	 * Get the stat cards for the payment summary report.
 	 *
+	 * Note that "funnel" is used to filter the payments, and can take the following values:
+	 * - in: payments that match the given criteria.
+	 * - not_in: payments that do not match the given criteria.
+	 *
 	 * @since 1.8.2
 	 *
 	 * @return array
@@ -191,31 +214,77 @@ class Chart {
 	public static function stat_cards() {
 
 		return [
-			'total_payments'     => [
+			'total_payments'             => [
 				'label'          => esc_html__( 'Total Payments', 'wpforms-lite' ),
 				'button_classes' => [
 					'total-payments',
 				],
 			],
-			'total_sales'        => [
+			'total_sales'                => [
 				'label'          => esc_html__( 'Total Sales', 'wpforms-lite' ),
+				'funnel'         => [
+					'not_in' => [
+						'status'              => [ 'failed' ],
+						'subscription_status' => [ 'failed' ],
+					],
+				],
 				'button_classes' => [
 					'total-sales',
 					'is-amount',
 				],
 			],
-			'total_subscription' => [
-				'label'          => esc_html__( 'Subscriptions', 'wpforms-lite' ),
-				'condition'      => wpforms()->get( 'payment_queries' )->has_subscription(),
-				'type'           => 'subscription',
+			'total_refunded'             => [
+				'label'          => esc_html__( 'Total Refunded', 'wpforms-lite' ),
 				'has_count'      => true,
+				'meta_key'       => 'refunded_amount', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'button_classes' => [
+					'total-refunded',
+					'is-amount',
+				],
+			],
+			'total_subscription'         => [
+				'label'          => esc_html__( 'New Subscriptions', 'wpforms-lite' ),
+				'condition'      => wpforms()->get( 'payment_queries' )->has_subscription(),
+				'has_count'      => true,
+				'funnel'         => [
+					'in'     => [
+						'type' => [ 'subscription' ],
+					],
+					'not_in' => [
+						'subscription_status' => [ 'failed' ],
+					],
+				],
 				'button_classes' => [
 					'total-subscription',
 					'is-amount',
 				],
 			],
-			'total_coupons'      => [
-				'label'          => esc_html__( 'Coupons', 'wpforms-lite' ),
+			'total_renewal_subscription' => [
+				'label'          => esc_html__( 'Subscription Renewals', 'wpforms-lite' ),
+				'condition'      => wpforms()->get( 'payment_queries' )->has_subscription(),
+				'has_count'      => true,
+				'funnel'         => [
+					'in'     => [
+						'type' => [ 'renewal' ],
+					],
+					'not_in' => [
+						'subscription_status' => [ 'failed' ],
+					],
+				],
+				'button_classes' => [
+					'total-renewal-subscription',
+					'is-amount',
+				],
+			],
+			'total_coupons'              => [
+				'label'          => esc_html__( 'Coupons Redeemed', 'wpforms-lite' ),
+				'meta_key'       => 'coupon_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'funnel'         => [
+					'not_in' => [
+						'status'              => [ 'failed' ],
+						'subscription_status' => [ 'failed' ],
+					],
+				],
 				'button_classes' => [
 					'total-coupons',
 				],

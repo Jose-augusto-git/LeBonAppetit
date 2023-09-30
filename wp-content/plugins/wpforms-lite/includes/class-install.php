@@ -1,6 +1,8 @@
 <?php
 
-use WPForms\Tasks\Meta;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Handle plugin installation upon activation.
@@ -21,7 +23,7 @@ class WPForms_Install {
 		register_deactivation_hook( WPFORMS_PLUGIN_FILE, [ $this, 'deactivate' ] );
 
 		// Watch for new multisite blogs.
-		add_action( 'wpmu_new_blog', [ $this, 'new_multisite_blog' ], 10, 6 );
+		add_action( 'wp_initialize_site', [ $this, 'new_multisite_blog' ], 10, 2 );
 
 		// Watch for delayed admin install.
 		add_action( 'admin_init', [ $this, 'admin' ] );
@@ -159,18 +161,18 @@ class WPForms_Install {
 	 * and if so run the installer.
 	 *
 	 * @since 1.3.0
+	 * @since 1.8.4 Added $new_site and $args parameters and removed $blog_id, $user_id, $domain, $path, $site_id,
+	 *        $meta parameters.
 	 *
-	 * @param int    $blog_id Blog ID.
-	 * @param int    $user_id User ID.
-	 * @param string $domain  Site domain.
-	 * @param string $path    Site path.
-	 * @param int    $site_id Site ID. Only relevant on multi-network installs.
-	 * @param array  $meta    Meta data. Used to set initial site options.
+	 * @param WP_Site $new_site New site object.
+	 * @param array   $args     Arguments for the initialization.
+	 *
+	 * @noinspection PhpUnusedParameterInspection
 	 */
-	public function new_multisite_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
+	public function new_multisite_blog( $new_site, $args ) {
 
 		if ( is_plugin_active_for_network( plugin_basename( WPFORMS_PLUGIN_FILE ) ) ) {
-			switch_to_blog( $blog_id );
+			switch_to_blog( $new_site->blog_id );
 			$this->run();
 			restore_current_blog();
 		}

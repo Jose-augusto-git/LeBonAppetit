@@ -118,7 +118,7 @@ class Divi implements IntegrationInterface {
 			return false;
 		}
 
-		return function_exists( 'et_is_builder_plugin_active' ) && et_is_builder_plugin_active();
+		return defined( 'ET_BUILDER_PLUGIN_ACTIVE' ) || defined( 'ET_BUILDER_THEME' );
 	}
 
 	/**

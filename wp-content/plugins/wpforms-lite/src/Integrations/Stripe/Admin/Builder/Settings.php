@@ -211,10 +211,13 @@ class Settings {
 	 * Get recurring payments conditional logic for the Stripe settings panel.
 	 *
 	 * @since 1.8.2
+	 * @since 1.8.4 Added Plan ID parameter.
+	 *
+	 * @param string $plan_id Plan ID.
 	 *
 	 * @return string
 	 */
-	private function recurring_payments_conditional_logic_section() {
+	private function recurring_payments_conditional_logic_section( $plan_id ) {
 
 		return $this->get_conditional_logic_toggle( true );
 	}

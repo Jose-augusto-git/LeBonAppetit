@@ -3,6 +3,7 @@
 namespace WPForms\Integrations\Stripe\Admin;
 
 use WPForms\Integrations\Stripe\Helpers;
+use WPForms\Integrations\Stripe\StripeAddonCompatibility;
 
 /**
  * Stripe related admin notices.
@@ -16,9 +17,11 @@ class Notices {
 	 *
 	 * @since 1.8.2
 	 *
+	 * @param string $classes Additional notice classes.
+	 *
 	 * @return string
 	 */
-	public static function get_fee_notice() {
+	public static function get_fee_notice( $classes = '' ) {
 
 		if ( ! Helpers::is_application_fee_supported() ) {
 			return '';
@@ -39,10 +42,10 @@ class Notices {
 		}
 
 		if ( wpforms_is_admin_page( 'builder' ) ) {
-			return sprintf( '<p class="wpforms-alert wpforms-alert-info">%s</p>', $notice );
+			return sprintf( '<p class="wpforms-stripe-notice-info wpforms-alert wpforms-alert-info ' . wpforms_sanitize_classes( $classes ) . '">%s</p>', $notice );
 		}
 
-		return sprintf( '<div class="wpforms-stripe-notice-info"><p>%s</p></div>', $notice );
+		return sprintf( '<div class="wpforms-stripe-notice-info ' . wpforms_sanitize_classes( $classes ) . '"><p>%s</p></div>', $notice );
 	}
 
 	/**
@@ -69,11 +72,13 @@ class Notices {
 		if ( empty( wpforms_get_license_key() ) ) {
 			return sprintf(
 				wp_kses( /* translators: %s - general admin settings page URL. */
-					__( '<strong>Pay as you go pricing:</strong> 3%% fee per-transaction + Stripe fees. <a href="%s">Activate your license</a> to remove additional fees and unlock powerful features.', 'wpforms-lite' ),
+					__( '<strong>Pay-as-you-go Pricing</strong><br>3%% fee per-transaction + Stripe fees. <a href="%s">Activate your license</a> to remove additional fees and unlock powerful features.', 'wpforms-lite' ),
 					[
 						'strong' => [],
+						'br'     => [],
 						'a'      => [
-							'href' => [],
+							'href'   => [],
+							'target' => [],
 						],
 					]
 				),
@@ -83,11 +88,13 @@ class Notices {
 
 		return sprintf(
 			wp_kses( /* translators: %s - general admin settings page URL. */
-				__( '<strong>Pay as you go pricing:</strong> 3%% fee per-transaction + Stripe fees. <a href="%s">Renew your license</a> to remove additional fees and unlock powerful features.', 'wpforms-lite' ),
+				__( '<strong>Pay-as-you-go Pricing</strong><br> 3%% fee per-transaction + Stripe fees. <a href="%s">Renew your license</a> to remove additional fees and unlock powerful <features class=""></features>', 'wpforms-lite' ),
 				[
 					'strong' => [],
+					'br'     => [],
 					'a'      => [
-						'href' => [],
+						'href'   => [],
+						'target' => [],
 					],
 				]
 			),
@@ -112,9 +119,10 @@ class Notices {
 
 		return sprintf(
 			wp_kses( /* translators: %s - WPForms.com Upgrade page URL. */
-				__( '<strong>Pay as you go pricing:</strong> 3%% fee per-transaction + Stripe fees. <a href="%s" target="_blank">Upgrade to Pro</a> to remove additional fees and unlock powerful features.', 'wpforms-lite' ),
+				__( '<strong>Pay-as-you-go Pricing</strong><br> 3%% fee per-transaction + Stripe fees. <a href="%s" target="_blank">Upgrade to Pro</a> to remove additional fees and unlock powerful features.', 'wpforms-lite' ),
 				[
 					'strong' => [],
+					'br'     => [],
 					'a'      => [
 						'href'   => [],
 						'target' => [],
@@ -123,5 +131,48 @@ class Notices {
 			),
 			esc_url( $upgrade_link )
 		);
+	}
+
+	/**
+	 * Display alert about new interface.
+	 *
+	 * @since 1.8.4
+	 */
+	public static function prompt_new_interface() {
+
+		$dismissed = get_user_meta( get_current_user_id(), 'wpforms_dismissed', true );
+
+		// Check if not dismissed.
+		if ( ! empty( $dismissed['edu-wpforms-stripe-legacy-interface'] ) ) {
+			return;
+		}
+
+		$addon_compat = ( new StripeAddonCompatibility() )->init();
+
+		if ( $addon_compat && ! $addon_compat->is_supported_modern_settings() ) {
+			$message = __( 'A new and improved Stripe interface is available with new Stripe Pro addon.', 'wpforms-lite' );
+		} else {
+			$message = __( 'A new and improved Stripe interface is available when you create new forms.', 'wpforms-lite' );
+		}
+
+		?>
+		<div id="wpforms-stripe-new-interface-alert" class="wpforms-alert wpforms-alert-warning wpforms-alert-dismissible wpforms-dismiss-container">
+			<div class="wpforms-alert-message">
+				<p>
+					<?php echo esc_html( $message ); ?>
+					<?php
+					printf(
+						'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
+						'#',
+						esc_html__( 'What\'s new?', 'wpforms-lite' )
+					);
+					?>
+				</p>
+			</div>
+			<div class="wpforms-alert-buttons">
+				<button type="button" class="wpforms-dismiss-button" title="<?php esc_attr_e( 'Dismiss this message.', 'wpforms-lite' ); ?>" data-section="wpforms-stripe-legacy-interface"></button>
+			</div>
+		</div>
+		<?php
 	}
 }

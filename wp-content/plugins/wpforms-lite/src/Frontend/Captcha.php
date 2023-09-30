@@ -486,8 +486,11 @@ class Captcha {
 					Array.prototype.forEach.call(document.querySelectorAll(".g-recaptcha"), function (el) {
 						try {
 							var recaptchaID = grecaptcha.render(el, {
-								callback: function () {
+								"callback": function () {
 									wpformsRecaptchaCallback(el);
+								},
+								"error-callback": function () {
+									wpformsRecaptchaErrorCallback(el);
 								}
 							}, true);
 							el.closest("form").querySelector("button[type=submit]").recaptchaID = recaptchaID;
@@ -503,6 +506,10 @@ class Captcha {
 						$form.querySelector("button[type=submit]").recaptchaID = false;
 						$form.submit();
 					}
+				};
+				var wpformsRecaptchaErrorCallback = function (el) {
+					var $form = el.closest("form");
+					$form.querySelector("button[type=submit]").dataset.captchaInvalid = true;
 				};
 			';
 		} else {

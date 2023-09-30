@@ -106,10 +106,11 @@ class Chart {
 			return [ 0, [] ];
 		}
 
-		$interval      = new DateInterval( 'P1D' ); // Variable that store the date interval of period 1 day.
-		$period        = new DatePeriod( $start_date, $interval, $end_date ); // Used for iteration between start and end date period.
-		$data          = []; // Placeholder for the actual chart dataset data.
-		$total_entries = 0;
+		$interval           = new DateInterval( 'P1D' ); // Variable that store the date interval of period 1 day.
+		$period             = new DatePeriod( $start_date, $interval, $end_date ); // Used for iteration between start and end date period.
+		$data               = []; // Placeholder for the actual chart dataset data.
+		$total_entries      = 0;
+		$has_non_zero_count = false;
 
 		// Use loop to store date into array.
 		foreach ( $period as $date ) {
@@ -121,8 +122,17 @@ class Chart {
 				'day'   => $date_formatted,
 				'count' => $count,
 			];
+
+			// This check helps determine whether there is at least one non-zero count value in the dataset being processed.
+			// It's used to optimize the function's behavior and to decide whether to include certain data in the returned result.
+			if ( $count > 0 && ! $has_non_zero_count ) {
+				$has_non_zero_count = true;
+			}
 		}
 
-		return [ $total_entries, $data ];
+		return [
+			$total_entries,
+			$has_non_zero_count ? $data : [], // We will return an empty array to indicate that there is no data to display.
+		];
 	}
 }

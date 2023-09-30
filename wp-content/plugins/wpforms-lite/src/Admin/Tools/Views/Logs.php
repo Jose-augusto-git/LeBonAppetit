@@ -90,20 +90,23 @@ class Logs extends View {
 		<form action="<?php echo esc_url( $this->get_link() ); ?>" method="POST">
 			<?php $this->nonce_field(); ?>
 			<div class="wpforms-setting-row tools">
-				<h4><?php esc_html_e( 'Logs', 'wpforms-lite' ); ?></h4>
-				<p><?php esc_html_e( 'On this page, you can enable and configure the logging functionality while debugging behavior of various parts of the plugin, including forms and entries processing.', 'wpforms-lite' ); ?></p>
+				<h4><?php esc_html_e( 'Log Settings', 'wpforms-lite' ); ?></h4>
+				<p><?php esc_html_e( 'Enable and configure the logging functionality while debugging behavior of various parts of the plugin, including form and entry processing.', 'wpforms-lite' ); ?></p>
 			</div>
-			<div class="wpforms-setting-row tools wpforms-setting-row-checkbox wpforms-clear"
-				 id="wpforms-setting-row-logs-enable">
+			<div class="wpforms-setting-row tools wpforms-setting-row-toggle wpforms-clear" id="wpforms-setting-row-logs-enable">
 				<div class="wpforms-setting-label">
-					<label
-						for="wpforms-setting-logs-enable"><?php esc_html_e( 'Enable Logs', 'wpforms-lite' ); ?></label>
+					<label for="wpforms-setting-logs-enable"><?php esc_html_e( 'Enable Logs', 'wpforms-lite' ); ?></label>
 				</div>
 				<div class="wpforms-setting-field">
-					<input type="checkbox" id="wpforms-setting-logs-enable" name="logs-enable" value="1"
-						<?php checked( wpforms_setting( 'logs-enable' ) ); ?>>
+					<span class="wpforms-toggle-control">
+						<input type="checkbox" id="wpforms-setting-logs-enable" name="logs-enable" value="1" <?php checked( wpforms_setting( 'logs-enable' ) ); ?>>
+						<label class="wpforms-toggle-control-icon" for="wpforms-setting-logs-enable"></label>
+						<label for="wpforms-setting-logs-enable" class="wpforms-toggle-control-status" data-on="On" data-off="Off">
+							<?php wpforms_setting( 'logs-enable' ) ? esc_html_e( 'On', 'wpforms-lite' ) : esc_html_e( 'Off', 'wpforms-lite' ); ?>
+						</label>
+					</span>
 					<p class="desc">
-						<?php esc_html_e( 'Check this option to start logging WPForms-related events. This is recommended only while debugging.', 'wpforms-lite' ); ?>
+						<?php esc_html_e( 'Start logging WPForms-related events. This is recommended only while debugging.', 'wpforms-lite' ); ?>
 					</p>
 				</div>
 			</div>
@@ -148,7 +151,7 @@ class Logs extends View {
 			</div>
 			<div class="wpforms-setting-field">
 				<span class="choicesjs-select-wrap">
-					<select id="wpforms-setting-logs-types" class="choicesjs-select" name="logs-types[]" multiple>
+					<select id="wpforms-setting-logs-types" class="choicesjs-select" name="logs-types[]" multiple size="1">
 						<?php
 						$log_types = wpforms_setting( 'logs-types', [] );
 
@@ -186,7 +189,7 @@ class Logs extends View {
 					$roles           = wp_list_pluck( get_editable_roles(), 'name' );
 
 					?>
-					<select id="wpforms-setting-logs-user-roles" class="choicesjs-select" name="logs-user-roles[]" multiple>
+					<select id="wpforms-setting-logs-user-roles" class="choicesjs-select" name="logs-user-roles[]" multiple size="1">
 						<?php foreach ( $roles as $slug => $name ) { ?>
 							<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( in_array( $slug, $logs_user_roles, true ) ); ?> >
 								<?php echo esc_html( $name ); ?>
@@ -220,7 +223,7 @@ class Logs extends View {
 			</div>
 			<div class="wpforms-setting-field">
 				<span class="choicesjs-select-wrap">
-					<select id="wpforms-setting-logs-users" class="choicesjs-select" name="logs-users[]" multiple>
+					<select id="wpforms-setting-logs-users" class="choicesjs-select" name="logs-users[]" multiple size="1">
 						<?php
 						$users      = get_users( [ 'fields' => [ 'ID', 'display_name' ] ] );
 						$users      = wp_list_pluck( $users, 'display_name', 'ID' );

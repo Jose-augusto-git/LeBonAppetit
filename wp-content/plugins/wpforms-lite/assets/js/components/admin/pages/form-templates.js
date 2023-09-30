@@ -48,7 +48,8 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 
 			$( '.wpforms-form-setup-content' )
 				.on( 'keyup', '#wpforms-setup-template-search', WPFormsFormTemplates.searchTemplate )
-				.on( 'click', '.wpforms-setup-templates-categories li', WPFormsFormTemplates.selectCategory )
+				.on( 'click', '.wpforms-setup-templates-categories li div', WPFormsFormTemplates.selectCategory )
+				.on( 'click', '.wpforms-setup-templates-subcategories li', WPFormsFormTemplates.selectSubCategory )
 				.on( 'click', '.wpforms-template-select', app.selectTemplate )
 				.on( 'click', '.wpforms-trigger-blank', app.selectBlankTemplate );
 		},

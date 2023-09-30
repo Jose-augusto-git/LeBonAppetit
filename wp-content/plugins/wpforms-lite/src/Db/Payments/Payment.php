@@ -217,7 +217,7 @@ class Payment extends WPForms_DB {
 		}
 
 		// Prepare query.
-		$query[] = "SELECT * FROM {$this->table_name} as p";
+		$query[] = "SELECT p.* FROM {$this->table_name} as p";
 
 		/**
 		 * Filter the query for get_payments method before the WHERE clause.
@@ -230,35 +230,27 @@ class Payment extends WPForms_DB {
 		 * @return string
 		 */
 		$query[] = apply_filters( 'wpforms_db_payments_payment_get_payments_query_before_where', '', $args );
-
 		$query[] = 'WHERE 1=1';
-
-		array_walk(
-			$args,
-			// Create `AND` conditions for some DB columns.
-			static function( $value, $key ) use ( &$query, $wpdb ) {
-				$allowed_cols = [
-					'form_id',
-					'entry_id',
-					'status',
-					'subscription_status',
-					'type',
-					'gateway',
-				];
-
-				if ( empty( $value ) || ! in_array( $key, $allowed_cols, true ) ) {
-					return;
-				}
-
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$query[] = is_numeric( $value ) ? $wpdb->prepare( "AND {$key} = %d", $value ) : $wpdb->prepare( "AND {$key} = %s", $value );
-			}
-		);
-
+		$query[] = $this->add_columns_where_conditions( $args );
 		$query[] = $this->add_secondary_where_conditions( $args );
 
+		/**
+		 * Extend the query for the get_payments method after the WHERE clause.
+		 *
+		 * This hook provides the flexibility to modify the SQL query by appending custom conditions
+		 * right after the WHERE clause.
+		 *
+		 * @since 1.8.4
+		 *
+		 * @param string $where After the WHERE clause in the database query.
+		 * @param array  $args  Query arguments.
+		 *
+		 * @return string
+		 */
+		$query[] = apply_filters( 'wpforms_db_payments_payment_get_payments_query_after_where', '', $args );
+
 		// Order.
-		$query[] = sprintf( 'ORDER BY p.%s', sanitize_sql_orderby( "{$args['orderby']} {$args['order']}" ) );
+		$query[] = sprintf( 'ORDER BY %s', sanitize_sql_orderby( "{$args['orderby']} {$args['order']}" ) );
 
 		// Limit.
 		$query[] = $wpdb->prepare( 'LIMIT %d, %d', $args['offset'], $args['number'] );
@@ -348,6 +340,71 @@ class Payment extends WPForms_DB {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Construct where clauses for selected columns.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $args Query arguments.
+	 *
+	 * @return string
+	 */
+	public function add_columns_where_conditions( $args = [] ) {
+
+		// Allowed columns for filtering.
+		$allowed_cols = [
+			'form_id',
+			'entry_id',
+			'status',
+			'subscription_status',
+			'type',
+			'gateway',
+		];
+
+		$where = '';
+
+		// Determine if this is a table query.
+		$is_table_query   = ! empty( $args['table_query'] );
+		$keys_to_validate = [ 'status', 'subscription_status', 'type', 'gateway' ];
+
+		foreach ( $args as $key => $value ) {
+			if ( empty( $value ) || ! in_array( $key, $allowed_cols, true ) ) {
+				continue;
+			}
+
+			// Explode values if needed.
+			$values = explode( '|', $value );
+
+			// Run some keys through the "ValueValidator" class to make sure they are valid.
+			if ( in_array( $key, $keys_to_validate, true ) ) {
+				$values = array_filter(
+					$values,
+					static function ( $v ) use ( $key ) {
+
+						return ValueValidator::is_valid( $v, $key );
+					}
+				);
+			}
+
+			// Skip if no valid values found.
+			if ( empty( $values ) ) {
+				continue;
+			}
+
+			// Merge "Partially Refunded" status with "Refunded" status.
+			if ( $is_table_query && $key === 'status' && in_array( 'refunded', $values, true ) ) {
+				$values[] = 'partrefund';
+			}
+
+			$placeholders = wpforms_wpdb_prepare_in( $values );
+
+			// Prepare and add to WHERE clause.
+			$where .= " AND {$key} IN ({$placeholders})";
+		}
+
+		return $where;
 	}
 
 	/**

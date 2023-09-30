@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Checkbox field.
  *
@@ -99,16 +103,16 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 
 				if ( ! empty( $field['images'][ $key ] ) ) {
 					$items[] = sprintf(
-						'<span style="max-width:200px;display:block;margin:0 0 5px 0;"><img src="%s" style="max-width:100%%;display:block;margin:0;"></span>%s',
+						'<div class="field-value-item"><span><img src="%s" alt=""></span>%s</div>',
 						esc_url( $field['images'][ $key ] ),
 						$val
 					);
 				} else {
-					$items[] = $val;
+					$items[] = sprintf( '<div class="field-value-item">%s</div>', $val );
 				}
 			}
 
-			return implode( '<br><br>', $items );
+			return implode( '', $items );
 		}
 
 		return $value;
@@ -566,14 +570,18 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 							wpforms_html_attributes( $choice['label']['id'], $choice['label']['class'], $choice['label']['data'], $choice['label']['attr'] )
 						);
 
+							echo '<span class="wpforms-image-choices-image">';
+
 							if ( ! empty( $choice['image'] ) ) {
 								printf(
-									'<span class="wpforms-image-choices-image"><img src="%s" alt="%s"%s></span>',
+									'<img src="%s" alt="%s"%s>',
 									esc_url( $choice['image'] ),
 									esc_attr( $choice['label']['text'] ),
 									! empty( $choice['label']['text'] ) ? ' title="' . esc_attr( $choice['label']['text'] ) . '"' : ''
 								);
 							}
+
+							echo '</span>';
 
 							if ( $field['choices_images_style'] === 'none' ) {
 								echo '<br>';

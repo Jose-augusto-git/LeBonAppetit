@@ -1,5 +1,41 @@
 == Changelog ==
 
+= 1.8.4 =
+- IMPORTANT: Support for PHP 5.6 has been discontinued. If you are running PHP 5.6, you MUST upgrade PHP before installing WPForms 1.8.4. Failure to do that will disable WPForms core functionality.
+- IMPORTANT: Support for WordPress 5.4 and below has been discontinued. If you are running any of those outdated versions, you MUST upgrade WordPress before installing WPForms 1.8.4. Failure to do that will disable WPForms core functionality.
+- Added: Statuses of Stripe payments can now be synchronized through webhooks!
+- Added: Users can now perform payment refunds, subscription cancelations, and more for Stripe payments.
+- Added: Payments can be filtered by type, gateway, and status on the Payments Overview page.
+- Added: New stats added to the Payments Overview chart: Total Refunded, New Subscriptions, and Subscription Renewals.
+- Added: When searching for forms on the Form Overview page, you can use a form ID now.
+- Added: There is a new "Latest entry" date column on the Forms Overview page which is sortable.
+- Changed: WPForms Challenge text is improved to be more clear.
+- Changed: The `intl-tel-input` library has been updated to v18.2.1.
+- Changed: Form templates are now ordered by creation date in ascending order.
+- Changed: Styles for the Stripe Payment Links are improved.
+- Changed: Notice text colors in the Form Builder are updated.
+- Changed: Number slider behavior is improved.
+- Changed: On the Forms Overview page, the Created column is renamed to Date. Now it displays the date and time when the form was updated.
+- Changed: Admin pages were updated to use a new unified Design Language.
+- Fixed: WPForms block did not get a list of forms dynamically.
+- Fixed: Very long tag names in the Manage Tags modal on the Forms Overview page were not wrapped.
+- Fixed: Disabled inputs looked different in the Form Builder > Notifications panel for the "From EMAIL" and "From NAME" options.
+- Fixed: A splash screen was displayed when all payments were moved to Trash, preventing the ability to restore trashed payments.
+- Fixed: Dynamic choices of custom taxonomies (tags) for the Checkboxes field were displayed incorrectly under some conditions.
+- Fixed: Stripe Credit Card field error was not visible for multipage forms in some cases.
+- Fixed: WPForms Challenge welcome pop-up was displayed above the splash screen on tablets.
+- Fixed: The form submission "Send" button was not working correctly on click when Invisible Captcha had an invalid key.
+- Fixed: HTML-ENTITIES encoding threw a deprecation warning on PHP 8.2.
+- Fixed: An irrational scrolling occurred when quickly adding multiple fields in the Form Builder.
+- Fixed: Fields with subfields were rendered differently in the Form Builder Preview pane and on the front end.
+- Fixed: Stripe fields were misplaced in the Block Editor form preview with Lead Forms.
+- Fixed: Multiple Modern Dropdown field value was not centered in the Modern Markup.
+- Fixed: Failed payments were counted in the Total Sales chart.
+- Fixed: Users were able to view trashed payments.
+- Fixed: Splash screen was displayed when all payments were moved to Trash.
+- Fixed: An incorrect currency of already processed payments was displayed when the global currency setting was changed.
+- Fixed: There was an empty form name in the Single Payment details metabox if a payment form was deleted or no longer editable.
+
 = 1.8.3.1 =
 - Fixed: There were situations when Stripe Credit Card field wasn't working properly in Elementor.
 

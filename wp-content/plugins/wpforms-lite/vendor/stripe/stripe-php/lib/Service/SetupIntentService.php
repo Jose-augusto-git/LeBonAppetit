@@ -14,7 +14,7 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection
+     * @return \Stripe\Collection<\Stripe\SetupIntent>
      */
     public function all($params = null, $opts = null)
     {
@@ -52,7 +52,8 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      *
      * Otherwise, it will transition to the <code>requires_action</code> status and
      * suggest additional actions via <code>next_action</code>. If setup fails, the
-     * SetupIntent will transition to the <code>requires_payment_method</code> status.
+     * SetupIntent will transition to the <code>requires_payment_method</code> status
+     * or the <code>canceled</code> status if the confirmation limit is reached.
      *
      * @param string $id
      * @param null|array $params
@@ -123,5 +124,21 @@ class SetupIntentService extends \Stripe\Service\AbstractService
     public function update($id, $params = null, $opts = null)
     {
         return $this->request('post', $this->buildPath('/v1/setup_intents/%s', $id), $params, $opts);
+    }
+
+    /**
+     * Verifies microdeposits on a SetupIntent object.
+     *
+     * @param string $id
+     * @param null|array $params
+     * @param null|array|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\SetupIntent
+     */
+    public function verifyMicrodeposits($id, $params = null, $opts = null)
+    {
+        return $this->request('post', $this->buildPath('/v1/setup_intents/%s/verify_microdeposits', $id), $params, $opts);
     }
 }

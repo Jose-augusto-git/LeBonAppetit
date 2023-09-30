@@ -2,6 +2,8 @@
 /**
  * Number slider field frontend template.
  *
+ * @since 1.5.7
+ *
  * @var array  $atts          Additional HTML attributes.
  * @var array  $class         HTML classes.
  * @var array  $datas         Data attributes.
@@ -18,6 +20,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 ?>
 
 <input

@@ -70,7 +70,7 @@ class DidYouKnow implements EducationInterface {
 				'desc'       => esc_html__( 'Entries are available through email notifications. If you enable Entry Backups, you can restore them once you upgrade to WPForms Pro.', 'wpforms-lite' ),
 				'more_title' => esc_html__( 'Enable Entry Backups', 'wpforms-lite' ),
 				'more_link'  => admin_url( 'admin.php?page=wpforms-settings' ),
-				'icon'       => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14"><path fill="#fff" d="M16.78 6.1a3 3 0 0 0-4.47-3.56A4.97 4.97 0 0 0 3 5v.28A4.48 4.48 0 0 0 4.5 14H16a4 4 0 0 0 4-4c0-1.9-1.38-3.53-3.22-3.9Zm-4.37 2-.35.34A.75.75 0 0 1 11 8.4l-1-1.07v3.91c0 .44-.34.75-.75.75h-.5a.72.72 0 0 1-.75-.75v-3.9L6.97 8.4a.75.75 0 0 1-1.06.03l-.35-.35c-.31-.3-.31-.78 0-1.06l2.9-2.9a.74.74 0 0 1 1.04 0l2.9 2.9c.32.28.32.75 0 1.06Z"/></svg>',
+				'icon'       => '<svg fill="#fff" viewBox="0 0 20 14"><path d="M16.78 6.1a3 3 0 0 0-4.47-3.56A4.97 4.97 0 0 0 3 5v.28A4.48 4.48 0 0 0 4.5 14H16a4 4 0 0 0 4-4c0-1.9-1.38-3.53-3.22-3.9Zm-4.37 2-.35.34A.75.75 0 0 1 11 8.4l-1-1.07v3.91c0 .44-.34.75-.75.75h-.5a.72.72 0 0 1-.75-.75v-3.9L6.97 8.4a.75.75 0 0 1-1.06.03l-.35-.35c-.31-.3-.31-.78 0-1.06l2.9-2.9a.74.74 0 0 1 1.04 0l2.9 2.9c.32.28.32.75 0 1.06Z"/></svg>',
 				'item'       => 1,
 				'enabled'    => [
 					'cont_class' => LiteConnect::is_enabled() ? 'wpforms-education-lite-connect-enabled-info' : 'wpforms-education-lite-connect-enabled-info wpforms-hidden',

@@ -1,3 +1,20 @@
+<?php
+/**
+ * Minimum and maximum input template for Number field.
+ *
+ * @since 1.5.7
+ *
+ * @var int    $field_id  Field ID.
+ * @var string $input_min Minimum input.
+ * @var string $input_max Maximum input.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
+
 <div class="wpforms-input-row">
 	<div class="minimum">
 		<?php echo $input_min; // phpcs:ignore ?>

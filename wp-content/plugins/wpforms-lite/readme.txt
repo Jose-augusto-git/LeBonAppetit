@@ -1,10 +1,10 @@
 === Contact Form by WPForms - Drag & Drop Form Builder for WordPress ===
 Contributors: wpforms, jaredatch, smub, slaFFik
 Tags: contact form, contact form plugin, forms, form builder, custom form, contact button, contact me, custom contact form, form manager, form, forms builder, forms creator, captcha, recaptcha, Turnstile, Akismet, email form, web form, feedback form, payment form, survey form, donation form, email submit form, message form, mailchimp, mailchimp form, aweber, aweber form, paypal, paypal form, stripe, stripe form, getresponse, getresponse form, email subscription, contact form widget, user registration form, wordpress registration, wordpress login form, feedback
-Requires at least: 5.2
+Requires at least: 5.5
 Tested up to: 6.3
-Stable tag: 1.8.3.1
-Requires PHP: 5.6
+Stable tag: 1.8.4
+Requires PHP: 7.0
 License: GNU General Public License v2.0 or later
 
 The best WordPress contact form plugin. Drag & Drop online form builder to create beautiful contact forms, payment forms, & other custom forms in minutes.
@@ -51,7 +51,7 @@ Whether you're looking to create a simple contact form, marketing form, request 
 
 WPForms comes with <a href="https://wpforms.com/features/form-templates/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">pre-built form templates</a> to help you save time. You can add, remove, or re-arrange fields as necessary.
 
-See <a href="https://wpforms.com/templates/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">850+ Pre-Made WPForms Form Template Demos</a>
+See <a href="https://wpforms.com/templates/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">1000+ Pre-Made WPForms Form Template Demos</a>
 
 = Mobile Ready, SEO Friendly and Optimized for Speed =
 
@@ -280,7 +280,7 @@ WPForms drag & drop form builder combined with our addons is the most powerful W
 * Volunteer Registration Contact Form
 * Offline Contact Form
 
-To see a full list, visit our <a href="https://wpforms.com/templates/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">Form Template Gallery</a> which has over 850+ pre-made contact form templates.
+To see a full list, visit our <a href="https://wpforms.com/templates/?utm_source=wprepo&utm_medium=link&utm_campaign=liteplugin" rel="friend">Form Template Gallery</a> which has over 1000+ pre-made contact form templates.
 
 = Which Form Fields Does WPForms offer? =
 
@@ -351,7 +351,7 @@ Here is a list of our popular marketing integrations:
 * ActiveCampaign
 * Zapier
 * Salesforce CRM
-* Sendinblue
+* Brevo (ex Sendinblue)
 * MailerLite
 
 Using our Zapier integration, you can easily connect WPForms with over 5,000+ marketing apps including:
@@ -442,6 +442,42 @@ Thank you
 Syed Balkhi
 
 == Changelog ==
+
+= 1.8.4 =
+- IMPORTANT: Support for PHP 5.6 has been discontinued. If you are running PHP 5.6, you MUST upgrade PHP before installing WPForms 1.8.4. Failure to do that will disable WPForms core functionality.
+- IMPORTANT: Support for WordPress 5.4 and below has been discontinued. If you are running any of those outdated versions, you MUST upgrade WordPress before installing WPForms 1.8.4. Failure to do that will disable WPForms core functionality.
+- Added: Statuses of Stripe payments can now be synchronized through webhooks!
+- Added: Users can now perform payment refunds, subscription cancelations, and more for Stripe payments.
+- Added: Payments can be filtered by type, gateway, and status on the Payments Overview page.
+- Added: New stats added to the Payments Overview chart: Total Refunded, New Subscriptions, and Subscription Renewals.
+- Added: When searching for forms on the Form Overview page, you can use a form ID now.
+- Added: There is a new "Latest entry" date column on the Forms Overview page which is sortable.
+- Changed: WPForms Challenge text is improved to be more clear.
+- Changed: The `intl-tel-input` library has been updated to v18.2.1.
+- Changed: Form templates are now ordered by creation date in ascending order.
+- Changed: Styles for the Stripe Payment Links are improved.
+- Changed: Notice text colors in the Form Builder are updated.
+- Changed: Number slider behavior is improved.
+- Changed: On the Forms Overview page, the Created column is renamed to Date. Now it displays the date and time when the form was updated.
+- Changed: Admin pages were updated to use a new unified Design Language.
+- Fixed: WPForms block did not get a list of forms dynamically.
+- Fixed: Very long tag names in the Manage Tags modal on the Forms Overview page were not wrapped.
+- Fixed: Disabled inputs looked different in the Form Builder > Notifications panel for the "From EMAIL" and "From NAME" options.
+- Fixed: A splash screen was displayed when all payments were moved to Trash, preventing the ability to restore trashed payments.
+- Fixed: Dynamic choices of custom taxonomies (tags) for the Checkboxes field were displayed incorrectly under some conditions.
+- Fixed: Stripe Credit Card field error was not visible for multipage forms in some cases.
+- Fixed: WPForms Challenge welcome pop-up was displayed above the splash screen on tablets.
+- Fixed: The form submission "Send" button was not working correctly on click when Invisible Captcha had an invalid key.
+- Fixed: HTML-ENTITIES encoding threw a deprecation warning on PHP 8.2.
+- Fixed: An irrational scrolling occurred when quickly adding multiple fields in the Form Builder.
+- Fixed: Fields with subfields were rendered differently in the Form Builder Preview pane and on the front end.
+- Fixed: Stripe fields were misplaced in the Block Editor form preview with Lead Forms.
+- Fixed: Multiple Modern Dropdown field value was not centered in the Modern Markup.
+- Fixed: Failed payments were counted in the Total Sales chart.
+- Fixed: Users were able to view trashed payments.
+- Fixed: Splash screen was displayed when all payments were moved to Trash.
+- Fixed: An incorrect currency of already processed payments was displayed when the global currency setting was changed.
+- Fixed: There was an empty form name in the Single Payment details metabox if a payment form was deleted or no longer editable.
 
 = 1.8.3.1 =
 - Fixed: There were situations when Stripe Credit Card field wasn't working properly in Elementor.

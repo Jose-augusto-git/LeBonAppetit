@@ -1,0 +1,4743 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: WP Cerber Security\n"
+"Language: zh-TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin/cerber-admin-settings.php:123
+msgid "Limit login attempts"
+msgstr "限制登入嘗試"
+
+#: admin/cerber-admin-settings.php:130 admin/cerber-admin-settings.php:335
+#: admin/cerber-users.php:458
+msgid "minutes"
+msgstr "分鐘"
+
+#: admin/cerber-admin-settings.php:240
+msgid "Site connection"
+msgstr "網站連線"
+
+#: admin/cerber-admin-settings.php:211
+msgid "Proactive security rules"
+msgstr "主動式安全規則"
+
+#: admin/cerber-admin-settings.php:230
+msgid "Block subnet"
+msgstr "封鎖子網路"
+
+#: admin/cerber-admin-settings.php:189
+msgid "Custom login page"
+msgstr "自訂登入頁面"
+
+#: admin/cerber-admin-settings.php:196
+msgid "Custom login URL"
+msgstr "自訂登入網址"
+
+#: admin/cerber-dashboard.php:2292 admin/cerber-admin-settings.php:319
+msgid "Citadel mode"
+msgstr "堡壘模式"
+
+#: admin/cerber-admin.php:88
+msgid "Duration"
+msgstr "期間"
+
+#: admin/cerber-dashboard.php:5650
+msgid "Notifications"
+msgstr "通知"
+
+#: admin/cerber-dashboard.php:5647 admin/cerber-tools.php:38
+#: admin/cerber-tools.php:49
+msgid "Access Lists"
+msgstr "存取清單"
+
+#: cerber-load.php:6328 admin/cerber-dashboard.php:2333
+#: admin/cerber-dashboard.php:5643 admin/cerber-admin-settings.php:349
+#: admin/cerber-users.php:1270
+msgid "Activity"
+msgstr "活動"
+
+#: admin/cerber-dashboard.php:5645
+msgid "Lockouts"
+msgstr "鎖定"
+
+#: admin/cerber-dashboard.php:1072 admin/cerber-dashboard.php:1476
+#: admin/cerber-dashboard.php:4328 admin/cerber-dashboard.php:4829
+msgid "Date"
+msgstr "日期"
+
+#: admin/cerber-dashboard.php:1075 admin/cerber-dashboard.php:1478
+#: admin/cerber-dashboard.php:4834
+msgid "Local User"
+msgstr "本機使用者"
+
+#: cerber-load.php:6343 cerber-load.php:6344
+msgid "Username used"
+msgstr "使用的帳號"
+
+#: cerber-common.php:2107
+msgid "Logged in"
+msgstr "登入"
+
+#: cerber-common.php:2108
+msgid "Logged out"
+msgstr "登出"
+
+#: cerber-common.php:2109
+msgid "Login failed"
+msgstr "登入失敗"
+
+#: cerber-common.php:2112 admin/cerber-dashboard.php:1223
+msgid "IP blocked"
+msgstr "已封鎖的 IP"
+
+#: cerber-common.php:2116
+msgid "Citadel activated!"
+msgstr "已啟用堡壘模式！"
+
+#: admin/cerber-dashboard.php:1872
+msgid "Locked out"
+msgstr "已鎖定"
+
+#: cerber-common.php:2194
+msgid "IP blacklisted"
+msgstr "IP黑名單"
+
+#: cerber-common.php:2129
+msgid "Password changed"
+msgstr "已變更密碼"
+
+#: admin/cerber-dashboard.php:244 admin/cerber-dashboard.php:380
+msgid "Remove"
+msgstr "移除"
+
+#: admin/cerber-dashboard.php:740
+msgid "Lockout for %s was removed"
+msgstr "已移除對 %s的鎖定"
+
+#: admin/cerber-dashboard.php:322 admin/cerber-dashboard.php:1781
+#: admin/cerber-dashboard.php:1863 admin/cerber-dashboard.php:2290
+#: admin/cerber-tools.php:69
+msgid "White IP Access List"
+msgstr "IP 存取白名單"
+
+#: admin/cerber-dashboard.php:327 admin/cerber-dashboard.php:1784
+#: admin/cerber-dashboard.php:1866 admin/cerber-dashboard.php:2291
+#: admin/cerber-tools.php:70
+msgid "Black IP Access List"
+msgstr "IP 存取黑名單"
+
+#: admin/cerber-dashboard.php:386
+msgid "List is empty"
+msgstr "清單無資料"
+
+#: admin/cerber-dashboard.php:324 admin/cerber-dashboard.php:329
+#: admin/cerber-dashboard.php:338 admin/cerber-dashboard.php:3010
+#: admin/cerber-dashboard.php:3634
+msgid "View Activity"
+msgstr "檢視活動"
+
+#: nexus/cerber-nexus.php:94 admin/cerber-dashboard.php:5716
+#: admin/cerber-dashboard.php:5777 admin/cerber-tools.php:37
+#: admin/cerber-tools.php:48
+msgid "Settings"
+msgstr "設定"
+
+#: admin/cerber-dashboard.php:2075 admin/cerber-dashboard.php:2165
+msgid "Last login"
+msgstr "上次登入"
+
+#: cerber-common.php:2589 nexus/cerber-nexus-list.php:351
+#: admin/cerber-dashboard.php:544 admin/cerber-dashboard.php:2264
+#: admin/cerber-dashboard.php:2313
+msgid "Never"
+msgstr "從未"
+
+#: admin/cerber-dashboard.php:6135 admin/cerber-tools.php:59
+#: admin/cerber-users.php:964 admin/cerber-admin.php:728
+#: admin/cerber-admin.php:895
+msgid "Are you sure?"
+msgstr "你確定嗎？"
+
+#: admin/cerber-dashboard.php:2706 admin/cerber-admin-settings.php:241
+msgid "My site is behind a reverse proxy"
+msgstr "我的網站位於反向代理中"
+
+#: admin/cerber-admin-settings.php:212
+msgid "Make your protection smarter!"
+msgstr "讓你的防護更智慧！"
+
+#: admin/cerber-admin-settings.php:93
+msgid "Please enable Permalinks to use this feature. Set Permalink Settings to something other than Default."
+msgstr "要使用此功能請啟用永久連結。將永久連結設為預設值以外的設定。"
+
+#: admin/cerber-dashboard.php:5646
+msgid "Main Settings"
+msgstr "主設定"
+
+#: admin/cerber-dashboard.php:5932
+msgid "Help"
+msgstr "說明"
+
+#: admin/cerber-admin-settings.php:2200
+msgid "Increase lockout duration to %s hours after %s lockouts in the last %s hours"
+msgstr "延長鎖定時間至 %s小時。如發生 %s次鎖定於 %s小時之內。"
+
+#: cerber-load.php:386 admin/cerber-users.php:488
+msgid "You are not allowed to log in. Ask your administrator for assistance."
+msgstr "你不被允許登入，請詢問你的管理員協助。"
+
+#: admin/cerber-dashboard.php:254 admin/cerber-users.php:1081
+msgid "Expires"
+msgstr "逾期"
+
+#: admin/cerber-dashboard.php:280 admin/cerber-dashboard.php:2875
+msgid "No lockouts at the moment. The sky is clear."
+msgstr "晴朗無雲，目前沒有鎖定記錄。"
+
+#: cerber-load.php:6610
+msgid "Can't activate WP Cerber due to a database error."
+msgstr "由於資料庫錯誤無法啟用 WP Cerber。"
+
+#: admin/cerber-admin-settings.php:353 admin/cerber-admin-settings.php:360
+#: admin/cerber-admin-settings.php:1289 admin/cerber-admin-settings.php:1305
+#: admin/cerber-admin-settings.php:1393 admin/cerber-admin-settings.php:1667
+msgid "days"
+msgstr "天"
+
+#: admin/cerber-dashboard.php:2230
+msgid "Cerber Quick View"
+msgstr "Cerber快速檢視"
+
+#: admin/cerber-admin-settings.php:231
+msgid "Always block entire subnet Class C of intruders IP"
+msgstr "永遠封鎖入侵者 IP的整個 Class C子網路"
+
+#: admin/cerber-dashboard.php:6160
+msgid "Click to send test"
+msgstr "點選測試傳送"
+
+#: admin/cerber-admin-settings.php:2591 admin/cerber-admin-settings.php:2592
+msgid "Attention! You have changed the login URL! The new login URL is"
+msgstr "注意！你已變更登入網址，新的登入網址為"
+
+#: admin/cerber-dashboard.php:2164
+msgid "Comments"
+msgstr "留言"
+
+#: cerber-load.php:4991
+msgid "Number of active lockouts"
+msgstr "已鎖定的活動次數"
+
+#: admin/cerber-dashboard.php:88 admin/cerber-dashboard.php:5831
+msgid "Tools"
+msgstr "工具"
+
+#: admin/cerber-tools.php:34
+msgid "Export settings to the file"
+msgstr "匯出設定至檔案"
+
+#: admin/cerber-tools.php:35
+msgid "When you click the button below you will get a configuration file, which you can upload on another site."
+msgstr "當你點選以下按鈕將會產生設定檔，你可以在其他網站中匯入使用。"
+
+#: admin/cerber-tools.php:36
+msgid "What do you want to export?"
+msgstr "你確認要匯出嗎？"
+
+#: admin/cerber-tools.php:39
+msgid "Download file"
+msgstr "下載檔案"
+
+#: admin/cerber-tools.php:43
+msgid "Import settings from the file"
+msgstr "從檔案匯入設定"
+
+#: admin/cerber-tools.php:44
+msgid "When you click the button below, file will be uploaded and all existing settings will be overridden."
+msgstr "當你點選以下按鈕，將會上傳檔案且全部的設定將會被覆蓋。"
+
+#: admin/cerber-tools.php:45
+msgid "Select file to import."
+msgstr "選擇匯入的檔案。"
+
+#: admin/cerber-tools.php:48
+msgid "What do you want to import?"
+msgstr "你想要匯入什麼？"
+
+#: admin/cerber-tools.php:50 admin/cerber-admin.php:255
+msgid "Upload file"
+msgstr "上傳檔案"
+
+#: admin/cerber-tools.php:201
+msgid "No file was uploaded or file is corrupted"
+msgstr "未上傳檔案或檔案已損毀"
+
+#: admin/cerber-tools.php:293
+msgid "Error while parsing file"
+msgstr "解析檔案時發生錯誤"
+
+#: admin/cerber-dashboard.php:252 admin/cerber-dashboard.php:1474
+msgid "Hostname"
+msgstr "主機名稱"
+
+#: admin/cerber-dashboard.php:665
+msgid "unknown"
+msgstr "未知"
+
+#: admin/cerber-dashboard.php:2269 admin/cerber-dashboard.php:2299
+msgid "active"
+msgstr "啟用"
+
+#: admin/cerber-dashboard.php:2269
+msgid "deactivate"
+msgstr "停用"
+
+#: admin/cerber-dashboard.php:2273
+msgid "not active"
+msgstr "未啟用"
+
+#: admin/cerber-dashboard.php:2276 admin/cerber-dashboard.php:2294
+msgid "disabled"
+msgstr "已停用"
+
+#: admin/cerber-dashboard.php:2282
+msgid "failed attempts"
+msgstr "失敗的嘗試"
+
+#: admin/cerber-dashboard.php:2282 admin/cerber-dashboard.php:2283
+msgid "in 24 hours"
+msgstr "於 24小時內"
+
+#: admin/cerber-dashboard.php:2282 admin/cerber-dashboard.php:2283
+msgid "view all"
+msgstr "檢視全部"
+
+#: admin/cerber-dashboard.php:2283
+msgid "lockouts"
+msgstr "鎖定"
+
+#: admin/cerber-dashboard.php:2285
+msgid "Lockouts at the moment"
+msgstr "鎖定於"
+
+#: admin/cerber-dashboard.php:2286
+msgid "Last lockout"
+msgstr "上次鎖定"
+
+#: admin/cerber-dashboard.php:2290 admin/cerber-dashboard.php:2291
+#: admin/cerber-dashboard.php:3331
+msgid "entry"
+msgid_plural "entries"
+msgstr[0] "項目\n"
+"項目"
+
+#: admin/cerber-tools.php:57
+msgid "Load default settings"
+msgstr "載入預設值"
+
+#: cerber-load.php:5037
+msgid "New Custom login URL"
+msgstr "新增自訂登入網址"
+
+#: admin/cerber-admin-settings.php:380
+msgid "Use file"
+msgstr "使用檔案"
+
+#: admin/cerber-admin-settings.php:381
+msgid "Write failed login attempts to the file"
+msgstr "寫入失敗的登入嘗試至檔案"
+
+#: admin/cerber-dashboard.php:3009
+msgid "Deactivate"
+msgstr "停用"
+
+#: cerber-load.php:4995 admin/cerber-dashboard.php:255
+msgid "Reason"
+msgstr "原因"
+
+#: admin/cerber-dashboard.php:1931
+msgid "Add IP to the Black List"
+msgstr "新增 IP至黑名單"
+
+#: cerber-common.php:2351
+msgid "Attempt to access"
+msgstr "嘗試存取"
+
+#: cerber-common.php:2350
+msgid "Limit on login attempts is reached"
+msgstr "已達到登入嘗試限制"
+
+#: cerber-load.php:4994
+msgid "Last lockout was added: %s for IP %s"
+msgstr "上次鎖定於： %s IP為 %s"
+
+#: admin/cerber-dashboard.php:5648
+msgid "Hardening"
+msgstr "堅固強化"
+
+#: admin/cerber-dashboard.php:1904
+msgid "Abuse email:"
+msgstr "濫用的郵件："
+
+#: admin/cerber-admin-settings.php:1447
+msgid "Email Address"
+msgstr "Email位置"
+
+#: admin/cerber-admin-settings.php:429
+msgid "Hardening WordPress"
+msgstr "堅固強化 WordPress"
+
+#: admin/cerber-admin-settings.php:433 admin/cerber-admin-settings.php:504
+msgid "Stop user enumeration"
+msgstr "停用使用者列舉"
+
+#: admin/cerber-admin-settings.php:487
+msgid "Disable XML-RPC"
+msgstr "停用 XML-RPC"
+
+#: admin/cerber-admin-settings.php:488
+msgid "Block access to the XML-RPC server (including Pingbacks and Trackbacks)"
+msgstr "封鎖對伺服器 XML-RPC的存取（包含自動引用通知及引用通知）"
+
+#: admin/cerber-admin-settings.php:492
+msgid "Disable feeds"
+msgstr "停用資訊提供"
+
+#: admin/cerber-admin-settings.php:493
+msgid "Block access to the RSS, Atom and RDF feeds"
+msgstr "封鎖對 RSS, Atom和 RDF的存取"
+
+#: admin/cerber-admin-settings.php:514
+msgid "Disable REST API"
+msgstr "停用 REST API"
+
+#: cerber-load.php:5027 cerber-load.php:6652
+msgid "WP Cerber is now active and has started protecting your site"
+msgstr "WP Cerber現在已啟用並開始保護你的網站"
+
+#: admin/cerber-dashboard.php:256 admin/cerber-users.php:1084
+#: admin/cerber-admin.php:764 admin/cerber-admin.php:919
+msgid "Action"
+msgstr "動作"
+
+#: admin/cerber-dashboard.php:5981
+msgid "Incorrect IP address or IP range"
+msgstr "不正確的 IP或 IP範圍"
+
+#: admin/cerber-dashboard.php:1909
+msgid "Network:"
+msgstr "網路："
+
+#: admin/cerber-dashboard.php:1925
+msgid "Add network to the Black List"
+msgstr "新增網路至黑名單"
+
+#: admin/cerber-dashboard.php:3008
+msgid "Attention! Citadel mode is now active. Nobody is able to log in."
+msgstr "注意！已啟用堡壘模式，將無人可登入。"
+
+#: cerber-load.php:5010 cerber-whois.php:290 cerber-whois.php:317
+#: cerber-common.php:2376 nexus/cerber-nexus-list.php:337
+#: admin/cerber-dashboard.php:508 admin/cerber-dashboard.php:531
+#: admin/cerber-dashboard.php:4481 admin/cerber-dashboard.php:5144
+msgid "Unknown"
+msgstr "未知"
+
+#: cerber-load.php:741 cerber-load.php:754 cerber-load.php:762
+#: cerber-load.php:1079 cerber-load.php:1951 cerber-load.php:2274
+#: cerber-load.php:3512 nexus/cerber-nexus-client.php:201
+#: nexus/cerber-nexus-client.php:212 admin/cerber-admin-settings.php:2559
+#: admin/cerber-admin-settings.php:2583 admin/cerber-admin-settings.php:2680
+#: admin/cerber-admin-settings.php:2719 admin/cerber-admin.php:865
+msgid "ERROR:"
+msgstr "錯誤："
+
+#: cerber-load.php:776
+msgid "Human verification failed. Please click the square box in the reCAPTCHA block below."
+msgstr "真人驗證失敗，請點選下方 reCAPTCHA區塊的方塊。"
+
+#: cerber-load.php:1931
+msgid "Username is not allowed. Please choose another one."
+msgstr "不允許的帳號，請選擇其他的。"
+
+#: cerber-load.php:4986
+msgid "unspecified"
+msgstr "不明"
+
+#: cerber-load.php:4989
+msgid "Number of lockouts is increasing"
+msgstr "鎖定次數增長中"
+
+#: cerber-load.php:4998
+msgid "View activity for this IP"
+msgstr "檢視此 IP的活動"
+
+#: cerber-load.php:5003 cerber-load.php:5016 nexus/cerber-nexus-list.php:45
+msgid "Website"
+msgstr "網站"
+
+#: cerber-load.php:6665
+msgid "Import settings"
+msgstr "匯入設定"
+
+#: admin/cerber-admin-settings.php:751
+msgid "Prohibited usernames"
+msgstr "被禁止的帳號"
+
+#: admin/cerber-admin-settings.php:752
+msgid "Usernames from this list are not allowed to log in or register. Any IP address, have tried to use any of these usernames, will be immediately blocked. Use comma to separate logins."
+msgstr "清單中的帳號將不被允許登入或註冊，任何 IP嘗試使用這些帳號則會被立即封鎖。使用小寫逗號分隔項目。"
+
+#: admin/cerber-admin-settings.php:1673
+msgid "reCAPTCHA settings"
+msgstr "reCAPTCHA設定"
+
+#: admin/cerber-admin-settings.php:1684
+msgid "Site key"
+msgstr "網站金鑰"
+
+#: admin/cerber-admin-settings.php:1688
+msgid "Secret key"
+msgstr "密鑰"
+
+#: admin/cerber-admin-settings.php:1698
+msgid "Enable reCAPTCHA for WordPress registration form"
+msgstr "為 WordPress註冊表單啟用 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1707
+msgid "Lost password form"
+msgstr "忘記密碼表單"
+
+#: admin/cerber-admin-settings.php:1717
+msgid "Login form"
+msgstr "登入表單"
+
+#: admin/cerber-admin-settings.php:1718
+msgid "Enable reCAPTCHA for WordPress login form"
+msgstr "為 WordPress登入表單啟用 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1674
+msgid "Before you can start using reCAPTCHA, you have to obtain Site key and Secret key on the Google website"
+msgstr "在開始使用 reCAPTCHA前，你必須在 Google網站取得網站金鑰與密鑰。"
+
+#: cerber-lab.php:907 admin/cerber-admin-settings.php:2094
+msgid "Know more"
+msgstr "了解更多"
+
+#: cerber-common.php:2100
+msgid "User created"
+msgstr "已建立的使用者"
+
+#: cerber-common.php:2103
+msgid "User registered"
+msgstr "已註冊的使用者"
+
+#: cerber-common.php:2140 cerber-common.php:2241
+msgid "reCAPTCHA verification failed"
+msgstr "reCAPTCHA驗證失敗"
+
+#: cerber-common.php:2141 cerber-common.php:2242
+msgid "reCAPTCHA settings are incorrect"
+msgstr "reCAPTCHA設定錯誤"
+
+#: cerber-common.php:2145 cerber-common.php:2352
+msgid "Attempt to access prohibited URL"
+msgstr "嘗試存取禁止的網址"
+
+#: cerber-common.php:2147 cerber-common.php:2354
+msgid "Attempt to log in with prohibited username"
+msgstr "嘗試登入禁止的使用者帳號"
+
+#: admin/cerber-admin-settings.php:366
+msgid "Cerber Lab connection"
+msgstr "Cerber研究室連線"
+
+#: admin/cerber-admin-settings.php:367
+msgid "Send malicious IP addresses to the Cerber Lab"
+msgstr "傳送惡意 IP位置到 Cerber研究室"
+
+#: admin/cerber-admin-settings.php:372
+msgid "Cerber Lab protocol"
+msgstr "Cerber研究室通訊協定"
+
+#: admin/cerber-admin-settings.php:1579 admin/cerber-admin-settings.php:1697
+msgid "Registration form"
+msgstr "註冊表單"
+
+#: admin/cerber-admin-settings.php:1703
+msgid "Enable reCAPTCHA for WooCommerce registration form"
+msgstr "為 WooCommerce註冊表單啟用 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1708
+msgid "Enable reCAPTCHA for WordPress lost password form"
+msgstr "為 WordPress忘記密碼表單啟用 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1713
+msgid "Enable reCAPTCHA for WooCommerce lost password form"
+msgstr "為 WooCommerce忘記密碼表單啟用 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1723
+msgid "Enable reCAPTCHA for WooCommerce login form"
+msgstr "為 WooCommerce登入表單啟用 reCAPTCHA"
+
+#: cerber-common.php:2142 cerber-common.php:2243
+msgid "Request to the Google reCAPTCHA service failed"
+msgstr "發送請求至 Google reCAPTCHA服務失敗"
+
+#: admin/cerber-dashboard.php:1192 admin/cerber-dashboard.php:1203
+#: admin/cerber-dashboard.php:1216 admin/cerber-dashboard.php:2878
+#: admin/cerber-dashboard.php:4894
+msgid "View all"
+msgstr "檢視全部"
+
+#: admin/cerber-dashboard.php:2886
+msgid "Recently locked out IP addresses"
+msgstr "最近鎖定的 IP"
+
+#: cerber-lab.php:905
+msgid "OK, nail them all"
+msgstr "好的，完成它們"
+
+#: cerber-lab.php:906
+msgid "NO, maybe later"
+msgstr "不，也許稍後"
+
+#: admin/cerber-dashboard.php:58 admin/cerber-dashboard.php:2332
+#: admin/cerber-dashboard.php:3365 admin/cerber-dashboard.php:5642
+msgid "Dashboard"
+msgstr "控制台"
+
+#: cerber-lab.php:903
+msgid "Want to make WP Cerber even more powerful?"
+msgstr "想讓 WP Cerber更好用嗎？"
+
+#: cerber-lab.php:904
+msgid "Allow WP Cerber to send locked out malicious IP addresses to Cerber Lab. This helps the plugin team to develop new algorithms for WP Cerber that will defend WordPress against new threats and botnets that are appearing  everyday. You can disable the sending in the plugin settings at any time."
+msgstr "允許 WP Cerber傳送鎖定的惡意 IP至 Cerber研究室，這能協助外掛團隊開發新的演算法以協助 WP Cerber防護 WordPress面對每天出現的新威脅和殭屍網路。你能在任何時候從外掛的設定中停用傳送。"
+
+#: cerber-load.php:6333 cerber-load.php:6334 admin/cerber-dashboard.php:4327
+msgid "IP address"
+msgstr "IP位置"
+
+#: admin/cerber-dashboard.php:1076
+msgid "User login"
+msgstr "使用者登入"
+
+#: admin/cerber-dashboard.php:1077 admin/cerber-dashboard.php:4333
+msgid "User ID"
+msgstr "使用者 ID"
+
+#: admin/cerber-dashboard.php:1509 admin/cerber-dashboard.php:4922
+msgid "Export"
+msgstr "匯出"
+
+#: admin/cerber-dashboard.php:1562
+msgid "Search for IP or username"
+msgstr "搜尋 IP或帳號"
+
+#: admin/cerber-dashboard.php:1573
+msgid "Filter"
+msgstr "篩選器"
+
+#: admin/cerber-dashboard.php:58
+msgid "Cerber Dashboard"
+msgstr "Cerber控制台"
+
+#: admin/cerber-dashboard.php:88
+msgid "Cerber tools"
+msgstr "Cerber工具"
+
+#: cerber-load.php:6338 cerber-load.php:6339 admin/cerber-users.php:1078
+msgid "User"
+msgstr "使用者"
+
+#: cerber-load.php:6348 cerber-load.php:6349
+msgid "Search string"
+msgstr "搜尋字串"
+
+#: admin/cerber-admin-settings.php:395
+msgid "Date format"
+msgstr "日期格式"
+
+#: admin/cerber-admin-settings.php:396
+msgid "if empty, the default format %s will be used"
+msgstr "若未填寫，將會使用預設格式 %s"
+
+#: admin/cerber-admin-settings.php:987
+msgid "Push notifications"
+msgstr "推播通知"
+
+#: admin/cerber-admin-settings.php:836
+msgid "Email notifications"
+msgstr "Email通知"
+
+#: admin/cerber-admin-settings.php:842 admin/cerber-admin-settings.php:1236
+msgid "Use comma to specify multiple values"
+msgstr "使用小寫逗號分隔多個值"
+
+#: admin/cerber-admin-settings.php:80
+msgid "All connected devices"
+msgstr "全部連線的裝置"
+
+#: admin/cerber-admin-settings.php:83
+msgid "No devices found"
+msgstr "未找到裝置"
+
+#: admin/cerber-admin-settings.php:87
+msgid "Not available"
+msgstr "尚不可用"
+
+#: cerber-common.php:2132
+msgid "Password reset requested"
+msgstr "密碼重設請求"
+
+#: cerber-common.php:2355
+msgid "Limit on failed reCAPTCHA verifications is reached"
+msgstr "已達到 reCAPTCHA驗證失敗的限制"
+
+#: admin/cerber-admin-settings.php:138
+msgid "Apply limit login rules to IP addresses in the White IP Access List"
+msgstr "套用登入限制規則至 IP存取白名單"
+
+#: admin/cerber-admin-settings.php:1692
+msgid "Invisible reCAPTCHA"
+msgstr "隱藏式 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1693
+msgid "Enable invisible reCAPTCHA"
+msgstr "啟用隱藏式 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1693
+msgid "(do not enable it unless you get and enter the Site and Secret keys for the invisible version)"
+msgstr "（除非你取得隱藏版並已輸入網站與密鑰否則不要啟用）"
+
+#: admin/cerber-admin-settings.php:1728
+msgid "Enable reCAPTCHA for WordPress comment form"
+msgstr "對 WordPress留言表單啟用 reCAPTCHA"
+
+#: admin/cerber-admin-settings.php:1743
+msgid "Limit attempts"
+msgstr "限制嘗試次數"
+
+#: admin/cerber-admin-settings.php:1744
+msgid "Lock out IP address for %s minutes after %s failed attempts within %s minutes"
+msgstr "鎖定 IP %s分鐘在 %s次嘗試登入失敗於 %s分鐘內"
+
+#: admin/cerber-admin-settings.php:320
+msgid "In the Citadel mode nobody is able to log in except IPs from the White IP Access List. Active user sessions will not be affected."
+msgstr "在堡壘模式中除了 IP存取白名單中的 IP外，無人可登入。已開始的使用者通信將不受影響。"
+
+#: admin/cerber-dashboard.php:1073 admin/cerber-dashboard.php:1477
+msgid "Event"
+msgstr "事件"
+
+#: cerber-common.php:456
+msgid "Spam comments denied"
+msgstr "則已拒絕的垃圾留言"
+
+#: cerber-common.php:458
+msgid "Malicious IP addresses detected"
+msgstr "次檢測到惡意 IP"
+
+#: cerber-common.php:459
+msgid "Lockouts occurred"
+msgstr "次發生鎖定"
+
+#: cerber-load.php:1910 cerber-load.php:1916 cerber-load.php:1921
+#: cerber-load.php:1941 cerber-load.php:1946
+msgid "You are not allowed to register."
+msgstr "你不被允許註冊。"
+
+#: cerber-common.php:2117
+msgid "Spam comment denied"
+msgstr "已拒絕垃圾留言"
+
+#: cerber-common.php:2150
+msgid "Attempt to log in denied"
+msgstr "已拒絕登入嘗試"
+
+#: cerber-common.php:2151
+msgid "Attempt to register denied"
+msgstr "已拒絕註冊嘗試"
+
+#: cerber-common.php:453
+msgid "Malicious activities mitigated"
+msgstr "項已緩解的惡意活動"
+
+#: admin/cerber-admin-settings.php:1584 admin/cerber-admin-settings.php:1727
+msgid "Comment form"
+msgstr "留言表單"
+
+#: admin/cerber-admin-settings.php:1585
+msgid "Protect comment form with bot detection engine"
+msgstr "使用機器人檢測引擎防護留言表單"
+
+#: admin/cerber-admin-settings.php:1580
+msgid "Protect registration form with bot detection engine"
+msgstr "使用機器人檢測引擎防護註冊表單"
+
+#: admin/cerber-dashboard.php:5835
+msgid "Diagnostic"
+msgstr "診斷"
+
+#: admin/cerber-dashboard.php:5838
+msgid "License"
+msgstr "授權"
+
+#: cerber-load.php:2274
+msgid "Sorry, human verification failed."
+msgstr "很抱歉，真人驗證失敗。"
+
+#: cerber-common.php:2356
+msgid "Bot activity is detected"
+msgstr "已檢測到機器人活動"
+
+#: admin/cerber-admin-settings.php:1655
+msgid "Comment processing"
+msgstr "留言處理中"
+
+#: admin/cerber-admin-settings.php:1659
+msgid "If a spam comment detected"
+msgstr "若檢測到垃圾留言"
+
+#: admin/cerber-admin-settings.php:1664
+msgid "Trash spam comments"
+msgstr "回收桶垃圾留言"
+
+#: admin/cerber-admin-settings.php:1666
+msgid "Move spam comments to trash after"
+msgstr "移動垃圾留言至回收桶於"
+
+#: cerber-common.php:2118
+msgid "Spam form submission denied"
+msgstr "禁止送出垃圾留言"
+
+#: admin/cerber-admin-settings.php:1594
+msgid "Other forms"
+msgstr "其他表單"
+
+#: admin/cerber-admin-settings.php:1595
+msgid "Protect all forms on the website with bot detection engine"
+msgstr "使用機器人檢測引擎防護網站全部表單"
+
+#: admin/cerber-admin-settings.php:1630
+msgid "Safe mode"
+msgstr "安全模式"
+
+#: admin/cerber-admin-settings.php:1631
+msgid "Use less restrictive policies (allow AJAX)"
+msgstr "使用較少限制的策略（允許 AJAX）"
+
+#: admin/cerber-dashboard.php:253 admin/cerber-dashboard.php:1475
+msgid "Country"
+msgstr "國家"
+
+#: admin/cerber-dashboard.php:68
+msgid "Cerber Security Rules"
+msgstr "Cerber安全性規則"
+
+#: admin/cerber-dashboard.php:68 admin/cerber-dashboard.php:5759
+msgid "Security Rules"
+msgstr "安全性規則"
+
+#: admin/cerber-dashboard.php:2166
+msgid "Failed login attempts"
+msgstr "已失敗的登入嘗試"
+
+#: admin/cerber-dashboard.php:2082 admin/cerber-dashboard.php:2167
+msgid "Registered"
+msgstr "已註冊"
+
+#: cerber-common.php:1858 admin/cerber-dashboard.php:2208
+#: admin/cerber-users.php:1237
+msgid "You"
+msgstr "你"
+
+#: cerber-common.php:457
+msgid "Spam form submissions denied"
+msgstr "次禁止傳送垃圾留言"
+
+#: cerber-load.php:5028 cerber-load.php:6656
+msgid "Getting Started Guide"
+msgstr "開始導覽"
+
+#: admin/cerber-dashboard.php:5761
+msgid "Countries"
+msgstr "國家"
+
+#: admin/cerber-dashboard.php:4051
+msgid "Permitted for one country"
+msgid_plural "Permitted for %d countries"
+msgstr[0] "允許一個國家\n"
+"允許 %d個國家"
+
+#: admin/cerber-dashboard.php:4062
+msgid "No rule"
+msgstr "無規則"
+
+#: admin/cerber-dashboard.php:4228
+msgid "Security rules have been updated"
+msgstr "已更新安全性規則"
+
+#. URI of the plugin
+#: 
+msgid "https://wpcerber.com"
+msgstr "https://wpcerber.com"
+
+#: cerber-common.php:2119
+msgid "Form submission denied"
+msgstr "已禁止傳送表單"
+
+#: cerber-common.php:2120
+msgid "Comment denied"
+msgstr "已禁止留言"
+
+#: cerber-common.php:2156
+msgid "Request to REST API denied"
+msgstr "已禁止 REST-API請求"
+
+#: cerber-common.php:2191
+msgid "Bot detected"
+msgstr "已檢測到機器人"
+
+#: cerber-load.php:4957 cerber-common.php:2192
+msgid "Citadel mode is active"
+msgstr "已啟用堡壘模式"
+
+#: cerber-common.php:2195
+msgid "Malicious activity detected"
+msgstr "檢測到惡意活動"
+
+#: cerber-common.php:2196
+msgid "Blocked by country rule"
+msgstr "已依據國家規則封鎖"
+
+#: cerber-common.php:2197
+msgid "Limit reached"
+msgstr "已達到限制"
+
+#: cerber-common.php:2198
+msgid "Multiple suspicious activities"
+msgstr "多重可疑活動"
+
+#: cerber-common.php:2357
+msgid "Multiple suspicious activities were detected"
+msgstr "檢測到多重可疑活動"
+
+#: admin/cerber-admin-settings.php:534
+msgid "Specify REST API namespaces to be allowed if REST API is disabled. One string per line."
+msgstr "若停用 REST API，則允許使用 REST API命名空間。一行一個字串。"
+
+#: admin/cerber-admin-settings.php:672
+msgid "Registration limit"
+msgstr "註冊限制"
+
+#: admin/cerber-admin-settings.php:783
+msgid "by date of registration"
+msgstr "依據註冊日期"
+
+#: admin/cerber-admin-settings.php:1645
+msgid "Query whitelist"
+msgstr "字串白名單"
+
+#: admin/cerber-dashboard.php:4031
+msgid "Start typing here to find a country"
+msgstr "在這裡輸入以尋找國家"
+
+#: admin/cerber-dashboard.php:4148
+msgid "Click on a country name to add it to the list of selected countries"
+msgstr "點選國家名稱以新增至選取的國家至清單"
+
+#: admin/cerber-dashboard.php:4180
+msgid "Submit forms"
+msgstr "傳送表單"
+
+#: admin/cerber-dashboard.php:4181
+msgid "Post comments"
+msgstr "發布留言"
+
+#: admin/cerber-dashboard.php:4179
+msgid "Register on the website"
+msgstr "註冊此網站"
+
+#: admin/cerber-dashboard.php:4182
+msgid "Use XML-RPC"
+msgstr "使用 XML-RPC"
+
+#: admin/cerber-dashboard.php:4183
+msgid "Use REST API"
+msgstr "使用 REST API"
+
+#: admin/cerber-admin-settings.php:1661
+msgid "Deny it completely"
+msgstr "完整拒絕"
+
+#: admin/cerber-admin-settings.php:1661
+msgid "Mark it as spam"
+msgstr "標記為垃圾留言"
+
+#: admin/cerber-dashboard.php:3366
+msgid "Main settings"
+msgstr "主設定"
+
+#: admin/cerber-admin-settings.php:2593 admin/cerber-admin-settings.php:2594
+msgid "If you use a caching plugin, you have to add your new login URL to the list of pages not to cache."
+msgstr "若你有使用快取外掛，你必須將新的登入網址加入至不快取的清單中。"
+
+#: cerber-load.php:5050 cerber-load.php:5058
+msgid "To change reporting settings visit"
+msgstr "要變更報告設定請前往"
+
+#: cerber-load.php:5105
+msgid "Your login page:"
+msgstr "你的登入頁面："
+
+#: cerber-load.php:5112
+msgid "Your license is valid until"
+msgstr "你的授權有效至"
+
+#: cerber-load.php:5681
+msgid "Activity details"
+msgstr "活動詳細資訊"
+
+#: admin/cerber-admin-settings.php:879 admin/cerber-admin-settings.php:2442
+#: admin/cerber-admin-settings.php:2489
+msgid "Click to send now"
+msgstr "點選此處立即傳送"
+
+#: admin/cerber-dashboard.php:4054
+msgid "Not permitted for one country"
+msgid_plural "Not permitted for %d countries"
+msgstr[0] "不允許一個國家\n"
+"不允許 %d個國家"
+
+#: admin/cerber-dashboard.php:4152
+msgctxt "to is a marker of infinitive, e.g. \"to use it\""
+msgid "Selected countries are permitted to %s, other countries are not permitted to"
+msgstr "允許選擇的國家 %s，其他國家則不允許"
+
+#: admin/cerber-dashboard.php:4155
+msgctxt "to is a marker of infinitive, e.g. \"to use it\""
+msgid "Selected countries are not permitted to %s, other countries are permitted to"
+msgstr "不允許選擇的國家 %s，其他國家則允許"
+
+#: cerber-load.php:5632
+msgid "Weekly Report"
+msgstr "每周報告"
+
+#: admin/cerber-admin-settings.php:281
+msgid "Use 404 template from the active theme"
+msgstr "從啟用的布景主題中使用 404樣板"
+
+#: admin/cerber-admin-settings.php:282
+msgid "Display simple 404 page"
+msgstr "顯示簡潔 404頁面"
+
+#: admin/cerber-admin-settings.php:1646
+msgid "Enter a part of query string or query path to exclude a request from inspection by the engine. One item per line."
+msgstr "要從請求檢驗中排除請輸入部分查詢字串或查詢的目錄。一行一個項目。"
+
+#: cerber-load.php:5276
+msgid "Your last sign-in was %s from %s"
+msgstr "你上次登入於 %s 來自 %s"
+
+#: admin/cerber-dashboard.php:394
+msgid "Optional comment for this entry"
+msgstr "此項目的額外的註解"
+
+#: admin/cerber-dashboard.php:416
+msgid "You cannot add your IP address or network"
+msgstr "你不能新增自己的 IP或網路"
+
+#: admin/cerber-admin-settings.php:687 admin/cerber-admin-settings.php:752
+msgid "To specify a REGEX pattern wrap a pattern in two forward slashes."
+msgstr "要使用正規表示法請將整行包含於兩個斜線中。"
+
+#: admin/cerber-dashboard.php:60
+msgid "Cerber Traffic Inspector"
+msgstr "Cerber流量檢驗"
+
+#: admin/cerber-dashboard.php:60 admin/cerber-dashboard.php:2295
+#: admin/cerber-dashboard.php:5713
+msgid "Traffic Inspector"
+msgstr "流量檢驗"
+
+#: admin/cerber-dashboard.php:2334 admin/cerber-users.php:1271
+msgid "Traffic"
+msgstr "流量"
+
+#: admin/cerber-dashboard.php:4830
+msgid "Request"
+msgstr "請求"
+
+#: admin/cerber-dashboard.php:4832 admin/cerber-users.php:1083
+msgid "Host Info"
+msgstr "主機資訊"
+
+#: admin/cerber-dashboard.php:4833
+msgid "User Agent"
+msgstr "使用者代理"
+
+#: admin/cerber-dashboard.php:4899
+msgid "Form submissions"
+msgstr "表單傳送"
+
+#: admin/cerber-dashboard.php:4900
+msgid "Page Not Found"
+msgstr "沒有符合條件的頁面"
+
+#: admin/cerber-dashboard.php:4907
+msgid "Longer than"
+msgstr "長於"
+
+#: admin/cerber-dashboard.php:4930
+msgid "Refresh"
+msgstr "更新"
+
+#: cerber-common.php:337
+msgid "Check for requests"
+msgstr "檢查請求"
+
+#: admin/cerber-dashboard.php:5006
+msgid "Not specified"
+msgstr "未指定"
+
+#: admin/cerber-admin-settings.php:1188
+msgid "Logging mode"
+msgstr "記錄模式"
+
+#: admin/cerber-admin-settings.php:1191
+msgid "Logging disabled"
+msgstr "已停用記錄"
+
+#: admin/cerber-admin-settings.php:1193
+msgid "Smart"
+msgstr "智慧型"
+
+#: admin/cerber-admin-settings.php:1194
+msgid "All traffic"
+msgstr "全部流量"
+
+#: admin/cerber-admin-settings.php:1234
+msgid "Mask these form fields"
+msgstr "隱藏這些表單欄位"
+
+#: admin/cerber-admin-settings.php:1275
+msgid "milliseconds"
+msgstr "毫秒"
+
+#: admin/cerber-admin-settings.php:1229
+msgid "Save request fields"
+msgstr "儲存請求欄位"
+
+#: admin/cerber-admin-settings.php:1274
+msgid "Page generation time threshold"
+msgstr "頁面建立時間門檻"
+
+#: admin/cerber-dashboard.php:2294
+msgid "enabled"
+msgstr "已啟用"
+
+#: admin/cerber-dashboard.php:2299
+msgid "no connection"
+msgstr "無連線"
+
+#: admin/cerber-dashboard.php:2066
+msgid "Last seen"
+msgstr "上次檢視"
+
+#: cerber-load.php:4821
+msgid "We're sorry, you are not allowed to proceed"
+msgstr "很抱歉，你不被允許繼續"
+
+#: admin/cerber-admin-settings.php:1137
+msgid "Request whitelist"
+msgstr "請求白名單"
+
+#: admin/cerber-admin-settings.php:1141
+msgid "Enter a request URI to exclude the request from inspection. One item per line."
+msgstr "從檢驗中輸入要排除的 URI請求，一行一個項目。"
+
+#: admin/cerber-admin-settings.php:1242
+msgid "Save request headers"
+msgstr "儲存請求標頭"
+
+#: admin/cerber-admin-settings.php:1264
+msgid "Save $_SERVER"
+msgstr "儲存 $_SERVER"
+
+#: admin/cerber-admin-settings.php:1254
+msgid "Save request cookies"
+msgstr "儲存請求 cookies"
+
+#: admin/cerber-admin-settings.php:453
+msgid "Protect admin scripts"
+msgstr "管理員語法防護"
+
+#: admin/cerber-admin-settings.php:454
+msgid "Block unauthorized access to load-scripts.php and load-styles.php"
+msgstr "封鎖對 load-scripts.php和 load-styles.php 的未授權存取"
+
+#: cerber-common.php:3867
+msgid "Unable to create the directory"
+msgstr "無法建立資料夾"
+
+#: cerber-common.php:3873
+msgid "Destination folder access denied"
+msgstr "已禁止存取目的地目錄"
+
+#: cerber-common.php:3876
+msgid "File not found"
+msgstr "找不到檔案"
+
+#: cerber-common.php:3879
+msgid "Unable to copy the file"
+msgstr "無法複製檔案"
+
+#: cerber-common.php:3888
+msgid "Unable to delete the file"
+msgstr "無法刪除檔案"
+
+#: admin/cerber-admin-settings.php:107
+msgid "Load security engine"
+msgstr "載入安全引擎"
+
+#: admin/cerber-admin-settings.php:110
+msgid "Legacy mode"
+msgstr "傳統模式"
+
+#: admin/cerber-admin-settings.php:111
+msgid "Standard mode"
+msgstr "標準模式"
+
+#: admin/cerber-admin-settings.php:2560
+msgid "Plugin initialization mode has not been changed"
+msgstr "已變更外掛初始化模式"
+
+#: cerber-common.php:2154
+msgid "File upload denied"
+msgstr "已禁止上傳檔案"
+
+#: admin/cerber-admin-settings.php:1141 admin/cerber-admin-settings.php:1217
+msgid "To specify a REGEX pattern, enclose a whole line in two braces."
+msgstr "要使用正規表示法請將整行包含於大括弧中。"
+
+#: admin/cerber-admin-settings.php:96
+msgid "Be careful about enabling these options."
+msgstr "請小心使用這些設定。"
+
+#: admin/cerber-admin-settings.php:96
+msgid "If you forget your Custom login URL, you will be unable to log in."
+msgstr "如果你忘記自訂登入網址，將無法登入。"
+
+#: admin/cerber-dashboard.php:73 admin/cerber-dashboard.php:5774
+msgid "Site Integrity"
+msgstr "網站完整性"
+
+#: cerber-scanner.php:1782 admin/cerber-dashboard.php:2319
+#: admin/cerber-dashboard.php:2321 admin/cerber-admin-settings.php:766
+#: admin/cerber-admin-settings.php:1125 admin/cerber-admin-settings.php:1170
+#: admin/cerber-admin-settings.php:1322 admin/cerber-admin-settings.php:1331
+#: admin/cerber-admin-settings.php:1814 admin/cerber-users.php:20
+#: admin/cerber-users.php:499 admin/cerber-users.php:513
+msgid "Disabled"
+msgstr "已停用"
+
+#: cerber-scanner.php:1104 admin/cerber-dashboard.php:2320
+msgid "Quick Scan"
+msgstr "快速掃描"
+
+#: cerber-scanner.php:1104 admin/cerber-dashboard.php:2322
+msgid "Full Scan"
+msgstr "完整掃描"
+
+#: cerber-common.php:2190 cerber-common.php:2199
+msgid "Denied"
+msgstr "已禁止"
+
+#: admin/cerber-admin-settings.php:137 admin/cerber-admin-settings.php:697
+#: admin/cerber-admin-settings.php:722 admin/cerber-admin-settings.php:1131
+#: admin/cerber-admin-settings.php:1640 admin/cerber-admin-settings.php:1738
+msgid "Use White IP Access List"
+msgstr "使用 IP存取白名單"
+
+#: admin/cerber-admin-settings.php:215
+msgid "Disable dashboard redirection"
+msgstr "停用控制台重定向"
+
+#: admin/cerber-admin-settings.php:216
+msgid "Disable automatic redirection to the login page when /wp-admin/ is requested by an unauthorized request"
+msgstr "停用來自未認證的 /wp-admin/直接請求，會自動重定向至登入頁面的功能。"
+
+#: admin/cerber-admin-settings.php:1314
+msgid "Scanner settings"
+msgstr "掃描設定"
+
+#: admin/cerber-admin-settings.php:1354
+msgid "Custom signatures"
+msgstr "自訂簽章"
+
+#: admin/cerber-admin-settings.php:1358
+msgid "Specify custom PHP code signatures. One item per line. To specify a REGEX pattern, enclose a whole line in two braces."
+msgstr "指定自訂 PHP代碼簽章。一行一個項目。要使用正規表示法請將整行包含於大括弧中。"
+
+#: admin/cerber-admin-settings.php:1345
+msgid "Unwanted file extensions"
+msgstr "不需要的檔案副檔名"
+
+#: admin/cerber-admin-settings.php:1351
+msgid "Specify file extensions to search for. Full scan only. Use comma to separate items."
+msgstr "只能在完整掃描，指定搜尋的檔案副檔名。使用小寫逗號分隔項目。"
+
+#: admin/cerber-admin-settings.php:1361
+msgid "Directories to exclude"
+msgstr "排除資料夾"
+
+#: admin/cerber-admin-settings.php:1390
+msgid "Delete quarantined files after"
+msgstr "刪除隔離區檔案於"
+
+#: admin/cerber-admin-settings.php:1404
+msgid "Launch Quick Scan"
+msgstr "執行快速掃描"
+
+#: cerber-scanner.php:1783
+msgid "Every hour"
+msgstr "每小時"
+
+#: cerber-scanner.php:1784
+msgid "Every 3 hours"
+msgstr "每 3小時"
+
+#: cerber-scanner.php:1785
+msgid "Every 6 hours"
+msgstr "每 6小時"
+
+#: admin/cerber-admin-settings.php:1409
+msgid "Launch Full Scan"
+msgstr "執行完整掃描"
+
+#: admin/cerber-admin-settings.php:1424 admin/cerber-admin-settings.php:1471
+msgid "Low severity"
+msgstr "低嚴重性"
+
+#: admin/cerber-admin-settings.php:1425 admin/cerber-admin-settings.php:1472
+msgid "Medium severity"
+msgstr "中度嚴重性"
+
+#: admin/cerber-admin-settings.php:1426 admin/cerber-admin-settings.php:1473
+msgid "High severity"
+msgstr "高嚴重性"
+
+#: admin/cerber-admin-settings.php:1421
+msgid "Report an issue if any of the following is true"
+msgstr "若符合以下則報告問題"
+
+#: admin/cerber-admin-settings.php:1430
+msgid "Send email report"
+msgstr "傳送報告郵件"
+
+#: admin/cerber-admin-settings.php:1433
+msgid "After every scan"
+msgstr "於每次掃描後"
+
+#: admin/cerber-admin-settings.php:1434
+msgid "If any changes in scan results occurred"
+msgstr "如果在掃描結果中有發生任何變更"
+
+#: admin/cerber-admin-settings.php:1439
+msgid "Include file sizes"
+msgstr "包含檔案容量"
+
+#: admin/cerber-admin-settings.php:1443
+msgid "Include scan errors"
+msgstr "包含掃描錯誤"
+
+#: admin/cerber-dashboard.php:5776
+msgid "Security Scanner"
+msgstr "安全性掃描"
+
+#: admin/cerber-dashboard.php:5778
+msgid "Scheduling"
+msgstr "排程"
+
+#: admin/cerber-admin.php:173
+msgid "Currently a scheduled scan in progress. Please wait until it is finished."
+msgstr "目前已有排定的掃描進行中，請稍候至其完成。"
+
+#: admin/cerber-admin.php:177
+msgid "Previous scan started %s has not been completed. Continue scanning?"
+msgstr "上次掃描開始於 %s且並未完成，要繼續嗎？"
+
+#: admin/cerber-admin.php:72
+msgid "It seems this website has never been scanned. To start scanning click the button below."
+msgstr "網站似乎還沒有掃描過，要開始掃描請點選已下按鈕。"
+
+#: admin/cerber-admin.php:186
+msgid "Start Quick Scan"
+msgstr "開始快速掃描"
+
+#: admin/cerber-admin.php:187
+msgid "Start Full Scan"
+msgstr "開始完整掃描"
+
+#: admin/cerber-admin.php:188
+msgid "Stop Scanning"
+msgstr "停止掃描"
+
+#: admin/cerber-admin.php:189
+msgid "Continue Scanning"
+msgstr "繼續掃描"
+
+#: admin/cerber-dashboard.php:1532 admin/cerber-tools.php:452
+#: admin/cerber-admin.php:225 admin/cerber-admin.php:738
+msgid "Delete"
+msgstr "刪除"
+
+#: cerber-scanner.php:1677
+msgid "Verified"
+msgstr "已驗證"
+
+#: cerber-scanner.php:1684
+msgid "Integrity data not found"
+msgstr "找不到完整性資料"
+
+#: cerber-scanner.php:1685
+msgid "Unable to check the integrity of the plugin due to a network error"
+msgstr "由於網路錯誤以致無法檢查外掛完整性"
+
+#: cerber-scanner.php:1686
+msgid "Unable to check the integrity of WordPress files due to a network error"
+msgstr "由於網路錯誤以致無法檢查 WordPress檔案完整性"
+
+#: cerber-scanner.php:1687
+msgid "Unable to check the integrity of the theme due to a network error"
+msgstr "由於網路錯誤以致無法檢查佈景主題完整性"
+
+#: cerber-scanner.php:1692
+msgid "Unable to process file"
+msgstr "無法處理檔案"
+
+#: cerber-scanner.php:1693 cerber-scanner.php:4864
+msgid "Unable to open file"
+msgstr "無法開啟檔案"
+
+#: cerber-scanner.php:1695 cerber-scanner.php:1739
+msgid "Checksum mismatch"
+msgstr "校驗碼不符合"
+
+#: cerber-scanner.php:1698
+msgid "Suspicious code found"
+msgstr "發現可疑代碼"
+
+#: cerber-scanner.php:1700
+msgid "Unattended suspicious file"
+msgstr "無關聯的可疑檔案"
+
+#: cerber-scanner.php:1701
+msgid "Executable code found"
+msgstr "發現可執行代碼"
+
+#: cerber-scanner.php:1707
+msgid "Unwanted file extension"
+msgstr "不需要的檔案副檔名"
+
+#: cerber-scanner.php:1710
+msgid "New file"
+msgstr "新的檔案"
+
+#: cerber-scanner.php:2540
+msgid "Custom signature found"
+msgstr "發現自訂簽章"
+
+#: cerber-scanner.php:3888
+msgid "Parsing the list of files"
+msgstr "解析檔案清單中"
+
+#: cerber-scanner.php:3889
+msgid "Checking for new and modified files"
+msgstr "檢查新增檔案和檔案修改中"
+
+#: cerber-scanner.php:3890
+msgid "Verifying the integrity of WordPress"
+msgstr "驗證 WordPress完整性中"
+
+#: cerber-scanner.php:3892
+msgid "Verifying the integrity of the plugins"
+msgstr "驗證外掛完整性中"
+
+#: cerber-scanner.php:3894
+msgid "Verifying the integrity of the themes"
+msgstr "驗證佈景主題完整性中"
+
+#: cerber-scanner.php:3896
+msgid "Searching for malicious code"
+msgstr "搜尋惡意代碼中"
+
+#: cerber-scanner.php:3897
+msgid "Finalizing the scan"
+msgstr "即將完成掃描"
+
+#: admin/cerber-admin.php:108
+msgid "Files to scan"
+msgstr "檔案掃描"
+
+#: admin/cerber-admin.php:115
+msgid "Critical issues"
+msgstr "嚴重問題"
+
+#: cerber-scanner.php:5133 admin/cerber-admin.php:115
+msgid "Issues total"
+msgstr "問題總數"
+
+#: cerber-scanner.php:5174
+msgid "To view full report visit"
+msgstr "檢視完整報告請前往"
+
+#: cerber-load.php:5055
+msgid "Scanner Report"
+msgstr "掃描報告"
+
+#: admin/cerber-admin-settings.php:1319
+msgid "Monitor new files"
+msgstr "監控新檔案"
+
+#: admin/cerber-admin-settings.php:1328
+msgid "Monitor modified files"
+msgstr "監控檔案變更"
+
+#: admin/cerber-admin-settings.php:1435
+msgid "If new issues found"
+msgstr "如果發現新的問題"
+
+#: cerber-scanner.php:1705 cerber-scanner.php:1747 cerber-scanner.php:2695
+msgid "Suspicious directives found"
+msgstr "發現可疑指令"
+
+#: cerber-scanner.php:2693
+msgid "Suspicious code instruction found"
+msgstr "發現可疑代碼判斷指令"
+
+#: cerber-scanner.php:2694
+msgid "Suspicious code signatures found"
+msgstr "發現可疑代碼判斷簽章"
+
+#: cerber-scanner.php:2697
+msgid "To solve this issue you have to reinstall %s or update it to the latest version."
+msgstr "要解決此問題你必須重新安裝 %s或更新至最新版。"
+
+#: cerber-scanner.php:2698
+msgid "Please upload a reference ZIP archive"
+msgstr "請上傳 ZIP格式的參考來源"
+
+#: cerber-scanner.php:2699
+msgid "Resolve issue"
+msgstr "解決問題"
+
+#: admin/cerber-admin.php:249
+msgid "We have not found any integrity data to verify"
+msgstr "我們沒有發現任何完整性資料可驗證"
+
+#: admin/cerber-admin.php:251
+msgid "You have to upload a ZIP archive from which you've installed it. This enables the security scanner to verify the integrity of the code and detect malware."
+msgstr "你必須上傳已安裝的 ZIP檔案，這會啟動安全性掃描以驗證代碼完整性與惡意軟體。"
+
+#: cerber-scanner.php:5000
+msgid "Full Scan Report"
+msgstr "完整掃描報告"
+
+#: cerber-scanner.php:5000
+msgid "Quick Scan Report"
+msgstr "快速掃描報告"
+
+#: cerber-scanner.php:5116
+msgid "Files scanned"
+msgstr "已掃描的檔案"
+
+#: admin/cerber-dashboard.php:376 admin/cerber-dashboard.php:1853
+#: admin/cerber-dashboard.php:1910 admin/cerber-dashboard.php:2120
+msgid "Check for activities"
+msgstr "檢查活動"
+
+#: admin/cerber-dashboard.php:2104
+msgid "Activated"
+msgstr "已啟用"
+
+#: cerber-common.php:2165
+msgid "Malicious request denied"
+msgstr "已拒絕的惡意請求"
+
+#: cerber-common.php:2179
+msgid "User activated"
+msgstr "已啟用的使用者"
+
+#: cerber-common.php:2201
+msgid "Suspicious number of fields"
+msgstr "可疑的欄位數量"
+
+#: cerber-common.php:2202
+msgid "Suspicious number of nested values"
+msgstr "可疑的巢狀值數量"
+
+#: cerber-common.php:2203 cerber-common.php:2359
+msgid "Malicious code detected"
+msgstr "檢測到惡意代碼"
+
+#: cerber-common.php:2360
+msgid "Attempt to upload a file with malicious code"
+msgstr "嘗試上傳有惡意代碼的檔案"
+
+#: cerber-common.php:2704
+msgid "Bytes"
+msgstr "Bytes"
+
+#: cerber-scanner.php:1683 cerber-scanner.php:1746
+msgid "Vulnerability found"
+msgstr "發現弱點"
+
+#: cerber-scanner.php:1688
+msgid "Unable to check the integrity due to a DB error"
+msgstr "由於資料庫錯誤導致無法檢查正確性"
+
+#: admin/cerber-admin-settings.php:1399
+msgid "Automated recurring scan schedule"
+msgstr "自動重複掃描排程"
+
+#: admin/cerber-admin-settings.php:1416
+msgid "Scan results reporting"
+msgstr "掃描結果報告"
+
+#: admin/cerber-dashboard.php:1213
+msgid "Suspicious activity"
+msgstr "可疑活動"
+
+#: admin/cerber-dashboard.php:4896
+msgid "Errors"
+msgstr "錯誤"
+
+#. Description of the plugin
+#: 
+msgid "Defends WordPress against hacker attacks, spam, trojans, and viruses. Malware scanner and integrity checker. Hardening WordPress with a set of comprehensive security algorithms. Spam protection with a sophisticated bot detection engine and reCAPTCHA. Tracks user and intruder activity with powerful email, mobile and desktop notifications."
+msgstr "使用惡意軟體掃描器和完整性檢查工具，防護 WordPress來自駭客攻擊、垃圾留言、木馬和病毒。透過一套安全演算法讓 WordPress更堅固，以及尖端機器人檢測引擎和 reCAPTCHA進行垃圾留言防護。還能使用電子郵件、行動裝置、桌面通知追蹤使用者和入侵者活動。"
+
+#: cerber-load.php:392
+msgid "You have exceeded the number of allowed login attempts. Please try again in %d minutes."
+msgstr "你已達到嘗試登入的限制次數，請在 %d分鐘後重試。"
+
+#: cerber-common.php:2584
+msgctxt "Preposition of a period of time like: in 6 hours"
+msgid "in %s"
+msgstr "於 %s"
+
+#: admin/cerber-admin-settings.php:2431 admin/cerber-admin-settings.php:2479
+msgctxt "preposition of time like: at 11:00"
+msgid "at"
+msgstr "於"
+
+#: admin/cerber-dashboard.php:5781
+msgid "Quarantine"
+msgstr "隔離區"
+
+#: admin/cerber-admin.php:80
+msgid "Started"
+msgstr "已開始"
+
+#: admin/cerber-admin.php:84
+msgid "Finished"
+msgstr "已完成"
+
+#: admin/cerber-admin.php:92
+msgid "Performance"
+msgstr "效能"
+
+#: nexus/cerber-nexus-list.php:344
+msgid "Vulnerabilities"
+msgstr "弱點"
+
+#: cerber-scanner.php:1743
+msgid "New files"
+msgstr "新的檔案"
+
+#: cerber-scanner.php:1742
+msgid "Changed files"
+msgstr "已變更的檔案"
+
+#: cerber-scanner.php:1741
+msgid "Unwanted extensions"
+msgstr "不需要的檔案副檔名"
+
+#: cerber-scanner.php:1740
+msgid "Unattended files"
+msgstr "無關聯的檔案"
+
+#: admin/cerber-admin.php:108 admin/cerber-admin.php:759
+msgid "Scanned"
+msgstr "已掃描"
+
+#: admin/cerber-admin.php:704
+msgid "There are no files in the quarantine at the moment."
+msgstr "目前沒有檔案在隔離區。"
+
+#: admin/cerber-admin.php:741
+msgid "Restore"
+msgstr "復原"
+
+#: admin/cerber-admin.php:761
+msgid "Automatic deletion"
+msgstr "自動刪除"
+
+#: admin/cerber-admin.php:762 admin/cerber-admin.php:917
+#: admin/cerber-admin.php:1389
+msgid "Size"
+msgstr "容量"
+
+#: admin/cerber-admin.php:763 admin/cerber-admin.php:918
+msgid "File"
+msgstr "檔案"
+
+#: admin/cerber-admin.php:851
+msgid "The file has been restored to its original location."
+msgstr "此檔案已被還原至原始位置。"
+
+#: admin/cerber-dashboard.php:2335
+msgid "Integrity"
+msgstr "完整性"
+
+#: cerber-common.php:2153
+msgid "Attempt to upload malicious file denied"
+msgstr "已拒絕嘗試上傳惡意檔案"
+
+#: cerber-load.php:8811
+msgid "Awesome!"
+msgstr "太棒了！"
+
+#: admin/cerber-admin-settings.php:1459
+msgid "Automatic cleanup of malware and suspicious files"
+msgstr "自動清理惡意和可疑檔案"
+
+#: admin/cerber-admin-settings.php:1560
+msgid "Files in the sessions directory"
+msgstr "通信資料夾中的檔案"
+
+#: admin/cerber-admin-settings.php:1537
+msgid "Files in these directories"
+msgstr "檔案位於這些資料夾"
+
+#: admin/cerber-admin-settings.php:1547
+msgid "Files with these extensions"
+msgstr "這些副檔名的檔案"
+
+#: admin/cerber-admin-settings.php:1553
+msgid "Use comma to separate items."
+msgstr "使用小寫逗號分隔項目。"
+
+#: admin/cerber-dashboard.php:5779
+msgid "Cleaning up"
+msgstr "清理中"
+
+#: cerber-scanner.php:1699
+msgid "Malicious code found"
+msgstr "發現惡意代碼"
+
+#: cerber-scanner.php:2690
+msgid "This file contains executable code and may contain obfuscated malware. If this file is a part of a theme or a plugin, it must be located in the theme or the plugin folder. No exception, no excuses."
+msgstr "此檔案具有可執行代碼且包含混淆的惡意軟體，如果此檔案為佈景主題或外掛的一部分，則它必須存在於各自的目錄中。沒有例外，沒有藉口。"
+
+#: cerber-scanner.php:2691
+msgid "The scanner recognizes this file as \"ownerless\" or \"not bundled\" because it does not belong to any known part of the website and should not be here."
+msgstr "由於此檔案不屬於網站任何已知的部份且不應存在於該處，掃描器辨識此檔案為「無人擁有」或「無關聯的」。"
+
+#: cerber-scanner.php:2692
+msgid "It may remain after upgrading to a newer version of %s. It also may be a piece of obfuscated malware. In a rare case it might be a part of a custom-made (bespoke) plugin or theme."
+msgstr "這可能是在升級至新版 %s後所遺留，也可能是惡意軟體混淆的一部分。在極少數的情況下，這也可能是自訂（客製化）的外掛或佈景主題的一部分。"
+
+#: cerber-scanner.php:2696
+msgid "The contents of the file have been changed and do not match what exists in the official WordPress repository or a reference file you have uploaded earlier. The file may have been altered by malware, infected by a virus or has been tampered with."
+msgstr "包含的檔案內容已經被修改且不符合 WordPress官方現存的資料庫或你先前上傳的參考檔案。這些檔案可能已經被惡意軟體替換、病毒感染或竄改。"
+
+#: cerber-scanner.php:5061
+msgid "Deleted"
+msgstr "已刪除"
+
+#: cerber-scanner.php:5157
+msgid "Automatically moved to quarantine"
+msgstr "自動移至隔離區"
+
+#: cerber-common.php:2204
+msgid "Suspicious SQL code detected"
+msgstr "檢測到可疑 SQL代碼"
+
+#: admin/cerber-dashboard.php:2316
+msgctxt "Example: Last malware scan: 23 Jan 2018"
+msgid "Last malware scan"
+msgstr "上次惡意軟體掃描"
+
+#: admin/cerber-dashboard.php:5715
+msgid "Live Traffic"
+msgstr "即時流量"
+
+#: admin/cerber-admin-settings.php:471
+msgid "Disable PHP in uploads"
+msgstr "禁止上傳 PHP"
+
+#: admin/cerber-admin-settings.php:482
+msgid "Disable PHP error displaying"
+msgstr "停用顯示 PHP錯誤"
+
+#: admin/cerber-dashboard.php:5780
+msgid "Ignore List"
+msgstr "忽略清單"
+
+#: admin/cerber-admin.php:228
+msgid "Ignore"
+msgstr "忽略"
+
+#. For translators
+#: admin/cerber-admin.php:875
+msgid "Apply"
+msgstr "套用"
+
+#: admin/cerber-admin.php:915
+msgid "Added"
+msgstr "已新增"
+
+#: admin/cerber-admin.php:876 admin/cerber-admin.php:903
+msgid "Remove from the list"
+msgstr "從清單中移除"
+
+#: admin/cerber-admin.php:877
+msgid "User Insights"
+msgstr "使用者洞察"
+
+#: admin/cerber-admin.php:878
+msgid "Traffic Insights"
+msgstr "流量洞察"
+
+#: admin/cerber-admin.php:879
+msgid "Activity Insights"
+msgstr "活動洞察"
+
+#: admin/cerber-dashboard.php:3548
+msgid "Are you sure you want to delete selected files?"
+msgstr "你確認要刪除選取的檔案嗎？"
+
+#: admin/cerber-dashboard.php:3549
+msgid "These files have been moved to the quarantine"
+msgstr "已移動這些檔案至隔離區"
+
+#: admin/cerber-dashboard.php:3552
+msgid "Do you want to add selected files to the ignore list?"
+msgstr "你想要新增選取的檔案至忽略清單嗎？"
+
+#: admin/cerber-dashboard.php:3553
+msgid "These files have been added to the ignore list"
+msgstr "已加入這些檔案至忽略清單"
+
+#: admin/cerber-dashboard.php:3555
+msgid "Some errors occurred"
+msgstr "發生某些錯誤"
+
+#: admin/cerber-dashboard.php:3556
+msgid "All files have been processed"
+msgstr "已處理全部檔案"
+
+#: admin/cerber-dashboard.php:5606 admin/cerber-dashboard.php:6121
+msgid "Know more about all advantages at"
+msgstr "了解完整優點於"
+
+#: cerber-common.php:2205
+msgid "Suspicious JavaScript code detected"
+msgstr "檢測到可疑 Javascript代碼"
+
+#: admin/cerber-admin.php:774
+msgid "All scans"
+msgstr "全部掃描"
+
+#: admin/cerber-admin.php:881
+msgid "The list is empty."
+msgstr "清單無資料。"
+
+#: admin/cerber-admin.php:720
+msgid "No files match the specified filter."
+msgstr "無檔案符合指定的篩選器。"
+
+#: admin/cerber-admin.php:720
+msgid "Click here to see the full list of files"
+msgstr "點選此處檢視完整檔案清單"
+
+#: admin/cerber-dashboard.php:1074
+msgid "Additional Details"
+msgstr "額外資訊"
+
+#: admin/cerber-dashboard.php:4334
+msgid "Page generation time"
+msgstr "頁面建立時間"
+
+#: admin/cerber-dashboard.php:6315
+msgid "Log In"
+msgstr "登入"
+
+#: admin/cerber-dashboard.php:6316
+msgid "Log Out"
+msgstr "登出"
+
+#: admin/cerber-dashboard.php:6317
+msgid "Register"
+msgstr "註冊"
+
+#: admin/cerber-dashboard.php:6320
+msgid "WooCommerce Log In"
+msgstr "登入 WooCommerce"
+
+#: admin/cerber-dashboard.php:6321
+msgid "WooCommerce Log Out"
+msgstr "登出 WooCommerce"
+
+#: cerber-common.php:2193
+msgid "IP address is locked out"
+msgstr "已鎖定 IP"
+
+#: cerber-common.php:2363
+msgid "Multiple suspicious requests"
+msgstr "多重可疑請求"
+
+#: admin/cerber-admin-settings.php:1117
+msgid "Traffic Inspection"
+msgstr "流量檢驗"
+
+#: admin/cerber-admin-settings.php:1126 admin/cerber-admin-settings.php:1171
+msgid "Maximum compatibility"
+msgstr "最佳相容性"
+
+#: admin/cerber-admin-settings.php:1127 admin/cerber-admin-settings.php:1172
+msgid "Maximum security"
+msgstr "最強安全性"
+
+#: admin/cerber-admin-settings.php:1162
+msgid "Erroneous Request Shielding"
+msgstr "錯誤請求防護"
+
+#: admin/cerber-admin-settings.php:1269
+msgid "Save software errors"
+msgstr "儲存軟體錯誤"
+
+#: cerber-scanner.php:3883
+msgid "Preparing for the scan"
+msgstr "掃描準備中"
+
+#: cerber-common.php:2206
+msgid "Blocked by administrator"
+msgstr "由管理員封鎖"
+
+#: cerber-load.php:396
+msgid "You are not allowed to log in"
+msgstr "你不被允許登入"
+
+#: admin/cerber-users.php:55
+msgid "Block User"
+msgstr "封鎖使用者"
+
+#: admin/cerber-users.php:59 admin/cerber-users.php:65
+msgid "User is not permitted to log into the website"
+msgstr "使用者不允許登入此網站"
+
+#: admin/cerber-admin-settings.php:729 admin/cerber-users.php:76
+msgid "User Message"
+msgstr "使用者訊息"
+
+#: admin/cerber-users.php:78
+msgid "An optional message for this user"
+msgstr "給此使用者的額外訊息"
+
+#: admin/cerber-users.php:176
+msgid "Blocked Users"
+msgstr "已封鎖的使用者"
+
+#: admin/cerber-admin-settings.php:434
+msgid "Block access to user pages like /?author=n"
+msgstr "封鎖使用者頁面存取，如 /?author=n"
+
+#: admin/cerber-admin-settings.php:499
+msgid "Access to WordPress REST API"
+msgstr "存取 WordPress REST API"
+
+#: admin/cerber-admin-settings.php:515
+msgid "Block access to WordPress REST API except any of the following"
+msgstr "除了以下規則外，封鎖其他對 WordPress REST API的存取"
+
+#: admin/cerber-admin-settings.php:525
+msgid "Allow REST API for these roles"
+msgstr "允許這些角色使用 REST API"
+
+#: admin/cerber-admin-settings.php:530
+msgid "Allow these namespaces"
+msgstr "允許這些命名空間"
+
+#: admin/cerber-admin-settings.php:99
+msgid "These restrictions do not apply to IP addresses in the White IP Access List"
+msgstr "這些限制將不會套用至 IP存取白名單中的 IP位置"
+
+#: admin/cerber-admin-settings.php:2396
+msgid "Select one or more roles"
+msgstr "選擇一個或多個角色"
+
+#: admin/cerber-dashboard.php:1561 admin/cerber-users.php:1126
+msgid "Filter by registered user"
+msgstr "根據已註冊的使用者篩選"
+
+#: admin/cerber-admin-settings.php:716
+msgid "Authorized users only"
+msgstr "僅已驗證的使用者"
+
+#: admin/cerber-admin-settings.php:717
+msgid "Only registered and logged in website users have access to the website"
+msgstr "僅允許註冊和登入網站的使用者存取此網站"
+
+#: cerber-settings.php:535
+msgid "Only registered and logged in users are allowed to view this website"
+msgstr "僅允許註冊和登入的使用者檢視此網站"
+
+#: admin/cerber-admin-settings.php:736
+msgid "Redirect to URL"
+msgstr "重定向至網址"
+
+#: admin/cerber-dashboard.php:5837
+msgid "Changelog"
+msgstr "變更記錄"
+
+#: admin/cerber-dashboard.php:859
+msgid "Default settings have been loaded"
+msgstr "已載入預設設定值"
+
+#: admin/cerber-dashboard.php:4038
+msgid "Save all rules"
+msgstr "儲存全部規則"
+
+#: cerber-common.php:2182
+msgid "Invalid master credentials"
+msgstr "不正確的主憑證"
+
+#: admin/cerber-admin-settings.php:1758
+msgid "Return to the website list"
+msgstr "回到網站清單"
+
+#: admin/cerber-admin-settings.php:1762
+msgid "Show \"Switched to\" notification"
+msgstr "顯示「切換至」通知"
+
+#: admin/cerber-admin-settings.php:1766
+msgid "Add @ site to the page title"
+msgstr "在頁面標題新增 @網站"
+
+#: admin/cerber-admin-settings.php:1384 admin/cerber-admin-settings.php:1792
+#: admin/cerber-admin-settings.php:1820
+msgid "Enable diagnostic logging"
+msgstr "啟用記錄診斷"
+
+#: admin/cerber-admin-settings.php:1804
+msgid "Limit access by IP address"
+msgstr "根據 IP限制存取"
+
+#: admin/cerber-admin-settings.php:1809
+msgid "Access to this website"
+msgstr "存取此網站"
+
+#: admin/cerber-admin-settings.php:1812
+msgid "Full access mode"
+msgstr "完整存取模式"
+
+#: admin/cerber-admin-settings.php:1813
+msgid "Read-only mode"
+msgstr "唯讀模式"
+
+#: admin/cerber-admin-settings.php:1835
+msgid "The full access mode requires the PRO version of WP Cerber"
+msgstr "完整的存取模式需要進階版的 WP Cerber"
+
+#: nexus/cerber-nexus-list.php:48
+msgid "WordPress"
+msgstr "WordPress"
+
+#: nexus/cerber-nexus-list.php:52
+msgid "Malware Scan"
+msgstr "惡意軟體掃描"
+
+#: nexus/cerber-nexus-list.php:57 nexus/cerber-nexus-manager.php:517
+msgid "Notes"
+msgstr "備註"
+
+#: nexus/cerber-nexus-list.php:248 admin/cerber-users.php:1192
+msgid "Search results for:"
+msgstr "搜尋結果："
+
+#: nexus/cerber-nexus-list.php:286
+msgid "Edit"
+msgstr "編輯"
+
+#: nexus/cerber-nexus-list.php:292
+msgid "Switch to"
+msgstr "切換至"
+
+#: nexus/cerber-nexus-list.php:425
+msgid "No websites configured."
+msgstr "無已設定的網站。"
+
+#: nexus/cerber-nexus-list.php:425
+msgid "Add a new one"
+msgstr "新增"
+
+#: nexus/cerber-nexus-manager.php:480
+msgid "Website Properties"
+msgstr "網站屬性"
+
+#: nexus/cerber-nexus-manager.php:490
+msgid "Website URL"
+msgstr "網站網址"
+
+#: nexus/cerber-nexus-manager.php:495
+msgid "Display as"
+msgstr "顯示為"
+
+#: nexus/cerber-nexus-manager.php:525
+msgid "Website Owner"
+msgstr "網站擁有者"
+
+#: nexus/cerber-nexus-manager.php:541
+msgid "Phone"
+msgstr "電話"
+
+#: nexus/cerber-nexus-manager.php:549
+msgid "Address"
+msgstr "地址"
+
+#: nexus/cerber-nexus-manager.php:695
+msgid "The website you are trying to add is already in the list"
+msgstr "嘗試加入的網站已在清單中"
+
+#: nexus/cerber-nexus-manager.php:704
+msgid "The website has been added successfully"
+msgstr "已成功加入此網站"
+
+#: nexus/cerber-nexus-manager.php:705
+msgid "Click to edit"
+msgstr "點選以編輯"
+
+#: nexus/cerber-nexus-manager.php:706
+msgid "Switch to the Dashboard"
+msgstr "切換至控制台"
+
+#: nexus/cerber-nexus-manager.php:709
+msgid "Keep in mind: You have added the website that does not support SSL encryption. This may lead to data leakage."
+msgstr "請牢記：你已經新增不支援 SSL加密的網站，這可能導致資料洩漏。"
+
+#: nexus/cerber-nexus-manager.php:828
+msgid "Website has been deleted"
+msgid_plural "%s websites have been deleted"
+msgstr[0] "網站已刪除\n"
+"%s 個網站已刪除"
+
+#: nexus/cerber-nexus-manager.php:1078
+msgid "You have switched to %s"
+msgstr "你已被切換至 %s"
+
+#: nexus/cerber-nexus-manager.php:1304
+msgid "You are here:"
+msgstr "你在此處："
+
+#: nexus/cerber-nexus.php:93 nexus/cerber-nexus.php:103
+#: nexus/cerber-nexus-manager.php:1307
+msgid "My Websites"
+msgstr "我的網站"
+
+#: nexus/cerber-nexus.php:75
+msgid "To proceed, please select the mode for this website"
+msgstr "若要繼續，請對此網站選擇一個模式"
+
+#: nexus/cerber-nexus.php:143
+msgid "Secret Access Token"
+msgstr "機密存取權杖"
+
+#: nexus/cerber-nexus.php:147
+msgid "Are you sure? This permanently invalidates the token."
+msgstr "你確定嗎？這將會永久廢止權杖。"
+
+#. translators: Time difference between two dates, in seconds (sec=second). 1: Number of seconds
+#: cerber-common.php:2577
+msgid "%s sec"
+msgid_plural "%s secs"
+msgstr[0] "%s 秒"
+
+#: nexus/cerber-nexus-list.php:51
+msgid "Updates"
+msgstr "更新"
+
+#: nexus/cerber-nexus-list.php:55 nexus/cerber-nexus-manager.php:503
+msgid "Group"
+msgstr "群組"
+
+#: nexus/cerber-nexus-list.php:118
+msgid "Upgrade WP Cerber"
+msgstr "更新 WP Cerber"
+
+#: nexus/cerber-nexus-list.php:119
+msgid "Upgrade all active plugins"
+msgstr "更新全部啟用的外掛"
+
+#: nexus/cerber-nexus-list.php:120
+msgid "Delete website"
+msgstr "刪除網站"
+
+#: nexus/cerber-nexus-list.php:136
+msgid "All groups"
+msgstr "全部群組"
+
+#: nexus/cerber-nexus-manager.php:1389
+msgid "Are you sure you want to delete selected websites?"
+msgstr "你確定要刪除選取的網站嗎？"
+
+#: admin/cerber-users.php:216
+msgid "Block"
+msgstr "封鎖"
+
+#: nexus/cerber-nexus-manager.php:472
+msgid "Select an existing group or enter a new one to add it"
+msgstr "選取已存在的群組或新增一個新的"
+
+#: nexus/cerber-nexus-manager.php:545
+msgid "Company"
+msgstr "公司"
+
+#: cerber-common.php:2146 cerber-common.php:2353
+msgid "Attempt to log in with non-existing username"
+msgstr "嘗試登入不存在的使用者帳號"
+
+#: cerber-load.php:5696
+msgid "Attempts to log in with non-existing usernames"
+msgstr "嘗試登入不存在的使用者帳號"
+
+#: nexus/cerber-nexus-list.php:56
+msgid "Owner"
+msgstr "擁有者"
+
+#: nexus/cerber-nexus.php:148
+msgid "To revoke the token and disable remote management, click here:"
+msgstr "若要撤銷權杖並停用遠端管理，請點選這裡："
+
+#: admin/cerber-admin-settings.php:472
+msgid "Block execution of PHP scripts in the WordPress media folder"
+msgstr "在 WordPress媒體目錄禁止可執行 PHP代碼"
+
+#: nexus/cerber-nexus-manager.php:1456 nexus/cerber-nexus-manager.php:1464
+msgid "Active plugins and updates on"
+msgstr "啟用外掛並更新於"
+
+#: nexus/cerber-nexus-manager.php:1434
+msgid "A newer version is available"
+msgstr "有新版本可供使用"
+
+#: admin/cerber-dashboard.php:1207
+msgid "New users"
+msgstr "新使用者"
+
+#: admin/cerber-dashboard.php:1227
+msgid "My activity"
+msgstr "我的活動"
+
+#: admin/cerber-dashboard.php:3123
+msgid "Create Alert"
+msgstr "建立警報"
+
+#: admin/cerber-dashboard.php:3127
+msgid "Delete Alert"
+msgstr "刪除警報"
+
+#: admin/cerber-dashboard.php:3262
+msgid "The alert has been created"
+msgstr "已建立警報"
+
+#: admin/cerber-dashboard.php:3271
+msgid "The alert has been deleted"
+msgstr "此警報已被刪除"
+
+#: admin/cerber-dashboard.php:4912
+msgid "Advanced Search"
+msgstr "進階搜尋"
+
+#. Author of the plugin
+#: 
+msgid "Cerber Tech Inc."
+msgstr "Cerber Tech Inc."
+
+#: cerber-load.php:6373
+msgid "To delete the alert, click here"
+msgstr "點選這裡刪除警報"
+
+#: admin/cerber-admin-settings.php:199
+msgid "Custom login URL may contain Latin alphanumeric characters, dashes and underscores only"
+msgstr "自動登入 URL只能包含拉丁字母、破折號和下劃線"
+
+#: admin/cerber-admin-settings.php:237
+msgid "Site-specific settings"
+msgstr "網站專用設定"
+
+#: admin/cerber-admin-settings.php:263
+msgid "Prefix for plugin cookies"
+msgstr "外掛 cookie前置詞"
+
+#: admin/cerber-admin-settings.php:264
+msgid "Prefix may contain only Latin alphanumeric characters and underscores"
+msgstr "前置詞只能包含拉丁字母和下劃線"
+
+#: admin/cerber-admin-settings.php:992
+msgid "Pushbullet access token"
+msgstr "Pushbullet存取權杖"
+
+#: admin/cerber-admin-settings.php:995
+msgid "Pushbullet device"
+msgstr "Pushbullet裝置"
+
+#: admin/cerber-admin-settings.php:1464
+msgid "Delete unattended files"
+msgstr "刪除無關聯的檔案"
+
+#: admin/cerber-admin-settings.php:1520
+msgid "Automatic recovery of modified and infected files"
+msgstr "自動復原被修改和已感染的檔案"
+
+#: admin/cerber-admin-settings.php:1523
+msgid "Recover WordPress files"
+msgstr "復原 WordPress檔案"
+
+#: cerber-scanner.php:1713
+msgid "File deleted"
+msgstr "檔案已刪除"
+
+#: cerber-scanner.php:1715
+msgid "File recovered"
+msgstr "檔案已復原"
+
+#: cerber-scanner.php:3891
+msgid "Recovering WordPress files"
+msgstr "復原 WordPress檔案中"
+
+#: cerber-scanner.php:3893
+msgid "Recovering plugins files"
+msgstr "復原外掛檔案中"
+
+#: cerber-scanner.php:5065
+msgid "Recovered"
+msgstr "已復原"
+
+#: cerber-scanner.php:5158
+msgid "Automatically deleted"
+msgstr "已自動刪除"
+
+#: cerber-scanner.php:5162
+msgid "Automatically recovered"
+msgstr "已自動復原"
+
+#: admin/cerber-dashboard.php:70
+msgid "Cerber User Security"
+msgstr "Cerber使用者安全性"
+
+#: admin/cerber-dashboard.php:70 admin/cerber-dashboard.php:5739
+msgid "User Policies"
+msgstr "使用者策略"
+
+#: admin/cerber-dashboard.php:2338
+msgid "A new version is available"
+msgstr "有新版本可供使用"
+
+#: admin/cerber-dashboard.php:5742
+msgid "Global"
+msgstr "全域"
+
+#: cerber-common.php:2207
+msgid "Site policy enforcement"
+msgstr "強制性網站策略"
+
+#: cerber-common.php:2208
+msgid "2FA code verified"
+msgstr "已驗證 2FA代碼"
+
+#: cerber-common.php:2209
+msgid "Initiated by the user"
+msgstr "由使用者啟動"
+
+#: cerber-load.php:1936
+msgid "Email address is not permitted."
+msgstr "不允許的 Email。"
+
+#: cerber-load.php:1936
+msgid "Please choose another one."
+msgstr "請選擇其他的。"
+
+#: admin/cerber-users.php:10 admin/cerber-users.php:506
+msgid "Two-Factor Authentication"
+msgstr "兩步驟驗證"
+
+#: admin/cerber-users.php:18
+msgid "Determined by user role policies"
+msgstr "依據使用者角色策略決定"
+
+#: admin/cerber-users.php:19 admin/cerber-users.php:514
+msgid "Always enabled"
+msgstr "永遠啟用"
+
+#: admin/cerber-users.php:34
+msgid "2FA PIN Code"
+msgstr "2FA PIN碼"
+
+#: admin/cerber-users.php:291
+msgid "Save All Changes"
+msgstr "儲存全部變更"
+
+#: admin/cerber-users.php:424
+msgid "Block access to WordPress Dashboard"
+msgstr "封鎖存取 WordPress控制台"
+
+#: admin/cerber-users.php:429
+msgid "Hide Toolbar when viewing site"
+msgstr "檢視網站時隱藏工具列"
+
+#: admin/cerber-users.php:435
+msgid "Redirection rules"
+msgstr "重定向規則"
+
+#: admin/cerber-users.php:439
+msgid "Redirect user after login"
+msgstr "使用者登入後重定向"
+
+#: admin/cerber-users.php:445
+msgid "Redirect user after logout"
+msgstr "登出後重定向"
+
+#: admin/cerber-admin-settings.php:770 admin/cerber-users.php:457
+msgid "User session expiration time"
+msgstr "使用者通信逾期時間"
+
+#: admin/cerber-users.php:510
+msgid "Two-factor authentication"
+msgstr "兩步驟驗證"
+
+#: admin/cerber-users.php:515
+msgid "Advanced mode"
+msgstr "進階模式"
+
+#: admin/cerber-users.php:519
+msgid "Enforce two-factor authentication if any of the following conditions is true"
+msgstr "如果符合以下任何條件則強制使用兩步驟驗證"
+
+#: admin/cerber-users.php:525
+msgid "Login from a different country"
+msgstr "自不同國家登入"
+
+#: admin/cerber-users.php:531
+msgid "Login from a different network Class C"
+msgstr "從不同的 Class C網路登入"
+
+#: admin/cerber-users.php:537
+msgid "Login from a different IP address"
+msgstr "從不同的 IP登入"
+
+#: admin/cerber-users.php:555
+msgid "Enforce two-factor authentication with fixed intervals"
+msgstr "強制兩步驟驗證與固定間隔"
+
+#: admin/cerber-users.php:561
+msgid "Regular time intervals (days)"
+msgstr "規律間隔時間（天）"
+
+#: admin/cerber-users.php:568
+msgid "Fixed number of logins"
+msgstr "固定登入次數"
+
+#: admin/cerber-users.php:570
+msgid "number of logins"
+msgstr "登入次數"
+
+#: admin/cerber-users.php:606
+msgid "Policies have been updated"
+msgstr "策略已更新"
+
+#: admin/cerber-admin-settings.php:677
+msgid "Restrict email addresses"
+msgstr "限制電子郵件位置"
+
+#: admin/cerber-admin-settings.php:680
+msgid "No restrictions"
+msgstr "無限制"
+
+#: admin/cerber-admin-settings.php:681
+msgid "Deny all email addresses that match the following"
+msgstr "符合以下電子郵件位置則全部拒絕"
+
+#: admin/cerber-admin-settings.php:682
+msgid "Permit only email addresses that match the following"
+msgstr "只允許符合以下的電子郵件位置"
+
+#: admin/cerber-admin-settings.php:687
+msgid "Specify email addresses, wildcards or REGEX patterns. Use comma to separate items."
+msgstr "指定電子郵件位置、通用字元或正規表示法。使用小寫逗號分隔項目。"
+
+#: admin/cerber-admin-settings.php:1534
+msgid "These files will never be deleted during automatic cleanup."
+msgstr "自動清理時將不會刪除這些檔案。"
+
+#: cerber-2fa.php:380
+msgid "This verification PIN code is expired. We have just sent a new one to your email."
+msgstr "驗證 PIN碼已逾期，我們已重新發送至你的郵件。"
+
+#: cerber-2fa.php:383
+msgid "You have entered an incorrect verification PIN code"
+msgstr "你輸入了錯誤的驗證 PIN碼"
+
+#: cerber-2fa.php:448 cerber-2fa.php:571
+msgid "Please verify that it’s you"
+msgstr "請驗證此為您"
+
+#: cerber-2fa.php:596
+msgid "Here are the details of the sign-in attempt"
+msgstr "這裡是嘗試登入的詳細資訊"
+
+#: cerber-2fa.php:654
+msgid "expires"
+msgstr "逾期"
+
+#: cerber-2fa.php:732
+msgid "only digits are allowed"
+msgstr "僅允許數字"
+
+#: cerber-2fa.php:734
+msgid "We've sent a verification PIN code to your email"
+msgstr "我們已傳送驗證 PIN碼至你的郵件"
+
+#: cerber-2fa.php:735
+msgid "Enter the code from the email in the field below."
+msgstr "在以下欄位輸入電子郵件中的代碼。"
+
+#: cerber-2fa.php:737
+msgid "Try again"
+msgstr "重新再試"
+
+#: cerber-2fa.php:738 admin/cerber-dashboard.php:6219
+msgid "Cancel"
+msgstr "取消"
+
+#: cerber-2fa.php:739
+msgid "or"
+msgstr "或"
+
+#: cerber-2fa.php:747
+msgid "Verify it's you"
+msgstr "驗證此為您"
+
+#: cerber-2fa.php:752
+msgid "Verify"
+msgstr "驗證"
+
+#: admin/cerber-users.php:96
+msgid "Two-Factor Authentication Email"
+msgstr "兩步驟驗證 Email"
+
+#: admin/cerber-dashboard.php:3981
+msgid "Role-based rules are configured"
+msgstr "已設定角色規則"
+
+#: cerber-common.php:1865
+msgctxt "e.g. blocked by John at 11:00"
+msgid "blocked by %s at %s"
+msgstr "由 %s在 %s封鎖"
+
+#: cerber-2fa.php:576
+msgid "The code is valid for %s minutes."
+msgstr "代碼僅在 %s分鐘內有效。"
+
+#: admin/cerber-dashboard.php:423
+msgid "IP address %s has been added to White IP Access List"
+msgstr "已新增 IP位置 %s至 IP存取白名單"
+
+#: admin/cerber-dashboard.php:420
+msgid "IP address %s has been added to Black IP Access List"
+msgstr "已新增 IP位置 %s至 IP存取黑名單"
+
+#: admin/cerber-dashboard.php:251 admin/cerber-dashboard.php:1071
+#: admin/cerber-dashboard.php:1473 admin/cerber-dashboard.php:4831
+#: admin/cerber-users.php:1082
+msgid "IP Address"
+msgstr "IP位置"
+
+#: admin/cerber-dashboard.php:1078 admin/cerber-dashboard.php:1479
+msgid "Username"
+msgstr "帳號"
+
+#: admin/cerber-dashboard.php:4063
+msgid "Any country is permitted"
+msgstr "任何被允許的國家"
+
+#: admin/cerber-dashboard.php:3636 admin/cerber-dashboard.php:3651
+#: admin/cerber-dashboard.php:5644
+msgid "Sessions"
+msgstr "通信"
+
+#: admin/cerber-users.php:1080
+msgid "Created"
+msgstr "已建立"
+
+#: admin/cerber-users.php:1101
+msgid "Terminate session"
+msgstr "終止通信"
+
+#: admin/cerber-users.php:1102
+msgid "Block user"
+msgstr "封鎖使用者"
+
+#: admin/cerber-users.php:1234
+msgid "Profile"
+msgstr "個人資料"
+
+#: admin/cerber-users.php:1247
+msgid "All Logins"
+msgstr "所有登入"
+
+#: admin/cerber-users.php:1248
+msgid "User Activity"
+msgstr "使用者活動"
+
+#: admin/cerber-users.php:1294
+msgid "Terminate"
+msgstr "中止"
+
+#: admin/cerber-dashboard.php:2288
+msgid "user"
+msgid_plural "users"
+msgstr[0] "使用者"
+
+#: admin/cerber-admin-settings.php:505
+msgid "Block access to users' data via REST API"
+msgstr "透過 REST API封鎖存取使用者資料"
+
+#: cerber-scanner.php:1712
+msgid "Unable to delete"
+msgstr "無法刪除"
+
+#: admin/cerber-dashboard.php:64
+msgid "Cerber Data Shield Policies"
+msgstr "Cerber資料防護策略"
+
+#: admin/cerber-dashboard.php:64
+msgid "Data Shield"
+msgstr "資料防護"
+
+#: admin/cerber-dashboard.php:5729
+msgid "Data Shield Policies"
+msgstr "資料防護策略"
+
+#: admin/cerber-dashboard.php:5731
+msgid "Accounts & Roles"
+msgstr "帳號&角色"
+
+#: admin/cerber-dashboard.php:5732
+msgid "Site Settings"
+msgstr "網站設定"
+
+#: cerber-common.php:2159
+msgid "User creation denied"
+msgstr "建立使用者被拒絕"
+
+#: cerber-common.php:2161
+msgid "Role update denied"
+msgstr "更新角色被拒絕"
+
+#: cerber-common.php:2162
+msgid "Setting update denied"
+msgstr "更新設定被拒絕"
+
+#: cerber-common.php:2214
+msgid "Permission denied"
+msgstr "權限被拒絕"
+
+#: cerber-common.php:2216
+msgid "Invalid user"
+msgstr "使用者錯誤"
+
+#: cerber-common.php:2217
+msgid "Incorrect password"
+msgstr "密碼錯誤"
+
+#: admin/cerber-admin-settings.php:552
+msgid "Protect user accounts"
+msgstr "防護使用者帳號"
+
+#: admin/cerber-admin-settings.php:557
+msgid "Restrict user account creation and user management with the following policies"
+msgstr "依據以下策略拒絕建立新帳號和管理使用者"
+
+#: admin/cerber-admin-settings.php:570
+msgid "User registrations are limited to these roles"
+msgstr "限制以下角色註冊使用者"
+
+#: admin/cerber-admin-settings.php:576
+msgid "Users with these roles are permitted to create new accounts"
+msgstr "允許以下角色的使用者建立新帳號"
+
+#: admin/cerber-admin-settings.php:581
+msgid "Users with these roles are permitted to change sensitive user data"
+msgstr "允許以下角色的使用者變更使用者敏感資料"
+
+#: admin/cerber-admin-settings.php:586 admin/cerber-admin-settings.php:622
+#: admin/cerber-admin-settings.php:659
+msgid "Do not apply these policies to the IP addresses in the White IP Access List"
+msgstr "不要在 IP存取白名單中的 IP位置使用這些策略"
+
+#: admin/cerber-admin-settings.php:594
+msgid "Protect user roles"
+msgstr "保護使用者角色"
+
+#: admin/cerber-admin-settings.php:598
+msgid "Restrict roles and capabilities management with the following policies"
+msgstr "依據以下策略拒絕管理角色和權限"
+
+#: admin/cerber-admin-settings.php:612
+msgid "Users with these roles are permitted to add new roles"
+msgstr "允許以下角色的使用者新增角色"
+
+#: admin/cerber-admin-settings.php:617
+msgid "Users with these roles are permitted to change role capabilities"
+msgstr "允許以下角色的使用者變更角色權限"
+
+#: admin/cerber-admin-settings.php:630
+msgid "Protect site settings"
+msgstr "網站防護設定"
+
+#: admin/cerber-admin-settings.php:634
+msgid "Restrict updating site settings with the following policies"
+msgstr "依據以下策略拒絕更新網站設定"
+
+#: admin/cerber-admin-settings.php:648
+msgid "Users with these roles are permitted to change protected settings"
+msgstr "允許以下角色的使用者變更防護設定"
+
+#: admin/cerber-admin-settings.php:653
+msgid "Protected settings"
+msgstr "防護設定"
+
+#: admin/cerber-admin-settings.php:723
+msgid "Do not apply these policy to the IP addresses in the White IP Access List"
+msgstr "不要套用這些策略至 IP存取白名單中的 IP"
+
+#: nexus/cerber-nexus-list.php:53
+msgid "Server"
+msgstr "伺服器"
+
+#: nexus/cerber-nexus-list.php:54
+msgid "Server Country"
+msgstr "伺服器國別"
+
+#: nexus/cerber-nexus-list.php:146
+msgid "All servers"
+msgstr "所有伺服器"
+
+#: nexus/cerber-nexus-list.php:153
+msgid "All countries"
+msgstr "所有國家"
+
+#: nexus/cerber-nexus-manager.php:443
+msgid "Show homepage in the Website column"
+msgstr "在網站欄位顯示首頁"
+
+#: nexus/cerber-nexus-manager.php:445
+msgid "Hide server IP address"
+msgstr "隱藏伺服器 IP位置"
+
+#: admin/cerber-dashboard.php:392
+msgid "IP address, range, wildcard, or CIDR"
+msgstr "IP位置、範圍、萬用字元或 CIDR"
+
+#: admin/cerber-dashboard.php:393
+msgid "Add Entry"
+msgstr "新增項目"
+
+#: admin/cerber-dashboard.php:5985
+msgid "The IP address you are trying to add is already in the list"
+msgstr "嘗試加入的 IP位置已在清單中"
+
+#: cerber-common.php:2113
+msgid "IP subnet blocked"
+msgstr "已封鎖 IP子網路"
+
+#: cerber-common.php:2160
+msgid "User row update denied"
+msgstr "拒絕更新使用者欄位"
+
+#: cerber-common.php:2163
+msgid "User metadata update denied"
+msgstr "拒絕更新使用者中繼資料"
+
+#: cerber-settings.php:174
+msgid "Any activity"
+msgstr "任何活動"
+
+#: admin/cerber-tools.php:263
+msgid "A database error occurred while importing access list entries"
+msgstr "匯入存取清單項目時發生資料庫錯誤"
+
+#: admin/cerber-admin-settings.php:323
+msgid "Enable authentication log monitoring"
+msgstr "啟用驗證記錄監控"
+
+#: admin/cerber-admin-settings.php:352 admin/cerber-admin-settings.php:1288
+msgid "Keep log records of not logged in visitors for"
+msgstr "保留訪客的記錄"
+
+#: admin/cerber-admin-settings.php:359 admin/cerber-admin-settings.php:1304
+msgid "Keep log records of logged in users for"
+msgstr "保留已登入使用者的記錄"
+
+#: admin/cerber-users.php:83
+msgid "Admin Note"
+msgstr "管理員附註"
+
+#: admin/cerber-admin-settings.php:790
+msgid "Personal Data"
+msgstr "個人資料"
+
+#: admin/cerber-admin-settings.php:796
+msgid "Enable data erase"
+msgstr "啟用資料清除"
+
+#: admin/cerber-admin-settings.php:803
+msgid "Terminate user sessions"
+msgstr "中止使用者通訊"
+
+#: admin/cerber-admin-settings.php:804
+msgid "Delete user sessions data when user data is erased"
+msgstr "當使用者資料被清除後，刪除使用者通訊資料"
+
+#: admin/cerber-admin-settings.php:810
+msgid "Enable data export"
+msgstr "啟用資料匯出"
+
+#: admin/cerber-admin-settings.php:817
+msgid "Include activity log events"
+msgstr "包含活動記錄事件"
+
+#: admin/cerber-admin-settings.php:823
+msgid "Include traffic log entries"
+msgstr "包含流量記錄項目"
+
+#: admin/cerber-admin-settings.php:826
+msgid "Request URL"
+msgstr "請求 URL位置"
+
+#: admin/cerber-admin-settings.php:827
+msgid "Form fields data"
+msgstr "表單欄位資料"
+
+#: admin/cerber-admin-settings.php:828
+msgid "Cookies"
+msgstr "Cookies"
+
+#: admin/cerber-dashboard.php:77
+msgid "Cerber anti-spam settings"
+msgstr "Cerber垃圾留言防護設定"
+
+#: admin/cerber-dashboard.php:77
+msgid "Anti-spam"
+msgstr "垃圾留言防護"
+
+#: cerber-addons.php:320 admin/cerber-dashboard.php:85
+#: admin/cerber-dashboard.php:85
+msgid "Add-ons"
+msgstr "附加元件"
+
+#: admin/cerber-dashboard.php:5693
+msgid "Anti-spam and bot detection settings"
+msgstr "垃圾留言防護與機器人檢測設定"
+
+#: admin/cerber-dashboard.php:5695
+msgid "Anti-spam engine"
+msgstr "防垃圾留言引擎"
+
+#: cerber-common.php:2362
+msgid "Multiple erroneous requests"
+msgstr "多個錯誤請求"
+
+#: admin/cerber-admin-settings.php:2188
+msgid "%s retries are allowed within %s minutes"
+msgstr "%s次重試只能允許發生在 %s分鐘內。"
+
+#: admin/cerber-admin-settings.php:2194
+msgid "%s registrations are allowed within %s minutes from one IP address"
+msgstr "每個 IP位置只允許 %s次註冊在 %s分鐘內"
+
+#: admin/cerber-admin-settings.php:2214
+msgid "Enable after %s failed login attempts in the last %s minutes"
+msgstr "於 %s次嘗試登入失敗後的 %s分鐘內啟用"
+
+#: admin/cerber-admin-settings.php:500
+msgid "Restrict or completely block access to the WordPress REST API according to your needs"
+msgstr "根據你的需求限制或完整封鎖對 WordPress REST API的請求"
+
+#: admin/cerber-admin-settings.php:792
+msgid "These features help your organization to be in compliance with personal data protection laws"
+msgstr "這些功能協助你的組織符合個人資料保護法"
+
+#: admin/cerber-admin-settings.php:846
+msgid "if empty, the website administrator email %s will be used"
+msgstr "如果留空，則將使用網站管理員的電子郵件 %s"
+
+#: admin/cerber-admin-settings.php:850 admin/cerber-admin-settings.php:1002
+msgid "notifications are allowed per hour (0 means unlimited)"
+msgstr "封，每小時允許的通知信數量（0表示無限制）"
+
+#: admin/cerber-admin-settings.php:988
+msgid "Get notified instantly with mobile and desktop notifications"
+msgstr "取得行動版與桌面版的即時通知。"
+
+#: admin/cerber-admin-settings.php:898 admin/cerber-admin-settings.php:1052
+#: admin/cerber-admin-settings.php:1105 admin/cerber-admin-settings.php:1448
+msgid "if empty, the email addresses from the notification settings will be used"
+msgstr "如果留空，則將會使用在通知設定中的電子郵件"
+
+#: admin/cerber-admin-settings.php:1118
+msgid "Traffic Inspector is a context-aware web application firewall (WAF) that protects your website by recognizing and denying malicious HTTP requests"
+msgstr "流量檢驗是一個情境感知的網路應用防火牆（WAF），透過辨識與拒絕惡意的 HTTP請求來保護你的網站"
+
+#: admin/cerber-admin-settings.php:1164
+msgid "Block IP addresses that send excessive requests for non-existing pages or scan website for security breaches"
+msgstr "封鎖請求大量不存在頁面或掃描網站安全漏洞的 IP位置"
+
+#: admin/cerber-admin-settings.php:1183
+msgid "Traffic Logging"
+msgstr "流量記錄"
+
+#: admin/cerber-admin-settings.php:1184
+msgid "Enable optional traffic logging if you need to monitor suspicious and malicious activity or solve security issues"
+msgstr "如果你需要監測可疑與惡意行為或解決安全性問題，可啟用流量記錄"
+
+#: admin/cerber-admin-settings.php:1315
+msgid "The scanner monitors file changes, verifies the integrity of WordPress, plugins, and themes, and detects malware"
+msgstr "掃描器監測檔案變更、驗證 WordPress、外掛、佈景主題完整性及檢測惡意軟體"
+
+#: admin/cerber-admin-settings.php:1365
+msgid "Specify directories to exclude from scanning. One directory per line."
+msgstr "指定要排除掃描的目錄。每行一個目錄。"
+
+#: admin/cerber-admin-settings.php:1400
+msgid "The scanner automatically scans the website, removes malware and sends email reports with the results of a scan"
+msgstr "掃描器會自動掃描網站、移除惡意軟體並傳送掃描結果報告"
+
+#: admin/cerber-admin-settings.php:1417
+msgid "Configure what issues to include in the email report and the condition for sending reports"
+msgstr "設定在郵件報告中要包含哪些問題與傳送時機"
+
+#: admin/cerber-admin-settings.php:1568
+msgid "Cerber anti-spam engine"
+msgstr "Cerber垃圾留言防護引擎"
+
+#: admin/cerber-admin-settings.php:1626
+msgid "Adjust anti-spam engine"
+msgstr "調整垃圾留言防護引擎"
+
+#: admin/cerber-admin-settings.php:1627
+msgid "These settings enable you to fine-tune the behavior of anti-spam algorithms and avoid false positives"
+msgstr "這些項目能讓你微調垃圾留言防護的演算法與行為避免誤報"
+
+#: admin/cerber-admin-settings.php:1656
+msgid "How the plugin processes comments submitted through the standard comment form"
+msgstr "外掛如何處理來自標準留言表單送出的留言"
+
+#: admin/cerber-dashboard.php:1565
+msgid "Request ID"
+msgstr "請求 ID"
+
+#: admin/cerber-dashboard.php:1566
+msgid "Search in URL"
+msgstr "搜尋 URL"
+
+#: admin/cerber-admin-settings.php:1323 admin/cerber-admin-settings.php:1332
+msgid "Executable files"
+msgstr "可執行檔"
+
+#: admin/cerber-admin-settings.php:1324 admin/cerber-admin-settings.php:1333
+msgid "All files"
+msgstr "所有檔案"
+
+#: admin/cerber-dashboard.php:2110
+msgid "Active sessions"
+msgstr "啟動中的連線"
+
+#: admin/cerber-admin-settings.php:771
+msgid "minutes (leave empty to use the default WordPress value)"
+msgstr "分鐘（空白則使用 WordPress預設值）"
+
+#: admin/cerber-tools.php:72
+msgid "Load entries"
+msgstr "載入項目"
+
+#: admin/cerber-dashboard.php:1228 admin/cerber-dashboard.php:4904
+msgid "My IP"
+msgstr "我的 IP"
+
+#: admin/cerber-dashboard.php:5782
+msgid "Analytics"
+msgstr "分析"
+
+#: admin/cerber-dashboard.php:5834
+msgid "Manage Settings"
+msgstr "管理設定"
+
+#: admin/cerber-dashboard.php:5836 admin/cerber-admin-settings.php:1385
+#: admin/cerber-admin-settings.php:1793 admin/cerber-admin-settings.php:1821
+msgid "Diagnostic Log"
+msgstr "診斷記錄"
+
+#: cerber-common.php:2104
+msgid "User deleted"
+msgstr "已刪除使用者"
+
+#: cerber-common.php:2212
+msgid "Email address is prohibited"
+msgstr "禁止的 Email"
+
+#: admin/cerber-admin.php:760
+msgid "Quarantined"
+msgstr "隔離區"
+
+#: admin/cerber-admin.php:916 admin/cerber-admin.php:1390
+msgid "Modified"
+msgstr "修改日期"
+
+#: admin/cerber-admin.php:999
+msgid "Files without extension"
+msgstr "無副檔名的檔案"
+
+#: admin/cerber-admin.php:1000
+msgid "Back to list"
+msgstr "返回清單"
+
+#: admin/cerber-admin.php:1060
+msgid "Brief summary"
+msgstr "概要"
+
+#: admin/cerber-admin.php:1111
+msgid "Folder"
+msgstr "目錄"
+
+#: admin/cerber-admin.php:1112
+msgid "Path"
+msgstr "路徑"
+
+#: admin/cerber-admin.php:1113 admin/cerber-admin.php:1207
+msgid "Files"
+msgstr "檔案"
+
+#: admin/cerber-admin.php:1114 admin/cerber-admin.php:1208
+msgid "Space Occupied"
+msgstr "空間占用"
+
+#: admin/cerber-admin.php:1178
+msgid "No extension"
+msgstr "無副檔名"
+
+#: admin/cerber-admin.php:1203
+msgid "File extensions statistics"
+msgstr "副檔名統計"
+
+#: admin/cerber-admin.php:1206
+msgid "Extension"
+msgstr "副檔名"
+
+#: admin/cerber-admin.php:1209
+msgid "Smallest"
+msgstr "最小的"
+
+#: admin/cerber-admin.php:1210
+msgid "Largest"
+msgstr "最大的"
+
+#: admin/cerber-admin.php:1211
+msgid "Average Size"
+msgstr "平均容量"
+
+#: admin/cerber-admin.php:1212
+msgid "Oldest"
+msgstr "最舊的"
+
+#: admin/cerber-admin.php:1213
+msgid "Newest"
+msgstr "最新的"
+
+#: admin/cerber-admin.php:1229
+msgid "Top 10 largest files"
+msgstr "前 10個大容量檔案"
+
+#: admin/cerber-admin.php:1388
+msgid "File Name"
+msgstr "檔案名稱"
+
+#: admin/cerber-admin-settings.php:402
+msgid "Date format for CSV export"
+msgstr "匯出 CSV的日期格式"
+
+#: admin/cerber-admin-settings.php:403
+msgid "Use ISO 8601 date format for CSV export files"
+msgstr "在匯出的 CSV檔案中使用 ISO 8601 日期格式"
+
+#: admin/cerber-admin-settings.php:417
+msgid "My IP address"
+msgstr "我的 IP位置"
+
+#: admin/cerber-admin-settings.php:418
+msgid "Do not add my IP address to the White IP Access List upon plugin activation"
+msgstr "啟動外掛後不要將我的 IP位置加入至 IP訪問白名單"
+
+#: admin/cerber-tools.php:52
+msgid "Load the default plugin settings"
+msgstr "載入外掛設定預設值"
+
+#: admin/cerber-tools.php:53
+msgid "When you click the button below, the default WP Cerber settings will be loaded. The Custom login URL and Access Lists will not be changed."
+msgstr "當你點選以下按鈕，WP Cerber設定預設值將會自動載入，但自訂登入網址和訪問清單不改變。"
+
+#: admin/cerber-tools.php:54
+msgid "To get the most out of WP Cerber, follow these steps:"
+msgstr "要充分利用 WP Cerber，請依照以下步驟："
+
+#: cerber-common.php:2227
+msgid "IP whitelisted"
+msgstr "IP白名單"
+
+#: admin/cerber-dashboard.php:4903
+msgid "My requests"
+msgstr "我的請求資訊"
+
+#: admin/cerber-dashboard.php:4175
+msgid "Log into the website"
+msgstr "登入此網站"
+
+#. Name of the plugin
+#: 
+msgid "WP Cerber Security, Anti-spam & Malware Scan"
+msgstr "WP Cerber安全性、垃圾留言防護與惡意軟體掃描"
+
+#: cerber-common.php:2152 cerber-common.php:2358
+msgid "Probing for vulnerable code"
+msgstr "檢測 PHP代碼弱點"
+
+#: cerber-load.php:6638
+msgid "Your IP address %s has been added to the White IP Access List"
+msgstr "你的 IP位置 %s已被加入至 IP訪問白名單"
+
+#: admin/cerber-users.php:1129
+msgid "Search for IP address"
+msgstr "搜尋 IP位置"
+
+#: admin/cerber-admin-settings.php:1192
+msgid "Minimal"
+msgstr "最小化"
+
+#: admin/cerber-admin-settings.php:1208
+msgid "Do not log known crawlers"
+msgstr "不要記錄已知的爬蟲"
+
+#: admin/cerber-admin-settings.php:1213
+msgid "Do not log these locations"
+msgstr "不要記錄這些位置"
+
+#: admin/cerber-admin-settings.php:1217
+msgid "Specify URL paths to exclude requests from logging. One item per line."
+msgstr "指定要從記錄排除的 URL路徑請求。一行一個項目。"
+
+#: admin/cerber-admin-settings.php:1221
+msgid "Do not log these User-Agents"
+msgstr "不要記錄這些 User-Agents"
+
+#: admin/cerber-admin-settings.php:1225
+msgid "Specify User-Agents to exclude requests from logging. One item per line."
+msgstr "指定要從記錄排除的 User-Agents請求。一行一個項目。"
+
+#: admin/cerber-dashboard.php:5067
+msgid "Unknown Google's bot"
+msgstr "未知的 Google檢索器"
+
+#: cerber-common.php:2218
+msgid "IP address is not allowed"
+msgstr "不允許的 IP位置"
+
+#: admin/cerber-admin-settings.php:698
+msgid "Only users from IP addresses in the White IP Access List may register on the website"
+msgstr "只有來自 IP存取白名單中的使用者可以註冊此網站"
+
+#: admin/cerber-admin-settings.php:702
+msgid "User message"
+msgstr "使用者訊息"
+
+#: cerber-scanner.php:1690
+msgid "File is missing"
+msgstr "檔案已遺失"
+
+#. Mandatory
+#: cerber-scanner.php:2706
+msgid "This file is missing. It's been deleted or it's not been installed."
+msgstr "檔案已遺失，可能被刪除或尚未安裝。"
+
+#: cerber-scanner.php:4129
+msgid "Error: file %s cannot be used."
+msgstr "錯誤：無法使用檔案 %s。"
+
+#: cerber-scanner.php:4129
+msgid "Please upload another file."
+msgstr "請上傳其它檔案。"
+
+#: admin/cerber-admin-settings.php:204
+msgid "Deferred rendering"
+msgstr "延遲渲染"
+
+#: admin/cerber-admin-settings.php:205
+msgid "Defer rendering the custom login page"
+msgstr "延遲渲染自訂登入頁"
+
+#: cerber-load.php:412
+msgid "You have only one login attempt remaining."
+msgstr "你只剩下一次機會嘗試。\n"
+"你只剩下 %d次機會嘗試。"
+
+#: admin/cerber-users.php:470
+msgid "Number of allowed concurrent user sessions"
+msgstr "允許的使用者同時通信數量"
+
+#: admin/cerber-users.php:476
+msgid "When the limit on concurrent user sessions is reached"
+msgstr "當使用者達到同時通信數量限制時"
+
+#: admin/cerber-users.php:479
+msgid "Terminate the oldest user session on a new login"
+msgstr "使用者進行新登入時中止舊的通信"
+
+#: admin/cerber-users.php:480
+msgid "Deny further login attempts"
+msgstr "拒絕進一步嘗試登入"
+
+#: admin/cerber-users.php:543
+msgid "Login from a different browser or device"
+msgstr "自不同的瀏覽器或裝置登入"
+
+#: admin/cerber-users.php:549
+msgid "If the number of concurrent user sessions is greater"
+msgstr "如果使用者同時通信數量高於"
+
+#: admin/cerber-dashboard.php:5605 admin/cerber-dashboard.php:6120
+msgid "These features are available in the professional version of WP Cerber."
+msgstr "這些功能僅提供進階版外掛使用。"
+
+#: cerber-common.php:2133
+msgid "User session terminated"
+msgstr "已中止使用者通信"
+
+#: cerber-common.php:2219
+msgid "Limit on concurrent user sessions"
+msgstr "使用者同時通信數量限制"
+
+#: admin/cerber-users.php:85
+msgid "It is visible only to website administrators"
+msgstr "它只對網站管理員可見"
+
+#: admin/cerber-admin.php:1546
+msgid "Authorized"
+msgstr "授權"
+
+#: admin/cerber-admin.php:1547
+msgid "Authorization Failed"
+msgstr "授權失敗"
+
+#: admin/cerber-admin-settings.php:2664
+msgid "Important note if you have a caching plugin in place"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:2665
+msgid "To avoid false positives and get better anti-spam performance, please clear the plugin cache."
+msgstr "為了避免誤報和取得更好的反垃圾郵件效能，請清除外掛快取。"
+
+#: cerber-common.php:2172
+msgid "API request authorized"
+msgstr "API 請求授權"
+
+#: cerber-common.php:2173
+msgid "API request authorization failed"
+msgstr "API 請求授權失敗"
+
+#: cerber-common.php:2157
+msgid "Request to XML-RPC API denied"
+msgstr "拒絕對 XML-RPC API 的請求"
+
+#: cerber-common.php:2220
+msgid "Invalid cookies"
+msgstr "無效 cookie"
+
+#: admin/cerber-admin-settings.php:129
+msgid "Block IP address for"
+msgstr "封鎖 IP 位址為"
+
+#: admin/cerber-admin-settings.php:133
+msgid "Mitigate aggressive attempts"
+msgstr "減少攻擊性嘗試"
+
+#: admin/cerber-admin-settings.php:483
+msgid "Do not show PHP errors on my website"
+msgstr "不要在我的網站上顯示 PHP 錯誤"
+
+#: admin/cerber-admin-settings.php:1198
+msgid "Log all REST API requests"
+msgstr "記錄所有 REST API 請求"
+
+#: admin/cerber-admin-settings.php:1203
+msgid "Log all XML-RPC requests"
+msgstr "記錄所有 XML-RPC 請求"
+
+#: admin/cerber-admin-settings.php:1589
+msgid "Custom comment URL"
+msgstr "自訂留言 URL"
+
+#: admin/cerber-admin-settings.php:1590
+msgid "Use custom URL for the WordPress comment form"
+msgstr "對 WordPress 留言表單使用自訂 URL"
+
+#: admin/cerber-dashboard.php:2288 admin/cerber-admin-settings.php:519
+#: admin/cerber-admin-settings.php:1635
+msgid "Logged-in users"
+msgstr "登入的使用者"
+
+#: admin/cerber-admin-settings.php:387
+msgid "Personal Preferences"
+msgstr "個人偏好設定"
+
+#: admin/cerber-admin-settings.php:520
+msgid "Allow access to REST API for logged-in users"
+msgstr "允許登錄使用者存取 REST API"
+
+#: admin/cerber-admin-settings.php:668
+msgid "User registration"
+msgstr "使用者註冊"
+
+#: admin/cerber-admin-settings.php:669
+msgid "Restrict new user registrations by the following conditions"
+msgstr "根據以下條件限制新使用者註冊"
+
+#: admin/cerber-admin-settings.php:711
+msgid "Authorized Access"
+msgstr "授權存取"
+
+#: admin/cerber-admin-settings.php:712
+msgid "Grant access to the website to logged-in users only"
+msgstr "只允許登錄使用者存取網站"
+
+#: admin/cerber-admin-settings.php:748 admin/cerber-admin-settings.php:1376
+msgid "Miscellaneous Settings"
+msgstr "雜項設定"
+
+#: admin/cerber-admin-settings.php:761 admin/cerber-users.php:493
+msgid "Application Passwords"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:764 admin/cerber-users.php:497
+msgid "Enabled, access to API using standard user passwords is allowed"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:765 admin/cerber-users.php:498
+msgid "Enabled, no access to API using standard user passwords"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1176
+msgid "Ignore logged-in users"
+msgstr "忽略登入的使用者"
+
+#: admin/cerber-admin-settings.php:1636
+msgid "Disable bot detection engine for logged-in users"
+msgstr "為登入的使用者停用機器人檢測引擎"
+
+#: admin/cerber-admin-settings.php:1733
+msgid "Disable reCAPTCHA for logged-in users"
+msgstr "對登入的使用者停用 reCAPTCHA"
+
+#: admin/cerber-users.php:496
+msgid "Use global policies"
+msgstr ""
+
+#: cerber-load.php:415
+msgid "You have %d login attempt remaining."
+msgid_plural "You have %d login attempts remaining."
+msgstr[0] ""
+
+#: admin/cerber-users.php:486
+msgid "Display this message if an attempt to log in is denied because the limit on concurrent user sessions has been reached"
+msgstr ""
+
+#: admin/cerber-dashboard.php:5741
+msgid "Role-Based"
+msgstr "基於角色"
+
+#: cerber-common.php:2169
+msgid "User application password created"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:103
+msgid "Initialization Mode"
+msgstr "初始化模式"
+
+#: admin/cerber-admin-settings.php:1248
+msgid "Save response headers"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1259
+msgid "Save response cookies"
+msgstr ""
+
+#: cerber-load.php:8789
+msgid "We need your support to keep moving forward"
+msgstr ""
+
+#: cerber-load.php:8791
+msgid "By sharing your unique opinion on WP Cerber, you help the engineers behind the plugin make greater progress and help other professionals find the right software. You can leave your review on one of the following websites. Feel free to use your native language. Thanks!"
+msgstr ""
+
+#: nexus/cerber-nexus-manager.php:665
+msgid "Secret Access Token is invalid"
+msgstr ""
+
+#: admin/cerber-dashboard.php:265
+msgid "Click the IP address to see its activity"
+msgstr ""
+
+#: admin/cerber-dashboard.php:1208
+msgid "Login issues"
+msgstr ""
+
+#: admin/cerber-dashboard.php:1225 admin/cerber-dashboard.php:4898
+msgid "Non-authenticated"
+msgstr ""
+
+#: admin/cerber-dashboard.php:1526 admin/cerber-dashboard.php:1995
+#: admin/cerber-dashboard.php:2829 admin/cerber-admin.php:1330
+msgid "No activity has been logged yet."
+msgstr ""
+
+#: admin/cerber-dashboard.php:2850
+msgid "Users' Activity"
+msgstr "使用者行為"
+
+#: admin/cerber-dashboard.php:2870
+msgid "Malicious Activity"
+msgstr "惡意行為"
+
+#: admin/cerber-dashboard.php:4895
+msgid "Suspicious requests"
+msgstr "可疑請求"
+
+#: admin/cerber-dashboard.php:1224 admin/cerber-dashboard.php:4897
+msgid "Users"
+msgstr "使用者"
+
+#: cerber-common.php:2222
+msgid "Forbidden URL"
+msgstr "停用網址"
+
+#: admin/cerber-admin-settings.php:104
+msgid "How WP Cerber loads its core and security mechanisms"
+msgstr "WP Cerber 如何載入核心和安全機制"
+
+#: admin/cerber-admin-settings.php:118
+msgid "Login Security"
+msgstr "登錄安全"
+
+#: admin/cerber-admin-settings.php:197
+msgid "A unique string that does not overlap with slugs of the existing pages or posts"
+msgstr "一個唯一的字串，不與現有頁面或文章的片段重疊"
+
+#: admin/cerber-admin-settings.php:142
+msgid "Processing wp-login.php authentication requests"
+msgstr "處理 wp-login.php 身份驗證請求"
+
+#: admin/cerber-admin-settings.php:145
+msgid "Default processing"
+msgstr "預設處理"
+
+#: admin/cerber-admin-settings.php:146
+msgid "Block access to wp-login.php"
+msgstr "封鎖存取 wp-login. php"
+
+#: admin/cerber-admin-settings.php:412
+msgid "Shift admin menu"
+msgstr "切換管理選單"
+
+#: cerber-2fa.php:575
+msgid "You or someone else trying to log into the website. We have to verify that it's you. If this wasn't you, please immediately reset your password to safeguard your account."
+msgstr ""
+
+#: cerber-2fa.php:739
+msgid "Did not receive the email?"
+msgstr ""
+
+#: cerber-2fa.php:576
+msgid "Please use the following verification PIN code to verify your identity."
+msgstr "請使用以下驗證 PIN 碼來驗證您的身份。"
+
+#: admin/cerber-admin-settings.php:2608
+msgid "You have disabled the default login page. Ensure that you have configured an alternative login page. Otherwise, you will not be able to log in."
+msgstr "您已經停用了預設登錄頁面。確保您已經設定了代替的登錄頁面。否則，您將無法登錄。"
+
+#: admin/cerber-admin-settings.php:119
+msgid "Brute-force attack mitigation and user authentication settings"
+msgstr "暴力攻擊緩解和使用者身份驗證設定"
+
+#: admin/cerber-admin-settings.php:155
+msgid "Disable the default login error message"
+msgstr "停用預設登錄錯誤訊息"
+
+#: admin/cerber-admin-settings.php:156
+msgid "Do not reveal non-existing usernames and emails in the failed login attempt message"
+msgstr "不要在失敗的登錄嘗試訊息中顯示不存在的使用者名稱和電子郵件"
+
+#: admin/cerber-admin-settings.php:147
+msgid "Deny authentication through wp-login.php"
+msgstr "透過 wp-login. php 拒絕身份驗證"
+
+#: cerber-common.php:2221
+msgid "Invalid cookies cleared"
+msgstr "清除無效 Cookie"
+
+#: cerber-load.php:1838
+msgid "If we have found your account, we have sent the confirmation link to the email address on the account."
+msgstr "如果我們有找到您的帳號，我們會傳送確認連結到帳號的電子郵件位址。"
+
+#: cerber-load.php:6596 cerber-common.php:770
+msgid "WP Cerber requires PHP %s or higher. You are running %s."
+msgstr "WP Cerber 需要 PHP %s 或更新的版本。您正在執行 %s。"
+
+#: cerber-load.php:6600 cerber-common.php:774
+msgid "WP Cerber requires WordPress %s or higher. You are running %s."
+msgstr "WP Cerber 需要 WordPress %s 或更新的版本。您正在執行 %s。"
+
+#: admin/cerber-admin-settings.php:166
+msgid "Disable the default reset password error message"
+msgstr "停用預設重設密碼錯誤訊息"
+
+#: admin/cerber-admin-settings.php:167
+msgid "Do not reveal non-existing usernames and emails in the reset password error message"
+msgstr "不要在重設密碼錯誤資訊中顯示不存在的使用者名稱和電子郵件"
+
+#: admin/cerber-admin-settings.php:438 admin/cerber-admin-settings.php:443
+msgid "Prevent username discovery"
+msgstr "防止使用者名稱探索"
+
+#: admin/cerber-admin-settings.php:439
+msgid "Prevent username discovery via oEmbed"
+msgstr "防止透過 oEmbed 探索使用者名稱"
+
+#: admin/cerber-admin-settings.php:444
+msgid "Prevent username discovery via user XML sitemaps"
+msgstr "防止透過使用者 XML 網站地圖探索使用者名稱"
+
+#: admin/cerber-admin-settings.php:1385 admin/cerber-admin-settings.php:1793
+#: admin/cerber-admin-settings.php:1821
+msgid "Once enabled, the log is available here: %s"
+msgstr "一旦啟用，日誌就可以在這裡使用: %s"
+
+#: cerber-scanner.php:2707
+msgid "The scanner identifies this file as missing based on the integrity data (checksums) provided by the developer of %s."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:391
+msgid "Retrieve IP address WHOIS information when viewing the logs"
+msgstr "檢視日誌時搜尋 IP 位址 WHOIS 資訊"
+
+#: admin/cerber-admin-settings.php:413
+msgid "Shift the WP Cerber admin menu to the top when navigating through WP Cerber admin pages"
+msgstr "當瀏覽 WP Cerber 管理頁面時，將 WP Cerber 管理選單移到頂部"
+
+#: admin/cerber-admin-settings.php:390
+msgid "Show IP WHOIS data"
+msgstr "顯示 IP WHOIS 資料"
+
+#: admin/cerber-admin-settings.php:1489
+msgid "Analyze the uploads directory"
+msgstr "分析上傳目錄"
+
+#: admin/cerber-admin-settings.php:1490
+msgid "Analyze the WordPress uploads directory to detect injected files"
+msgstr "分析 WordPress 上傳目錄來偵測注入的檔案"
+
+#: admin/cerber-admin-settings.php:1380
+msgid "Change file and directory permissions if it is required to delete files"
+msgstr "如果需要刪除檔案，則變更檔案和目錄權限"
+
+#: admin/cerber-admin-settings.php:1379
+msgid "Change filesystem permissions"
+msgstr "變更檔案系統權限"
+
+#: admin/cerber-admin-settings.php:1468
+msgid "Delete files in the WordPress uploads directory"
+msgstr "刪除 WordPress 上傳目錄中的檔案"
+
+#: admin/cerber-admin-settings.php:1477
+msgid "Delete files with unwanted extensions"
+msgstr "刪除帶有不需要的副檔名的檔案"
+
+#: admin/cerber-admin-settings.php:1508
+msgid "Delete publicly accessible files with these extensions"
+msgstr "刪除具有這些副檔名的公開可存取檔案"
+
+#: cerber-scanner.php:3895
+msgid "Detecting injected files in the WordPress uploads directory"
+msgstr "偵測 WordPress 上傳目錄中的注入檔案"
+
+#: cerber-common.php:2223
+msgid "Executable file extension detected"
+msgstr ""
+
+#: cerber-common.php:2224
+msgid "Filename is prohibited"
+msgstr "禁止使用檔名"
+
+#: admin/cerber-admin-settings.php:1556
+msgid "Files in temporary directories"
+msgstr "暫存目錄中的檔案"
+
+#: admin/cerber-admin-settings.php:1533
+msgid "Global Exclusions"
+msgstr "全域排除項目"
+
+#: admin/cerber-admin-settings.php:1496
+msgid "Ignore files with these extensions"
+msgstr ""
+
+#: cerber-scanner.php:1706
+msgid "Injected file"
+msgstr "注入的檔案"
+
+#: cerber-scanner.php:1745
+msgid "Injected files"
+msgstr "注入的檔案"
+
+#: cerber-scanner.php:311
+msgid "KB/sec"
+msgstr "KB/秒"
+
+#: admin/cerber-admin-settings.php:1484
+msgid "Keep the WordPress uploads directory clean and secure. Detect injected files with public web access, report them, and remove malicious ones."
+msgstr "保持 WordPress 上傳目錄的清潔和安全。偵測具有公開網路存取權限的注入檔案，報告它們，並刪除惡意檔案。"
+
+#: cerber-scanner.php:1691
+msgid "Local hash not found"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1411
+msgid "once a day at"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1506
+msgid "Prohibited extensions"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1527
+msgid "Recover plugins' files"
+msgstr "復原外掛的檔案"
+
+#: admin/cerber-admin-settings.php:1341
+msgid "Scan the sessions directory"
+msgstr "掃瞄工作階段目錄"
+
+#: admin/cerber-admin-settings.php:1337
+msgid "Scan web server's temporary directories"
+msgstr "掃瞄 Web 伺服器的暫存目錄"
+
+#: cerber-scanner.php:3886
+msgid "Scanning server's temporary directories for files"
+msgstr "掃瞄伺服器的暫存目錄中的檔案"
+
+#: cerber-scanner.php:3887
+msgid "Scanning the sessions directory for files"
+msgstr "掃瞄工作階段目錄中的檔案"
+
+#: cerber-scanner.php:3885
+msgid "Scanning the temporary upload directory for files"
+msgstr "掃瞄暫存上傳目錄中的檔案"
+
+#: cerber-scanner.php:3884
+msgid "Scanning website directories for files"
+msgstr "掃瞄網站目錄中的檔案"
+
+#: admin/cerber-admin-settings.php:1494
+msgid "Skip files with these extensions"
+msgstr "略過帶有這些副檔名的檔案"
+
+#: admin/cerber-admin-settings.php:1460
+msgid "These policies are automatically enforced at the end of every scan based on its results. All affected files are moved to the quarantine."
+msgstr "這些原則在每次掃瞄結束時根據其結果自動執行。所有受影響的檔案都被轉移到隔離區。"
+
+#: admin/cerber-dashboard.php:3557
+msgid "This scan report was generated by the previous version of WP Cerber. Please run a new scan to get consistent and accurate results."
+msgstr "這個掃瞄報告是由以前版本的 WP Cerber 產生的。請重新掃瞄以取得一致和準確的結果。"
+
+#: admin/cerber-admin-settings.php:1497 admin/cerber-admin-settings.php:1509
+msgid "Use comma to separate multiple extensions"
+msgstr "使用逗號分隔多個副檔名"
+
+#: admin/cerber-admin-settings.php:1483
+msgid "WordPress uploads analysis"
+msgstr "WordPress 上傳分析"
+
+#. This is a risk level.
+#: cerber-scanner.php:1670
+msgctxt "This is a risk level."
+msgid "High"
+msgstr ""
+
+#. This is a risk level.
+#: cerber-scanner.php:1666
+msgctxt "This is a risk level."
+msgid "Low"
+msgstr ""
+
+#. This is a risk level.
+#: cerber-scanner.php:1668
+msgctxt "This is a risk level."
+msgid "Medium"
+msgstr ""
+
+#: cerber-load.php:4823
+msgid "If you believe you should be able to perform this request, please let us know."
+msgstr "如果您認為您應該能夠執行此請求，請讓我們知道。"
+
+#: cerber-load.php:4822
+msgid "Your request looks suspiciously similar to automated requests from spam posting software or it has been denied by a security policy configured by the website administrator."
+msgstr "您的請求看起來與垃圾郵件傳送軟體的自動請求非常相似，或者已被網站管理員設定的安全原則拒絕。"
+
+#: admin/cerber-admin-settings.php:1641
+msgid "Disable bot detection engine for IP addresses in the White IP Access List"
+msgstr "在IP 存取白名單中停用 IP 位址的 bot 偵測引擎"
+
+#: admin/cerber-admin-settings.php:1739
+msgid "Disable reCAPTCHA for IP addresses in the White IP Access List"
+msgstr ""
+
+#: admin/cerber-admin.php:529
+msgid "Executable files are not supported. Please upload a ZIP archive."
+msgstr ""
+
+#: cerber-load.php:773
+msgid "Human verification failed."
+msgstr "人工驗證失敗。"
+
+#: cerber-common.php:2238
+msgid "Logged out everywhere"
+msgstr ""
+
+#: cerber-common.php:2137
+msgid "Password reset request denied"
+msgstr ""
+
+#: cerber-common.php:2240
+msgid "reCAPTCHA verified"
+msgstr "驗證碼已驗證"
+
+#: cerber-load.php:3464
+msgid "Sorry, password reset is not allowed for this user."
+msgstr "對不起，該使用者不允許重設密碼。"
+
+#: admin/cerber-admin.php:525
+msgid "This type of file is not supported. Please upload a ZIP archive."
+msgstr "不支援此類型的檔案。請上傳一個 ZIP 壓縮檔。"
+
+#: admin/cerber-admin-settings.php:1132
+msgid "Use less restrictive security filters for IP addresses in the White IP Access List"
+msgstr ""
+
+#: cerber-common.php:2168
+msgid "User application password updated"
+msgstr ""
+
+#: cerber-common.php:2210
+msgid "User blocked by administrator"
+msgstr ""
+
+#. %s is the name of a website administrator who terminated the session.
+#: cerber-common.php:2135
+msgid "User session terminated by %s"
+msgstr ""
+
+#: cerber-common.php:2211 admin/cerber-dashboard.php:3628
+msgid "Username is prohibited"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:538
+msgid "View all REST API requests"
+msgstr "檢視所有 RESTAPI 請求"
+
+#: admin/cerber-admin-settings.php:538
+msgid "View denied REST API requests"
+msgstr "檢視被拒絕的 REST API 請求"
+
+#: cerber-load.php:5041
+msgid "A new activity has occurred"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3218
+msgid "Do not send alerts after this date"
+msgstr "此日期後不要傳送警報"
+
+#: admin/cerber-dashboard.php:3189 admin/cerber-dashboard.php:4875
+#: admin/cerber-admin-settings.php:249 admin/cerber-admin-settings.php:1913
+msgid "Documentation"
+msgstr "文件"
+
+#: admin/cerber-dashboard.php:3186
+msgid "Email alerts will be sent to these emails:"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3186
+msgid "Email alerts will be sent to this email:"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3223
+msgid "Ignore global rate limits"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3209
+msgid "Maximum number of alerts to send"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3183
+msgid "Mobile alerts are not configured"
+msgstr ""
+
+#. %s is the name of a mobile device.
+#: admin/cerber-dashboard.php:3180
+msgid "Mobile alerts will be sent to %s"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3214
+msgid "No limit"
+msgstr ""
+
+#: admin/cerber-dashboard.php:6218
+msgid "OK"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3199
+msgid "Optional alert limits"
+msgstr ""
+
+#. %s is the name of a website administrator who changed the password.
+#: cerber-common.php:2131
+msgid "Password changed by %s"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1569
+msgid "Spam protection for registration, comment, and other forms on the website"
+msgstr "垃圾郵件的註冊、留言和其他形式的網站保護"
+
+#: cerber-common.php:2261
+msgid "Unknown label"
+msgstr ""
+
+#. %s is the name of a website administrator who created the password.
+#: cerber-common.php:2171
+msgid "User application password created by %s"
+msgstr ""
+
+#: cerber-common.php:2174
+msgid "User application password deleted"
+msgstr ""
+
+#. %s is the name of a website administrator who deleted the password.
+#: cerber-common.php:2176
+msgid "User application password deleted by %s"
+msgstr ""
+
+#. %s is the name of a website administrator who created the user.
+#: cerber-common.php:2102
+msgid "User created by %s"
+msgstr ""
+
+#. %s is the name of a website administrator who deleted the user.
+#: cerber-common.php:2106
+msgid "User deleted by %s"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1573
+msgid "View bot events"
+msgstr "檢視 bot 事件"
+
+#: admin/cerber-admin-settings.php:1678
+msgid "View reCAPTCHA events"
+msgstr "檢視 reCAPTCHA 事件"
+
+#: admin/cerber-dashboard.php:1547
+msgid "Check for requests from the IP address"
+msgstr "檢查來自 IP 位址的請求"
+
+#: admin/cerber-dashboard.php:1534
+msgid "Get me notified when such an event occurs"
+msgstr "發生這種情況時通知我"
+
+#: admin/cerber-dashboard.php:1529
+msgid "No events found using the given search criteria"
+msgstr "未發現使用指定搜尋條件的事件"
+
+#: admin/cerber-dashboard.php:4866
+msgid "No requests found using the given search criteria"
+msgstr "未找到使用指定搜尋條件的請求"
+
+#: admin/cerber-dashboard.php:4863
+msgid "No requests have been logged yet."
+msgstr "尚未記錄任何請求。"
+
+#: admin/cerber-dashboard.php:4873
+msgid "Note: Logging is currently disabled"
+msgstr "注意: 目前停用日誌記錄"
+
+#: admin/cerber-admin-settings.php:782
+msgid "Sort users in the Dashboard"
+msgstr "在儀表板中對使用者進行排序"
+
+#: cerber-load.php:4962 cerber-load.php:6372
+msgid "View activity in the Dashboard"
+msgstr "在儀表板中檢視活動"
+
+#: admin/cerber-dashboard.php:1539
+msgid "View all logged events"
+msgstr "檢視所有記錄的事件"
+
+#: admin/cerber-dashboard.php:4868
+msgid "View all logged requests"
+msgstr "檢視所有記錄的請求"
+
+#: cerber-load.php:4999
+msgid "View lockouts in the Dashboard"
+msgstr "在儀表板中檢視鎖定"
+
+#: admin/cerber-admin-settings.php:150 admin/cerber-admin-settings.php:151
+msgid "View violations in the log"
+msgstr "在日誌中檢視違規行為"
+
+#: admin/cerber-dashboard.php:1532
+msgid "You will be notified when such an event occurs"
+msgstr "當事件發生時，您將收到通知"
+
+#: admin/cerber-admin-settings.php:730
+msgid "An optional login form message"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:863 admin/cerber-admin-settings.php:1018
+msgid "Brief"
+msgstr ""
+
+#: cerber-2fa.php:592
+msgid "Browser:"
+msgstr "瀏覽器:"
+
+#: cerber-load.php:5018
+msgid "By the user"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3148
+msgid "Channels to send alerts"
+msgstr "傳送警報的通道"
+
+#: admin/cerber-admin-settings.php:334
+msgid "Citadel mode duration"
+msgstr "堡壘模式持續時間"
+
+#: cerber-load.php:4959
+msgid "Citadel mode has been activated after %d failed login attempts in %d minutes."
+msgstr "堡壘模式會在 %d 分鐘內登錄嘗試失敗後啟動。"
+
+#: admin/cerber-admin-settings.php:329
+msgid "Citadel mode threshold"
+msgstr "堡壘模式閾值"
+
+#: admin/cerber-admin-settings.php:837
+msgid "Configure email parameters for notifications, reports, and alerts"
+msgstr "為通知、報告和警報設定電子郵件參數"
+
+#: cerber-load.php:5117 cerber-2fa.php:593
+msgid "Date:"
+msgstr "日期:"
+
+#: admin/cerber-admin-settings.php:179
+msgid "Disable login language switcher"
+msgstr "停用登錄語言切換器"
+
+#: admin/cerber-admin-settings.php:3174
+msgid "Field %s contains an invalid value"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:3168
+msgid "Field %s may not be empty"
+msgstr ""
+
+#: cerber-load.php:5022
+msgid "From the country"
+msgstr ""
+
+#: cerber-load.php:5019
+msgid "From the IP address"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:961
+msgid "If empty, the SMTP username is used"
+msgstr ""
+
+#: cerber-2fa.php:585
+msgid "IP address:"
+msgstr ""
+
+#: cerber-load.php:4960
+msgid "Last failed attempt was at %s from IP %s using username: %s."
+msgstr "最後一次失敗的嘗試是在 %s，從 IP %s 處使用使用者名稱: %s。"
+
+#: cerber-2fa.php:589
+msgid "Location:"
+msgstr "地點:"
+
+#: admin/cerber-admin-settings.php:868 admin/cerber-admin-settings.php:1023
+msgid "Lockout notification"
+msgstr ""
+
+#: cerber-2fa.php:584
+msgid "Login:"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:854 admin/cerber-admin-settings.php:1007
+msgid "Mask sensitive data"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:855 admin/cerber-admin-settings.php:1008
+msgid "Mask usernames and IP addresses in notifications and alerts"
+msgstr "在通知和警報中遮蔽使用者名稱和 IP 位址"
+
+#: admin/cerber-admin-settings.php:859 admin/cerber-admin-settings.php:1013
+msgid "Message format"
+msgstr "訊息格式"
+
+#: admin/cerber-admin-settings.php:939
+msgid "None"
+msgstr "無"
+
+#: admin/cerber-admin-settings.php:862 admin/cerber-admin-settings.php:1017
+msgid "Plain"
+msgstr "純文字"
+
+#: admin/cerber-dashboard.php:3163
+msgid "Please select at least one channel"
+msgstr "請至少選擇一個頻道"
+
+#. %s is the email address(es).
+#: admin/cerber-dashboard.php:3153
+msgid "Send email alerts to %s"
+msgstr ""
+
+#. %s is the name of a mobile device.
+#: admin/cerber-dashboard.php:3169
+msgid "Send mobile alerts to %s"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1024 admin/cerber-admin-settings.php:2208
+msgid "Send notification if the number of active lockouts above"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:873
+msgid "Send notification when a new version of WP Cerber is available"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:936
+msgid "SMTP encryption"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:960
+msgid "SMTP From email"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:968
+msgid "SMTP From name"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:919
+msgid "SMTP host"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:946
+msgid "SMTP password"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:928
+msgid "SMTP port"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:953
+msgid "SMTP username"
+msgstr ""
+
+#: admin/cerber-dashboard.php:777
+msgid "TEST MESSAGE"
+msgstr ""
+
+#: cerber-load.php:5006
+msgid "The WP Cerber Security plugin has been deactivated"
+msgstr ""
+
+#: cerber-load.php:5026
+msgid "The WP Cerber Security plugin is now active"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:703
+msgid "This message is displayed to a user if the IP address of the user's computer is not whitelisted"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:914
+msgid "Use SMTP"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:915
+msgid "Use SMTP server to send emails"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:864 admin/cerber-admin-settings.php:1019
+msgid "Verbose"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:449
+msgid "Block access to user pages via their usernames"
+msgstr ""
+
+#: admin/cerber-users.php:954
+msgid "Check users' settings"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1771
+msgid "Display admin pages of remote websites using my language"
+msgstr ""
+
+#: admin/cerber-users.php:988
+msgid "If necessary, <%s>check and update settings<%s>."
+msgstr ""
+
+#: admin/cerber-users.php:964
+msgid "If necessary, <%s>unblock the IP address<%s>."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:448
+msgid "Stop exposing user details"
+msgstr ""
+
+#: admin/cerber-users.php:962
+msgid "The IP address of the last failed attempt to log in is blocked"
+msgstr ""
+
+#: admin/cerber-users.php:982
+msgid "The last attempt to log in was denied due to the following reason"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1770
+msgid "Use my language"
+msgstr ""
+
+#: admin/cerber-users.php:1008
+msgid "User is not allowed to log in"
+msgstr ""
+
+#: admin/cerber-dashboard.php:92
+msgid "User Sessions"
+msgstr ""
+
+#: admin/cerber-users.php:953
+msgid "username is prohibited"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:161
+msgid "An optional error message to be displayed when attempting to log in with a non-existing username or a non-existing email"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:173
+msgid "An optional error message to be displayed when attempting to reset password for a non-existing username or non-existing email address"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:160
+msgid "Custom login error message"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:172
+msgid "Custom password reset error message"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:3230
+msgid "For safety reasons, prohibited symbols and invalid values have been removed from the following settings. Please check their values."
+msgstr ""
+
+#: admin/cerber-admin.php:947
+msgid "No data for generating reports"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:302
+msgid "Use WP Cerber's plugin repository"
+msgstr ""
+
+#: nexus/cerber-nexus.php:99 nexus/cerber-nexus.php:103
+msgid "Access Settings"
+msgstr ""
+
+#: nexus/cerber-nexus-list.php:162
+msgid "Add a remote website"
+msgstr ""
+
+#: nexus/cerber-nexus.php:264
+msgid "Add managed websites by using access tokens."
+msgstr ""
+
+#: nexus/cerber-nexus.php:70
+msgid "Configure this website as main to manage other remote website"
+msgstr ""
+
+#: nexus/cerber-nexus.php:148
+msgid "Disable managed mode"
+msgstr ""
+
+#: nexus/cerber-nexus.php:69
+msgid "Enable main website mode"
+msgstr ""
+
+#: nexus/cerber-nexus.php:65
+msgid "Enable managed mode"
+msgstr ""
+
+#: nexus/cerber-nexus.php:268
+msgid "Install the access token on the main website."
+msgstr ""
+
+#: nexus/cerber-nexus-manager.php:176
+msgid "Invalid response from the remote website"
+msgstr ""
+
+#: nexus/cerber-nexus.php:145
+msgid "The token is unique to this website. Keep it secret. Install the token on your main website to grant access to this website."
+msgstr ""
+
+#: nexus/cerber-nexus.php:66
+msgid "This website can be managed from a main website"
+msgstr ""
+
+#: nexus/cerber-nexus.php:263
+msgid "This website is set as a main website."
+msgstr ""
+
+#: nexus/cerber-nexus.php:267
+msgid "This website is set as a managed website."
+msgstr ""
+
+#: cerber-common.php:2248 cerber-common.php:2365
+msgid "Exceeded the limit on the number of attempts to enter 2FA code"
+msgstr ""
+
+#: cerber-load.php:5116
+msgid "This message was created by"
+msgstr ""
+
+#: cerber-common.php:2247
+msgid "User's browser does not match the one used to log in"
+msgstr ""
+
+#: cerber-common.php:2246
+msgid "User's IP address does not match the one used to log in"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1033
+msgid "Activity report is a summary of all logged activities and suspicious events occurred during the selected period of time"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1032
+msgid "Activity Reports"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:2858
+msgid "Add-on settings updated"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:778
+msgid "Disable \"Remember Me\" on the login form"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1061
+msgid "Enable monthly reporting"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1036
+msgid "Enable weekly reporting"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1098
+msgid "Generate 30-day reports"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1045
+msgid "Generate 7-day reports"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1099
+msgid "Generate report for the last 30 days instead of the previous calendar month"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1046
+msgid "Generate report for the last 7 days instead of the previous calendar week"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:226
+msgid "Immediately block IP address after any request to wp-login.php"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:221
+msgid "Immediately block IP address when attempting to log in with a non-existing username"
+msgstr ""
+
+#: admin/cerber-tools.php:269
+msgid "IP Access List entries imported: %d"
+msgstr ""
+
+#: cerber-load.php:5645
+msgid "Monthly Report"
+msgstr ""
+
+#: admin/cerber-tools.php:273
+msgid "No IP Access List entries found in the uploaded file"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:220
+msgid "Non-existing users are strictly prohibited"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:341
+msgid "Notify admin"
+msgstr ""
+
+#: admin/cerber-dashboard.php:949
+msgid "Now, whenever you see a green shield icon in the top right-hand corner of any WP Cerber admin page, it means the professional version works as intended, and your website is protected by WP Cerber Security Cloud."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1370
+msgid "Please run a new scan to get consistent and accurate results."
+msgstr ""
+
+#: admin/cerber-dashboard.php:950
+msgid "Please use our client portal to manage your subscription, license keys and get support at %s"
+msgstr ""
+
+#: admin/cerber-tools.php:240
+msgid "Plugin settings have been imported successfully"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:2875
+msgid "Plugin settings updated"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:225
+msgid "Requests to wp-login.php are strictly prohibited"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:343
+msgid "Send email notification to the admin"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1092
+msgid "Send monthly reports on the nth day of month"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1040
+msgid "Send weekly reports on"
+msgstr ""
+
+#: admin/cerber-users.php:440 admin/cerber-users.php:446
+msgid "Specify a relative or absolute URL"
+msgstr ""
+
+#: admin/cerber-dashboard.php:951
+msgid "Thank you for being our client."
+msgstr ""
+
+#: admin/cerber-admin.php:836
+msgid "The file has been deleted from the quarantine."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:3200
+msgid "The following settings have been set to their minimum acceptable values."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:2714
+msgid "The Pushbullet token is valid. You can select devices to receive notifications."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:2744
+msgid "The scanner schedule has been updated"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1084
+msgid "To generate complete reports, activity log entries will be kept for %d days."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:2747
+msgid "Unable to update the scanner schedule"
+msgstr ""
+
+#: admin/cerber-users.php:472
+msgid "unlimited"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:278
+msgid "Access to prohibited locations"
+msgstr ""
+
+#: nexus/cerber-nexus-list.php:425
+msgid "Disable main website mode"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1751
+msgid "Main website settings"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:283
+msgid "Redirect to the specified URL"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:287
+msgid "Redirection URL"
+msgstr ""
+
+#: nexus/cerber-nexus-manager.php:1088
+msgid "You have switched back to the main website"
+msgstr ""
+
+#: admin/cerber-dashboard.php:948
+msgid "Great! Your license key is valid."
+msgstr ""
+
+#: admin/cerber-admin.php:948
+msgid "Please run the Full Scan. After the scan is completed, analytics reports will be generated."
+msgstr ""
+
+#. Here %s is the name of a mobile device or/and email addresses.
+#: admin/cerber-dashboard.php:784
+msgid "A message has been sent to %s"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:2564
+msgid "A must-use WP Cerber boot file has been copied to the WordPress must-use directory"
+msgstr ""
+
+#. Here %s is a name of software package (module).
+#: cerber-toolbox.php:143
+msgid "A new version of %s is available"
+msgstr ""
+
+#: cerber-common.php:2848
+msgid "A new version of WP Cerber Security is available. It is strongly advised to install it."
+msgstr ""
+
+#: admin/cerber-dashboard.php:4076
+msgid "Access to REST API is restricted in the WP Cerber settings."
+msgstr ""
+
+#: cerber-toolbox.php:124
+msgid "Active:"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:509
+msgid "Allow access to users' data via REST API for these roles"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1836
+msgid "Available in the professional version of WP Cerber"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1534
+msgid "Be careful about configuring these settings. Improper configuration may lead to failure to delete malicious files."
+msgstr ""
+
+#: admin/cerber-admin-settings.php:891
+msgid "Brief notification format"
+msgstr ""
+
+#: admin/cerber-tools.php:66
+msgid "Bulk importing IP Access List entries"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:886
+msgid "Checking frequency"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:910
+msgid "Email server for sending emails generated by WP Cerber"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4087
+msgid "Heads up!"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:892
+msgid "Hide software versions and website URLs in notifications"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:887
+msgid "hours interval check"
+msgstr ""
+
+#: admin/cerber-dashboard.php:324 admin/cerber-dashboard.php:329
+msgid "Import Entries"
+msgstr ""
+
+#: cerber-toolbox.php:125
+msgid "Installed version:"
+msgstr ""
+
+#: cerber-toolbox.php:65
+msgid "It seems outgoing Internet connections are not allowed on your website."
+msgstr ""
+
+#: cerber-common.php:2849
+msgid "Know more details about this version here:"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:849 admin/cerber-admin-settings.php:1001
+msgid "Limit on the allowed number of alerts"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:909
+msgid "Mail Transport"
+msgstr ""
+
+#: cerber-toolbox.php:136
+msgid "Manage plugins on your website:"
+msgstr ""
+
+#: cerber-toolbox.php:119
+msgid "No"
+msgstr ""
+
+#: cerber-toolbox.php:62
+msgid "No updates found."
+msgstr ""
+
+#: cerber-toolbox.php:133
+msgid "Plugin page:"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:877
+msgid "Plugin update is available"
+msgstr ""
+
+#: cerber-toolbox.php:123
+msgid "Plugin:"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3158
+msgid "Send email alerts to my email"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:878
+msgid "Send notification when a new version of a plugin is available"
+msgstr ""
+
+#: cerber-toolbox.php:130
+msgid "Tested up to:"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:248
+msgid "The reverse proxy mode has not been enabled. No valid proxy headers found."
+msgstr ""
+
+#: cerber-toolbox.php:112
+msgid "There is a new version of a plugin installed on your website."
+msgstr ""
+
+#: cerber-toolbox.php:108
+msgid "This update has not been tested with your version of WordPress"
+msgstr ""
+
+#. Here %s is a version number like 6.1
+#: cerber-toolbox.php:103
+msgid "This update requires PHP version %s or higher, you have %s"
+msgstr ""
+
+#. Here %s is a version number like 6.1
+#: cerber-toolbox.php:97
+msgid "This update requires WordPress version %s or higher, you have %s"
+msgstr ""
+
+#: admin/cerber-dashboard.php:787
+msgid "Unable to send a message"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1541
+msgid "Use absolute or relative to the home directory paths. One directory per line."
+msgstr ""
+
+#: admin/cerber-dashboard.php:4071
+msgid "User registration is disabled in the General WordPress Settings."
+msgstr ""
+
+#: cerber-toolbox.php:122
+msgid "Website:"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:897
+msgid "Where to email notifications"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1051 admin/cerber-admin-settings.php:1104
+msgid "Where to email reports"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:841
+msgid "Where to send emails generated by WP Cerber"
+msgstr ""
+
+#: cerber-common.php:2872
+msgid "WP Cerber %s is available. Please update."
+msgstr "WP Cerber %s 可用。請更新。"
+
+#: admin/cerber-dashboard.php:4081
+msgid "XML-RPC is disabled in the Hardening settings of WP Cerber."
+msgstr ""
+
+#: cerber-toolbox.php:119
+msgid "Yes"
+msgstr ""
+
+#: admin/cerber-dashboard.php:338
+msgid "Your IP address"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:255
+msgid "Your IP address is detected as %s. Make sure it is equal to your IP address on this page: %s."
+msgstr ""
+
+#: admin/cerber-dashboard.php:1079
+msgid "By user"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4747
+msgid "Client Request Cookies"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4731
+msgid "Client Request Headers"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1167
+msgid "Error shielding mode"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4720
+msgid "Files Submitted"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4667
+msgid "Form Fields"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4679
+msgid "GET Fields"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4673
+msgid "JSON Payload"
+msgstr ""
+
+#: cerber-toolbox.php:126
+msgid "New version:"
+msgstr "新版本:"
+
+#: admin/cerber-dashboard.php:4758
+msgid "Server Response Cookies"
+msgstr "伺服器回應 Cookies"
+
+#: admin/cerber-dashboard.php:4740
+msgid "Server Response Headers"
+msgstr "伺服器回應標頭"
+
+#: admin/cerber-dashboard.php:4777
+msgid "Software Errors"
+msgstr "軟體錯誤"
+
+#: admin/cerber-admin-settings.php:1122
+msgid "Traffic inspection mode"
+msgstr ""
+
+#: cerber-common.php:788
+msgid "Warning!"
+msgstr ""
+
+#: admin/cerber-dashboard.php:4727
+msgid "XML-RPC Payload"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:303
+msgid "Allow updating WP Cerber from its official website"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:312
+msgid "Automatically install new versions of WP Cerber when they are available"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:311
+msgid "Automatically update WP Cerber"
+msgstr ""
+
+#: cerber-scanner.php:1709
+msgid "File contents changed"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:872
+msgid "New version of WP Cerber is available"
+msgstr ""
+
+#: cerber-scanner.php:1714
+msgid "Unable to recover"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:295
+msgid "Use proxy server for outgoing network connections"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:1776
+msgid "Use proxy server to connect to managed websites"
+msgstr ""
+
+#: admin/cerber-admin-settings.php:294 admin/cerber-admin-settings.php:1775
+msgid "Use WordPress proxy settings"
+msgstr ""
+
+#: cerber-load.php:1689
+msgid "User session has been terminated"
+msgid_plural "%s user sessions have been terminated"
+msgstr[0] ""
+
+#: admin/cerber-dashboard.php:3500
+msgid "BLOCKED"
+msgstr ""
+
+#: cerber-2fa.php:586
+msgid "Hostname:"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3504
+msgid "PROHIBITED"
+msgstr ""
+
+#: admin/cerber-dashboard.php:3621
+msgid "User is blocked"
+msgstr ""
+

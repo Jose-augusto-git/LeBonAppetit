@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WPForms\Admin\Forms\Tags;
 use WPForms\Forms\Akismet;
 

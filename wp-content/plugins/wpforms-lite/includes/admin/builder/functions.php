@@ -434,7 +434,7 @@ function wpforms_panel_field_toggle_control( $args, $input_id, $field_name, $lab
 			esc_attr( $input_id ),
 			esc_attr( $status_on ),
 			esc_attr( $status_off ),
-			esc_html( ! empty( $args['value'] ) ? $status_on : $status_off )
+			esc_html( $value ? $status_on : $status_off )
 		);
 	}
 

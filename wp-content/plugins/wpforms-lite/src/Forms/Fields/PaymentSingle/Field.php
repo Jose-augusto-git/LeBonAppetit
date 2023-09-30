@@ -397,9 +397,22 @@ class Field extends \WPForms_Field {
 			return;
 		}
 
+		/**
+		 * Whether to validate amount or not of the Payment Single item field.
+		 *
+		 * @since 1.8.4
+		 *
+		 * @param bool   $validate     Whether to validate amount or not. Default true.
+		 * @param int    $field_id     Field ID.
+		 * @param string $field_submit Field data submitted by a user.
+		 * @param array  $form_data    Form data and settings.
+		 */
+		$validate_amount = apply_filters( 'wpforms_forms_fields_payment_single_field_validate_amount', true, $field_id, $field_submit, $form_data );
+
 		// If field format is not user provided, validate the amount posted.
 		if (
 			! empty( $field_submit ) &&
+			$validate_amount &&
 			$form_data['fields'][ $field_id ]['format'] !== self::FORMAT_USER
 		) {
 
@@ -413,6 +426,7 @@ class Field extends \WPForms_Field {
 
 		if (
 			! empty( $field_submit ) &&
+			$validate_amount &&
 			$form_data['fields'][ $field_id ]['format'] === self::FORMAT_USER
 		) {
 			$submit = wpforms_sanitize_amount( $field_submit );

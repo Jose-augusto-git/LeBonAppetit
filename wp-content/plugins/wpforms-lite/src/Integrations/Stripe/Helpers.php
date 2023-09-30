@@ -61,7 +61,7 @@ class Helpers {
 	public static function has_stripe_enabled( $forms ) {
 
 		foreach ( $forms as $form ) {
-			if ( ! empty( $form['payments']['stripe']['enable'] ) ) {
+			if ( self::is_payments_enabled( $form ) ) {
 				return true;
 			}
 		}
@@ -82,7 +82,7 @@ class Helpers {
 
 		$mode = self::validate_stripe_mode( $mode );
 
-		return wpforms_setting( "stripe-{$mode}-secret-key", false ) && wpforms_setting( "stripe-{$mode}-publishable-key", false );
+		return wpforms_setting( "stripe-{$mode}-secret-key" ) && wpforms_setting( "stripe-{$mode}-publishable-key" );
 	}
 
 	/**
@@ -273,5 +273,201 @@ class Helpers {
 		$country = get_option( "wpforms_stripe_{$mode}_account_country", '' );
 
 		return ! in_array( $country, [ 'br', 'in', 'mx' ], true );
+	}
+
+	/**
+	 * Get Stripe webhook endpoint data.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return array
+	 */
+	public static function get_webhook_endpoint_data() {
+
+		return [
+			'namespace' => 'wpforms',
+			'route'     => 'stripe/webhooks',
+			'fallback'  => 'wpforms_stripe_webhooks',
+		];
+	}
+
+	/**
+	 * Get webhook URL for REST API.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return string
+	 */
+	public static function get_webhook_url_for_rest() {
+
+		$path = implode(
+			'/',
+			[
+				self::get_webhook_endpoint_data()['namespace'],
+				self::get_webhook_endpoint_data()['route'],
+			]
+		);
+
+		return rest_url( $path );
+	}
+
+	/**
+	 * Get webhook URL for cURL fallback.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return string
+	 */
+	public static function get_webhook_url_for_curl() {
+
+		return add_query_arg( self::get_webhook_endpoint_data()['fallback'], '1', site_url() );
+	}
+
+	/**
+	 * Determine if webhook ID and secret is set in WPForms settings.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return bool
+	 */
+	public static function is_webhook_configured() {
+
+		$mode = self::get_stripe_mode();
+
+		return wpforms_setting( 'stripe-webhooks-id-' . $mode ) && wpforms_setting( 'stripe-webhooks-secret-' . $mode );
+	}
+
+	/**
+	 * Determine if webhooks are enabled in WPForms settings.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return bool
+	 */
+	public static function is_webhook_enabled() {
+
+		return wpforms_setting( 'stripe-webhooks-enabled' );
+	}
+
+	/**
+	 * Determine if REST API is set in WPForms settings.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return bool
+	 */
+	public static function is_rest_api_set() {
+
+		return wpforms_setting( 'stripe-webhooks-communication', 'rest' ) === 'rest';
+	}
+
+	/**
+	 * Get decimals amount.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param string $currency Currency.
+	 *
+	 * @return int
+	 */
+	public static function get_decimals_amount( $currency = '' ) {
+
+		if ( ! $currency ) {
+			$currency = wpforms_get_currency();
+		}
+
+		return (int) str_pad( 1, wpforms_get_currency_decimals( strtolower( $currency ) ) + 1, 0, STR_PAD_RIGHT );
+	}
+
+	/**
+	 * Get Stripe webhook endpoint URL.
+	 *
+	 * If the constant WPFORMS_STRIPE_WHURL is defined, it will be used as the webhook URL.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return string
+	 */
+	public static function get_webhook_url() {
+
+		if ( defined( 'WPFORMS_STRIPE_WHURL' ) ) {
+			return WPFORMS_STRIPE_WHURL;
+		}
+
+		if ( self::is_rest_api_set() ) {
+			return self::get_webhook_url_for_rest();
+		}
+
+		return self::get_webhook_url_for_curl();
+	}
+
+	/**
+	 * Is Stripe payment enabled for the form.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $form_data Form data.
+	 *
+	 * @return bool
+	 */
+	public static function is_payments_enabled( $form_data ) {
+
+		return self::is_modern_settings_enabled( $form_data ) || ! empty( $form_data['payments']['stripe']['enable'] );
+	}
+
+	/**
+	 * Is Stripe modern payment enabled for the form.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $form_data Form data.
+	 *
+	 * @return bool
+	 */
+	public static function is_modern_settings_enabled( $form_data ) {
+
+		return ! empty( $form_data['payments']['stripe']['enable_one_time'] ) || ! empty( $form_data['payments']['stripe']['enable_recurring'] );
+	}
+
+	/**
+	 * Detect if form supports multiple subscription plans.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $form_data Form data.
+	 *
+	 * @return bool
+	 */
+	public static function is_form_supports_multiple_recurring_plans( $form_data ) {
+
+		return ! isset( $form_data['payments']['stripe'] ) || empty( $form_data['payments']['stripe']['recurring']['enable'] );
+	}
+
+	/**
+	 * Determine if legacy payment settings should be displayed.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $form_data Form data.
+	 *
+	 * @return bool
+	 */
+	public static function is_legacy_payment_settings( $form_data ) {
+
+		$has_legacy_settings = ! self::is_form_supports_multiple_recurring_plans( $form_data );
+
+		// Return early if form has legacy payment settings.
+		if ( $has_legacy_settings ) {
+			return true;
+		}
+
+		$addon_compat = ( new StripeAddonCompatibility() )->init();
+
+		// Return early if Stripe Pro addon doesn't support modern settings (multiple plans).
+		if ( $addon_compat && ! $addon_compat->is_supported_modern_settings() ) {
+			return true;
+		}
+
+		return false;
 	}
 }

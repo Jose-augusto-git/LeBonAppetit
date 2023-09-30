@@ -5,16 +5,14 @@
  *
  * @since 1.8.2
  */
-'use strict';
 
-let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document, window, $ ) {
-
+const WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document, window, $ ) {
 	/**
 	 * Elements holder.
 	 *
 	 * @since 1.8.2
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	const el = {};
 
@@ -23,7 +21,7 @@ let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document
 	 *
 	 * @since 1.8.2
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	const vars = {
 		alertTitle: wpforms_admin.heads_up,
@@ -44,8 +42,7 @@ let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document
 		 *
 		 * @since 1.8.2
 		 */
-		init: function() {
-
+		init() {
 			$( app.ready );
 		},
 
@@ -54,8 +51,7 @@ let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document
 		 *
 		 * @since 1.8.2
 		 */
-		ready: function() {
-
+		ready() {
 			app.setup();
 			app.bindEvents();
 		},
@@ -65,13 +61,15 @@ let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document
 		 *
 		 * @since 1.8.2
 		 */
-		setup: function() {
-
+		setup() {
 			// Cache DOM elements.
-			el.$wrapper             = $( '.wpforms-admin-content-payments' );
+			el.$wrapper = $( '.wpforms-admin-content-payments' );
 			el.$liveConnectionBlock = $( '.wpforms-stripe-connection-status-live' );
 			el.$testConnectionBlock = $( '.wpforms-stripe-connection-status-test' );
-			el.$testModeCheckbox    = $( '#wpforms-setting-stripe-test-mode' );
+			el.$testModeCheckbox = $( '#wpforms-setting-stripe-test-mode' );
+			el.copyButton = $( '#wpforms-setting-row-stripe-webhooks-endpoint-set .wpforms-copy-to-clipboard' );
+			el.webhookEndpointUrl = $( 'input#wpforms-stripe-webhook-endpoint-url' );
+			el.webhookMethod = $( 'input[name="stripe-webhooks-communication"]' );
 		},
 
 		/**
@@ -79,10 +77,13 @@ let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document
 		 *
 		 * @since 1.8.2
 		 */
-		bindEvents: function() {
-
+		bindEvents() {
 			el.$wrapper
 				.on( 'change', '#wpforms-setting-stripe-test-mode', app.triggerModeSwitchAlert );
+			el.copyButton
+				.on( 'click', app.copyWebhooksEndpoint );
+			el.webhookMethod
+				.on( 'change', app.onMethodChange );
 		},
 
 		/**
@@ -90,8 +91,7 @@ let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document
 		 *
 		 * @since 1.8.2
 		 */
-		triggerModeSwitchAlert: function() {
-
+		triggerModeSwitchAlert() {
 			if ( el.$testModeCheckbox.is( ':checked' ) ) {
 				el.$liveConnectionBlock.addClass( vars.hideClassName );
 				el.$testConnectionBlock.removeClass( vars.hideClassName );
@@ -118,11 +118,52 @@ let WPFormsSettingsStripe = window.WPFormsSettingsStripe || ( function( document
 				},
 			} );
 		},
+
+		/**
+		 * Copy webhooks endpoint URL to clipboard.
+		 *
+		 * @since 1.8.4
+		 *
+		 * @param {Object} event Event object.
+		 */
+		copyWebhooksEndpoint( event ) {
+			event.preventDefault();
+
+			// Use Clipboard API for modern browsers and HTTPS connections, in other cases use old-fashioned way.
+			if ( navigator.clipboard ) {
+				navigator.clipboard.writeText( el.webhookEndpointUrl.val() ).then(
+					function() {
+						el.copyButton.find( 'span' ).removeClass( 'dashicons-admin-page' ).addClass( 'dashicons-yes-alt' );
+					}
+				);
+
+				return;
+			}
+
+			el.webhookEndpointUrl.attr( 'disabled', false ).focus().select();
+
+			document.execCommand( 'copy' );
+
+			el.copyButton.find( 'span' ).removeClass( 'dashicons-admin-page' ).addClass( 'dashicons-yes-alt' );
+
+			el.webhookEndpointUrl.attr( 'disabled', true );
+		},
+
+		/**
+		 * Update the endpoint URL.
+		 *
+		 * @since 1.8.4
+		 */
+		onMethodChange() {
+			const checked = el.webhookMethod.filter( ':checked' ).val(),
+				newUrl = wpforms_admin_settings_stripe.webhook_urls[ checked ];
+
+			el.webhookEndpointUrl.val( newUrl );
+		},
 	};
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

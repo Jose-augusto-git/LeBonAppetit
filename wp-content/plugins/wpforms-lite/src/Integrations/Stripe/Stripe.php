@@ -21,12 +21,9 @@ final class Stripe implements IntegrationInterface {
 	public function allow_load() {
 
 		// Determine whether the Stripe addon version is compatible with the WPForms plugin version.
-		$addon_compat = new StripeAddonCompatibility();
+		$addon_compat = ( new StripeAddonCompatibility() )->init();
 
-		if (
-			Helpers::is_pro() &&
-			! $addon_compat->is_supported_version()
-		) {
+		if ( $addon_compat && ! $addon_compat->is_supported_version() ) {
 			$addon_compat->hooks();
 
 			return false;
@@ -49,17 +46,23 @@ final class Stripe implements IntegrationInterface {
 	 */
 	public function load() {
 
+		( new Api\WebhookRoute() )->init();
+
 		if ( wpforms_is_admin_page( 'builder' ) ) {
 			( new Admin\Builder\Enqueues() )->init();
 		}
+
+		$api = new Api\PaymentIntents();
+
+		( new WebhooksHealthCheck() )->init();
+		( new Admin\Payments\SingleActionsHandler() )->init( $api );
 
 		// Bail early for paid users with active Stripe addon.
 		if ( Helpers::is_pro() ) {
 			return;
 		}
 
-		$api = new Api\PaymentIntents();
-
+		// It must be run only for the integration bundled into the core plugin.
 		$api->init();
 
 		( new Process() )->init( $api );

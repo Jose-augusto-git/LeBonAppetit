@@ -2,6 +2,10 @@
 
 namespace WPForms\Logger;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use WP_List_Table;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {

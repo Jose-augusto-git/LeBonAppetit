@@ -30,6 +30,15 @@ class Templates {
 	private $categories;
 
 	/**
+	 * Template subcategories data.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @var array
+	 */
+	private $subcategories;
+
+	/**
 	 * License data.
 	 *
 	 * @since 1.6.8
@@ -222,9 +231,10 @@ class Templates {
 	private function init_templates_data() {
 
 		// Get cached templates data.
-		$cache_data       = wpforms()->get( 'builder_templates_cache' )->get();
-		$templates_all    = ! empty( $cache_data['templates'] ) ? $cache_data['templates'] : [];
-		$this->categories = ! empty( $cache_data['categories'] ) ? $cache_data['categories'] : [];
+		$cache_data          = wpforms()->get( 'builder_templates_cache' )->get();
+		$templates_all       = ! empty( $cache_data['templates'] ) ? $this->sort_templates_by_created_at( $cache_data['templates'] ) : [];
+		$this->categories    = ! empty( $cache_data['categories'] ) ? $cache_data['categories'] : [];
+		$this->subcategories = ! empty( $cache_data['subcategories'] ) ? $cache_data['subcategories'] : [];
 
 		// Higher priority templates slugs.
 		// These remote templates are the replication of the default templates,
@@ -281,6 +291,32 @@ class Templates {
 
 		// Finally, merge templates from API.
 		$this->api_templates = array_merge( $templates_higher, $templates_access, $templates_denied );
+	}
+
+	/**
+	 * Sort templates by their created_at value in ascending order.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $templates Templates to be sorted.
+	 *
+	 * @return array Sorted templates.
+	 */
+	private function sort_templates_by_created_at( array $templates ): array {
+
+		uasort(
+			$templates,
+			static function ( $template_a, $template_b ) {
+
+				if ( $template_a['created_at'] === $template_b['created_at'] ) {
+					return 0;
+				}
+
+				return $template_a['created_at'] < $template_b['created_at'] ? -1 : 1;
+			}
+		);
+
+		return $templates;
 	}
 
 	/**
@@ -453,6 +489,18 @@ class Templates {
 	public function get_categories() {
 
 		return $this->categories;
+	}
+
+	/**
+	 * Get subcategories data.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return array
+	 */
+	public function get_subcategories() {
+
+		return $this->subcategories;
 	}
 
 	/**

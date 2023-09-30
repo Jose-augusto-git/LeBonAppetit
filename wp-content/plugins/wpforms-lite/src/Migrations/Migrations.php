@@ -41,6 +41,7 @@ class Migrations extends Base {
 		'Upgrade177',
 		'Upgrade182',
 		'Upgrade183',
+		'Upgrade184',
 	];
 
 	/**

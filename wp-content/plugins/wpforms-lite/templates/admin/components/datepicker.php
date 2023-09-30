@@ -62,7 +62,7 @@ $choices_allowed_html = [
 			</div>
 			<div class="wpforms-datepicker-action">
 				<button class="button-secondary" type="reset"><?php esc_html_e( 'Cancel', 'wpforms-lite' ); ?></button>
-				<button class="button-primary" type="submit"><?php esc_html_e( 'Apply', 'wpforms-lite' ); ?></button>
+				<button class="button-primary wpforms-btn-blue" type="submit"><?php esc_html_e( 'Apply', 'wpforms-lite' ); ?></button>
 			</div>
 		</div>
 	</div>

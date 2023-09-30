@@ -46,8 +46,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<p class="wpforms-payment-form">
 				<span class="dashicons dashicons-wpforms"></span>
-				<?php esc_html_e( 'Form:', 'wpforms-lite' ); ?>
-				<a href="<?php echo esc_url( $form_edit_link ); ?>" class="wpforms-link"><?php echo esc_html( get_the_title( $payment->form_id ) ); ?></a>
+				<?php
+				esc_html_e( 'Form:', 'wpforms-lite' );
+				// Output the form edit link, if available.
+				// The output could be a link or a span, depending on the availability of the form.
+				echo wp_kses(
+					$form_edit_link,
+					[
+						'a'    => [
+							'href'  => [],
+							'class' => [],
+						],
+						'span' => [ 'class' => [] ],
+					]
+				);
+				?>
 			</p>
 
             <?php if ( $test_mode ) : ?>

@@ -22,13 +22,23 @@ class Settings {
 	protected $connect;
 
 	/**
+	 * Stripe Webhook Settings.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @var WebhookSettings
+	 */
+	protected $webhook_settings;
+
+	/**
 	 * Initialize class.
 	 *
 	 * @since 1.8.2
 	 */
 	public function init() {
 
-		$this->connect = ( new Connect() )->init();
+		$this->connect          = ( new Connect() )->init();
+		$this->webhook_settings = ( new WebhookSettings() )->init();
 
 		$this->hooks();
 	}
@@ -111,13 +121,17 @@ class Settings {
 		);
 
 		$admin_settings_stripe_l10n = [
-			'mode_update' => wp_kses(
+			'mode_update'  => wp_kses(
 				__( '<p>Switching test/live modes requires Stripe account reconnection.</p><p>Press the <em>"Connect with Stripe"</em> button after saving the settings to reconnect.</p>', 'wpforms-lite' ),
 				[
 					'p'  => [],
 					'em' => [],
 				]
 			),
+			'webhook_urls' => [
+				'rest' => Helpers::get_webhook_url_for_rest(),
+				'curl' => Helpers::get_webhook_url_for_curl(),
+			],
 		];
 
 		wp_localize_script(
@@ -158,17 +172,19 @@ class Settings {
 				'type'    => 'content',
 			],
 			'stripe-test-mode'         => [
-				'id'   => 'stripe-test-mode',
-				'name' => esc_html__( 'Test Mode', 'wpforms-lite' ),
-				'type' => 'checkbox',
-				'desc' => sprintf(
+				'id'     => 'stripe-test-mode',
+				'name'   => esc_html__( 'Test Mode', 'wpforms-lite' ),
+				'type'   => 'toggle',
+				'status' => true,
+				'desc'   => sprintf(
 					wp_kses( /* translators: %s - WPForms.com URL for Stripe payments with more details. */
-						__( 'Prevent Stripe from processing live transactions. Please see <a href="%s" target="_blank" rel="noopener noreferrer">our documentation on Stripe test payments for full details</a>.', 'wpforms-lite' ),
+						__( 'Prevent Stripe from processing live transactions. Please see <a href="%s" target="_blank" rel="noopener noreferrer">our documentation on Stripe test payments</a> for full details.', 'wpforms-lite' ),
 						[
 							'a' => [
 								'href'   => [],
 								'target' => [],
 								'rel'    => [],
+								'class'  => [],
 							],
 						]
 					),
@@ -176,6 +192,8 @@ class Settings {
 				),
 			],
 		];
+
+		$stripe_settings = $this->webhook_settings->settings( $stripe_settings );
 
 		$this->maybe_set_card_mode();
 
@@ -242,7 +260,7 @@ class Settings {
 				esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/', 'Settings - Payments', 'Stripe Documentation' ) )
 			) .
 			'</p>' .
-	        Notices::get_fee_notice();
+			Notices::get_fee_notice();
 	}
 
 	/**
@@ -336,12 +354,13 @@ class Settings {
 		$connect_url    = $this->connect->get_connect_with_stripe_url( $mode );
 		$connect_button = sprintf(
 			wp_kses( /* translators: %s - WPForms.com Stripe documentation article URL. */
-				__( 'Securely connect to Stripe with just a few clicks to begin accepting payments! <a href="%s" target="_blank" rel="noopener noreferrer">Learn more</a> about connecting with Stripe.', 'wpforms-lite' ),
+				__( 'Securely connect to Stripe with just a few clicks to begin accepting payments! <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-learn-more">Learn More</a>', 'wpforms-lite' ),
 				[
 					'a' => [
 						'href'   => [],
 						'target' => [],
 						'rel'    => [],
+						'class'  => [],
 					],
 				]
 			),
@@ -376,7 +395,7 @@ class Settings {
 					],
 				]
 			),
-            esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/#field-modes', 'Settings - Payments', 'Stripe Field Modes' ) )
+			esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/#field-modes', 'Settings - Payments', 'Stripe Field Modes' ) )
 		) . '</p>';
 	}
 }

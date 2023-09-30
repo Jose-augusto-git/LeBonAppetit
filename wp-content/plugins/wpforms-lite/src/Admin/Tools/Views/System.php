@@ -57,14 +57,17 @@ class System extends View {
 	public function display() {
 		?>
 
-		<div class="wpforms-setting-row tools">
+		<div class="wpforms-setting-row tools wpforms-settings-row-system-information">
 			<h4 id="form-export"><?php esc_html_e( 'System Information', 'wpforms-lite' ); ?></h4>
-			<textarea class="info-area" readonly><?php echo esc_textarea( $this->get_system_info() ); ?></textarea>
+			<textarea id="wpforms-system-information" class="info-area" readonly><?php echo esc_textarea( $this->get_system_info() ); ?></textarea>
+			<button type="button" id="wpforms-system-information-copy" class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey">
+				<?php esc_html_e( 'Copy System Information', 'wpforms-lite' ); ?>
+			</button>
 		</div>
 
-		<div class="wpforms-setting-row tools">
+		<div class="wpforms-setting-row tools wpforms-settings-row-test-ssl">
 			<h4 id="ssl-verify"><?php esc_html_e( 'Test SSL Connections', 'wpforms-lite' ); ?></h4>
-			<p><?php esc_html_e( 'Click the button below to verify your web server can perform SSL connections successfully.', 'wpforms-lite' ); ?></p>
+			<p class="desc"><?php esc_html_e( 'Click the button below to verify your web server can perform SSL connections successfully.', 'wpforms-lite' ); ?></p>
 			<button type="button" id="wpforms-ssl-verify" class="wpforms-btn wpforms-btn-md wpforms-btn-orange">
 				<?php esc_html_e( 'Test Connection', 'wpforms-lite' ); ?>
 			</button>

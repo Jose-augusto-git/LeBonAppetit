@@ -113,13 +113,33 @@ class Field extends \WPForms_Field {
 	 */
 	public function calculate_total( $fields, $entry, $form_data ) {
 
+		return self::calculate_total_static( $fields, $entry, $form_data );
+	}
+
+	/**
+	 * Static version of calculate_total().
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param array $fields    List of fields with their data.
+	 * @param array $entry     Submitted form data.
+	 * @param array $form_data Form data and settings.
+	 *
+	 * @return array
+	 */
+	public static function calculate_total_static( $fields, $entry, $form_data ) {
+
+		if ( ! is_array( $fields ) ) {
+			return $fields;
+		}
+
 		// At this point we have passed processing and validation, so we know
 		// the amounts in $fields are safe to use.
 		$total  = wpforms_get_total_payment( $fields );
 		$amount = wpforms_sanitize_amount( $total );
 
 		foreach ( $fields as $id => $field ) {
-			if ( ! empty( $field['type'] ) && $field['type'] === $this->type ) {
+			if ( ! empty( $field['type'] ) && $field['type'] === 'payment-total' ) {
 				$fields[ $id ]['value']      = wpforms_format_amount( $amount, true );
 				$fields[ $id ]['amount']     = wpforms_format_amount( $amount );
 				$fields[ $id ]['amount_raw'] = $amount;

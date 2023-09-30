@@ -570,25 +570,37 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 				opacity: 0.75,
 				appendTo: '#wpforms-panel-fields',
 				zindex: 10000,
-				helper: function() {
-
-					let $this = $( this ),
-						$el = $( '<div class="wpforms-field-drag-out wpforms-field-drag">' );
+				helper() {
+					const $this = $( this );
+					const $el = $( '<div class="wpforms-field-drag-out wpforms-field-drag">' );
 
 					vars.fieldType = $this.data( 'field-type' );
 
 					return $el.html( $this.html() );
 				},
 
-				start: function( e, ui ) {
-
-					let event = WPFormsUtils.triggerEvent(
+				start( e, ui ) {
+					const event = WPFormsUtils.triggerEvent(
 						el.$builder,
 						'wpformsFieldAddDragStart',
 						[ vars.fieldType, ui ]
 					);
 
 					// Allow callbacks on `wpformsFieldAddDragStart` to cancel dragging the field
+					// by triggering `event.preventDefault()`.
+					if ( event.isDefaultPrevented() ) {
+						return false;
+					}
+				},
+
+				stop( e, ui ) {
+					const event = WPFormsUtils.triggerEvent(
+						el.$builder,
+						'wpformsFieldAddDragStop',
+						[ vars.fieldType, ui ]
+					);
+
+					// Allow callbacks on `wpformsFieldAddDragStop` to cancel dragging the field
 					// by triggering `event.preventDefault()`.
 					if ( event.isDefaultPrevented() ) {
 						return false;

@@ -121,6 +121,10 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 						name: 'categories',
 						attr: 'data-categories',
 					},
+					{
+						name: 'subcategories',
+						attr: 'data-subcategories',
+					},
 				],
 			} );
 
@@ -138,7 +142,8 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 
 			el.$panel
 				.on( 'keyup', '#wpforms-setup-template-search', WPFormsFormTemplates.searchTemplate )
-				.on( 'click', '.wpforms-setup-templates-categories li', WPFormsFormTemplates.selectCategory )
+				.on( 'click', '.wpforms-setup-templates-categories li div', WPFormsFormTemplates.selectCategory )
+				.on( 'click', '.wpforms-setup-templates-subcategories li', WPFormsFormTemplates.selectSubCategory )
 				.on( 'click', '.wpforms-template-select', app.selectTemplate )
 				.on( 'click', '.wpforms-trigger-blank', app.selectBlankTemplate );
 

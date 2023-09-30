@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * About WPForms admin page class.
  *
@@ -540,7 +544,7 @@ class WPForms_About {
 									<?php
 									printf( /* translators: %s - number of templates. */
 										esc_html__( '%s customizable form templates', 'wpforms-lite' ),
-										'800+'
+										'1000+'
 									);
 									?>
 								</li>
@@ -1226,7 +1230,7 @@ class WPForms_About {
 						'<strong>' .
 						sprintf( /* translators: %s - number of templates. */
 							esc_html__( 'All Form Templates including Bonus %s pre-made form templates', 'wpforms-lite' ),
-							'800+'
+							'1000+'
 						) .
 						'</strong>',
 					],

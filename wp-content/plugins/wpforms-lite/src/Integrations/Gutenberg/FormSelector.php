@@ -2,8 +2,11 @@
 
 namespace WPForms\Integrations\Gutenberg;
 
+// phpcs:ignore WPForms.PHP.UseStatement.UnusedUseStatement
+use WP_REST_Response;
 use WPForms\Frontend\CSSVars;
 use WPForms\Integrations\IntegrationInterface;
+use WP_Error;
 
 /**
  * Form Selector Gutenberg block with live preview.
@@ -112,7 +115,7 @@ class FormSelector implements IntegrationInterface {
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		add_action( 'wpforms_frontend_output_container_after', [ $this, 'replace_wpforms_frontend_container_class_filter' ] );
 		add_action( 'init', [ $this, 'enable_block_translations' ] );
-
+		add_action( 'rest_api_init', [ $this, 'register_api_route' ] );
 	}
 
 	/**
@@ -201,7 +204,7 @@ class FormSelector implements IntegrationInterface {
 			'buttonTextColor'       => [
 				'type' => 'string',
 			],
-			'copyPasteJsonValue'        => [
+			'copyPasteJsonValue'    => [
 				'type' => 'string',
 			],
 		];
@@ -299,6 +302,62 @@ class FormSelector implements IntegrationInterface {
 	}
 
 	/**
+	 * Register API route for Gutenberg block.
+	 *
+	 * @since 1.8.4
+	 */
+	public function register_api_route() {
+
+		/**
+		 * Register route with WordPress.
+		 *
+		 * @see https://developer.wordpress.org/reference/functions/register_rest_route/
+		 */
+		register_rest_route(
+			'wpforms/v1',
+			'/forms/',
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'protected_data_callback' ],
+				'permission_callback' => [ $this, 'protected_permissions_callback' ],
+			]
+		);
+	}
+
+	/**
+	 * Wrap localized data in protected WP_REST_Response object.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @see https://developer.wordpress.org/reference/functions/rest_ensure_response/
+	 *
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function protected_data_callback() {
+
+		return rest_ensure_response( $this->get_localize_data() );
+	}
+
+	/**
+	 * Check if user has permission to access private data.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @see https://developer.wordpress.org/rest-api/extending-the-rest-api/routes-and-endpoints/#permissions-callback
+	 *
+	 * @return true|WP_Error True if user has permission.
+	 */
+	public function protected_permissions_callback() {
+
+		// Restrict endpoint to only users who have the edit_posts capability.
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return new WP_Error( 'rest_forbidden', esc_html__( 'This route is private.', 'wpforms-lite' ), [ 'status' => 401 ] );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get localize data.
 	 *
 	 * @since 1.8.1
@@ -372,8 +431,7 @@ class FormSelector implements IntegrationInterface {
 		$forms = wpforms()->get( 'form' )->get( '', [ 'order' => 'DESC' ] );
 		$forms = ! empty( $forms ) ? $forms : [];
 		$forms = array_map(
-			static function( $form ) {
-
+			static function ( $form ) {
 				$form->post_title = htmlspecialchars_decode( $form->post_title, ENT_QUOTES );
 
 				return $form;
@@ -568,9 +626,9 @@ class FormSelector implements IntegrationInterface {
 
 		if ( empty( $content ) ) {
 			return '<div class="components-placeholder"><div class="components-placeholder__label"></div>' .
-			           '<div class="components-placeholder__fieldset">' .
-			           esc_html__( 'The form cannot be displayed.', 'wpforms-lite' ) .
-			           '</div></div>';
+						'<div class="components-placeholder__fieldset">' .
+						esc_html__( 'The form cannot be displayed.', 'wpforms-lite' ) .
+						'</div></div>';
 		}
 
 		// phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_var_export

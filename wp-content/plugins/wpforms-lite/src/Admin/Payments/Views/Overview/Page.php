@@ -98,6 +98,21 @@ class Page implements PaymentsViewsInterface {
 			true
 		);
 
+		wp_enqueue_style(
+			'wpforms-multiselect-checkboxes',
+			WPFORMS_PLUGIN_URL . 'assets/lib/wpforms-multiselect/wpforms-multiselect-checkboxes.min.css',
+			[],
+			'1.0.0'
+		);
+
+		wp_enqueue_script(
+			'wpforms-multiselect-checkboxes',
+			WPFORMS_PLUGIN_URL . 'assets/lib/wpforms-multiselect/wpforms-multiselect-checkboxes.min.js',
+			[],
+			'1.0.0',
+			true
+		);
+
 		wp_enqueue_script(
 			'wpforms-chart',
 			WPFORMS_PLUGIN_URL . 'assets/lib/chart.min.js',
@@ -121,13 +136,18 @@ class Page implements PaymentsViewsInterface {
 			'delimiter' => Datepicker::TIMESPAN_DELIMITER,
 			'report'    => Chart::ACTIVE_REPORT,
 			'currency'  => sanitize_text_field( wpforms_get_currency() ),
+			'decimals'  => absint( wpforms_get_currency_decimals( wpforms_get_currency() ) ),
 			'i18n'      => [
-				'label'      => esc_html__( 'Payments', 'wpforms-lite' ),
-				'no_dataset' => [
-					'total_payments'     => esc_html__( 'No payments for selected period', 'wpforms-lite' ),
-					'total_sales'        => esc_html__( 'No sales for selected period', 'wpforms-lite' ),
-					'total_subscription' => esc_html__( 'No new subscriptions or renewals for selected period', 'wpforms-lite' ),
-					'total_coupons'      => esc_html__( 'No coupons applied during the selected period', 'wpforms-lite' ),
+				'label'                       => esc_html__( 'Payments', 'wpforms-lite' ),
+				'delete_button'               => esc_html__( 'Delete', 'wpforms-lite' ),
+				'subscription_delete_confirm' => $this->get_subscription_delete_confirmation_message(),
+				'no_dataset'                  => [
+					'total_payments'             => esc_html__( 'No payments for selected period', 'wpforms-lite' ),
+					'total_sales'                => esc_html__( 'No sales for selected period', 'wpforms-lite' ),
+					'total_refunded'             => esc_html__( 'No refunds for selected period', 'wpforms-lite' ),
+					'total_subscription'         => esc_html__( 'No new subscriptions for selected period', 'wpforms-lite' ),
+					'total_renewal_subscription' => esc_html__( 'No subscription renewals for the selected period', 'wpforms-lite' ),
+					'total_coupons'              => esc_html__( 'No coupons applied during the selected period', 'wpforms-lite' ),
 				],
 			],
 			'page_uri'  => $this->get_current_uri(),
@@ -238,7 +258,7 @@ class Page implements PaymentsViewsInterface {
 
 		$default_mode = 'live';
 
-		if ( ! wpforms_is_admin_ajax() && ! wpforms_is_admin_page( 'payments' ) ) {
+		if ( ! wpforms_is_admin_ajax() && ! wpforms_is_admin_page( 'payments' ) && ! wpforms_is_admin_page( 'entries' ) ) {
 			return $default_mode;
 		}
 
@@ -369,6 +389,19 @@ class Page implements PaymentsViewsInterface {
 			)
 		) > 0;
 
+		// Check on trashed payments.
+		if ( ! $has_any_mode_payment ) {
+			$has_any_mode_payment = count(
+				wpforms()->get( 'payment' )->get_payments(
+					[
+						'mode'         => 'any',
+						'number'       => 1,
+						'is_published' => 0,
+					]
+				)
+			) > 0;
+		}
+
 		return $has_any_mode_payment;
 	}
 
@@ -388,5 +421,36 @@ class Page implements PaymentsViewsInterface {
 			}
 			// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 		}
+	}
+
+	/**
+	 * Get the subscription delete confirmation message.
+	 * The returned message is used in the JavaScript file and shown in a "Heads up!" modal.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return string
+	 */
+	private function get_subscription_delete_confirmation_message() {
+
+		$help_link = wpforms_utm_link(
+			'https://wpforms.com/docs/viewing-and-managing-payments/#deleting-parent-subscription',
+			'Delete Payment',
+			'Learn More'
+		);
+
+		return sprintf(
+			wp_kses( /* translators: WPForms.com docs page URL. */
+				__( 'Deleting one or more selected payments may prevent processing of future subscription renewals. Payment filtering may also be affected. <a href="%1$s" rel="noopener" target="_blank">Learn More</a>', 'wpforms-lite' ),
+				[
+					'a' => [
+						'href'   => [],
+						'rel'    => [],
+						'target' => [],
+					],
+				]
+			),
+			esc_url( $help_link )
+		);
 	}
 }

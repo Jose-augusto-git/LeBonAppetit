@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Settings class.
  *
@@ -276,12 +280,13 @@ class WPForms_Settings {
 					'name'      => esc_html__( 'Include Form Styling', 'wpforms-lite' ),
 					'desc'      => sprintf(
 						wp_kses( /* translators: %s - WPForms.com form styling setting URL. */
-							__( 'Determines which CSS files to load and use for the site (<a href="%s" target="_blank" rel="noopener noreferrer">please see our tutorial for full details</a>). "Base and Form Theme Styling" is recommended, unless you are experienced with CSS or instructed by support to change settings.', 'wpforms-lite' ),
+							__( 'Determines which CSS files to load and use for the site. "Base and Form Theme Styling" is recommended, unless you are experienced with CSS or instructed by support to change settings. <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-learn-more">Learn More</a>', 'wpforms-lite' ),
 							[
 								'a' => [
 									'href'   => [],
 									'target' => [],
 									'rel'    => [],
+									'class'  => [],
 								],
 							]
 						),
@@ -297,10 +302,11 @@ class WPForms_Settings {
 					],
 				],
 				'global-assets'   => [
-					'id'   => 'global-assets',
-					'name' => esc_html__( 'Load Assets Globally', 'wpforms-lite' ),
-					'desc' => esc_html__( 'Check this option to load WPForms assets site-wide. Only check if your site is having compatibility issues or instructed to by support.', 'wpforms-lite' ),
-					'type' => 'checkbox',
+					'id'     => 'global-assets',
+					'name'   => esc_html__( 'Load Assets Globally', 'wpforms-lite' ),
+					'desc'   => esc_html__( 'Load WPForms assets site-wide. Only check if your site is having compatibility issues or instructed to by support.', 'wpforms-lite' ),
+					'type'   => 'toggle',
+					'status' => true,
 				],
 				'gdpr-heading'    => [
 					'id'       => 'GDPR',
@@ -310,55 +316,38 @@ class WPForms_Settings {
 					'class'    => [ 'section-heading', 'no-desc' ],
 				],
 				'gdpr'            => [
-					'id'   => 'gdpr',
-					'name' => esc_html__( 'GDPR Enhancements', 'wpforms-lite' ),
-					'desc' => sprintf(
+					'id'     => 'gdpr',
+					'name'   => esc_html__( 'GDPR Enhancements', 'wpforms-lite' ),
+					'desc'   => sprintf(
 						wp_kses( /* translators: %s - WPForms.com GDPR documentation URL. */
-							__( 'Check this option to enable GDPR related features and enhancements. <a href="%s" target="_blank" rel="noopener noreferrer">Read our GDPR documentation</a> to learn more.', 'wpforms-lite' ),
+							__( 'Enable GDPR related features and enhancements. <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-learn-more">Learn More</a>', 'wpforms-lite' ),
 							[
 								'a' => [
 									'href'   => [],
 									'target' => [],
 									'rel'    => [],
+									'class'  => [],
 								],
 							]
 						),
 						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-create-gdpr-compliant-forms/', 'settings-license', 'GDPR Documentation' ) )
 					),
-					'type' => 'checkbox',
+					'type'   => 'toggle',
+					'status' => true,
 				],
 			],
 			// Email settings tab.
 			'email'        => [
 				'email-heading'          => [
 					'id'       => 'email-heading',
-					'content'  => '<h4>' . esc_html__( 'Email', 'wpforms-lite' ) . '</h4>' . wpforms()->get( 'education_smtp_notice' )->get_template(),
+					'content'  => '<h4>' . esc_html__( 'Email', 'wpforms-lite' ) . '</h4><p>' . esc_html__( 'Customize your email template and sending preferences.', 'wpforms-lite' ) . '</p>' . wpforms()->get( 'education_smtp_notice' )->get_template(),
 					'type'     => 'content',
 					'no_label' => true,
 					'class'    => [ 'section-heading', 'no-desc' ],
 				],
-				'email-async'            => [
-					'id'   => 'email-async',
-					'name' => esc_html__( 'Optimize Email Sending', 'wpforms-lite' ),
-					'desc' => sprintf(
-						wp_kses( /* translators: %s - WPForms.com Email settings documentation URL. */
-							__( 'Check this option to enable sending emails asynchronously, which can make submission processing faster but may delay email delivery by a minute or two. Learn more <a href="%s" target="_blank" rel="noopener noreferrer">in our documentation</a>.', 'wpforms-lite' ),
-							[
-								'a' => [
-									'href'   => [],
-									'target' => [],
-									'rel'    => [],
-								],
-							]
-						),
-						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/a-complete-guide-to-wpforms-settings/#email', 'Settings - Email', 'Optimize Email Sending Documentation' ) )
-					),
-					'type' => 'checkbox',
-				],
 				'email-template'         => [
 					'id'      => 'email-template',
 					'name'    => esc_html__( 'Template', 'wpforms-lite' ),
-					'desc'    => esc_html__( 'Determines how email notifications will be formatted. HTML Templates are the default.', 'wpforms-lite' ),
 					'type'    => 'radio',
 					'default' => 'default',
 					'options' => [
@@ -369,7 +358,7 @@ class WPForms_Settings {
 				'email-header-image'     => [
 					'id'   => 'email-header-image',
 					'name' => esc_html__( 'Header Image', 'wpforms-lite' ),
-					'desc' => wp_kses( __( 'Upload or choose a logo to be displayed at the top of email notifications.<br>Recommended size is 300x100 or smaller for best support on all devices.', 'wpforms-lite' ), [ 'br' => [] ] ),
+					'desc' => __( 'Upload or choose a logo to be displayed at the top of email notifications.', 'wpforms-lite' ),
 					'type' => 'image',
 				],
 				'email-background-color' => [
@@ -382,11 +371,39 @@ class WPForms_Settings {
 						'fallback-color' => wpforms_setting( 'email-background-color', '#e9eaec' ),
 					],
 				],
+				'sending-heading'        => [
+					'id'       => 'sending-heading',
+					'content'  => '<h4>' . esc_html__( 'Sending', 'wpforms-lite' ) . '</h4>',
+					'type'     => 'content',
+					'no_label' => true,
+					'class'    => [ 'section-heading', 'no-desc' ],
+				],
+				'email-async'            => [
+					'id'     => 'email-async',
+					'name'   => esc_html__( 'Optimize Email Sending', 'wpforms-lite' ),
+					'desc'   => sprintf(
+						wp_kses( /* translators: %s - WPForms.com Email settings documentation URL. */
+							__( 'Send emails asynchronously, which can make processing faster but may slightly delay email delivery. <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-learn-more">Learn More</a>', 'wpforms-lite' ),
+							[
+								'a' => [
+									'href'   => [],
+									'target' => [],
+									'rel'    => [],
+									'class'  => [],
+								],
+							]
+						),
+						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/a-complete-guide-to-wpforms-settings/#email', 'Settings - Email', 'Optimize Email Sending Documentation' ) )
+					),
+					'type'   => 'toggle',
+					'status' => true,
+				],
 				'email-carbon-copy'      => [
-					'id'   => 'email-carbon-copy',
-					'name' => esc_html__( 'Carbon Copy', 'wpforms-lite' ),
-					'desc' => esc_html__( 'Check this option to enable the ability to CC: email addresses in the form notification settings.', 'wpforms-lite' ),
-					'type' => 'checkbox',
+					'id'     => 'email-carbon-copy',
+					'name'   => esc_html__( 'Carbon Copy', 'wpforms-lite' ),
+					'desc'   => esc_html__( 'Enable the ability to CC: email addresses in the form notification settings.', 'wpforms-lite' ),
+					'type'   => 'toggle',
+					'status' => true,
 				],
 			],
 			// Validation messages settings tab.
@@ -502,36 +519,34 @@ class WPForms_Settings {
 			'misc'         => [
 				'misc-heading'       => [
 					'id'       => 'misc-heading',
-					'content'  => '<h4>' . esc_html__( 'Misc', 'wpforms-lite' ) . '</h4>',
+					'content'  => '<h4>' . esc_html__( 'Miscellaneous', 'wpforms-lite' ) . '</h4>',
 					'type'     => 'content',
 					'no_label' => true,
 					'class'    => [ 'section-heading', 'no-desc' ],
 				],
 				'hide-announcements' => [
-					'id'   => 'hide-announcements',
-					'name' => esc_html__( 'Hide Announcements', 'wpforms-lite' ),
-					'desc' => esc_html__( 'Check this option to hide plugin announcements and update details.', 'wpforms-lite' ),
-					'type' => 'checkbox',
+					'id'     => 'hide-announcements',
+					'name'   => esc_html__( 'Hide Announcements', 'wpforms-lite' ),
+					'desc'   => esc_html__( 'Hide plugin announcements and update details.', 'wpforms-lite' ),
+					'type'   => 'toggle',
+					'status' => true,
 				],
 				'hide-admin-bar'     => [
-					'id'   => 'hide-admin-bar',
-					'name' => esc_html__( 'Hide Admin Bar Menu', 'wpforms-lite' ),
-					'desc' => esc_html__( 'Check this option to hide the WPForms admin bar menu.', 'wpforms-lite' ),
-					'type' => 'checkbox',
+					'id'     => 'hide-admin-bar',
+					'name'   => esc_html__( 'Hide Admin Bar Menu', 'wpforms-lite' ),
+					'desc'   => esc_html__( 'Hide the WPForms admin bar menu.', 'wpforms-lite' ),
+					'type'   => 'toggle',
+					'status' => true,
 				],
 				'uninstall-data'     => [
-					'id'   => 'uninstall-data',
-					'name' => esc_html__( 'Uninstall WPForms', 'wpforms-lite' ),
-					'desc' => esc_html__( 'Check this option to remove ALL WPForms data upon plugin deletion. All forms and settings will be unrecoverable.', 'wpforms-lite' ),
-					'type' => 'checkbox',
+					'id'     => 'uninstall-data',
+					'name'   => esc_html__( 'Uninstall WPForms', 'wpforms-lite' ),
+					'desc'   => $this->get_uninstall_desc(),
+					'type'   => 'toggle',
+					'status' => true,
 				],
 			],
 		];
-
-		// TODO: move this to Pro.
-		if ( wpforms()->is_pro() ) {
-			$defaults['misc']['uninstall-data']['desc'] = esc_html__( 'Check this option to remove ALL WPForms data upon plugin deletion. All forms, entries, and uploaded files will be unrecoverable.', 'wpforms-lite' );
-		}
 
 		$defaults = apply_filters( 'wpforms_settings_defaults', $defaults );
 
@@ -543,6 +558,26 @@ class WPForms_Settings {
 		}
 
 		return empty( $view ) ? $defaults : $defaults[ $view ];
+	}
+
+	/**
+	 * Get uninstall description.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @return string
+	 */
+	private function get_uninstall_desc() {
+
+		$desc    = esc_html__( 'Remove ALL WPForms data upon plugin deletion.', 'wpforms-lite' );
+		$warning = esc_html__( 'All forms and settings will be unrecoverable.', 'wpforms-lite' );
+
+		if ( wpforms()->is_pro() ) {
+			$desc    = esc_html__( 'Remove ALL WPForms data upon plugin deletion.', 'wpforms-lite' );
+			$warning = esc_html__( 'All forms, entries, and uploaded files will be unrecoverable.', 'wpforms-lite' );
+		}
+
+		return sprintf( '%s <span class="wpforms-settings-warning">%s</span>', $desc, $warning );
 	}
 
 	/**

@@ -235,7 +235,9 @@ class Modern extends Classic {
 		foreach ( $properties['inputs'] as $input => $input_data ) {
 
 			// Add `aria-errormessage` to inputs.
-			$properties['inputs'][ $input ]['attr']['aria-errormessage'] = "{$input_data['id']}-error";
+			if ( ! empty( $input_data['id'] ) ) {
+				$properties['inputs'][ $input ]['attr']['aria-errormessage'] = "{$input_data['id']}-error";
+			}
 
 			// Add `aria-describedby` to inputs.
 			if ( ! empty( $field['description'] ) ) {

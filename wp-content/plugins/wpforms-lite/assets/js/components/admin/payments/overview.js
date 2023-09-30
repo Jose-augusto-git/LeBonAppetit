@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-/* global flatpickr, Chart, moment, ajaxurl, wpforms_admin_payments_overview */
+/* global flatpickr, Chart, moment, ajaxurl, wpforms_admin_payments_overview, wpforms_admin */
 
 /**
  * Script for manipulating DOM events in the "Payments Overview" page.
@@ -7,16 +7,14 @@
  *
  * @since 1.8.2
  */
-'use strict';
 
-let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( document, window, $, ajaxurl, l10n ) {
-
+const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( document, window, $, ajaxurl, l10n ) {
 	/**
 	 * Elements holder.
 	 *
 	 * @since 1.8.2
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	const el = {};
 
@@ -25,7 +23,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 	 *
 	 * @since 1.8.2
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	const vars = {
 
@@ -56,6 +54,13 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 * @since 1.8.2
 		 */
 		currency: l10n.currency,
+
+		/**
+		 * Get the number of decimal points for the currency.
+		 *
+		 * @since 1.8.4
+		 */
+		currencyDecimals: l10n.decimals,
 
 		/**
 		 * Cryptographic token for validating authorized Ajax data exchange.
@@ -95,10 +100,10 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @returns {URL} The current page URI.
+		 * @return {URL} The current page URI.
 		 */
 		get currentPageUri() {
-
+			// eslint-disable-next-line compat/compat
 			return new URL( l10n.page_uri );
 		},
 
@@ -141,27 +146,32 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @returns {object} Colors object specified for the graph.
+		 * @return {Object} Colors object specified for the graph.
 		 */
 		get colors() {
-
 			const isLine = this.type === 'line';
 
 			return {
 
-				total_payments: { // Blue.
+				total_payments: { // Bahama Blue.
 					hoverBorderColor: '#055f9a',
 					hoverBackgroundColor: '#055f9a',
 					borderColor: '#056aab',
 					backgroundColor: isLine ? '#e6f0f7' : '#056aab',
 				},
-				total_sales: { // Green.
+				total_sales: { // Fun Green.
 					hoverBorderColor: '#00831e',
 					hoverBackgroundColor: '#00831e',
 					borderColor: '#008a20',
 					backgroundColor: isLine ? '#e3f3e4' : '#008a20',
 				},
-				default: { // Orange - WPForms.
+				total_refunded: { // Bright Gray.
+					hoverBorderColor: '#373e45',
+					hoverBackgroundColor: '#373e45',
+					borderColor: '#50575e',
+					backgroundColor: isLine ? '#ebebec' : '#50575e',
+				},
+				default: { // Zest - WPForms.
 					hoverBorderColor: '#cd6622',
 					hoverBackgroundColor: '#cd6622',
 					borderColor: '#e27730',
@@ -175,10 +185,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @returns {object} Localized strings.
+		 * @return {Object} Localized strings.
 		 */
 		get i18n() {
-
 			return l10n.i18n;
 		},
 
@@ -187,10 +196,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @returns {object} Localized strings.
+		 * @return {Object} Localized strings.
 		 */
 		get xAxesDisplayFormat() {
-
 			if ( ! this.timespan.length ) {
 				return 'MMM D';
 			}
@@ -201,8 +209,8 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 				return 'MMM D';
 			}
 
-			const startYear = moment( dates[0] ).format( 'YYYY' );
-			const endYear   = moment( dates[1] ).format( 'YYYY' );
+			const startYear = moment( dates[ 0 ] ).format( 'YYYY' );
+			const endYear = moment( dates[ 1 ] ).format( 'YYYY' );
 
 			return startYear === endYear ? 'MMM D' : 'MMM D YYYY';
 		},
@@ -212,15 +220,16 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @returns {NumberFormat} Returns a new NumberFormat object.
+		 * @return {Object} Returns a new NumberFormat object.
 		 */
 		get amountFormatter() {
-
 			return new Intl.NumberFormat( this.locale, {
 				style: 'currency',
 				useGrouping: true,
 				currencyDisplay: 'narrowSymbol',
 				currency: this.currency,
+				minimumFractionDigits: this.currencyDecimals,
+				maximumFractionDigits: this.currencyDecimals,
 			} );
 		},
 
@@ -229,11 +238,10 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2.2
 		 *
-		 * @returns {string} The dataset tooltip label.
+		 * @return {string} The dataset tooltip label.
 		 */
 		get datasetLabel() {
-
-			const $statcard = $( `[data-stats=${this.report}]` );
+			const $statcard = $( `[data-stats=${ this.report }]` );
 
 			if ( ! $statcard.length ) {
 				return this.i18n?.label;
@@ -247,10 +255,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @returns {object} Scriptable options as a function which is called for the chart instances.
+		 * @return {Object} Scriptable options as a function which is called for the chart instances.
 		 */
 		get settings() { /* eslint max-lines-per-function: ["error", 200] */
-
 			return {
 
 				type: this.type,
@@ -265,7 +272,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 							pointBorderWidth: 1,
 							...{
 								pointBackgroundColor: '#ffffff',
-								...( this.colors[this.report] || this.colors.default ),
+								...( this.colors[ this.report ] || this.colors.default ),
 							},
 						},
 					],
@@ -301,8 +308,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 									fontSize: 13,
 									minRotation: 25,
 									maxRotation: 25,
-									callback: function( value, index, values ) {
-
+									callback( value, index, values ) {
 										// Distribute the ticks equally starting from the right side of xAxis.
 										const gap = Math.floor( values.length / 7 );
 
@@ -326,7 +332,6 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 									fontColor: '#a7aaad',
 									fontSize: 13,
 									callback: ( value ) => {
-
 										// Update the scales if the dataset returned includes price amounts.
 										if ( this.isAmount ) {
 											return this.amountFormatter.format( value );
@@ -359,8 +364,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 						displayColors: false,
 						callbacks: {
 							label: ( { yLabel: value } ) => {
-
-								let label = `${this.datasetLabel} `;
+								let label = `${ this.datasetLabel } `;
 
 								// Update the scales if the dataset returned includes price amounts.
 								if ( this.isAmount ) {
@@ -393,8 +397,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		init: function() {
-
+		init() {
 			$( app.ready );
 		},
 
@@ -403,12 +406,12 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		ready: function() {
-
+		ready() {
 			app.setup();
 			app.bindEvents();
 			app.initDatePicker();
 			app.initChart();
+			app.initMultiSelect();
 		},
 
 		/**
@@ -416,19 +419,20 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		setup: function() {
-
+		setup() {
 			// Cache DOM elements.
-			el.$document      = $( document );
-			el.$wrapper       = $( '.wpforms-payments-wrap-overview' );
-			el.$spinner       = $( '.wpforms-overview-chart .spinner' );
-			el.$canvas        = $( '#wpforms-payments-overview-canvas' );
-			el.$filterBtn     = $( '#wpforms-datepicker-popover-button' );
-			el.$datepicker    = $( '#wpforms-payments-overview-datepicker' );
-			el.$filterForm    = $( '.wpforms-overview-top-bar-filter-form' );
-			el.$table         = $( '.wpforms-table-list' );
-			el.$notice        = $( '.wpforms-overview-chart-notice' );
-			el.$reports       = $( '.wpforms-payments-overview-reports' );
+			el.$document = $( document );
+			el.$wrapper = $( '.wpforms-payments-wrap-payments' );
+			el.$form = $( '#wpforms-payments-table' );
+			el.$spinner = $( '.wpforms-overview-chart .spinner' );
+			el.$canvas = $( '#wpforms-payments-overview-canvas' );
+			el.$filterBtn = $( '#wpforms-datepicker-popover-button' );
+			el.$datepicker = $( '#wpforms-payments-overview-datepicker' );
+			el.$filterForm = $( '.wpforms-overview-top-bar-filter-form' );
+			el.$table = $( '.wpforms-table-list' );
+			el.$notice = $( '.wpforms-overview-chart-notice' );
+			el.$reports = $( '.wpforms-payments-overview-reports' );
+			el.$multiSelect = $( '.wpforms-multiselect' );
 		},
 
 		/**
@@ -436,12 +440,13 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		bindEvents: function() {
-
+		bindEvents() {
 			el.$document
 				.on( 'click', { selectors: [ '.wpforms-datepicker-popover', '.wpforms-dash-widget-settings-menu' ] }, app.handleOnClickOutside );
 			el.$wrapper
 				.on( 'submit', '.wpforms-overview-top-bar-filter-form', app.handleOnSubmitDatepicker )
+				.on( 'submit', '#wpforms-payments-table', app.handleOnSubmitOverviewTable )
+				.on( 'click', '#doaction', app.handleOnBulkAction )
 				.on( 'click', '.wpforms-overview-top-bar-filter-form [type="reset"]', app.handleOnResetDatepicker )
 				.on( 'change', '.wpforms-overview-top-bar-filter-form [type="radio"]', app.handleOnUpdateDatepicker )
 				.on( 'click', '.wpforms-payments-overview-reports button', app.handleOnChangeStatCard )
@@ -456,13 +461,12 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		initDatePicker: function() {
-
+		initDatePicker() {
 			if ( ! el.$datepicker.length ) {
 				return;
 			}
 
-			vars.timespan   = el.$datepicker.val();
+			vars.timespan = el.$datepicker.val();
 			vars.datepicker = flatpickr( el.$datepicker, {
 				mode: 'range',
 				inline: true,
@@ -478,8 +482,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 					...flatpickr.l10ns[ vars.locale ] || {},
 					rangeSeparator: vars.delimiter,
 				},
-				onChange: function( selectedDates, dateStr, instance ) {
-
+				onChange( selectedDates, dateStr, instance ) {
 					// Immediately after a user interacts with the datepicker, ensure that the "Custom" option is chosen.
 					const $custom = el.$filterForm.find( 'input[value="custom"]' );
 
@@ -487,7 +490,6 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 					app.selectDatepickerChoice( $custom.parent() );
 
 					if ( dateStr ) {
-
 						// Update filter button label when date range specified.
 						el.$filterBtn.text( instance.altInput.value );
 					}
@@ -503,8 +505,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		handleOnSubmitDatepicker: function() {
-
+		handleOnSubmitDatepicker() {
 			// Exclude radio inputs from the form submission.
 			$( this ).find( 'input[type="radio"]' ).attr( 'name', '' );
 
@@ -514,14 +515,96 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		},
 
 		/**
+		 * Callback for the bulk action.
+		 *
+		 * @since 1.8.4
+		 *
+		 * @param {Object} event An event which takes place in the DOM.
+		 */
+		handleOnBulkAction( event ) {
+			event.preventDefault();
+
+			// Get the selected value for the name="action" select element.
+			const $action = el.$wrapper.find( 'select[name="action"]' );
+			const selectedAction = $action.val();
+			const actionsToExclude = [ 'trash', 'delete' ];
+
+			// Leave early if delete/trash is not selected.
+			// Trash is happening when you move payment to the trash. Delete is when you delete it permanently.
+			if ( ! actionsToExclude.includes( selectedAction ) ) {
+				el.$form.submit();
+				return;
+			}
+
+			// Get the selected checkboxes.
+			const $checkboxes = el.$wrapper.find( 'input[name="payment_id[]"]:checked' );
+
+			// Leave early if no checkboxes are selected.
+			if ( ! $checkboxes.length ) {
+				el.$form.submit();
+				return;
+			}
+
+			// Determine whether the selected payment has a renewal.
+			const hasRenewal = $checkboxes.closest( 'tr' ).hasClass( 'subscription-has-renewal' );
+
+			if ( ! hasRenewal ) {
+				el.$form.submit();
+				return;
+			}
+
+			const { i18n: { subscription_delete_confirm: message, delete_button: buttonText } } = vars;
+
+			// Warn the user that the selected payment has a renewal.
+			$.confirm( {
+				title: wpforms_admin.heads_up,
+				content: message,
+				icon: 'fa fa-exclamation-circle',
+				type: 'orange',
+				buttons: {
+					confirm: {
+						text: buttonText,
+						btnClass: 'btn-confirm',
+						keys: [ 'enter' ],
+						action() {
+							el.$form.submit();
+						},
+					},
+					cancel: {
+						text: wpforms_admin.cancel,
+						keys: [ 'esc' ],
+						action() {
+							el.$form.trigger( 'reset' );
+						},
+					},
+				},
+			} );
+		},
+
+		/**
+		 * Callback which is called when the overview table gets submitted.
+		 *
+		 * @since 1.8.4
+		 */
+		handleOnSubmitOverviewTable() {
+			// Leave early if the multi-select element is not present.
+			if ( ! el.$multiSelect.length ) {
+				return;
+			}
+
+			// Prevent empty or unspecified values from being submitted.
+			// This is to avoid having empty values in the $_GET array for aesthetic reasons.
+			$( '.wpforms-multiselect-checkbox-input[value=""]' ).removeAttr( 'name' );
+		},
+
+		/**
 		 * Callback which is called when the datepicker "Cancel" button clicked.
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} event An event which takes place in the DOM.
+		 * @param {Object} event An event which takes place in the DOM.
 		 */
-		handleOnResetDatepicker: function( event ) {
-
+		handleOnResetDatepicker( event ) {
 			event.preventDefault();
 
 			// To return the form to its original state, manually reset it.
@@ -539,22 +622,21 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object}  event         An event which takes place in the DOM.
+		 * @param {Object}  event         An event which takes place in the DOM.
 		 * @param {boolean} isCustomDates Determine whether a custom date range is provided.
 		 */
-		handleOnUpdateDatepicker: function( event = {}, isCustomDates = false ) {
-
+		// eslint-disable-next-line no-unused-vars
+		handleOnUpdateDatepicker( event = {}, isCustomDates = false ) {
 			const $selected = el.$filterForm.find( 'input:checked' );
-			const $parent   = $selected.parent();
-			const $target   = isCustomDates ? el.$datepicker : $selected;
-			const dates     = $target.val().split( vars.delimiter );
+			const $parent = $selected.parent();
+			const $target = isCustomDates ? el.$datepicker : $selected;
+			const dates = $target.val().split( vars.delimiter );
 
 			el.$filterBtn.text( isCustomDates ? $target.next().val() : $parent.text() );
 
 			app.selectDatepickerChoice( $parent );
 
 			if ( Array.isArray( dates ) && dates.length === 2 ) {
-
 				// Sets the current selected date(s).
 				vars.datepicker.setDate( dates );
 				return;
@@ -568,20 +650,43 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		initChart: function() {
-
+		initChart() {
 			if ( ! el.$canvas.length ) {
 				return;
 			}
 
-			const elm       = el.$canvas.get( 0 ).getContext( '2d' );
+			const elm = el.$canvas.get( 0 ).getContext( '2d' );
 			const $selected = el.$reports.find( `.${ vars.classNames.selected }` );
 
-			vars.report   = $selected.data( 'stats' );
+			vars.report = $selected.data( 'stats' );
 			vars.isAmount = $selected.hasClass( 'is-amount' );
-			vars.chart    = new Chart( elm, vars.settings );
+			vars.chart = new Chart( elm, vars.settings );
 
 			this.updateChartByReport();
+		},
+
+		/**
+		 * Create instances of multi-select.
+		 *
+		 * @since 1.8.4
+		 */
+		initMultiSelect() {
+			// Check if multi-select elements and required class are present
+			if ( ! el.$multiSelect.length || ! window.WPFormsMultiSelectCheckbox ) {
+				return;
+			}
+
+			// Initialize each multi-select element.
+			el.$multiSelect.each( function() {
+				const multiSelectCheckbox = new window.WPFormsMultiSelectCheckbox(
+					this,
+					{
+						showMask: true,
+						delimiter: '|',
+					}
+				);
+				multiSelectCheckbox.init();
+			} );
 		},
 
 		/**
@@ -589,10 +694,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} event An event which takes place in the DOM.
+		 * @param {Object} event An event which takes place in the DOM.
 		 */
-		handleOnChangeStatCard: function( event ) {
-
+		handleOnChangeStatCard( event ) {
 			event.preventDefault();
 
 			const $this = $( this );
@@ -604,7 +708,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 
 			app.spinner();
 
-			vars.report   = $this.data( 'stats' );
+			vars.report = $this.data( 'stats' );
 			vars.isAmount = $this.hasClass( 'is-amount' );
 
 			el.$reports.find( 'button' ).removeClass( vars.classNames.selected );
@@ -619,24 +723,23 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} event An event which takes place in the DOM.
+		 * @param {Object} event An event which takes place in the DOM.
 		 */
-		handleOnSaveSettings: function( event ) {
-
+		handleOnSaveSettings( event ) {
 			event.preventDefault();
 
-			const $wrapper   = $( this ).closest( '.wpforms-dash-widget-settings-container' );
+			const $wrapper = $( this ).closest( '.wpforms-dash-widget-settings-container' );
 			const graphStyle = $wrapper.find( 'input[name="wpforms-style"]:checked' ).val();
 
 			vars.type = Number( graphStyle ) === 1 ? 'bar' : 'line';
 
-			const options                   = Object.assign( {}, vars.settings );
-			options.data.labels             = vars.chart.data.labels;
+			const options = Object.assign( {}, vars.settings );
+			options.data.labels = vars.chart.data.labels;
 			options.data.datasets[ 0 ].data = vars.chart.data.datasets[ 0 ].data;
 
 			vars.chart.destroy();
 
-			const elm  = el.$canvas.get( 0 ).getContext( '2d' );
+			const elm = el.$canvas.get( 0 ).getContext( '2d' );
 			vars.chart = new Chart( elm, options );
 
 			$.post(
@@ -656,8 +759,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		handleOnToggleMode: function() {
-
+		handleOnToggleMode() {
 			const { currentPageUri: url } = vars;
 
 			url.searchParams.set( 'mode', this.checked ? 'test' : 'live' );
@@ -670,10 +772,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} event An event which takes place in the DOM.
+		 * @param {Object} event An event which takes place in the DOM.
 		 */
-		handleOnToggle: function( event ) {
-
+		handleOnToggle( event ) {
 			event.preventDefault();
 
 			event.stopPropagation();
@@ -698,15 +799,13 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} event An event which takes place in the DOM.
+		 * @param {Object} event An event which takes place in the DOM.
 		 */
-		handleOnClickOutside: function( event ) {
-
+		handleOnClickOutside( event ) {
 			const { target, data: { selectors } } = event;
 
 			$.each( selectors, function( index, selector ) {
-
-				if ( ! $( target ).closest( `${selector}:visible` ).length ) {
+				if ( ! $( target ).closest( `${ selector }:visible` ).length ) {
 					app.hideElm( el.$wrapper.find( selector ) );
 				}
 			} );
@@ -718,21 +817,18 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} data Chart dataset data.
+		 * @param {Object} data Chart dataset data.
 		 *
-		 * @returns {object} Labels and dataset data object.
+		 * @return {Object} Labels and dataset data object.
 		 */
-		processDatasetData: function( data ) {
-
-			const labels   = [];
+		processDatasetData( data ) {
+			const labels = [];
 			const datasets = [];
 
 			if ( $.isPlainObject( data ) && Object.keys( data ).length > 0 ) {
-
 				el.$notice.addClass( vars.classNames.hide );
 
 				$.each( data || [], function( index, item ) {
-
 					const date = moment( item.day );
 
 					labels.push( date );
@@ -748,21 +844,19 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 			const { i18n: { no_dataset: placeholderText } } = vars;
 
 			// If there is a placeholder text for the current report, use it.
-			if ( placeholderText?.[vars.report] ) {
-				el.$notice.find( 'h2' ).text( placeholderText[vars.report] );
+			if ( placeholderText?.[ vars.report ] ) {
+				el.$notice.find( 'h2' ).text( placeholderText[ vars.report ] );
 			}
-
 
 			el.$notice.removeClass( vars.classNames.hide );
 
 			let date;
-			const end  = moment().startOf( 'day' );
+			const end = moment().startOf( 'day' );
 			const days = 30;
 			const minY = 5;
 			const maxY = 20;
 
 			for ( let i = 1; i <= days; i++ ) {
-
 				date = end.clone().subtract( i, 'days' );
 
 				labels.push( date );
@@ -782,12 +876,11 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @param {Array} data Chart dataset data.
 		 */
-		updateChart: function( data ) {
-
+		updateChart( data ) {
 			const { labels, datasets } = app.processDatasetData( data || [] );
 
-			vars.chart.data.labels             = labels;
-			vars.chart.data.datasets[ 0 ]      = vars.settings.data.datasets[ 0 ];
+			vars.chart.data.labels = labels;
+			vars.chart.data.datasets[ 0 ] = vars.settings.data.datasets[ 0 ];
 			vars.chart.data.datasets[ 0 ].data = datasets;
 			vars.chart.update();
 
@@ -799,10 +892,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} args Optional. Additional arguments provided for the Ajax request.
+		 * @param {Object} args Optional. Additional arguments provided for the Ajax request.
 		 */
-		updateChartByReport: function( args ) {
-
+		updateChartByReport( args ) {
 			// Cache dataset of payments for the chart stats.
 			if ( vars.report && Object.hasOwn( vars.data, vars.report ) ) {
 				app.updateChart( vars.data[ vars.report ]?.data || [] );
@@ -826,7 +918,6 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 					args
 				),
 				function( { data } ) {
-
 					vars.data = Object.assign( { [ vars.report ]: data }, vars.data );
 
 					app.updateChart( data?.data || [] );
@@ -834,7 +925,6 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 				}
 			).done(
 				function() {
-
 					el.$reports.addClass( vars.classNames.ready );
 					el.$reports.removeClass( vars.classNames.fetching );
 				}
@@ -846,10 +936,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} reports Reports summary stats queried from the database.
+		 * @param {Object} reports Reports summary stats queried from the database.
 		 */
-		updateReports: function( reports ) {
-
+		updateReports( reports ) {
 			// Bail early, in case given reports object is empty.
 			if ( $.isEmptyObject( reports ) ) {
 				return;
@@ -859,8 +948,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 				.find( 'li' ).each(
 					// eslint-disable-next-line complexity
 					function() {
-
-						const $this   = $( this );
+						const $this = $( this );
 						const $button = $this.find( 'button' );
 
 						// Skip iterating over stat cards that are disabled.
@@ -868,9 +956,9 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 							return true; // This is the same as 'continue'.
 						}
 
-						const stats  = $button.data( 'stats' );
-						const value  = reports[stats] || 0;
-						const delta  = Number( reports[`${stats}_delta`] ) || 0;
+						const stats = $button.data( 'stats' );
+						const value = reports[ stats ] || 0;
+						const delta = Number( reports[ `${ stats }_delta` ] ) || 0;
 						const $value = $this.find( '.statcard-value' );
 						const $delta = $this.find( '.statcard-delta' );
 
@@ -897,12 +985,11 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} $this Reference to the DOM element.
+		 * @param {Object} $this Reference to the DOM element.
 		 */
-		selectDatepickerChoice: function( $this ) {
-
+		selectDatepickerChoice( $this ) {
 			el.$filterForm.find( 'label' ).removeClass( vars.classNames.selected );
-			$this.addClass(  vars.classNames.selected  );
+			$this.addClass( vars.classNames.selected );
 		},
 
 		/**
@@ -910,8 +997,7 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 */
-		spinner: function() {
-
+		spinner() {
 			el.$spinner.removeClass( vars.classNames.hide );
 		},
 
@@ -920,17 +1006,15 @@ let WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( docu
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} $elm Reference to the DOM element.
+		 * @param {Object} $elm Reference to the DOM element.
 		 */
-		hideElm: function( $elm ) {
-
+		hideElm( $elm ) {
 			$elm.attr( 'aria-expanded', 'false' ).hide();
 		},
 	};
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery, ajaxurl, wpforms_admin_payments_overview ) );
 
 // Initialize.

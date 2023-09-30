@@ -1,3 +1,14 @@
+<?php
+/**
+ * Description template for Turnstile.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
+
 <p><?php esc_html_e( 'Cloudflare Turnstile is a free, CAPTCHA-like service for preventing form spam while protecting data privacy. It offers a user-friendly experience by confirming visitors are real humans without requiring them to solve puzzles or math questions.', 'wpforms-lite' ); ?></p>
 <p>
 	<?php

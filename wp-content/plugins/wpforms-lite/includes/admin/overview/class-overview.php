@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Primary overview page inside the admin which lists all forms.
  *
@@ -182,8 +186,11 @@ class WPForms_Overview {
 			<h1 class="page-title">
 				<?php esc_html_e( 'Forms Overview', 'wpforms-lite' ); ?>
 				<?php if ( wpforms_current_user_can( 'create_forms' ) ) : ?>
-					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpforms-builder&view=setup' ) ); ?>" class="add-new-h2 wpforms-btn-orange">
-						<?php esc_html_e( 'Add New', 'wpforms-lite' ); ?>
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpforms-builder&view=setup' ) ); ?>" class="page-title-action wpforms-btn add-new-h2 wpforms-btn-orange" data-action="add">
+						<svg viewBox="0 0 14 14" class="page-title-action-icon">
+							<path d="M14 5.385v3.23H8.615V14h-3.23V8.615H0v-3.23h5.385V0h3.23v5.385H14Z"/>
+						</svg>
+						<span class="page-title-action-text"><?php esc_html_e( 'Add New', 'wpforms-lite' ); ?></span>
 					</a>
 				<?php endif; ?>
 			</h1>
