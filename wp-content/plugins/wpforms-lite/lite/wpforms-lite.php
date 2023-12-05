@@ -624,19 +624,21 @@ class WPForms_Lite {
 						<?php
 						printf( /* translators: %s - number of templates. */
 							esc_html__( '%s customizable form templates', 'wpforms-lite' ),
-							'1000+'
+							'1100+'
 						);
 						?>
 					</li>
 					<li><?php esc_html_e( 'Store and manage form entries in WordPress', 'wpforms-lite' ); ?></li>
-					<li><?php esc_html_e( 'Unlock all fields & features, including Rich Text & conditional logic', 'wpforms-lite' ); ?></li>
-					<li><?php esc_html_e( 'Make Surveys and Polls and create reports', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( 'Unlock all fields & features, including smart conditional logic', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( 'Create powerful custom calculation forms', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( 'Make surveys and generate reports', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Accept user-submitted content with the Post Submissions addon', 'wpforms-lite' ); ?></li>
 				</ul>
 				<ul>
-					<li><?php esc_html_e( '5000+ integrations with marketing and payment services', 'wpforms-lite' ); ?></li>
-					<li><?php esc_html_e( 'Let users Save and Resume submissions to prevent abandonment', 'wpforms-lite' ); ?></li>
-					<li><?php esc_html_e( 'Take payments with PayPal Commerce, Stripe Pro, Square, Authorize.Net, and PayPal Standard', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( '6000+ integrations with marketing and payment services', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( 'Let users save & resume submissions to prevent abandonment', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( 'Take payments with Stripe, PayPal, Square, & Authorize.Net', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( 'Export entries to Google Sheets, Excel, and CSV', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Collect signatures, geolocation data, and file uploads', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Create user registration and login forms', 'wpforms-lite' ); ?></li>
 				</ul>
@@ -763,6 +765,7 @@ class WPForms_Lite {
 
 			.entries-modal h2 {
 				font-size: 20px;
+				line-height: 24px;
 				margin: 0 0 16px 0;
 				padding: 0;
 			}
@@ -929,7 +932,7 @@ class WPForms_Lite {
 									printf(
 										/* translators: %s - time when Lite Connect was enabled. */
 										esc_html__( 'since you enabled Lite Connect on %s', 'wpforms-lite' ),
-										esc_html( date_i18n( 'M j, Y', $enabled_since + get_option( 'gmt_offset' ) * 3600 ) )
+										esc_html( wpforms_date_format( $enabled_since, '' , true ) )
 									);
 								}
 							// phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterEnd
@@ -1374,24 +1377,50 @@ class WPForms_Lite {
 				'parent' => 'wpforms-menu',
 				'id'     => 'wpforms-upgrade',
 				'title'  => esc_html__( 'Upgrade to Pro', 'wpforms-lite' ),
-				'href'   => esc_url(
-					add_query_arg(
-						[
-							'utm_campaign' => 'liteplugin',
-							'utm_medium'   => 'admin-bar',
-							'utm_source'   => 'WordPress',
-							'utm_content'  => $upgrade_utm_content,
-							'utm_locale'   => wpforms_sanitize_key( get_locale() ),
-						],
-						'https://wpforms.com/lite-upgrade/'
-					)
-				),
+				'href'   => esc_url( $this->admin_upgrade_link( 'admin-bar', $upgrade_utm_content ) ),
 				'meta'   => [
 					'target' => '_blank',
 					'rel'    => 'noopener noreferrer',
 				],
 			]
 		);
+	}
+
+	/**
+	 * Upgrade link used within the various admin pages.
+	 *
+	 * TODO: This is a duplicate of the function in the WPForms class. We should refactor this to use the same function.
+	 *
+	 * @since 1.8.5.1
+	 *
+	 * @param string $medium  URL parameter: utm_medium.
+	 * @param string $content URL parameter: utm_content.
+	 *
+	 * @return string
+	 */
+	private function admin_upgrade_link( string $medium = 'link', string $content = '' ): string {
+
+		$url = 'https://wpforms.com/lite-upgrade/';
+
+		if ( wpforms()->is_pro() ) {
+			$license_key = wpforms_get_license_key();
+			$url         = add_query_arg(
+				'license_key',
+				sanitize_text_field( $license_key ),
+				'https://wpforms.com/pricing/'
+			);
+		}
+
+		$upgrade = wpforms_utm_link( $url, apply_filters( 'wpforms_upgrade_link_medium', $medium ), $content ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName, WPForms.Comments.PHPDocHooks.RequiredHookDocumentation
+
+		/**
+		 * Modify upgrade link.
+		 *
+		 * @since 1.5.1
+		 *
+		 * @param string $upgrade Upgrade links.
+		 */
+		return apply_filters( 'wpforms_upgrade_link', $upgrade ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**

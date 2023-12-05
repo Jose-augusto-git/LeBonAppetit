@@ -163,7 +163,7 @@ class Summaries {
 
 		$content = $template->get();
 
-		if ( wpforms_setting( 'email-template', 'default' ) !== 'default' ) {
+		if ( Helpers::is_plain_text_template() ) {
 			$content = wpautop( $content );
 		}
 

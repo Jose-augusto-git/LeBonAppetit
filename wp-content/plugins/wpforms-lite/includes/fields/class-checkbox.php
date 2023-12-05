@@ -72,53 +72,6 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 	}
 
 	/**
-	 * Return images, if any, for HTML supported values.
-	 *
-	 * @since 1.4.5
-	 *
-	 * @param string $value     Field value.
-	 * @param array  $field     Field settings.
-	 * @param array  $form_data Form data and settings.
-	 * @param string $context   Value display context.
-	 *
-	 * @return string
-	 */
-	public function field_html_value( $value, $field, $form_data = [], $context = '' ) {
-
-		// Only use HTML formatting for checkbox fields, with image choices
-		// enabled, and exclude the entry table display. Lastly, provides a
-		// filter to disable fancy display.
-		if (
-			! empty( $field['value'] ) &&
-			$this->type === $field['type'] &&
-			! empty( $field['images'] ) &&
-			'entry-table' !== $context &&
-			apply_filters( 'wpforms_checkbox_field_html_value_images', true, $context )
-		) {
-
-			$items  = [];
-			$values = explode( "\n", $field['value'] );
-
-			foreach ( $values as $key => $val ) {
-
-				if ( ! empty( $field['images'][ $key ] ) ) {
-					$items[] = sprintf(
-						'<div class="field-value-item"><span><img src="%s" alt=""></span>%s</div>',
-						esc_url( $field['images'][ $key ] ),
-						$val
-					);
-				} else {
-					$items[] = sprintf( '<div class="field-value-item">%s</div>', $val );
-				}
-			}
-
-			return implode( '', $items );
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Define additional field properties.
 	 *
 	 * @since 1.4.5

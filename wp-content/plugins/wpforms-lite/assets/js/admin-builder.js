@@ -1019,14 +1019,14 @@ var WPFormsBuilder = window.WPFormsBuilder || ( function( document, window, $ ) 
 
 			// Minimum update.
 			$builder.on(
-				'input',
+				'focusout',
 				'.wpforms-field-option-row-min_max .wpforms-input-row .wpforms-number-slider-min',
 				app.fieldNumberSliderUpdateMin
 			);
 
 			// Maximum update.
 			$builder.on(
-				'input',
+				'focusout',
 				'.wpforms-field-option-row-min_max .wpforms-input-row .wpforms-number-slider-max',
 				app.fieldNumberSliderUpdateMax
 			);

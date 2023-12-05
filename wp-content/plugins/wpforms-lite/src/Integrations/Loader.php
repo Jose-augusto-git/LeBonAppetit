@@ -37,6 +37,8 @@ class Loader {
 			'LiteConnect\LiteConnect',
 			'Divi\Divi',
 			'Elementor\Elementor',
+			'WPCode\WPCode',
+			'WPCode\RegisterLibrary',
 			'Gutenberg\FormSelector',
 			'WPMailSMTP\Notifications',
 			'WPorg\Translations',

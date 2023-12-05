@@ -21,11 +21,20 @@ const EventLogDataTable = (props) => {
         handleEventTablePageChange,
         handleEventTableSearch,
         handleEventTableFilter,
+        processing,
+        rowCleared,
     } = EventLogDataTableStore()
+    //here we set the selectedFilter from the Settings group
+    const {
+        selectedFilter,
+        setSelectedFilter,
+        activeGroupId,
+        getCurrentFilter,
+        setProcessingFilter,
+    } = FilterData();
 
     const moduleName = 'rsssl-group-filter-limit_login_attempts_event_log';
-    //here we set the selectedFilter from the Settings group
-    const {selectedFilter, setSelectedFilter, activeGroupId, getCurrentFilter} = FilterData();
+
     const {fields, fieldAlreadyEnabled, getFieldValue} = useFields();
 
     useEffect(() => {
@@ -34,22 +43,24 @@ const EventLogDataTable = (props) => {
         if (!currentFilter) {
             setSelectedFilter('all', moduleName);
         }
-        handleEventTableFilter('severity', currentFilter, moduleName);
-    }, [selectedFilter, moduleName]);
+        setProcessingFilter(processing);
+        handleEventTableFilter('severity', currentFilter);
+    }, [moduleName, handleEventTableFilter, getCurrentFilter(moduleName), setSelectedFilter, moduleName, DynamicDataTable, processing]);
 
-    //get data if field was already enabled, so not changed right now.
+
+    //if the dataActions are changed, we fetch the data
     useEffect(() => {
-        if (fieldAlreadyEnabled) {
-            if (!dataLoaded) {
-                fetchDynamicData(field.action);
-            }
+        //we make sure the dataActions are changed in the store before we fetch the data
+        if (dataActions) {
+            fetchDynamicData(field.action, dataActions)
         }
-    }, [fields]);
+    }, [dataActions.sortDirection, dataActions.filterValue, dataActions.search, dataActions.page, dataActions.currentRowsPerPage]);
+
 
 
     //we create the columns
     let columns = [];
-    //getting the fields from the props
+    //getting the fields from the propsß
     let field = props.field;
     //we loop through the fields
     field.columns.forEach(function (item, i) {
@@ -57,14 +68,8 @@ const EventLogDataTable = (props) => {
         columns.push(newItem);
     });
 
-    let enabled = false;
 
-    fields.forEach(function (item, i) {
-        if (item.id === 'enable_limited_login_attempts') {
-            enabled = item.value;
-        }
-    });
-
+    let enabled = getFieldValue('enable_limited_login_attempts');
 
     const customStyles = {
         headCells: {
@@ -116,9 +121,6 @@ const EventLogDataTable = (props) => {
         });
     }
 
-    //we convert DynamicDataTable to an array
-
-
     //we generate an expandable row
     const ExpandableRow = ({data}) => {
         let code, icon, color = '';
@@ -146,7 +148,9 @@ const EventLogDataTable = (props) => {
                 <div style={{float: 'right'}}>
                     <Icon name={icon} color={color}/>
                 </div>
-                <div style={{fontSize: '1em', fontWeight: 'bold'}}>{data.severity}</div>
+                <div style={{fontSize: '1em', fontWeight: 'bold'}}>
+                    {data.severity.charAt(0).toUpperCase() + data.severity.slice(1)}
+                </div>
                 <div>{data.description}</div>
             </div>
         );
@@ -169,17 +173,9 @@ const EventLogDataTable = (props) => {
         )
     }
 
-    function generateGoodBad(value) {
-        ``
-        if (value > 0) {
-            return (
-                <Icon name="circle-check" color='green'/>
-            )
-        } else {
-            return (
-                <Icon name="circle-times" color='red'/>
-            )
-        }
+    let paginationSet = true;
+    if (typeof pagination === 'undefined') {
+        paginationSet = false;
     }
 
     return (
@@ -194,6 +190,7 @@ const EventLogDataTable = (props) => {
                             type="text"
                             className="rsssl-search-bar__input"
                             placeholder={__("Search", "really-simple-ssl")}
+                            disabled={processing}
                             onChange={event => handleEventTableSearch(event.target.value, searchableColumns)}
                         />
                     </div>
@@ -202,13 +199,13 @@ const EventLogDataTable = (props) => {
             {/*Display the datatable*/}
             <DataTable
                 columns={columns}
-                data={data}
+                data={processing? [] : data}
                 dense
-                pagination
+                pagination={!processing}
                 paginationServer
-                paginationTotalRows={pagination.totalRows}
-                paginationPerPage={pagination.perPage}
-                paginationDefaultPage={pagination.currentPage}
+                paginationTotalRows={paginationSet? pagination.totalRows: 10}
+                paginationPerPage={paginationSet? pagination.perPage: 10}
+                paginationDefaultPage={paginationSet?pagination.currentPage: 1}
                 paginationComponentOptions={{
                     rowsPerPageText: __('Rows per page:', 'really-simple-ssl'),
                     rangeSeparatorText: __('of', 'really-simple-ssl'),
@@ -219,10 +216,11 @@ const EventLogDataTable = (props) => {
                 }}
                 onChangeRowsPerPage={handleEventTableRowsChange}
                 onChangePage={handleEventTablePageChange}
-                expandableRows
+                expandableRows={!processing}
                 expandableRowsComponent={ExpandableRow}
-                sortServer
+                loading={dataLoaded}
                 onSort={handleEventTableSort}
+                sortServer={!processing}
                 paginationRowsPerPageOptions={[5, 10, 25, 50, 100]}
                 noDataComponent={__("No results", "really-simple-ssl")}
                 persistTableHead
@@ -232,7 +230,7 @@ const EventLogDataTable = (props) => {
             {!enabled && (
                 <div className="rsssl-locked">
                     <div className="rsssl-locked-overlay"><span
-                        className="rsssl-task-status rsssl-open">{__('Disabled', 'really-simple-ssl')}</span><span>{__('Limit login attempts to enable this block.', 'really-simple-ssl')}</span>
+                        className="rsssl-task-status rsssl-open">{__('Disabled', 'really-simple-ssl')}</span><span>{__('Activate Limit login attempts to enable this block.', 'really-simple-ssl')}</span>
                     </div>
                 </div>
             )}

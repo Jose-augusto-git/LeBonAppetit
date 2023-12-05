@@ -12,10 +12,10 @@ namespace RankMath\Admin;
 
 use RankMath\KB;
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Runner;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Admin\Page;
-use MyThemeShop\Helpers\Param;
+use RankMath\Admin\Page;
 
 defined( 'ABSPATH' ) || exit;
 

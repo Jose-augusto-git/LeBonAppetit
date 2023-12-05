@@ -16,9 +16,9 @@ use RankMath\Helper;
 use RankMath\Paper\Paper;
 use RankMath\Module\Base;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Admin\Page;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Str;
+use RankMath\Admin\Page;
+use RankMath\Helpers\Param;
 use WP_Block_Editor_Context;
 
 defined( 'ABSPATH' ) || exit;
@@ -104,6 +104,8 @@ class Content_AI_Page {
 			rank_math()->version,
 			true
 		);
+
+		wp_set_script_translations( 'rank-math-content-ai-page', 'rank-math' );
 	}
 
 	/**
@@ -139,6 +141,7 @@ class Content_AI_Page {
 						'rank-math-content-ai-page' => $uri . '/assets/css/content-ai-page.css',
 					],
 					'scripts' => [
+						'lodash'                    => '',
 						'wp-components'             => '',
 						'wp-block-library'          => '',
 						'wp-format-library'         => '',
@@ -311,6 +314,9 @@ class Content_AI_Page {
 
 		<div id="editor2" data-settings='<?php echo esc_attr( wp_json_encode( $editor_settings ) ); ?>' data-post-id="<?php echo esc_attr( $post->ID ); ?>"></div>
 		<?php
+
+		wp_set_script_translations( 'rank-math-content-ai', 'rank-math' );
+		wp_set_script_translations( 'rank-math-content-ai-page', 'rank-math' );
 	}
 
 	/**

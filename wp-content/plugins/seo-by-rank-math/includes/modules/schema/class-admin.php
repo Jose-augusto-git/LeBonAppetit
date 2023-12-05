@@ -13,7 +13,7 @@ namespace RankMath\Schema;
 use RankMath\Helper;
 use RankMath\Module\Base;
 use RankMath\Admin\Admin_Helper;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -96,6 +96,7 @@ class Admin extends Base {
 		$screen = get_current_screen();
 		if ( 'rank_math_schema' !== $screen->post_type ) {
 			wp_enqueue_script( 'rank-math-schema', rank_math()->plugin_url() . 'includes/modules/schema/assets/js/schema-gutenberg.js', [ 'rank-math-editor' ], rank_math()->version, true );
+			wp_set_script_translations( 'rank-math-schema', 'rank-math' );
 		}
 	}
 

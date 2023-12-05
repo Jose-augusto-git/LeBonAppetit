@@ -1,5 +1,7 @@
 <?php
 
+use WPForms\Admin\Education\Helpers;
+
 /**
  * Output fields to be used on panels (settings etc).
  *
@@ -59,7 +61,7 @@ function wpforms_panel_field( $option, $panel, $field, $form_data, $label, $args
 	}
 
 	if ( ! empty( $args['pro_badge'] ) ) {
-		$label .= '<span class="wpforms-field-option-education-pro-badge">pro</span>';
+		$label .= Helpers::get_badge( 'Pro', 'sm', 'inline', 'silver' );
 	}
 
 	// Check if we should store values in a parent array.
@@ -304,7 +306,26 @@ function wpforms_panel_field( $option, $panel, $field, $form_data, $label, $args
 				$output .= '<option value="">' . $placeholder . '</option>';
 			}
 
+			// This argument is used to disable some options, it takes an array of option values.
+			// For instance, if you want to disable options with value '1' and '2', you should pass array( '1', '2' ).
+			$disabled_options = ! empty( $args['disabled_options'] ) ? (array) $args['disabled_options'] : [];
+
 			foreach ( $options as $key => $item ) {
+
+				// If the option is disabled, we add the disabled attribute.
+				$disabled = in_array( $key, $disabled_options, true ) ? 'disabled' : '';
+
+				// Disabled options cannot be selected, so we bail early.
+				if ( ! empty( $disabled ) ) {
+					$output .= sprintf(
+						'<option value="%s" %s>%s</option>',
+						esc_attr( $key ),
+						$disabled,
+						$item
+					);
+
+					continue;
+				}
 
 				if ( is_array( $value ) ) {
 					$selected = in_array( $key, $value, true ) ? 'selected' : '';

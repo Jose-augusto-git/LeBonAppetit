@@ -27,6 +27,10 @@ class ChargeSucceeded extends Base {
 
 		$this->set_payment();
 
+		if ( ! $this->db_payment ) {
+			return false;
+		}
+
 		if ( $this->db_payment->status !== 'processed' ) {
 			return false;
 		}

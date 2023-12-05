@@ -2,6 +2,8 @@
 
 namespace WPForms\Lite\Admin\Settings;
 
+use WPForms\Admin\Education\Helpers;
+
 /**
  * Settings Access tab.
  *
@@ -130,10 +132,9 @@ class Access {
 	public function output_section_row_heading() {
 
 		return sprintf(
-			'<h4>%1$s<img src="%2$s" alt="%3$s"></h4><p>%4$s</p><p>%5$s</p>',
+			'<h4>%1$s%2$s</h4><p>%3$s</p><p>%4$s</p>',
 			esc_html__( 'Access Controls', 'wpforms-lite' ),
-			esc_url( WPFORMS_PLUGIN_URL . 'assets/images/lite-settings-access/pro-plus.svg' ),
-			esc_attr__( 'Pro+', 'wpforms-lite' ),
+			Helpers::get_badge( 'Pro' ),
 			esc_html__( 'Access controls allows you to manage and customize access to WPForms functionality.', 'wpforms-lite' ),
 			esc_html__( 'You can easily grant or restrict access using the simple built-in controls, or use our official integrations with Members and User Role Editor plugins.', 'wpforms-lite' )
 		);

@@ -14,6 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use \ZipAI\Classes\Helper as Zip_Ai_Helper;
+use \ZipAI\Classes\Module as Zip_Ai_Module;
+
+
 /**
  * Class Admin_Menu.
  */
@@ -160,6 +164,18 @@ class Admin_Menu {
 		// Use this action hook to add sub menu to above menu.
 		do_action( 'spectra_after_menu_register' );
 
+		// Add the AI Features Submenu if Zip AI Library is loaded.
+		if ( defined( 'ZIP_AI_VERSION' ) ) {
+			add_submenu_page(
+				$menu_slug,
+				__( 'Spectra', 'ultimate-addons-for-gutenberg' ),
+				__( 'AI Features', 'ultimate-addons-for-gutenberg' ),
+				$capability,
+				$menu_slug . '&path=ai-features',
+				array( $this, 'render' )
+			);
+		}
+
 		// Finally, add the Settings Submenu.
 		add_submenu_page(
 			$menu_slug,
@@ -247,12 +263,34 @@ class Admin_Menu {
 				'spectra_pro_status'       => is_plugin_active( 'spectra-pro/spectra-pro.php' ),
 				'spectra_pro_ver'          => defined( 'SPECTRA_PRO_VER' ) ? SPECTRA_PRO_VER : null,
 				'spectra_custom_fonts'     => apply_filters( 'spectra_system_fonts', array() ),
+				'spectra_admin_video'      => apply_filters( 'spectra_display_admin_video', true ),
 				'is_allow_registration'    => (bool) get_option( 'users_can_register' ),
 				'theme_fonts'              => $theme_font_families,
 				'is_block_theme'           => \UAGB_Admin_Helper::is_block_theme(),
 				'spectra_pro_url'          => \UAGB_Admin_Helper::get_spectra_pro_url(),
 			)
 		);
+
+		// If the Zip AI Assets is available, add the Zip AI localizations.
+		if ( is_array( $localize )
+			&& class_exists( '\ZipAI\Classes\Helper' )
+			&& class_exists( '\ZipAI\Classes\Module' )
+			&& defined( 'ZIP_AI_CREDIT_TOPUP_URL' )
+		) {
+
+			$localize = array_merge(
+				$localize,
+				array(
+					'zip_ai_auth_middleware'  => Zip_Ai_Helper::get_auth_middleware_url(),
+					'zip_ai_auth_revoke_url'  => Zip_Ai_Helper::get_auth_revoke_url(),
+					'zip_ai_credit_topup_url' => ZIP_AI_CREDIT_TOPUP_URL,
+					'zip_ai_is_authorized'    => Zip_Ai_Helper::is_authorized(),
+					'zip_ai_is_chat_enabled'  => Zip_Ai_Module::is_enabled( 'ai_assistant' ),
+					'zip_ai_admin_nonce'      => wp_create_nonce( 'zip_ai_admin_nonce' ),
+					'zip_ai_credit_details'   => Zip_Ai_Helper::get_credit_details(),
+				)
+			);
+		}
 
 		$this->settings_app_scripts( $localize );
 	}
@@ -436,8 +474,17 @@ class Admin_Menu {
 	 *  Add footer link.
 	 */
 	public function add_footer_link() {
-		// translators: HTML entities.
-		return '<span id="footer-thankyou">' . sprintf( __( 'Thank you for using %1$sSpectra.%2$s', 'ultimate-addons-for-gutenberg' ), '<a href="https://wpspectra.com/" class="focus:text-spectra-hover active:text-spectra-hover hover:text-spectra-hover">', '</a>' ) . '</span>';
+		return '<span id="spectra-footer-thankyou" style="font-family: Inter, sans-serif;">' . sprintf(
+			// translators: %1$s: Opening Strong Tag, %2$s: Closing Strong Tag, %3$s Anchor Tag with Star Symbol Codes.
+			__(
+				'Enjoyed %1$sSpectra%2$s? Please leave us a %3$s rating. We really appreciate your support!',
+				'ultimate-addons-for-gutenberg'
+			),
+			'<strong>', 
+			'</strong>',
+			'<a href="https://wordpress.org/support/plugin/ultimate-addons-for-gutenberg/reviews/?rate=5#new-post" target="_blank" style="color: #6104ff; text-decoration: none;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">&#9733;&#9733;&#9733;&#9733;&#9733;</a>'
+		) . '</span>';
+		
 	}
 
 }

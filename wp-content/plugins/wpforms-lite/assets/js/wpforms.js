@@ -7,6 +7,13 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 	var app = {
 
 		/**
+		 * Cache.
+		 *
+		 * @since 1.8.5
+		 */
+		cache: {},
+
+		/**
 		 * Start the engine.
 		 *
 		 * @since 1.2.3
@@ -272,46 +279,26 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate email by allowlist/blocklist.
 				$.validator.addMethod( 'restricted-email', function( value, element ) {
-
-					var validator = this,
-						$el = $( element ),
-						$field = $el.closest( '.wpforms-field' ),
-						$form = $el.closest( '.wpforms-form' ),
-						isValid = 'pending';
+					const $el = $( element );
 
 					if ( ! $el.val().length ) {
 						return true;
 					}
 
-					this.startRequest( element );
-					$.post( {
-						url: wpforms_settings.ajaxurl,
-						type: 'post',
-						async: false,
-						data: {
-							'action': 'wpforms_restricted_email',
-							'form_id': $form.data( 'formid' ),
-							'field_id': $field.data( 'field-id' ),
-							'email': $el.val(),
-						},
-						dataType: 'json',
-						success: function( response ) {
+					const $form = $el.closest( '.wpforms-form' ),
+						formId = $form.data( 'formid' );
 
-							var errors = {};
+					if (
+						! Object.prototype.hasOwnProperty.call( app.cache, formId ) ||
+						! Object.prototype.hasOwnProperty.call( app.cache[ formId ], 'restrictedEmailValidation' ) ||
+						! Object.prototype.hasOwnProperty.call( app.cache[ formId ].restrictedEmailValidation, value )
+					) {
+						app.restrictedEmailRequest( element, value );
 
-							isValid = response.success && response.data;
+						return 'pending';
+					}
 
-							if ( isValid ) {
-								validator.toHide = validator.errorsFor( element );
-								validator.showErrors();
-							} else {
-								errors[ element.name ] = wpforms_settings.val_email_restricted;
-								validator.showErrors( errors );
-							}
-							validator.stopRequest( element, isValid );
-						},
-					} );
-					return isValid;
+					return app.cache[ formId ].restrictedEmailValidation[ value ];
 				}, wpforms_settings.val_email_restricted );
 
 				// Validate confirmations.
@@ -696,16 +683,66 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		},
 
 		/**
+		 * Request to check if email is restricted.
+		 *
+		 * @since 1.8.5
+		 *
+		 * @param {Element} element Email input field.
+		 * @param {string}  value   Field value.
+		 */
+		restrictedEmailRequest( element, value ) {
+			const $el = $( element );
+			const $form = $el.closest( 'form' );
+			const validator = $form.data( 'validator' );
+			const formId = $form.data( 'formid' );
+			const $field = $el.closest( '.wpforms-field' );
+			const fieldId = $field.data( 'field-id' );
+
+			app.cache[ formId ] = app.cache[ formId ] || {};
+
+			validator.startRequest( element );
+
+			$.post( {
+				url: wpforms_settings.ajaxurl,
+				type: 'post',
+				data: {
+					action: 'wpforms_restricted_email',
+					form_id: formId, // eslint-disable-line camelcase
+					field_id: fieldId, // eslint-disable-line camelcase
+					email: value,
+				},
+				dataType: 'json',
+				success( response ) {
+					const errors = {};
+
+					const isValid = response.success && response.data;
+
+					if ( ! isValid ) {
+						errors[ element.name ] = wpforms_settings.val_email_restricted;
+						validator.showErrors( errors );
+					}
+
+					app.cache[ formId ].restrictedEmailValidation = app.cache[ formId ].restrictedEmailValidation || [];
+
+					if ( ! Object.prototype.hasOwnProperty.call( app.cache[ formId ].restrictedEmailValidation, value ) ) {
+						app.cache[ formId ].restrictedEmailValidation[ value ] = isValid;
+					}
+
+					validator.stopRequest( element, isValid );
+				},
+			} );
+		},
+
+		/**
 		 * Is field inside column.
 		 *
 		 * @since 1.6.3
 		 *
 		 * @param {jQuery} element current form element.
 		 *
-		 * @returns {boolean} true/false.
+		 * @return {boolean} true/false.
 		 */
-		isFieldInColumn: function( element ) {
-
+		isFieldInColumn( element ) {
 			return element.parent().hasClass( 'wpforms-one-half' ) ||
 				element.parent().hasClass( 'wpforms-two-fifths' ) ||
 				element.parent().hasClass( 'wpforms-one-fifth' );
@@ -1510,6 +1547,103 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				.one( 'focus', '.dropzone-input', app.formChanged )
 				.one( 'click touchstart', '.wpforms-signature-canvas', app.formChanged )
 				.one( 'wpformsRichTextContentChange', app.richTextContentChanged );
+
+			$( 'form.wpforms-form' ).on( 'wpformsBeforePageChange', app.skipEmptyPages );
+		},
+
+		/**
+		 * Skip empty pages (by CL, hidden fields etc.) inside multi-steps forms.
+		 *
+		 * @since 1.8.5
+		 *
+		 * @param {Event}  event    Event.
+		 * @param {number} nextPage Next page.
+		 * @param {jQuery} $form    Current form.
+		 * @param {string} action   The navigation action.
+		 */
+		skipEmptyPages( event, nextPage, $form, action ) {
+			const nextNonEmptyPage = app.findNonEmptyPage( nextPage, $form, action );
+
+			if ( nextNonEmptyPage === nextPage ) {
+				return;
+			}
+
+			event.preventDefault();
+
+			if ( nextNonEmptyPage === 1 && action === 'prev' ) {
+				const $secondPage = $form.find( '.wpforms-page-2' );
+				const $currentPage = $form.find( '.wpforms-page-' + nextPage );
+				// The previous button is optional. We pass the fallback to the original previous button
+				// in the case when the previous button on the second page does not exist.
+				const $prevButton = $secondPage.find( '.wpforms-page-prev' ).length
+					? $secondPage.find( '.wpforms-page-prev' )
+					: $currentPage.find( '.wpforms-page-prev' );
+
+				wpforms.navigateToPage( $prevButton, 'prev', 2, $form, $secondPage );
+
+				return;
+			}
+
+			// The next page button is always visible.
+			// So we take the previous page before the next non-empty page
+			// and simulate a jump forward from the next page.
+			const prevPage = nextNonEmptyPage - 1;
+			const $previousPage = $form.find( '.wpforms-page-' + prevPage );
+
+			wpforms.navigateToPage( $previousPage.find( '.wpforms-page-next' ), 'next', prevPage, $form, $previousPage );
+		},
+
+		/**
+		 * Find the next non-empty page.
+		 *
+		 * @since 1.8.5
+		 *
+		 * @param {number} page   Current page.
+		 * @param {jQuery} $form  Current form.
+		 * @param {string} action The navigation action.
+		 *
+		 * @return {number} The next non-empty page number.
+		 */
+		findNonEmptyPage( page, $form, action ) {
+			let nextNonEmptyPage = page;
+
+			while ( app.isEmptyPage( $form, nextNonEmptyPage ) ) {
+				if ( action === 'prev' ) {
+					nextNonEmptyPage--;
+				} else {
+					nextNonEmptyPage++;
+				}
+			}
+
+			return nextNonEmptyPage;
+		},
+
+		/**
+		 * Check is target page is empty.
+		 *
+		 * @since 1.8.5
+		 *
+		 * @param {jQuery} $form Current form.
+		 * @param {number} page  Page number.
+		 *
+		 * @return {boolean} True if page is empty.
+		 */
+		isEmptyPage( $form, page ) {
+			// The first page is always visible.
+			if ( page === 1 ) {
+				return false;
+			}
+
+			const $currentPage = $form.find( '.wpforms-page-' + page );
+
+			// The last page has the submit button, so it's always non-empty.
+			if ( $currentPage.hasClass( 'last' ) ) {
+				return false;
+			}
+
+			const $fieldsOnPage = $currentPage.find( '.wpforms-field:not(.wpforms-field-pagebreak):not(.wpforms-field-hidden)' );
+
+			return $currentPage.find( '.wpforms-conditional-hide' ).length === $fieldsOnPage.length;
 		},
 
 		/**

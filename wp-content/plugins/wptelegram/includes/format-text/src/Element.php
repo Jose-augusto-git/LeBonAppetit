@@ -19,7 +19,6 @@ class Element implements ElementInterface {
 	const BLOCK_ELEMENTS = [
 		'article',
 		'aside',
-		'blockquote',
 		'body',
 		'div',
 		'footer',
@@ -260,7 +259,7 @@ class Element implements ElementInterface {
 		// Loop through all nodes and find the given $node.
 		foreach ( $parent->getChildren() as $currentNode ) {
 			if ( ! $currentNode->isWhitespace() ) {
-				$position++;
+				++$position;
 			}
 
 			// Perhaps we can somehow ensure that we always have the exact same object and use === instead?
@@ -281,7 +280,7 @@ class Element implements ElementInterface {
 
 		while ( null !== $parent && $parent->hasParent() ) {
 			if ( $parent->getTagName() === 'li' ) {
-				$level++;
+				++$level;
 			}
 
 			$parent = $parent->getParent();

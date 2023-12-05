@@ -116,13 +116,11 @@ class System extends View {
 		$data      = '-- WPForms Info' . "\n\n";
 
 		if ( ! empty( $activated['pro'] ) ) {
-			$date  = $activated['pro'] + ( get_option( 'gmt_offset' ) * 3600 );
-			$data .= 'Pro:                      ' . date_i18n( 'M j, Y @ g:ia', $date ) . "\n";
+			$data .= 'Pro:                      ' . $this->get_formatted_datetime( $activated['pro'] ) . "\n";
 		}
 
 		if ( ! empty( $activated['lite'] ) ) {
-			$date  = $activated['lite'] + ( get_option( 'gmt_offset' ) * 3600 );
-			$data .= 'Lite:                     ' . date_i18n( 'M j, Y @ g:ia', $date ) . "\n";
+			$data .= 'Lite:                     ' . $this->get_formatted_datetime( $activated['lite'] ) . "\n";
 		}
 
 		$data .= 'Lite Connect:             ' . $this->get_lite_connect_info() . "\n";
@@ -393,7 +391,7 @@ class System extends View {
 
 		$lc_enabled       = wpforms_setting( 'lite-connect-enabled' );
 		$lc_enabled_since = wpforms_setting( 'lite-connect-enabled-since' );
-		$date             = date_i18n( 'M j, Y @ g:ia', $lc_enabled_since + get_option( 'gmt_offset' ) * 3600 );
+		$date             = $this->get_formatted_datetime( $lc_enabled_since );
 
 		if ( $lc_enabled ) {
 			$string = $lc_enabled_since ? 'Backup is enabled since ' . $date : 'Backup is enabled';
@@ -402,5 +400,23 @@ class System extends View {
 		}
 
 		return $string;
+	}
+
+	/**
+	 * Get formatted datetime.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @param int|string $date Date.
+	 *
+	 * @return string
+	 */
+	private function get_formatted_datetime( $date ) {
+
+		return sprintf(
+			'%1$s at %2$s (GMT)',
+			gmdate( 'M j, Y', $date ),
+			gmdate( 'g:ia', $date )
+		);
 	}
 }

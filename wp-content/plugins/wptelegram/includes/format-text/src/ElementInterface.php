@@ -172,5 +172,4 @@ interface ElementInterface {
 	 * @return boolean
 	 */
 	public function equals( ElementInterface $element );
-
 }

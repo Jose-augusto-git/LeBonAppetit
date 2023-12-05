@@ -123,7 +123,7 @@ if ( ! class_exists( __NAMESPACE__ . '\WPLoader_1_0_6', false ) ) {
 			}
 
 			if ( ! defined( 'WPTELEGRAM_FORMAT_TEXT_DIR' ) ) {
-				define( 'WPTELEGRAM_FORMAT_TEXT_DIR', dirname( __FILE__ ) );
+				define( 'WPTELEGRAM_FORMAT_TEXT_DIR', __DIR__ );
 			}
 
 			// Now kick off the class autoloader.

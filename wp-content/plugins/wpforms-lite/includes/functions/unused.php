@@ -297,9 +297,9 @@ function wpforms_get_providers_all() {
 			'license'     => 'elite',
 		],
 		[
-			'name'        => 'Sendinblue',
+			'name'        => 'Brevo',
 			'slug'        => 'sendinblue',
-			'img'         => 'addon-icon-sendinblue.png',
+			'img'         => 'addon-icon-brevo.png',
 			'plugin'      => 'wpforms-sendinblue/wpforms-sendinblue.php',
 			'plugin_slug' => 'wpforms-sendinblue',
 			'license'     => 'pro',

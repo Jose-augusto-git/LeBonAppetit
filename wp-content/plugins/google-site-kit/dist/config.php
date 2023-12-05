@@ -7,6 +7,5 @@
  */
 
 return array(
-	'buildMode' => 'production',
-	'features' => array( 'adsenseSetupV2','enhancedMeasurement','ga4Reporting','gm3Components','newsKeyMetrics','userInput' ),
+	'features' => array( 'adsenseSetupV2','enhancedMeasurement','gm3Components','keyMetrics' ),
 );

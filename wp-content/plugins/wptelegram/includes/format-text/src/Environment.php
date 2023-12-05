@@ -7,6 +7,7 @@
 
 namespace WPTelegram\FormatText;
 
+use WPTelegram\FormatText\Converter\BlockquoteConverter;
 use WPTelegram\FormatText\Converter\CodeConverter;
 use WPTelegram\FormatText\Converter\CommentConverter;
 use WPTelegram\FormatText\Converter\ConverterInterface;
@@ -98,7 +99,7 @@ final class Environment {
 	 * @return Environment
 	 */
 	public static function createDefaultEnvironment( array $config = [] ) {
-		$environment = new static( $config );
+		$environment = new self( $config );
 
 		$environment->addConverter( new CodeConverter() );
 		$environment->addConverter( new CommentConverter() );
@@ -112,6 +113,7 @@ final class Environment {
 		$environment->addConverter( new SpoilerConverter() );
 		$environment->addConverter( new TableConverter() );
 		$environment->addConverter( new TextConverter() );
+		$environment->addConverter( new BlockquoteConverter() );
 
 		return $environment;
 	}

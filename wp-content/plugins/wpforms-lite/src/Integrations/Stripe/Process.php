@@ -782,7 +782,7 @@ class Process {
 
 		foreach ( $this->fields as $field ) {
 
-			if ( $this->api->get_config( 'field_slug' ) !== $field['type'] ) {
+			if ( isset( $field['type'] ) && $this->api->get_config( 'field_slug' ) !== $field['type'] ) {
 				continue;
 			}
 
@@ -904,7 +904,7 @@ class Process {
 			return;
 		}
 
-		if ( ! is_a( $e, '\Stripe\Exception\CardException' ) ) {
+		if ( ! is_a( $e, '\WPForms\Vendor\Stripe\Exception\CardException' ) ) {
 			return;
 		}
 

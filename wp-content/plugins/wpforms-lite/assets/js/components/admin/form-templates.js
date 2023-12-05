@@ -247,8 +247,11 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 * @param {string} query Value to search.
 		 */
 		performSearch( query ) {
-
-			let searchResult = vars.templateList.search( query );
+			const searchResult = vars.templateList.search( query, [ 'name' ], function( searchString ) {
+				for ( let index = 0, length = vars.templateList.items.length; index < length; index++ ) {
+					vars.templateList.items[ index ].found = ( new RegExp( searchString ) ).test( vars.templateList.items[ index ].values()[ 'wpforms-template-name' ].toLowerCase() );
+				}
+			} );
 
 			$( '.wpforms-templates-no-results' ).toggle( ! searchResult.length );
 		},

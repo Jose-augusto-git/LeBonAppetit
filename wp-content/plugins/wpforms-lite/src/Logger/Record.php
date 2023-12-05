@@ -179,28 +179,19 @@ class Record {
 
 		switch ( $format ) {
 			case 'short':
-				$date = date_i18n(
-					get_option( 'date_format' ),
-					$this->create_at + ( get_option( 'gmt_offset' ) * 3600 )
-				);
+				$date = wpforms_date_format( $this->create_at, '', true );
 				break;
 
 			case 'full':
-				$date = date_i18n(
-					sprintf( '%s %s', get_option( 'date_format' ), get_option( 'time_format' ) ),
-					$this->create_at + ( get_option( 'gmt_offset' ) * 3600 )
-				);
+				$date = wpforms_datetime_format( $this->create_at, '', true );
 				break;
 
 			case 'sql':
-				$date = gmdate( 'Y-m-d H:i:s', $this->create_at );
+				$date = wpforms_datetime_format( $this->create_at, 'Y-m-d H:i:s' );
 				break;
 
 			case 'sql-local':
-				$date = date_i18n(
-					'Y-m-d H:i:s',
-					$this->create_at + ( get_option( 'gmt_offset' ) * 3600 )
-				);
+				$date = wpforms_datetime_format( $this->create_at, 'Y-m-d H:i:s', true );
 				break;
 
 			default:

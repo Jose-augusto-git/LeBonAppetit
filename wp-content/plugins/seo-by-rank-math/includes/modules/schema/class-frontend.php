@@ -12,7 +12,7 @@ namespace RankMath\Schema;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -143,12 +143,12 @@ class Frontend {
 	 */
 	public function validate_event_schema( $schema ) {
 		if ( ! empty( $schema['startDate'] ) ) {
-			$start_date          = Helper::convert_date( strtotime( $schema['startDate'] ), true );
+			$start_date          = date_i18n( 'Y-m-d H:i:sP', strtotime( $schema['startDate'] ) );
 			$schema['startDate'] = str_replace( ' ', 'T', $start_date );
 		}
 
 		if ( ! empty( $schema['endDate'] ) ) {
-			$end_date          = Helper::convert_date( strtotime( $schema['endDate'] ), true );
+			$end_date          = date_i18n( 'Y-m-d H:i:sP', strtotime( $schema['endDate'] ) );
 			$schema['endDate'] = str_replace( ' ', 'T', $end_date );
 		}
 

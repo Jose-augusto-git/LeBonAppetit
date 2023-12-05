@@ -9,6 +9,7 @@ namespace Duplicator\Core;
 use DUP_Archive;
 use DUP_CTRL_Tools;
 use DUP_Settings;
+use DUP_Util;
 use Duplicator\Libs\Snap\SnapWP;
 use Duplicator\Libs\Snap\SnapIO;
 use Duplicator\Utils\CachesPurge\CachesPurge;
@@ -45,6 +46,9 @@ class MigrationMng
     public static function init()
     {
         add_action('admin_init', array(__CLASS__, 'adminInit'));
+        add_action(self::HOOK_FIRST_LOGIN_AFTER_INSTALL, function ($migrationData) {
+            DUP_Util::initSnapshotDirectory();
+        });
         add_action(self::HOOK_FIRST_LOGIN_AFTER_INSTALL, array(__CLASS__, 'removeFirstLoginOption'));
         add_action(self::HOOK_FIRST_LOGIN_AFTER_INSTALL, array(__CLASS__, 'renameInstallersPhpFiles'));
         add_action(self::HOOK_FIRST_LOGIN_AFTER_INSTALL, array(__CLASS__, 'storeMigrationFiles'));
@@ -358,6 +362,7 @@ class MigrationMng
         $ssdInstallerPath = DUP_Settings::getSsdirInstallerPath();
         wp_mkdir_p($ssdInstallerPath);
         SnapIO::emptyDir($ssdInstallerPath);
+        SnapIO::createSilenceIndex($ssdInstallerPath);
 
         $filesToMove = array(
             $migrationData['installerLog'],

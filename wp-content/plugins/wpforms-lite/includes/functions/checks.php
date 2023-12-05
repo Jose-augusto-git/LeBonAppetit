@@ -5,7 +5,7 @@
  * @since 1.8.0
  */
 
-use TrueBV\Punycode;
+use WPForms\Vendor\TrueBV\Punycode;
 
 /**
  * Check if a string is a valid URL.

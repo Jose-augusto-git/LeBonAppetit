@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					echo wp_kses(
 						sprintf(
 							/* translators: %1$d - number of minutes, %2$s - singular or plural form of 'minute'. */
-							__( 'We\'re sorry that it took longer than %1$d %2$s minutes to publish your form. Our goal is to create the most beginner-friendly WordPress form plugin.<br>How can we help you to be successful? Please send us your feedback. Our support team is standing by to help.', 'wpforms-lite' ),
+							__( 'We\'re sorry that it took longer than %1$d %2$s to publish your form. Our goal is to create the most beginner-friendly WordPress form plugin.<br>How can we help you to be successful? Please send us your feedback. Our support team is standing by to help.', 'wpforms-lite' ),
 							absint( $minutes ),
 							_n( 'minute', 'minutes', absint( $minutes ), 'wpforms-lite' )
 						),

@@ -190,6 +190,10 @@ class Requirements {
 			self::LICENSE => 'basic, plus, pro, elite, agency, ultimate',
 		],
 		'wpforms-conversational-forms/wpforms-conversational-forms.php' => [],
+		'wpforms-convertkit/wpforms-convertkit.php'                     => [
+			self::LICENSE => self::PLUS_PRO_AND_TOP,
+			self::PHP 	  => '7.4',
+		],
 		'wpforms-coupons/wpforms-coupons.php'                           => [],
 		'wpforms-drip/wpforms-drip.php'                                 => [
 			self::LICENSE => self::PLUS_PRO_AND_TOP,

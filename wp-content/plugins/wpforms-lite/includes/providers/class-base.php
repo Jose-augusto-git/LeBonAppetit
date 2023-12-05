@@ -1265,8 +1265,14 @@ abstract class WPForms_Provider {
 
 			$account  = '<li class="wpforms-clear">';
 			$account .= '<span class="label">' . sanitize_text_field( $data['label'] ) . '</span>';
-			/* translators: %s - connection date. */
-			$account .= '<span class="date">' . sprintf( esc_html__( 'Connected on: %s', 'wpforms-lite' ), date_i18n( get_option( 'date_format', time() ) ) ) . '</span>';
+			$account .= '<span class="date">';
+			$account .= esc_html(
+				sprintf( /* translators: %1$s - Connection date. */
+					__( 'Connected on: %1$s', 'wpforms-lite' ),
+					wpforms_date_format( time(), '', true )
+				)
+			);
+			$account .= '</span>';
 			$account .= '<span class="remove"><a href="#" data-provider="' . $this->slug . '" data-key="' . esc_attr( $auth ) . '">' . esc_html__( 'Disconnect', 'wpforms-lite' ) . '</a></span>';
 			$account .= '</li>';
 
@@ -1339,8 +1345,14 @@ abstract class WPForms_Provider {
 							foreach ( $accounts as $key => $account ) {
 								echo '<li class="wpforms-clear">';
 								echo '<span class="label">' . esc_html( $account['label'] ) . '</span>';
-								/* translators: %s - connection date. */
-								echo '<span class="date">' . sprintf( esc_html__( 'Connected on: %s', 'wpforms-lite' ), date_i18n( get_option( 'date_format' ), intval( $account['date'] ) ) ) . '</span>';
+								echo '<span class="date">';
+								echo esc_html(
+									sprintf( /* translators: %1$s - Connection date. */
+										__( 'Connected on: %1$s', 'wpforms-lite' ),
+										wpforms_date_format( (int) $account['date'], '', true )
+									)
+								);
+								echo '</span>';
 								echo '<span class="remove"><a href="#" data-provider="' . esc_attr( $this->slug ) . '" data-key="' . esc_attr( $key ) . '">' . esc_html__( 'Disconnect', 'wpforms-lite' ) . '</a></span>';
 								echo '</li>';
 							}

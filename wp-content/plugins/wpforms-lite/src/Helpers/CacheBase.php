@@ -2,6 +2,8 @@
 
 namespace WPForms\Helpers;
 
+use WPForms\Tasks\Tasks;
+
 /**
  * Remote data cache handler.
  *
@@ -373,14 +375,17 @@ abstract class CacheBase {
 
 		$tasks = wpforms()->get( 'tasks' );
 
-		if ( $tasks->is_scheduled( $this->settings['update_action'] ) !== false ) {
+		if (
+			! $tasks instanceof Tasks ||
+			$tasks->is_scheduled( $this->settings['update_action'] ) !== false
+		) {
 			return;
 		}
 
 		$tasks->create( $this->settings['update_action'] )
-			  ->recurring( time() + $this->settings['cache_ttl'], $this->settings['cache_ttl'] )
-			  ->params()
-			  ->register();
+			->recurring( time() + $this->settings['cache_ttl'], $this->settings['cache_ttl'] )
+			->params()
+			->register();
 	}
 
 	/**

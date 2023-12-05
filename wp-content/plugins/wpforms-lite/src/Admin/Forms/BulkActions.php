@@ -286,7 +286,7 @@ class BulkActions {
 				];
 			} else {
 				$items = [
-					'trash' => esc_html__( 'Trash', 'wpforms-lite' ),
+					'trash' => esc_html__( 'Move to Trash', 'wpforms-lite' ),
 				];
 			}
 		}

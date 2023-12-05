@@ -38,7 +38,7 @@ return array(
 	'childMigrate'            => false,
 	'block_id'                => '',
 	'align'                   => 'center',
-	'btn_count'               => '2',
+	'btn_count'               => '1',
 	'buttons'                 => $default_buttons_child,
 	'gap'                     => 10,
 	'gapTablet'               => '',
@@ -103,9 +103,14 @@ return array(
 	'marginType'              => 'px',
 	'marginLink'              => '',
 
+	'verticalAlignment'       => '',
+
 	// letter spacing.
 	'fontLetterSpacing'       => '',
 	'fontLetterSpacingTablet' => '',
 	'fontLetterSpacingMobile' => '',
 	'fontLetterSpacingType'   => 'px',
+	// For Global Block Styles.
+	'globalBlockStyleName'    => '',
+	'globalBlockStyleId'      => '',
 );

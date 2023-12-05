@@ -25,6 +25,6 @@ body, .body {
 
 <?php if ( ! empty( $header_image_max_width ) ) : ?>
 .header img {
-	max-width: <?php echo \esc_attr( $header_image_max_width ); ?>;
+	max-width: <?php echo esc_attr( $header_image_max_width ); ?>px;
 }
 <?php endif; ?>

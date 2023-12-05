@@ -4,7 +4,7 @@ namespace WPForms\Integrations\Stripe\Admin;
 
 use WPForms\Integrations\Stripe\Api\WebhooksManager;
 use WPForms\Integrations\Stripe\Helpers;
-use Stripe\Account;
+use WPForms\Vendor\Stripe\Account;
 
 /**
  * Stripe Connect functionality.

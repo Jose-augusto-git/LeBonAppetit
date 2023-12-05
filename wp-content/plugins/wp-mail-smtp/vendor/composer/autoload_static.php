@@ -4,10 +4,9 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite248ce63b4711b6449cc131522079250
+class ComposerStaticInit295984e5919e750baa7d7284cfe56164
 {
     public static $files = array (
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'e3e111437f37e10e6bcab5eacc08fb6f' => __DIR__ . '/../..' . '/vendor_prefixed/guzzlehttp/promises/src/functions_include.php',
         '2bb094e40611cb5eccea789f32aff634' => __DIR__ . '/../..' . '/vendor_prefixed/symfony/polyfill-mbstring/bootstrap.php',
         '1fd84176824b5a44e7bd8da85eca7e14' => __DIR__ . '/../..' . '/vendor_prefixed/symfony/polyfill-php72/bootstrap.php',
@@ -39,6 +38,7 @@ class ComposerStaticInite248ce63b4711b6449cc131522079250
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -198,6 +198,7 @@ class ComposerStaticInite248ce63b4711b6449cc131522079250
         'WPMailSMTP\\Helpers\\DB' => __DIR__ . '/../..' . '/src/Helpers/DB.php',
         'WPMailSMTP\\Helpers\\Helpers' => __DIR__ . '/../..' . '/src/Helpers/Helpers.php',
         'WPMailSMTP\\Helpers\\PluginImportDataRetriever' => __DIR__ . '/../..' . '/src/Helpers/PluginImportDataRetriever.php',
+        'WPMailSMTP\\Helpers\\UI' => __DIR__ . '/../..' . '/src/Helpers/UI.php',
         'WPMailSMTP\\MailCatcher' => __DIR__ . '/../..' . '/src/MailCatcher.php',
         'WPMailSMTP\\MailCatcherInterface' => __DIR__ . '/../..' . '/src/MailCatcherInterface.php',
         'WPMailSMTP\\MailCatcherTrait' => __DIR__ . '/../..' . '/src/MailCatcherTrait.php',
@@ -331,6 +332,7 @@ class ComposerStaticInite248ce63b4711b6449cc131522079250
         'WPMailSMTP\\Pro\\Emails\\Logs\\Webhooks\\Providers\\SparkPost\\Subscriber' => __DIR__ . '/../..' . '/src/Pro/Emails/Logs/Webhooks/Providers/SparkPost/Subscriber.php',
         'WPMailSMTP\\Pro\\Emails\\Logs\\Webhooks\\SubscriberInterface' => __DIR__ . '/../..' . '/src/Pro/Emails/Logs/Webhooks/SubscriberInterface.php',
         'WPMailSMTP\\Pro\\Emails\\Logs\\Webhooks\\Webhooks' => __DIR__ . '/../..' . '/src/Pro/Emails/Logs/Webhooks/Webhooks.php',
+        'WPMailSMTP\\Pro\\Emails\\TestEmail' => __DIR__ . '/../..' . '/src/Pro/Emails/TestEmail.php',
         'WPMailSMTP\\Pro\\License\\License' => __DIR__ . '/../..' . '/src/Pro/License/License.php',
         'WPMailSMTP\\Pro\\License\\Updater' => __DIR__ . '/../..' . '/src/Pro/License/Updater.php',
         'WPMailSMTP\\Pro\\MailCatcher' => __DIR__ . '/../..' . '/src/Pro/MailCatcher.php',
@@ -809,9 +811,9 @@ class ComposerStaticInite248ce63b4711b6449cc131522079250
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite248ce63b4711b6449cc131522079250::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite248ce63b4711b6449cc131522079250::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite248ce63b4711b6449cc131522079250::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit295984e5919e750baa7d7284cfe56164::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit295984e5919e750baa7d7284cfe56164::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit295984e5919e750baa7d7284cfe56164::$classMap;
 
         }, null, ClassLoader::class);
     }

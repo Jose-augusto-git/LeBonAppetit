@@ -189,6 +189,8 @@ class Admin {
 
     private $errorsRequiringData = array(
 		//'frontend.js|306|7|Uncaught ReferenceError: consol is not defined' => 1 // paste error key(s) here
+        'microthemer.js|3164|15|Uncaught TypeError: $obj.attr is not a function',
+        "deps.js|1|616362|Uncaught TypeError: Cannot read properties of undefined (reading 'split')"
 	);
 
 	function __construct(){

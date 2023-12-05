@@ -19,7 +19,7 @@ import Support from "./Support";
 import LearningMode from "./LearningMode/LearningMode";
 import RiskComponent from "./RiskConfiguration/RiskComponent";
 import VulnerabilitiesOverview from "./RiskConfiguration/vulnerabilitiesOverview";
-import IpAddressDatatable from "./LimitLoginAttempts/IpAddressDatatable";
+import IpAddressDatatable  from "./LimitLoginAttempts/IpAddressDatatable";
 import TwoFaRolesDropDown from "./TwoFA/TwoFaRolesDropDown";
 import Button from "./Button";
 import Icon from "../utils/Icon";
@@ -34,6 +34,7 @@ import CountryDatatable from "./LimitLoginAttempts/CountryDatatable";
 // import DynamicDataTable from "./DynamicDataTable/DynamicDataTable";
 import TwoFaDataTable from "./TwoFA/TwoFaDataTable";
 import EventLogDataTable from "./EventLog/EventLogDataTable";
+import RolesDropDown from "./RolesDropDown";
 const Field = (props) => {
     let scrollAnchor = React.createRef();
     const {updateField, setChangedField, highLightField} = useFields();
@@ -189,11 +190,13 @@ const Field = (props) => {
                     onChange={ ( fieldValue ) => onChangeHandler(fieldValue) }
                     value= { fieldValue }
                 />
-                <div className="rsssl-email-verified" >
+                { sendVerificationEmailField &&
+                    <div className="rsssl-email-verified" >
                     {emailIsVerified
                         ? <Icon name='circle-check' color={'green'} />
                         : <Icon name='circle-times' color={'red'} />}
                 </div>
+                }
             </div>
         );
     }
@@ -437,6 +440,17 @@ const Field = (props) => {
                 />
             </div>
         )
+    }
+    if (field.type === 'roles_dropdown') {
+        return (
+            <div className={highLightClass} ref={scrollAnchor}>
+                <label htmlFor="rsssl-roles-dropdown-{field.id}">
+                    {labelWrap(field)}
+                </label>
+                <RolesDropDown field={props.field}
+                />
+            </div>
+        );
     }
 
     if(field.type === 'notificationtester') {

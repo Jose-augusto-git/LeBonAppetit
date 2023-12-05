@@ -3,11 +3,11 @@
 namespace WPForms\Integrations\Stripe\Api;
 
 use Exception;
-use Stripe\Webhook;
+use WPForms\Vendor\Stripe\Webhook;
 use RuntimeException;
 use BadMethodCallException;
-use Stripe\Event as StripeEvent;
-use Stripe\Exception\SignatureVerificationException;
+use WPForms\Vendor\Stripe\Event as StripeEvent;
+use WPForms\Vendor\Stripe\Exception\SignatureVerificationException;
 use WPForms\Integrations\Stripe\Helpers;
 use WPForms\Integrations\Stripe\WebhooksHealthCheck;
 

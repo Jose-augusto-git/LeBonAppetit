@@ -20,7 +20,7 @@ class SpoilerConverter extends BaseConverter {
 	public function convert( ElementInterface $element ) {
 		$value = $element->getValue();
 
-		if ( ! trim( $value ) ) {
+		if ( '' === trim( $value ) ) {
 			return '';
 		}
 

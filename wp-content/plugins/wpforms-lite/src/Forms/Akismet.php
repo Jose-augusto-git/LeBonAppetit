@@ -85,7 +85,7 @@ class Akismet {
 	 * @since 1.7.6
 	 *
 	 * @param array $fields Field data for the current form.
-	 * @param array $entry  Entry data for the current entry.
+	 * @param array $entry  Entry data.
 	 *
 	 * @return array $entry_data Entry data to be sent to Akismet.
 	 */
@@ -95,14 +95,14 @@ class Akismet {
 		$entry_data           = [];
 		$entry_content        = [];
 
-		foreach ( $fields as $key => $field ) {
+		foreach ( $fields as $field_id => $field ) {
 			$field_type = $field['type'];
 
 			if ( ! in_array( $field_type, $field_type_allowlist, true ) ) {
 				continue;
 			}
 
-			$field_content = is_array( $entry['fields'][ $key ] ) ? implode( ' ', $entry['fields'][ $key ] ) : $entry['fields'][ $key ];
+			$field_content = $this->get_field_content( $field, $entry, $field_id );
 
 			if ( ! isset( $entry_data[ $field_type ] ) && in_array( $field_type, [ 'name', 'email', 'url' ], true ) ) {
 				$entry_data[ $field_type ] = $field_content;
@@ -116,6 +116,34 @@ class Akismet {
 		$entry_data['content'] = implode( ' ', $entry_content );
 
 		return $entry_data;
+	}
+
+	/**
+	 * Get field content.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @param array $field    Field data.
+	 * @param array $entry    Entry data.
+	 * @param int   $field_id Field ID.
+	 *
+	 * @return string
+	 */
+	private function get_field_content( $field, $entry, $field_id ) {
+
+		if ( ! isset( $entry['fields'][ $field_id ] ) ) {
+			return '';
+		}
+
+		if ( ! is_array( $entry['fields'][ $field_id ] ) ) {
+			return (string) $entry['fields'][ $field_id ];
+		}
+
+		if ( ! empty( $field['type'] ) && $field['type'] === 'email' && ! empty( $entry['fields'][ $field_id ]['primary'] ) ) {
+			return (string) $entry['fields'][ $field_id ]['primary'];
+		}
+
+		return implode( ' ', $entry['fields'][ $field_id ] );
 	}
 
 	/**

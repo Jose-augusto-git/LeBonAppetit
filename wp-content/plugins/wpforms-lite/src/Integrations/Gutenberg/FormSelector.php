@@ -114,7 +114,6 @@ class FormSelector implements IntegrationInterface {
 		add_action( 'init', [ $this, 'register_block' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
 		add_action( 'wpforms_frontend_output_container_after', [ $this, 'replace_wpforms_frontend_container_class_filter' ] );
-		add_action( 'init', [ $this, 'enable_block_translations' ] );
 		add_action( 'rest_api_init', [ $this, 'register_api_route' ] );
 	}
 
@@ -290,6 +289,8 @@ class FormSelector implements IntegrationInterface {
 			$this->get_localize_data()
 		);
 
+		wp_set_script_translations( 'wpforms-gutenberg-form-selector', 'wpforms-lite' );
+
 		if ( $this->render_engine === 'modern' ) {
 			wp_enqueue_script(
 				'wpforms-modern',
@@ -377,6 +378,8 @@ class FormSelector implements IntegrationInterface {
 			],
 			'form_select'                  => esc_html__( 'Select a Form', 'wpforms-lite' ),
 			'form_settings'                => esc_html__( 'Form Settings', 'wpforms-lite' ),
+			'form_edit'                    => esc_html__( 'Edit Form', 'wpforms-lite' ),
+			'form_entries'                 => esc_html__( 'View Entries', 'wpforms-lite' ),
 			'field_styles'                 => esc_html__( 'Field Styles', 'wpforms-lite' ),
 			'label_styles'                 => esc_html__( 'Label Styles', 'wpforms-lite' ),
 			'button_styles'                => esc_html__( 'Button Styles', 'wpforms-lite' ),
@@ -444,8 +447,13 @@ class FormSelector implements IntegrationInterface {
 			'block_preview_url' => WPFORMS_PLUGIN_URL . 'assets/images/integrations/gutenberg/block-preview.png',
 			'block_empty_url'   => WPFORMS_PLUGIN_URL . 'assets/images/empty-states/no-forms.svg',
 			'wpnonce'           => wp_create_nonce( 'wpforms-gutenberg-form-selector' ),
+			'urls'              => [
+				'form_url'    => admin_url( 'admin.php?page=wpforms-builder&view=fields&form_id={ID}' ),
+				'entries_url' => admin_url( 'admin.php?view=list&page=wpforms-entries&form_id={ID}' ),
+			],
 			'forms'             => $forms,
 			'strings'           => $strings,
+			'isPro'             => wpforms()->is_pro(),
 			'defaults'          => self::DEFAULT_ATTRIBUTES,
 			'is_modern_markup'  => $this->render_engine === 'modern',
 			'is_full_styling'   => $this->disable_css_setting === 1,
@@ -464,12 +472,11 @@ class FormSelector implements IntegrationInterface {
 	 * Let's WP know that we have translation strings on our block script.
 	 *
 	 * @since 1.8.3
-	 *
-	 * @return void
+	 * @deprecated 1.8.5
 	 */
 	public function enable_block_translations() {
 
-		wp_set_script_translations( 'wpforms-gutenberg-form-selector', 'wpforms-lite' );
+		_deprecated_function( __METHOD__, '1.8.5' );
 	}
 
 	/**

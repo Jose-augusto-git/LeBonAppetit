@@ -333,16 +333,18 @@
 					$action  = $form.find( 'select[name=action]' ),
 					$checked = $table.find( 'input[name^=entry_id]:checked' );
 
-				if ( 'delete' !== $action.val() || ! $checked.length ) {
+				if ( ( 'delete' !== $action.val() && 'trash' !== $action.val() ) || ! $checked.length ) {
 					return;
 				}
+
+				const $content = 'delete' === $action.val() ? wpforms_admin.entry_delete_n_confirm : wpforms_admin.entry_trash_n_confirm;
 
 				event.preventDefault();
 
 				// Trigger alert modal to confirm.
 				$.confirm( {
 					title: wpforms_admin.heads_up,
-					content: wpforms_admin.entry_delete_n_confirm.replace( '{entry_count}', $checked.length ),
+					content: $content.replace( '{entry_count}', $checked.length ),
 					icon: 'fa fa-exclamation-circle',
 					type: 'orange',
 					buttons: {
@@ -393,15 +395,44 @@
 				} );
 			} );
 
-			// Toggle entry stars.
-			$( document ).on( 'click', '#wpforms-entries-list .wp-list-table .indicator-star', function( event ) {
-
+			// Confirm entry trash.
+			$( document ).on( 'click', '#wpforms-entries-list .wp-list-table .trash', function( event ) {
 				event.preventDefault();
 
-				const $this    = $( this );
-				const $counter = $( '#wpforms-entries-list .starred-num' );
+				const url = $( this ).attr( 'href' );
 
-				let task  = '';
+				// Trigger alert modal to confirm.
+				$.confirm( {
+					title: wpforms_admin.heads_up,
+					content: wpforms_admin.entry_trash_confirm,
+					icon: 'fa fa-exclamation-circle',
+					type: 'orange',
+					buttons: {
+						confirm: {
+							text: wpforms_admin.ok,
+							btnClass: 'btn-confirm',
+							keys: [ 'enter' ],
+							action: () => {
+								window.location = url;
+							},
+						},
+						cancel: {
+							text: wpforms_admin.cancel,
+							keys: [ 'esc' ],
+						},
+					},
+				} );
+			} );
+
+			// Toggle entry stars.
+			$( document ).on( 'click', '#wpforms-entries-list .wp-list-table .indicator-star', function( event ) {
+				event.preventDefault();
+
+				const $this = $( this );
+				const $counter = $( '#wpforms-entries-list .starred-num' );
+				const $table = $this.parents( 'table' );
+
+				let task = '';
 				let total = Number( $counter.text() );
 
 				if ( $this.hasClass( 'star' ) ) {
@@ -416,7 +447,7 @@
 
 				$this.toggleClass( 'star unstar' );
 
-				if ( ! $this.parents( 'table' ).hasClass( 'wpforms-entries-table-spam' ) ) {
+				if ( ! $table.hasClass( 'wpforms-entries-table-spam' ) && ! $table.hasClass( 'wpforms-entries-table-trash' ) ) {
 					$counter.text( total );
 				}
 
@@ -433,13 +464,13 @@
 
 			// Toggle entry read state.
 			$( document ).on( 'click', '#wpforms-entries-list .wp-list-table .indicator-read', function( event ) {
-
 				event.preventDefault();
 
-				const $this    = $( this );
+				const $this = $( this );
 				const $counter = $( '#wpforms-entries-list .unread-num' );
+				const $table = $this.parents( 'table' );
 
-				let task  = '';
+				let task = '';
 				let total = Number( $counter.text() );
 
 				if ( $this.hasClass( 'read' ) ) {
@@ -454,7 +485,7 @@
 
 				$this.toggleClass( 'read unread' );
 
-				if ( ! $this.parents( 'table' ).hasClass( 'wpforms-entries-table-spam' ) ) {
+				if ( ! $table.hasClass( 'wpforms-entries-table-spam' ) && ! $table.hasClass( 'wpforms-entries-table-trash' ) ) {
 					$counter.text( total );
 				}
 
@@ -469,31 +500,33 @@
 				$.post( wpforms_admin.ajax_url, data );
 			} );
 
-			// Confirm mass entry deletion - this deletes ALL entries.
-			$( document ).on( 'click', '#wpforms-entries-list .form-details-actions-deleteall', function( event ) {
-
+			// Confirm mass entry deletion/trash - this deletes/trashes ALL entries.
+			$( document ).on( 'click', '#wpforms-entries-list .form-details-actions-removeall', function( event ) {
 				event.preventDefault();
 
-				var url           = $( this ).attr( 'href' ),
-					$table        = $( '#wpforms-entries-table' ),
+				const $page = $( this ).data( 'page' ),
+					$noticeData = WPFormsAdmin.getDeleteAllNoticeData( $page ),
+					$url = $( this ).attr( 'href' ),
+					$table = $( '#wpforms-entries-table' ),
 					filteredCount = $table.data( 'filtered-count' ) ? parseInt( $table.data( 'filtered-count' ), 10 ) : 0,
-					data          = {
-						'action': 'wpforms_entry_list_process_delete_all',
-						'form_id': $table.find( 'input[name="form_id"]' ).val(),
-						'date': $table.find( 'input[name="date"]' ).val(),
-						'search': {
-							'field': $table.find( 'select[name="search[field]"]' ).val(),
-							'comparison': $table.find( 'select[name="search[comparison]"]' ).val(),
-							'term': $table.find( 'input[name="search[term]"]' ).val(),
+					data = {
+						action: 'wpforms_entry_list_process_' + $noticeData.action + '_all',
+						form_id: $table.find( 'input[name="form_id"]' ).val(), // eslint-disable-line camelcase
+						date: $table.find( 'input[name="date"]' ).val(),
+						page: $page,
+						search: {
+							field: $table.find( 'select[name="search[field]"]' ).val(),
+							comparison: $table.find( 'select[name="search[comparison]"]' ).val(),
+							term: $table.find( 'input[name="search[term]"]' ).val(),
 						},
-						'nonce': wpforms_admin.nonce,
-						'url': url,
+						nonce: wpforms_admin.nonce,
+						url: $url,
 					};
 
 				// Trigger alert modal to confirm.
 				$.confirm( {
 					title: wpforms_admin.heads_up,
-					content: filteredCount && $( '#wpforms-reset-filter' ).length ? wpforms_admin.entry_delete_n_confirm.replace( '{entry_count}', filteredCount ) : wpforms_admin.entry_delete_all_confirm,
+					content: filteredCount && $( '#wpforms-reset-filter' ).length ? $noticeData.content.replace( '{entry_count}', filteredCount ) : $noticeData.contentAll,
 					icon: 'fa fa-exclamation-circle',
 					type: 'orange',
 					buttons: {
@@ -501,18 +534,11 @@
 							text: wpforms_admin.ok,
 							btnClass: 'btn-confirm',
 							keys: [ 'enter' ],
-							action: function() {
-
+							action: () => {
 								$.get( wpforms_admin.ajax_url, data )
 									.done( function( response ) {
-
 										if ( response.success ) {
-											window.location = ! _.isEmpty( response.data ) ? response.data : url;
-											return;
-										}
-
-										if ( ! _.isEmpty( response.data ) ) {
-											console.error( response.data );
+											window.location = ! _.isEmpty( response.data ) ? response.data : $url;
 										}
 									} );
 							},
@@ -599,11 +625,10 @@
 			}
 
 			// Confirm entry deletion.
-			$( document ).on( 'click', '#wpforms-entries-single .submitdelete', function( event ) {
-
+			$( document ).on( 'click', '#wpforms-entries-single .wpforms-entry-delete a', function( event ) {
 				event.preventDefault();
 
-				var url = $( this ).attr( 'href' );
+				const url = $( this ).attr( 'href' );
 
 				// Trigger alert modal to confirm.
 				$.confirm( {
@@ -628,9 +653,37 @@
 				} );
 			} );
 
+			// Confirm entry trash.
+			$( document ).on( 'click', '#wpforms-entries-single .trash', function( event ) {
+				event.preventDefault();
+
+				const url = $( this ).attr( 'href' );
+
+				// Trigger alert modal to confirm.
+				$.confirm( {
+					title: wpforms_admin.heads_up,
+					content: wpforms_admin.entry_trash_confirm,
+					icon: 'fa fa-exclamation-circle',
+					type: 'orange',
+					buttons: {
+						confirm: {
+							text: wpforms_admin.ok,
+							btnClass: 'btn-confirm',
+							keys: [ 'enter' ],
+							action: () => {
+								window.location = url;
+							},
+						},
+						cancel: {
+							text: wpforms_admin.cancel,
+							keys: [ 'esc' ],
+						},
+					},
+				} );
+			} );
+
 			// Open Print preview in new window.
 			$( document ).on( 'click', '#wpforms-entries-single .wpforms-entry-print a', function( event ) {
-
 				event.preventDefault();
 
 				window.open( $( this ).attr( 'href' ) );
@@ -760,7 +813,7 @@
 							loadingText: wpforms_admin.choicesjs_loading,
 							noResultsText: wpforms_admin.choicesjs_no_results,
 							noChoicesText: wpforms_admin.choicesjs_no_choices,
-							itemSelectText: wpforms_admin.choicesjs_item_select,
+							itemSelectText: '',
 							fuseOptions: window.wpforms_admin_choicesjs_config.fuseOptions,
 							callbackOnInit: function() {
 								$modalContent.find( '.fa' ).remove();
@@ -1228,6 +1281,14 @@
 			$( document ).on( 'click', '.wpforms-setting-row-image button', function( event ) {
 
 				event.preventDefault();
+
+				// If the remove button was clicked, clear the value and remove the image.
+				if ( $( this ).hasClass( 'wpforms-setting-remove-image' ) ) {
+					const $wrapper = $( this ).closest( '.wpforms-setting-row-image' );
+					$wrapper.find( 'input' ).val( '' ).attr( 'value', '' ).end().find( 'img' ).remove();
+
+					return;
+				}
 
 				WPFormsAdmin.imageUploadModal( $( this ) );
 			} );
@@ -2350,6 +2411,33 @@
 		isDebug: function() {
 
 			return ( window.location.hash && '#wpformsdebug' === window.location.hash );
+		},
+
+		/**
+		 * Get Delete / Trash all notice message.
+		 *
+		 * @since 1.8.5
+		 *
+		 * @param {string} type Type of screen.
+		 *
+		 * @return {Object} Notice Data object.
+		 */
+		getDeleteAllNoticeData: ( type = '' ) => {
+			// if is trash page show delete data.
+			if ( 'trash' === type ) {
+				return {
+					contentAll : wpforms_admin.entry_delete_all_confirm,
+					content : wpforms_admin.entry_delete_n_confirm,
+					action : 'delete',
+				};
+			}
+
+			// If not return trash data.
+			return {
+				contentAll : wpforms_admin.entry_trash_all_confirm,
+				content : wpforms_admin.entry_trash_n_confirm,
+				action : 'trash',
+			};
 		},
 	};
 

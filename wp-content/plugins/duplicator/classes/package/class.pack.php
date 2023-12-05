@@ -1206,6 +1206,10 @@ class DUP_Package
             }
 
             $file_name = basename($glob_full_path);
+            if ($file_name === 'index.php') {
+                continue;
+            }
+
             // skip all active packages
             foreach ($active_files as $c_nameHash) {
                 if (strpos($file_name, $c_nameHash) === 0) {
@@ -1690,6 +1694,9 @@ class DUP_Package
              //Delete all files now
             $dir = DUP_Settings::getSsdirTmpPath() . "/*";
             foreach (glob($dir) as $file) {
+                if (basename($file) === 'index.php') {
+                    continue;
+                }
                 @unlink($file);
             }
         } else {

@@ -114,6 +114,18 @@ class Divi implements IntegrationInterface {
 	 */
 	protected function is_divi_plugin_loaded() {
 
+		return self::is_divi_loaded();
+	}
+
+	/**
+	 * Helper method to check if Divi plugin is loaded.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @return bool
+	 */
+	public static function is_divi_loaded(): bool {
+
 		if ( ! is_singular() ) {
 			return false;
 		}

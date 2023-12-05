@@ -3796,6 +3796,14 @@ class Updraft_Restorer {
 			UpdraftPlus_Options::delete_updraft_option($key);
 			UpdraftPlus_Options::update_updraft_option($key, $value);
 		}
+		// reset the Litespeed server warning message for migration
+		if (!empty($this->restore_options['updraft_restorer_replacesiteurl'])) {
+			if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed')) {
+				if (!is_file(ABSPATH.'.htaccess') || !preg_match('/noabort/i', file_get_contents(ABSPATH.'.htaccess'))) {
+					UpdraftPlus_Options::delete_updraft_option('updraft_dismiss_admin_warning_litespeed');
+				}
+			}
+		}
 	}
 
 	/**
@@ -4635,6 +4643,6 @@ class UpdraftPlus_WPDB extends wpdb {
 	 * @return Boolean
 	 */
 	public function updraftplus_use_mysqli() {
-		return !empty($this->use_mysqli);
+		return $this->dbh instanceof mysqli;
 	}
 }

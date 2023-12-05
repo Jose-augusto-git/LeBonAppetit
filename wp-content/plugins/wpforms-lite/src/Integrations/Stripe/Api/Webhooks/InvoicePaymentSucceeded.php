@@ -5,7 +5,7 @@ namespace WPForms\Integrations\Stripe\Api\Webhooks;
 use RuntimeException;
 use WPForms\Db\Payments\Queries;
 use WPForms\Integrations\Stripe\Helpers;
-use Stripe\PaymentIntent;
+use WPForms\Vendor\Stripe\PaymentIntent;
 
 /**
  * Webhook invoice.payment_succeeded class.
@@ -30,13 +30,13 @@ class InvoicePaymentSucceeded extends Base {
 		}
 
 		if ( $this->data->paid !== true ) {
-			return false; // Subscription not paid, so we are not oing to proceed with update.
+			return false; // Subscription not paid, so we are not going to proceed with update.
 		}
 
 		$db_renewal = ( new Queries() )->get_renewal_by_invoice_id( $this->data->id );
 
 		if ( is_null( $db_renewal ) ) {
-			throw new RuntimeException( 'Newest renewal not found' );
+			return false; // Newest renewal not found.
 		}
 
 		$currency = strtoupper( $this->data->currency );

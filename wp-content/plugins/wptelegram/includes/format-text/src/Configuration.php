@@ -53,8 +53,8 @@ class Configuration {
 	/**
 	 * Set option.
 	 *
-	 * @param string $key   Key.
-	 * @param mixed  $value Value.
+	 * @param string     $key   Key.
+	 * @param mixed|null $value Value.
 	 *
 	 * @return void
 	 */

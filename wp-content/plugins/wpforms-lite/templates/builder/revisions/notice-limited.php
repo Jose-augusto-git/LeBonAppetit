@@ -10,6 +10,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$url = wpforms_utm_link(
+	'https://wpforms.com/docs/how-to-use-form-revisions-in-wpforms/#enable-post-revisions',
+	'Builder Revisions',
+	'Revisions Limited Notice'
+);
 ?>
 
 <div class='wpforms-revisions-notice wpforms-revisions-notice-warning'>
@@ -23,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 	</p>
 
-	<a href="https://wpforms.com/docs/how-to-use-form-revisions-in-wpforms/#enable-post-revisions" target="_blank" rel="noopener noreferrer" class='button button-primary button-large'>
+	<a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer" class='button button-primary button-large'>
 		<?php esc_html_e( 'Learn How', 'wpforms-lite' ); ?>
 	</a>
 </div>

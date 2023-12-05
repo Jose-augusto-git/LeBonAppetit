@@ -15,7 +15,7 @@ use RankMath\Module\Base;
 use RankMath\Traits\Hooker;
 use RankMath\Traits\Ajax;
 use RankMath\Admin\Options;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -406,8 +406,9 @@ class Instant_Indexing extends Base {
 			return false;
 		}
 
-		if ( ! $is_manual_submission ) {
-			$logs = array_values( array_reverse( $api->get_log() ) );
+		$api_logs = $api->get_log();
+		if ( ! $is_manual_submission && ! empty( $api_logs ) ) {
+			$logs = array_values( array_reverse( $api_logs ) );
 			if ( ! empty( $logs[0] ) && $logs[0]['url'] === $url && time() - $logs[0]['time'] < self::THROTTLE_LIMIT ) {
 				return false;
 			}

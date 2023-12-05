@@ -37,6 +37,23 @@ trait CreditCard {
 		add_filter( 'wpforms_builder_strings', [ $this, 'builder_js_strings' ], 10, 2 );
 		add_filter( 'wpforms_builder_field_button_attributes', [ $this, 'field_button_attributes' ], 10, 3 );
 		add_filter( 'wpforms_pro_fields_entry_preview_is_field_support_preview_stripe-credit-card_field', [ $this, 'entry_preview_availability' ], 10, 4 );
+		add_filter( 'wpforms_field_new_display_duplicate_button', [ $this, 'field_display_duplicate_button' ], 10, 2 );
+		add_filter( 'wpforms_field_preview_display_duplicate_button', [ $this, 'field_display_duplicate_button' ], 10, 2 );
+	}
+
+	/**
+	 * Define if "Duplicate" button has to be displayed on field preview in a Form Builder.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @param bool  $display Display switch.
+	 * @param array $field   Field settings.
+	 *
+	 * @return bool
+	 */
+	public function field_display_duplicate_button( $display, $field ) {
+
+		return Helpers::get_field_slug( 'field_slug' ) === $field['type'] ? false : $display;
 	}
 
 	/**

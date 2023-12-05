@@ -29,12 +29,14 @@ abstract class BaseConverter implements ConverterInterface {
 
 	const HTML_TO_MARKDOWN_V2_MAP = [
 		// underline.
-		'u'      => '__',
-		'ins'    => '__',
+		'u'          => '__',
+		'ins'        => '__',
 		// strikethrough.
-		'del'    => '~',
-		's'      => '~',
-		'strike' => '~',
+		'del'        => '~',
+		's'          => '~',
+		'strike'     => '~',
+		// blockquote.
+		'blockquote' => '>',
 	] + self::HTML_TO_MARKDOWN_V1_MAP;
 
 	/**
@@ -140,7 +142,7 @@ abstract class BaseConverter implements ConverterInterface {
 
 		$value = $element->getValue();
 
-		if ( ! trim( $value ) ) {
+		if ( '' === trim( $value ) ) {
 			return $value;
 		}
 

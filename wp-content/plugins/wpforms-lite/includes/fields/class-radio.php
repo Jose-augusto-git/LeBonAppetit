@@ -72,43 +72,6 @@ class WPForms_Field_Radio extends WPForms_Field {
 	}
 
 	/**
-	 * Return images, if any, for HTML supported values.
-	 *
-	 * @since 1.4.5
-	 *
-	 * @param string $value     Field value.
-	 * @param array  $field     Field settings.
-	 * @param array  $form_data Form data and settings.
-	 * @param string $context   Value display context.
-	 *
-	 * @return string
-	 */
-	public function field_html_value( $value, $field, $form_data = [], $context = '' ) {
-
-		// Only use HTML formatting for radio fields, with image choices
-		// enabled, and exclude the entry table display. Lastly, provides a
-		// filter to disable fancy display.
-		if (
-			! empty( $field['value'] ) &&
-			'radio' === $field['type'] &&
-			! empty( $field['image'] ) &&
-			'entry-table' !== $context &&
-			apply_filters( 'wpforms_radio_field_html_value_images', true, $context )
-		) {
-
-			if ( ! empty( $field['image'] ) ) {
-				return sprintf(
-					'<span style="max-width:200px;display:block;margin:0 0 5px 0;"><img src="%s" style="max-width:100%%;display:block;margin:0;"></span>%s',
-					esc_url( $field['image'] ),
-					$value
-				);
-			}
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Define additional field properties.
 	 *
 	 * @since 1.4.5

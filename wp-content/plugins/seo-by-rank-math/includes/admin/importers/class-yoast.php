@@ -13,9 +13,8 @@ namespace RankMath\Admin\Importers;
 use RankMath\Helper;
 use RankMath\Redirections\Redirection;
 use RankMath\Tools\Yoast_Blocks;
-use MyThemeShop\Helpers\DB;
-use MyThemeShop\Helpers\WordPress;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\DB;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -1044,7 +1043,7 @@ class Yoast extends Plugin_Importer {
 	 * @param array $yoast_sitemap Settings.
 	 */
 	private function sitemap_exclude_roles( $yoast_sitemap ) {
-		foreach ( WordPress::get_roles() as $role => $label ) {
+		foreach ( Helper::get_roles() as $role => $label ) {
 			$key = "user_role-{$role}-not_in_sitemap";
 			if ( isset( $yoast_sitemap[ $key ] ) && $yoast_sitemap[ $key ] ) {
 				$this->sitemap['exclude_roles'][] = $role;

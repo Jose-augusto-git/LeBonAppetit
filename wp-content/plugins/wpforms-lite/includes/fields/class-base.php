@@ -2451,17 +2451,14 @@ abstract class WPForms_Field {
 								esc_attr( $icon )
 							);
 
-							$output .= '<span class="wpforms-icon-choices-label">';
-
 							$output .= sprintf(
-								'<input type="%s" class="%s" %s readonly> %s',
+								'<input type="%1$s" class="%2$s" %3$s readonly>',
 								$type,
 								wpforms_sanitize_classes( $input_class, true ),
-								$selected,
-								wp_kses( $label, $allowed_tags )
+								$selected
 							);
 
-							$output .= '</span>';
+							$output .= '<span class="wpforms-icon-choices-label">' . wp_kses( $label, $allowed_tags ) . '</span>';
 
 							$output .= '</label>';
 
@@ -2805,6 +2802,113 @@ abstract class WPForms_Field {
 	}
 
 	/**
+	 * Return images, if any, for HTML supported values.
+	 *
+	 * @since 1.4.5
+	 *
+	 * @param string $value     Field value.
+	 * @param array  $field     Field settings.
+	 * @param array  $form_data Form data and settings.
+	 * @param string $context   Value display context.
+	 *
+	 * @return string
+	 */
+	public function field_html_value( $value, $field, $form_data = [], $context = '' ) {
+
+		// Only use HTML formatting for checkbox fields, with image choices
+		// enabled, and exclude the entry table display. Lastly, provides a
+		// filter to disable fancy display.
+		if (
+			! empty( $field['value'] ) &&
+			$field['type'] === $this->type &&
+			$context !== 'entry-table' &&
+			$this->filter_field_html_value_images( $context )
+		) {
+			return $this->get_field_html( $field, $value );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Return HTML for a field value.
+	 *
+	 * @since 1.8.4.1
+	 *
+	 * @param array  $field Field settings.
+	 * @param string $value Field value.
+	 *
+	 * @return string
+	 */
+	private function get_field_html( $field, $value ) {
+
+		if ( ! empty( $field['image'] ) ) {
+			return $this->get_field_html_image( $field['image'], $field['value'] );
+		}
+
+		if ( ! empty( $field['images'] ) ) {
+			$items  = [];
+			$values = explode( "\n", $field['value'] );
+
+			foreach ( $values as $key => $choice_label ) {
+
+				if ( ! empty( $field['images'][ $key ] ) ) {
+					$choice_label = $this->get_field_html_image( $field['images'][ $key ], $choice_label );
+				}
+
+				$items[] = $choice_label;
+			}
+
+			return implode( '', $items );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Return image HTML for a field value.
+	 *
+	 * @since 1.8.4.1
+	 *
+	 * @param string $url   Image URL.
+	 * @param string $label Field value.
+	 *
+	 * @return string
+	 */
+	private function get_field_html_image( $url, $label ) {
+
+		return sprintf(
+			'<span style="max-width:200px;display:block;margin:0 0 5px 0;"><img src="%s" style="max-width:100%%;display:block;margin:0;" alt=""></span>%s',
+			esc_url( $url ),
+			$label
+		);
+	}
+
+	/**
+	 * Return boolean determining if field HTML values uses images.
+	 *
+	 * Bail if field type is not set.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @param string $context Context of the field.
+	 *
+	 * @return bool
+	 */
+	private function filter_field_html_value_images( $context ) {
+
+		/**
+		 * Filters whether to use HTML formatting for a field with image choices enabled.
+		 *
+		 * @since 1.5.1
+		 *
+		 * @param bool   $use_html Whether to use HTML formatting.
+		 * @param string $context  Value display context.
+		 */
+		return (bool) apply_filters( "wpforms_{$this->type}_field_html_value_images", true, $context ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+	}
+
+	/**
 	 * Get field name for ajax error message.
 	 *
 	 * @since 1.6.3
@@ -2882,7 +2986,7 @@ abstract class WPForms_Field {
 			'loadingText'       => esc_html__( 'Loading...', 'wpforms-lite' ),
 			'noResultsText'     => esc_html__( 'No results found', 'wpforms-lite' ),
 			'noChoicesText'     => esc_html__( 'No choices to choose from', 'wpforms-lite' ),
-			'itemSelectText'    => esc_attr__( 'Press to select', 'wpforms-lite' ),
+			'itemSelectText'    => '',
 			'uniqueItemText'    => esc_html__( 'Only unique values can be added', 'wpforms-lite' ),
 			'customAddItemText' => esc_html__( 'Only values matching specific conditions can be added', 'wpforms-lite' ),
 		];

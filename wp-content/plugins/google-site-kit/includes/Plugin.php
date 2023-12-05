@@ -10,7 +10,6 @@
 
 namespace Google\Site_Kit;
 
-use Google\Site_Kit\Core\Util\Build_Mode;
 use Google\Site_Kit\Core\Util\Feature_Flags;
 
 /**
@@ -159,12 +158,12 @@ final class Plugin {
 
 				$user_input = new Core\User_Input\User_Input( $this->context, $options, $user_options, $survey_queue );
 
-				if ( Feature_Flags::enabled( 'userInput' ) ) {
-					$user_input->register();
-				}
-
 				$authentication = new Core\Authentication\Authentication( $this->context, $options, $user_options, $transients, $user_input );
 				$authentication->register();
+
+				if ( Feature_Flags::enabled( 'keyMetrics' ) ) {
+					$user_input->register();
+				}
 
 				$modules = new Core\Modules\Modules( $this->context, $options, $user_options, $authentication, $assets );
 				$modules->register();
@@ -212,7 +211,7 @@ final class Plugin {
 				( new Core\Util\Migration_1_8_1( $this->context, $options, $user_options, $authentication ) )->register();
 				( new Core\Dashboard_Sharing\Dashboard_Sharing( $this->context, $user_options ) )->register();
 
-				if ( Feature_Flags::enabled( 'userInput' ) ) {
+				if ( Feature_Flags::enabled( 'keyMetrics' ) ) {
 					( new Core\Key_Metrics\Key_Metrics( $this->context, $user_options, $options ) )->register();
 				}
 
@@ -283,7 +282,6 @@ final class Plugin {
 
 		if ( file_exists( GOOGLESITEKIT_PLUGIN_DIR_PATH . 'dist/config.php' ) ) {
 			$config = include GOOGLESITEKIT_PLUGIN_DIR_PATH . 'dist/config.php';
-			Build_Mode::set_mode( $config['buildMode'] );
 			Feature_Flags::set_features( (array) $config['features'] );
 		}
 

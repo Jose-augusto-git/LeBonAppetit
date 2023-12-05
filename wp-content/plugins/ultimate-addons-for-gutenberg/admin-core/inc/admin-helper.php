@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use \ZipAI\Classes\Module as Zip_Ai_Module;
+
 /**
  * Class Admin_Helper.
  */
@@ -45,6 +47,19 @@ class Admin_Helper {
 		$theme_settings      = $theme_data->get_settings();
 		$theme_font_families = isset( $theme_settings['typography']['fontFamilies']['theme'] ) && is_array( $theme_settings['typography']['fontFamilies']['theme'] ) ? $theme_settings['typography']['fontFamilies']['theme'] : array();
 
+		// Prepare to get the Zip AI Co-pilot modules.
+		$zip_ai_modules = array();
+
+		// If the Zip AI Helper is available, get the required modules and their states.
+		if ( class_exists( '\ZipAI\Classes\Module' ) ) {
+			$zip_ai_modules = Zip_Ai_Module::get_all_modules();
+
+			// Check if each module is enabled based on the key.
+			foreach ( $zip_ai_modules as $module => $details ) {
+				$zip_ai_modules[ $module ] = Zip_Ai_Module::is_enabled( $module );
+			}
+		}
+
 		$options = array(
 			'rollback_to_previous_version'       => isset( $uag_versions[0]['value'] ) ? $uag_versions[0]['value'] : '',
 			'enable_beta_updates'                => \UAGB_Admin_Helper::get_admin_settings_option( 'uagb_beta', 'no' ),
@@ -57,6 +72,7 @@ class Admin_Helper {
 			'enable_block_responsive'            => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_enable_block_responsive', 'enabled' ),
 			'enable_dynamic_content'             => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_enable_dynamic_content', 'enabled' ),
 			'enable_animations_extension'        => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_enable_animations_extension', 'enabled' ),
+			'enable_gbs_extension'               => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_enable_gbs_extension', 'enabled' ),
 			'select_font_globally'               => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_select_font_globally', array() ),
 			'load_select_font_globally'          => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_load_select_font_globally', 'disabled' ),
 			'load_fse_font_globally'             => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_load_fse_font_globally', 'disabled' ),
@@ -76,8 +92,8 @@ class Admin_Helper {
 			),
 			'dynamic_content_mode'               => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_dynamic_content_mode', 'popup' ),
 			'preload_local_fonts'                => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_preload_local_fonts', 'disabled' ),
-			'enable_coming_soon_mode'            => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_enable_coming_soon_mode', 'disabled' ),
-			'coming_soon_page'                   => self::get_coming_soon_page(),
+			'visibility_mode'                    => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_visibility_mode', 'disabled' ),
+			'visibility_page'                    => self::get_visibility_page(),
 			'uag_previous_versions'              => $uag_versions,
 			'changelog_data'                     => $changelog_data,
 			'uagb_old_user_less_than_2'          => get_option( 'uagb-old-user-less-than-2' ),
@@ -88,19 +104,21 @@ class Admin_Helper {
 			'insta_linked_accounts'              => \UAGB_Admin_Helper::get_admin_settings_option( 'uag_insta_linked_accounts', array() ),
 			'spectra_global_fse_fonts'           => \UAGB_Admin_Helper::get_admin_settings_option( 'spectra_global_fse_fonts', array() ),
 			'theme_fonts'                        => $theme_font_families,
+			'zip_ai_modules'                     => $zip_ai_modules,
 		);
 
 		return $options;
 	}
 
 	/**
-	 * Get Coming Soon Page
+	 * Get Visibility Page
 	 *
-	 * @since 2.0.0
+	 * @since 2.8.0
 	 * @return boolean|array
 	 */
-	public static function get_coming_soon_page() {
-		$page_id = \UAGB_Admin_Helper::get_admin_settings_option( 'uag_coming_soon_page', '' );
+	public static function get_visibility_page() {
+		$page_id = \UAGB_Admin_Helper::get_admin_settings_option( 'uag_visibility_page', '' );
+
 		if ( $page_id ) {
 			return array(
 				'value' => $page_id,

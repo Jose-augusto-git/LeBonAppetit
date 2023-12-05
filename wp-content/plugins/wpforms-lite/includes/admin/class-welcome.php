@@ -280,7 +280,7 @@ class WPForms_Welcome {
 						</div>
 
 						<div class="right">
-							<h2><span><?php esc_html_e( 'PRO', 'wpforms-lite' ); ?></span></h2>
+							<h2><span>PRO</span></h2>
 							<div class="price">
 								<span class="amount">199</span><br>
 								<span class="term"><?php esc_html_e( 'per year', 'wpforms-lite' ); ?></span>

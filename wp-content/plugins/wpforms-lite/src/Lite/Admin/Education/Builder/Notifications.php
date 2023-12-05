@@ -58,7 +58,18 @@ class Notifications implements EducationInterface {
 	 */
 	public function advanced_section( $settings, $id ) {
 
-		$file_upload_attachment_panel = wpforms_panel_field(
+		/**
+		 * Filter the "Advanced" content.
+		 *
+		 * @since 1.8.5
+		 *
+		 * @param string                         $content  The content.
+		 * @param WPForms_Builder_Panel_Settings $settings Builder panel settings.
+		 * @param int                            $id       Notification id.
+		 */
+		$content = apply_filters( 'wpforms_lite_admin_education_builder_notifications_advanced_settings_content', '', $settings, $id );
+
+		$content .= wpforms_panel_field(
 			'toggle',
 			'notifications',
 			'file_upload_attachment_enable',
@@ -83,7 +94,7 @@ class Notifications implements EducationInterface {
 			false
 		);
 
-		$entry_csv_attachment_panel = wpforms_panel_field(
+		$content .= wpforms_panel_field(
 			'toggle',
 			'notifications',
 			'entry_csv_attachment_enable',
@@ -110,7 +121,7 @@ class Notifications implements EducationInterface {
 
 		// Wrap advanced settings to the unfoldable group.
 		wpforms_panel_fields_group(
-			$file_upload_attachment_panel . $entry_csv_attachment_panel,
+			$content,
 			[
 				'borders'    => [ 'top' ],
 				'class'      => 'wpforms-builder-notifications-advanced',

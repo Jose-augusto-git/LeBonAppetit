@@ -2,6 +2,8 @@
 
 namespace WPForms\Integrations\Stripe;
 
+use Elementor\Plugin;
+
 /**
  * Stripe form frontend related functionality.
  *
@@ -51,7 +53,7 @@ class Frontend {
 		add_action( 'wpforms_frontend_container_class', [ $this, 'form_container_class' ], 10, 2 );
 		add_action( 'wpforms_wp_footer', [ $this, 'enqueues' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_assets' ] );
-		add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'enqueue_assets' ] );
+		add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'elementor_enqueues' ] );
 		add_filter( 'register_block_type_args', [ $this, 'register_block_type_args' ], 20, 2 );
 	}
 
@@ -112,9 +114,7 @@ class Frontend {
 			return;
 		}
 
-		$config            = $this->api->get_config();
-		$min               = wpforms_get_min_suffix();
-		$is_styles_enabled = (int) wpforms_setting( 'disable-css', '1' ) !== 3;
+		$config = $this->api->get_config();
 
 		wp_enqueue_script(
 			'stripe-js',
@@ -139,31 +139,11 @@ class Frontend {
 					'empty_details'      => esc_html__( 'Please fill out payment details to continue.', 'wpforms-lite' ),
 					'element_load_error' => esc_html__( 'Payment Element failed to load. Stripe API responded with the message:', 'wpforms-lite' ),
 				],
-				'styles_enabled'  => $is_styles_enabled,
+				'styles_enabled'  => (int) wpforms_setting( 'disable-css', '1' ) !== 3,
 			]
 		);
 
-		if ( ! $is_styles_enabled ) {
-			return;
-		}
-
-		wp_enqueue_style(
-			self::HANDLE,
-			WPFORMS_PLUGIN_URL . "assets/css/integrations/stripe/wpforms-stripe{$min}.css",
-			[],
-			WPFORMS_VERSION
-		);
-
-		if ( ! isset( $config['local_css_url'] ) ) {
-			return;
-		}
-
-		wp_enqueue_style(
-			'wpforms-stripe',
-			$config['local_css_url'],
-			[],
-			WPFORMS_VERSION
-		);
+		$this->enqueue_styles();
 	}
 
 	/**
@@ -196,5 +176,54 @@ class Frontend {
 		$args['editor_style'] = self::HANDLE;
 
 		return $args;
+	}
+
+	/**
+	 * Enqueue styles for Elementor preview.
+	 *
+	 * @since 1.8.4.1
+	 *
+	 * @noinspection PhpUndefinedFieldInspection
+	 */
+	public function elementor_enqueues() {
+
+		if ( ! class_exists( Plugin::class ) || ! Plugin::instance()->preview->is_preview_mode() ) {
+			return;
+		}
+
+		$this->enqueue_styles();
+	}
+
+	/**
+	 * Enqueue styles.
+	 *
+	 * @since 1.8.4.1
+	 */
+	private function enqueue_styles() {
+
+		if ( (int) wpforms_setting( 'disable-css', '1' ) === 3 ) {
+			return;
+		}
+
+		$config = $this->api->get_config();
+		$min    = wpforms_get_min_suffix();
+
+		wp_enqueue_style(
+			self::HANDLE,
+			WPFORMS_PLUGIN_URL . "assets/css/integrations/stripe/wpforms-stripe{$min}.css",
+			[],
+			WPFORMS_VERSION
+		);
+
+		if ( ! isset( $config['local_css_url'] ) ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'wpforms-stripe',
+			$config['local_css_url'],
+			[],
+			WPFORMS_VERSION
+		);
 	}
 }

@@ -7,13 +7,14 @@ import Cidr from "./Cidr";
 import EventLogDataTableStore from "../EventLog/EventLogDataTableStore";
 
 const AddIpAddressModal = (props) => {
-    if (!props.isOpen) return null;
-    const { inputRangeValidated, fetchCidrData, ipAddress, setIpAddress, maskError, addRow} = IpAddressDataTableStore();
+    if (!props.isOpen) return;
+    const { inputRangeValidated, fetchCidrData, ipAddress, setIpAddress, maskError, dataLoaded, addRow, resetRange} = IpAddressDataTableStore();
     const [rangeDisplay, setRangeDisplay] = useState(false);
     const {fetchDynamicData} = EventLogDataTableStore();
+    const [resetFlag, setResetFlag] = useState(false);
     //we add a function to handle the range fill
     const handleRangeFill = () => {
-        //we toggle the range display
+        //we toggle the range displayß
         setRangeDisplay(!rangeDisplay);
     }
 
@@ -29,13 +30,23 @@ const AddIpAddressModal = (props) => {
         let status = props.status;
         // we check if statusSelected is not empty
         if (ipAddress && maskError === false) {
-            addRow(ipAddress, status);
+            addRow(ipAddress, status, props.dataActions);
             //we clear the input
-            setIpAddress('');
+            resetRange();
             //we close the modal
             props.onRequestClose();
+            //we fetch the data again
             fetchDynamicData('event_log')
         }
+    }
+
+    function handleCancel() {
+        // Reset all local state
+        setRangeDisplay(false);
+        resetRange();
+
+        // Close the modal
+        props.onRequestClose();
     }
 
     return (
@@ -60,7 +71,7 @@ const AddIpAddressModal = (props) => {
                             padding: "10px",
                         }}
                     >
-                        <p>
+                        <div>
                             <IpAddressInput
                                 label={__("IP Address", "really-simple-ssl")}
                                 id="ip-address"
@@ -68,30 +79,9 @@ const AddIpAddressModal = (props) => {
                                 showSwitch={true}
                                 value={ipAddress}
                                 onChange={(e) => setIpAddress(e.target.value)}
-                                switchValue={rangeDisplay}
-                                switchTitle={__("Use ip ranges", "really-simple-ssl")}
-                                switchAction={handleRangeFill}
                             />
-                        </p>
+                        </div>
                     </div>
-                    {rangeDisplay && (
-                        <>
-                    <hr/>
-                    <div
-                        style={{
-                            width: "95%",
-                            height: "100%",
-                            padding: "10px",
-                        }}
-                    >
-                        <p>
-                            {__("This tool calculates CIDR notation for IP ranges. If you're unfamiliar with this concept, please consult a network professional. Incorrect usage may cause network issues. Proceed with caution! ", "really-simple-ssl")}
-                        </p>
-                        <Cidr/>
-                    </div>
-                    </>
-                    )}
-
                 </div>
                 <div className="modal-footer">
                     {/*//we add two buttons here for add row and cancel*/}
@@ -108,7 +98,7 @@ const AddIpAddressModal = (props) => {
                     >
                         <Button
                             isSecondary
-                            onClick={props.onRequestClose}
+                            onClick={handleCancel}
                             style={{ marginRight: '10px' }}
 
                         >

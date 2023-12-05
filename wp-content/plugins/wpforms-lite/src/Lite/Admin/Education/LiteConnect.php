@@ -265,7 +265,7 @@ class LiteConnect implements Education\EducationInterface {
 			$string .= ' ' . sprintf(
 				/* translators: %s - time when Lite Connect was enabled. */
 				esc_html__( 'since %s', 'wpforms-lite' ),
-				esc_html( date_i18n( 'M j, Y', $enabled_since + get_option( 'gmt_offset' ) * 3600 ) )
+				esc_html( wpforms_date_format( $enabled_since, '', true ) )
 			);
 		}
 

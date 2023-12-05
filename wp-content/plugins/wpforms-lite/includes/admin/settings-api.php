@@ -5,6 +5,8 @@
  * @since 1.3.7
  */
 
+use WPForms\Admin\Education\Helpers as EducationHelpers;
+
 /**
  * Settings output wrapper.
  *
@@ -32,18 +34,35 @@ function wpforms_settings_output_field( $args ) {
 		return $field;
 	}
 
-	// Custom row classes.
-	$class = ! empty( $args['class'] ) ? wpforms_sanitize_classes( (array) $args['class'], true ) : '';
+	// Default class names.
+	$class = [
+		'wpforms-setting-row',
+		"wpforms-setting-row-{$args['type']}",
+		'wpforms-clear',
+	];
 
-	// Allow hiding blocks on page load (useful for JS toggles).
-	$display_none = ! empty( $args['is_hidden'] ) ? 'style="display:none;"' : '';
+	// Row attributes.
+	$wrapper_attributes = wpforms_html_attributes(
+		'wpforms-setting-row-' . wpforms_sanitize_key( $args['id'] ),
+		! empty( $args['class'] ) ? array_merge( $class, (array) $args['class'] ) : $class,
+		! empty( $args['data_attributes'] ) && is_array( $args['data_attributes'] ) ? $args['data_attributes'] : [],
+		! empty( $args['is_hidden'] ) ? [ 'style' => 'display:none;' ] : []
+	);
 
 	// Build standard field markup and return.
-	$output = '<div class="wpforms-setting-row wpforms-setting-row-' . sanitize_html_class( $args['type'] ) . ' wpforms-clear ' . $class . '" id="wpforms-setting-row-' . wpforms_sanitize_key( $args['id'] ) . '" ' . $display_none . '>';
+	$output = "<div {$wrapper_attributes}>";
 
 	if ( ! empty( $args['name'] ) && empty( $args['no_label'] ) ) {
 		$output .= '<span class="wpforms-setting-label">';
-		$output .= '<label for="wpforms-setting-' . wpforms_sanitize_key( $args['id'] ) . '">' . esc_html( $args['name'] ) . '</label>';
+		$output .= '<label for="wpforms-setting-' . wpforms_sanitize_key( $args['id'] ) . '">' . esc_html( $args['name'] );
+
+		// Add education badge, if needed.
+		// The badge should be added after the label text, but before the label closing tag.
+		if ( ! empty( $args['education_badge'] ) ) {
+			$output .= wp_kses( $args['education_badge'], [ 'span' => [ 'class' => [] ] ] );
+		}
+
+		$output .= '</label>';
 		$output .= '</span>';
 	}
 
@@ -135,7 +154,7 @@ function wpforms_settings_license_callback( $args ) {
 	$output .= '<hr><p>' . esc_html__( 'Already purchased? Simply enter your license key below to enable WPForms PRO!', 'wpforms-lite' ) . '</p>';
 	$output .= '<p>';
 	$output .= '<input type="password" spellcheck="false" id="wpforms-settings-upgrade-license-key" placeholder="' . esc_attr__( 'Paste license key here', 'wpforms-lite' ) . '" value="">';
-	$output .= '<button type="button" class="wpforms-btn wpforms-btn-md wpforms-btn-blue" id="wpforms-settings-connect-btn">' . esc_html__( 'Verify Key', 'wpforms-lite' ) . '</button>';
+	$output .= '<button class="wpforms-btn wpforms-btn-md wpforms-btn-blue" id="wpforms-settings-connect-btn">' . esc_html__( 'Verify Key', 'wpforms-lite' ) . '</button>';
 	$output .= '</p>';
 
 	/**
@@ -203,7 +222,7 @@ function wpforms_settings_number_callback( $args ) {
 
 	$default = isset( $args['default'] ) ? esc_html( $args['default'] ) : '';
 	$id      = 'wpforms-setting-' . wpforms_sanitize_key( $args['id'] );
-	$attr    =  [
+	$attr    = [
 		'value' => wpforms_setting( $args['id'], $default ),
 		'name'  => wpforms_sanitize_key( $args['id'] ),
 	];
@@ -357,6 +376,74 @@ function wpforms_settings_radio_callback( $args ) {
 }
 
 /**
+ * Email template endpoint field callback.
+ *
+ * @since 1.8.5
+ *
+ * @param array $args Field arguments.
+ *
+ * @return string
+ */
+function wpforms_settings_email_template_callback( $args ) {
+
+	$id             = wpforms_sanitize_key( $args['id'] );
+	$is_pro         = wpforms()->is_pro();
+	$output         = '';
+	$x              = 1;
+	$education_args = [
+		'name'   => esc_html__( 'Email Templates', 'wpforms-lite' ),
+		'plural' => '1',
+		'action' => 'upgrade',
+	];
+
+	foreach ( $args['options'] as $option => $attrs ) {
+		$checked       = checked( $args['value'], $option, false );
+		$has_education = ! $is_pro && isset( $attrs['is_pro'] ) && $attrs['is_pro'];
+		$class         = [ 'wpforms-settings-field-radio-wrapper', 'wpforms-card-image' ];
+		$datas         = [];
+
+		// Add class and data attributes for education modal, if needed.
+		if ( $has_education ) {
+			$class[] = 'education-modal'; // This class is used for JS.
+			$datas   = $education_args; // This data is used for JS.
+		}
+
+		$output .= '<span ' . wpforms_html_attributes( '', $class, $datas ) . '>';
+		$output .= '<input type="radio" id="wpforms-setting-' . $id . '[' . $x . ']" name="' . $id . '" value="' . esc_attr( $option ) . '" ' . $checked . '>';
+		$output .= '<label for="wpforms-setting-' . $id . '[' . $x . ']" class="option-' . sanitize_html_class( $option ) . '">';
+		$output .= esc_html( $attrs['name'] );
+
+		// Add class and data attributes for education modal, if needed.
+		if ( $has_education ) {
+			$output .= EducationHelpers::get_badge( 'Pro' );
+		}
+
+		$output .= '<span class="wpforms-card-image-overlay">';
+		$output .= '<span class="wpforms-btn-choose wpforms-btn wpforms-btn-md wpforms-btn-orange">';
+		$output .= esc_html__( 'Choose', 'wpforms-lite' ) . '</span>';
+
+		// Only add the preview action button if provided.
+		if ( ! empty( $attrs['preview'] ) ) {
+			$output .= '<a href="' . esc_url( $attrs['preview'] ) . '" class="wpforms-btn-preview wpforms-btn wpforms-btn-md wpforms-btn-light-grey" target="_blank">';
+			$output .= esc_html__( 'Preview', 'wpforms-lite' );
+			$output .= '</a>';
+		}
+
+		$output .= '</span>';
+		$output .= '</label>';
+		$output .= '</span>';
+
+		++$x;
+	}
+
+	if ( ! empty( $args['desc'] ) ) {
+		$output .= '<p class="desc">' . wp_kses_post( $args['desc'] ) . '</p>';
+	}
+
+	return $output;
+}
+
+/**
  * Settings toggle field callback.
  *
  * @since 1.7.4
@@ -414,7 +501,7 @@ function wpforms_settings_toggle_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
  */
@@ -430,7 +517,13 @@ function wpforms_settings_image_callback( $args ) {
 	}
 
 	$output .= '<input type="text" id="wpforms-setting-' . $id . '" name="' . $id . '" value="' . esc_url_raw( $value ) . '">';
-	$output .= '<button class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey">' . esc_html__( 'Upload Image', 'wpforms-lite' ) . '</button>';
+
+	// Show the remove button if specified.
+	if ( isset( $args['show_remove'] ) && $args['show_remove'] ) {
+		$output .= '<button class="wpforms-btn wpforms-btn-md wpforms-setting-remove-image">' . esc_html__( 'Remove Image', 'wpforms-lite' ) . '</button>';
+	}
+
+	$output .= '<button class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey wpforms-setting-upload-image">' . esc_html__( 'Upload Image', 'wpforms-lite' ) . '</button>';
 
 	if ( ! empty( $args['desc'] ) ) {
 		$output .= '<p class="desc">' . wp_kses_post( $args['desc'] ) . '</p>';
@@ -462,6 +555,51 @@ function wpforms_settings_color_callback( $args ) {
 	$data = implode( ' ', $data );
 
 	$output = '<input type="text" id="wpforms-setting-' . $id . '" class="wpforms-color-picker" name="' . $id . '" value="' . esc_attr( $value ) . '" ' . $data . '>';
+
+	if ( ! empty( $args['desc'] ) ) {
+		$output .= '<p class="desc">' . wp_kses_post( $args['desc'] ) . '</p>';
+	}
+
+	return $output;
+}
+
+/**
+ * Color scheme endpoint fieldset callback.
+ * This function will output a fieldset with color picker inputs.
+ *
+ * @since 1.8.5
+ *
+ * @param array $args Field arguments.
+ *
+ * @return string
+ */
+function wpforms_settings_color_scheme_callback( $args ) {
+
+	$id     = wpforms_sanitize_key( $args['id'] );
+	$value  = wpforms_setting( $args['id'], [] );
+	$output = '';
+
+	foreach ( $args['colors'] as $color => $attrs ) {
+		$data             = isset( $attrs['data'] ) ? (array) $attrs['data'] : [];
+		$default_value    = isset( $data['fallback-color'] ) ? wpforms_sanitize_hex_color( $data['fallback-color'] ) : '';
+		$field_id         = "{$id}-{$color}";
+		$field_value      = isset( $value[ $color ] ) ? wpforms_sanitize_hex_color( $value[ $color ] ) : $default_value;
+		$input_attributes = wpforms_html_attributes(
+			"wpforms-setting-{$field_id}",
+			[ 'wpforms-color-picker' ],
+			$data,
+			[
+				'type'  => 'text',
+				'name'  => "{$id}[{$color}]",
+				'value' => esc_attr( $field_value ),
+			]
+		);
+
+		$output .= "<input {$input_attributes}>";
+		$output .= '<label for="wpforms-setting-' . $field_id . '">';
+		$output .= esc_html( $attrs['name'] );
+		$output .= '</label>';
+	}
 
 	if ( ! empty( $args['desc'] ) ) {
 		$output .= '<p class="desc">' . wp_kses_post( $args['desc'] ) . '</p>';

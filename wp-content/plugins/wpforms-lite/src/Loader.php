@@ -218,6 +218,10 @@ class Loader {
 				'hook' => 'admin_init',
 			],
 			[
+				'name' => 'Admin\Settings\Email',
+				'hook' => 'admin_init',
+			],
+			[
 				'name' => 'Admin\Settings\Captcha\Page',
 				'hook' => 'admin_init',
 			],
@@ -262,6 +266,10 @@ class Loader {
 			],
 			[
 				'name' => 'Admin\Entries\DefaultScreen',
+				'hook' => 'admin_init',
+			],
+			[
+				'name' => 'Emails\Preview',
 				'hook' => 'admin_init',
 			]
 		);
@@ -370,6 +378,10 @@ class Loader {
 			],
 			[
 				'name' => 'Admin\Builder\AntiSpam',
+				'hook' => 'wpforms_builder_init',
+			],
+			[
+				'name' => 'Admin\Builder\Notifications\Advanced\EmailTemplate',
 				'hook' => 'wpforms_builder_init',
 			],
 			[
@@ -552,6 +564,7 @@ class Loader {
 		// Education features classes.
 		$features = [
 			'LiteConnect',
+			'Builder\Calculations',
 			'Builder\Captcha',
 			'Builder\Fields',
 			'Builder\Settings',

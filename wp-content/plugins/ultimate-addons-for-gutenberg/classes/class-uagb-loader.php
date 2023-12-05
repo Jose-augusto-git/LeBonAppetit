@@ -86,7 +86,7 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			define( 'UAGB_BASE', plugin_basename( UAGB_FILE ) );
 			define( 'UAGB_DIR', plugin_dir_path( UAGB_FILE ) );
 			define( 'UAGB_URL', plugins_url( '/', UAGB_FILE ) );
-			define( 'UAGB_VER', '2.7.11' );
+			define( 'UAGB_VER', '2.10.3' );
 			define( 'UAGB_MODULES_DIR', UAGB_DIR . 'modules/' );
 			define( 'UAGB_MODULES_URL', UAGB_URL . 'modules/' );
 			define( 'UAGB_SLUG', 'spectra' );
@@ -166,7 +166,8 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			require_once UAGB_DIR . 'classes/class-uagb-front-assets.php';
 			require_once UAGB_DIR . 'classes/class-uagb-init-blocks.php';
 			require_once UAGB_DIR . 'classes/class-uagb-rest-api.php';
-			require_once UAGB_DIR . 'classes/class-uagb-coming-soon.php';
+			require_once UAGB_DIR . 'classes/class-uagb-visibility.php';
+			require_once UAGB_DIR . 'classes/class-uagb-caching.php';
 
 			if ( 'twentyseventeen' === get_template() ) {
 				require_once UAGB_DIR . 'classes/class-uagb-twenty-seventeen-compatibility.php';
@@ -186,6 +187,15 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			} else {
 				add_filter( 'ast_block_templates_disable', '__return_true' );
 			}
+
+			// Add the filters for the Zip AI Library and include it.
+			add_filter( 'zip_ai_collab_product_details', array( $this, 'add_zip_ai_collab_product_details' ), 20, 1 );
+			add_filter( 'zip_ai_modules', array( $this, 'add_zip_ai_modules' ), 20, 1 );
+			add_filter( 'zip_ai_auth_redirection_flag', '__return_true', 20, 1 );
+			add_filter( 'zip_ai_auth_redirection_url', array( $this, 'add_zip_ai_redirection_url' ), 20, 1 );
+			add_filter( 'zip_ai_revoke_redirection_url', array( $this, 'add_zip_ai_redirection_url' ), 20, 1 );
+
+			require_once UAGB_DIR . 'lib/zip-ai/zip-ai.php';
 		}
 
 		/**
@@ -281,6 +291,30 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 
 				if ( isset( $attributes['UAGAnimationRepeat'] ) ) {
 					unset( $attributes['UAGAnimationRepeat'] );
+				}
+
+				if ( isset( $attributes['UAGAnimationDelayInterval'] ) ) {
+					unset( $attributes['UAGAnimationDelayInterval'] );
+				}
+
+				if ( isset( $attributes['UAGAnimationDoNotApplyToContainer'] ) ) {
+					unset( $attributes['UAGAnimationDoNotApplyToContainer'] );
+				}
+
+				if ( isset( $attributes['UAGStickyLocation'] ) ) {
+					unset( $attributes['UAGStickyLocation'] );
+				}
+
+				if ( isset( $attributes['UAGStickyRestricted'] ) ) {
+					unset( $attributes['UAGStickyRestricted'] );
+				}
+
+				if ( isset( $attributes['UAGStickyOffset'] ) ) {
+					unset( $attributes['UAGStickyOffset'] );
+				}
+
+				if ( isset( $attributes['UAGPosition'] ) ) {
+					unset( $attributes['UAGPosition'] );
 				}
 
 					$request['attributes'] = $attributes;
@@ -402,6 +436,8 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			// This class is loaded from blocks config.
 			UAGB_Popup_Builder::generate_scripts();
 
+			UAGB_Update::migrate_visibility_mode();
+
 			// Adds filters to modify the blocks allowed in excerpts.
 			add_filter( 'excerpt_allowed_blocks', array( $this, 'add_blocks_to_excerpt' ), 20 );
 			add_filter( 'excerpt_allowed_wrapper_blocks', array( $this, 'add_wrapper_blocks_to_excerpt' ), 20 );
@@ -490,6 +526,64 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			if ( $stored_domain !== $site_domain ) {
 				\UAGB_Admin_Helper::update_admin_settings_option( '__uagb_asset_version', time() );
 			}
+		}
+
+		/**
+		 * Add the Zip AI Collab Product Details.
+		 *
+		 * @param mixed $product_details The previous product details, if any.
+		 * @since 2.10.2
+		 * @return array The Spectra product details.
+		 */
+		public function add_zip_ai_collab_product_details( $product_details ) {
+			// Overwrite the product details that were of a lower priority, if any.
+			$product_details = array(
+				'product_name'                          => 'Spectra',
+				'product_logo'                          => file_get_contents( UAGB_DIR . 'assets/images/logos/spectra.svg' ),
+				'product_primary_color'                 => '#5733ff',
+				'ai_assistant_learn_more_url'           => admin_url( 'admin.php?page=spectra&path=ai-features' ),
+				'ai_assistant_authorized_disable_url'   => admin_url( 'admin.php?page=spectra&path=ai-features&manage-features=yes' ),
+				'ai_assistant_unauthorized_disable_url' => admin_url( 'admin.php?page=spectra&path=ai-features&manage-features=yes' ),
+			);
+			// Return the Spectra product details.
+			return $product_details;
+		}
+
+		/**
+		 * Add the Zip AI Modules that come with Spectra.
+		 *
+		 * @param mixed $modules The modules for Zip AI, if any.
+		 * @since 2.10.2
+		 * @return array The Spectra default modules.
+		 */
+		public function add_zip_ai_modules( $modules ) {
+			// If the filtered modules is not an array, make it one.
+			if ( ! is_array( $modules ) ) {
+				$modules = array();
+			}
+
+			// If the AI Assistant module does not exist, add it - else just update the status.
+			if ( empty( $modules['ai_assistant'] ) || ! is_array( $modules['ai_assistant'] ) ) {
+				$modules['ai_assistant'] = array(
+					'status' => 'enabled',
+				);
+			} else {
+				$modules['ai_assistant']['status'] = 'enabled';
+			}
+
+			// Return the Spectra default modules.
+			return $modules;
+		}
+
+		/**
+		 * Add the Zip AI Authorization/Revoke URL.
+		 *
+		 * @param mixed $auth_url The previous authorization URL, if any.
+		 * @since 2.10.2
+		 * @return string The Spectra redirection URL.
+		 */
+		public function add_zip_ai_redirection_url( $auth_url ) {
+			return admin_url( 'admin.php?page=spectra&path=ai-features' );
 		}
 	}
 }

@@ -917,6 +917,32 @@ class SnapIO
     }
 
     /**
+     * Create an empty index.php file in dir.
+     *
+     * @param string $dir Dir where create index.php
+     *
+     * @return bool true on success, false on failure
+     */
+    public static function createSilenceIndex($dir)
+    {
+        if (!is_dir($dir)) {
+            return false;
+        }
+
+        $path = self::trailingslashit($dir) . 'index.php';
+        if (!file_exists($path)) {
+            $fileContent = <<<INDEXPHP
+<?php
+// silence
+
+INDEXPHP;
+            return (file_put_contents($path, $fileContent) !== false);
+        }
+
+        return true;
+    }
+
+    /**
      * from wordpress function wp_is_stream
      *
      * @param string $path The resource path or URL.

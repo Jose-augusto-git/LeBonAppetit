@@ -69,24 +69,19 @@ class SiteHealth {
 		];
 
 		// Install date.
-		$activated  = get_option( 'wpforms_activated', [] );
-		$gmt_offset = get_option( 'gmt_offset' ) * 3600;
+		$activated = get_option( 'wpforms_activated', [] );
 
 		if ( ! empty( $activated['lite'] ) ) {
-			$date = $activated['lite'] + $gmt_offset;
-
 			$wpforms['fields']['lite'] = [
 				'label' => esc_html__( 'Lite install date', 'wpforms-lite' ),
-				'value' => date_i18n( 'M j, Y @ g:ia', $date ),
+				'value' => wpforms_datetime_format( $activated['lite'], '', true ),
 			];
 		}
 
 		if ( ! empty( $activated['pro'] ) ) {
-			$date = $activated['pro'] + $gmt_offset;
-
 			$wpforms['fields']['pro'] = [
 				'label' => esc_html__( 'Pro install date', 'wpforms-lite' ),
-				'value' => date_i18n( 'M j, Y @ g:ia', $date ),
+				'value' => wpforms_datetime_format( $activated['pro'], '', true ),
 			];
 		}
 

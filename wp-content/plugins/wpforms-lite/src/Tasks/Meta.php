@@ -92,6 +92,8 @@ class Meta extends WPForms_DB {
 	 * Used in migration and on plugin activation.
 	 *
 	 * @since 1.5.9
+	 *
+	 * @noinspection UnusedFunctionResultInspection
 	 */
 	public function create_table() {
 
@@ -99,14 +101,7 @@ class Meta extends WPForms_DB {
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$charset_collate = '';
-
-		if ( ! empty( $wpdb->charset ) ) {
-			$charset_collate .= "DEFAULT CHARACTER SET $wpdb->charset";
-		}
-		if ( ! empty( $wpdb->collate ) ) {
-			$charset_collate .= " COLLATE $wpdb->collate";
-		}
+		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE IF NOT EXISTS $this->table_name (
 			id bigint(20) NOT NULL AUTO_INCREMENT,

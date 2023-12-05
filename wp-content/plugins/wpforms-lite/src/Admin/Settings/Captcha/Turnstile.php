@@ -47,12 +47,12 @@ class Turnstile extends Captcha {
 
 		return /** @lang JavaScript */
 			'const wpformsCaptcha = jQuery( ".wpforms-captcha" );
-			if ( wpformsCaptcha.length > 0 ) { 
-				var widgetID = ' . static::$api_var . '.render( ".wpforms-captcha", { 
-					"refresh-expired": "never" 
-				} ); 
-				wpformsCaptcha.attr( "data-captcha-id", widgetID); 
-				jQuery( document ).trigger( "wpformsSettingsCaptchaLoaded" ); 
+			if ( wpformsCaptcha.length > 0 ) {
+				var widgetID = ' . static::$api_var . '.render( ".wpforms-captcha", {
+					"refresh-expired": "auto"
+				} );
+				wpformsCaptcha.attr( "data-captcha-id", widgetID);
+				jQuery( document ).trigger( "wpformsSettingsCaptchaLoaded" );
 			}';
 	}
 

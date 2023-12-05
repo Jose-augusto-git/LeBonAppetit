@@ -2,6 +2,7 @@
 
 namespace WPForms\Emails\Templates;
 
+use WPForms\Emails\Helpers;
 use WPForms\Emails\Styler;
 use WPForms\Helpers\Templates;
 
@@ -77,7 +78,7 @@ class General {
 
 		$this->set_message( $message );
 
-		$this->plain_text = 'default' !== \wpforms_setting( 'email-template', 'default' );
+		$this->plain_text = Helpers::is_plain_text_template();
 
 		$this->set_initial_args();
 	}
@@ -338,7 +339,8 @@ class General {
 		 * Both pixel and percentage approaches work well with 'wpforms_emails_templates_general_get_header_image' filter or this class extension.
 		 */
 		$img = [
-			'url' => \wpforms_setting( 'email-header-image' ),
+			'url'  => wpforms_setting( 'email-header-image' ),
+			'size' => wpforms_setting( 'email-header-image-size', 'medium' ),
 		];
 
 		return \apply_filters( 'wpforms_emails_templates_general_get_header_image', $img, $this );

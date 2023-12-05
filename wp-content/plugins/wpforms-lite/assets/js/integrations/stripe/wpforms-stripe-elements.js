@@ -321,6 +321,12 @@ var WPFormsStripeElements = window.WPFormsStripeElements || ( function( document
 
 			wpforms.displayFormAjaxFieldErrors( $form, errors );
 
+			// Switch page for the multipage form.
+			if ( ! $stripeDiv.is( ':visible' ) && $form.find( '.wpforms-page-indicator-steps' ).length > 0 ) {
+				// Empty $json object needed to change the page to the first one.
+				wpforms.setCurrentPage( $form, {} );
+			}
+
 			wpforms.scrollToError( $stripeDiv );
 		},
 
@@ -401,7 +407,7 @@ var WPFormsStripeElements = window.WPFormsStripeElements || ( function( document
 		updateCardElementStylesModern: function( $form ) {
 
 			// Should work only in Modern Markup mode.
-			if ( ! window.WPForms || ! WPForms.FrontendModern ) {
+			if ( ! window.WPForms || ! WPForms.FrontendModern || ! $.isEmptyObject( wpforms_stripe.data.element_style ) ) {
 				return;
 			}
 

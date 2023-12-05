@@ -279,7 +279,7 @@ class Mailer {
 	 */
 	public function get_content_type() {
 
-		$is_html = 'default' === \wpforms_setting( 'email-template', 'default' );
+		$is_html = ! Helpers::is_plain_text_template();
 
 		if ( ! $this->content_type && $is_html ) {
 			$this->content_type = \apply_filters( 'wpforms_emails_mailer_get_content_type_default', 'text/html', $this );

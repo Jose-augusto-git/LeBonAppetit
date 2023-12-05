@@ -1,5 +1,29 @@
 == Changelog ==
 
+= 1.8.5.2 =
+- Added: New email templates are ready to use!
+- Added: Email template can now be customized and previewed on the Settings.
+- Added: Allow an email template to be specified on a per-form/notification basis.
+- Added: Prefix all 3rd-party libraries to avoid compatibility issues with other plugins using different versions of the same libraries.
+- Added: Added new filter making it possible to customize styles for the Stripe Credit Card field when Payment Elements are used.
+- Added: WPCode integration.
+- Changed: Updated DOMPurify library to 3.0.6.
+- Changed: Improved significantly the performance of frontend email validation.
+- Fixed: Addressed a few compatibility issues and deprecation errors with PHP 8.1 and newer versions.
+- Fixed: Search didn't work on the Form Templates screen if a template name contained the dash symbol.
+- Fixed: Stripe Credit Card field duplicate button was visible in the Form Builder in some cases.
+- Fixed: Stripe webhook requests triggered a PHP error and returned the wrong response in some cases.
+- Fixed: Image choices had some styling glitches in the builder preview.
+- Fixed: Akismet protection didn't work when Email Confirmation was enabled for the Email field.
+- Fixed: Translated strings weren't shown in the WPForms block in some cases.
+- Fixed: In rare cases Turnstile Captcha was not displayed correctly when it expired and was refreshed.
+- Fixed: Custom styles were overwritten for the Stripe Credit Card field when the Modern Markup setting was used.
+
+= 1.8.4.1 =
+- Fixed: A fatal error was thrown when using the WP-CLI command with the --context=admin parameter.
+- Fixed: Stripe assets were loaded on every page when the Elementor plugin was activated.
+- Fixed: Resized images in Image Choices were displayed in their original sizes inside Notifications.
+
 = 1.8.4 =
 - IMPORTANT: Support for PHP 5.6 has been discontinued. If you are running PHP 5.6, you MUST upgrade PHP before installing WPForms 1.8.4. Failure to do that will disable WPForms core functionality.
 - IMPORTANT: Support for WordPress 5.4 and below has been discontinued. If you are running any of those outdated versions, you MUST upgrade WordPress before installing WPForms 1.8.4. Failure to do that will disable WPForms core functionality.

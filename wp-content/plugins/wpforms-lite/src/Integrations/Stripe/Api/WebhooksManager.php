@@ -3,7 +3,7 @@
 namespace WPForms\Integrations\Stripe\Api;
 
 use Exception;
-use Stripe\WebhookEndpoint;
+use WPForms\Vendor\Stripe\WebhookEndpoint;
 use WPForms\Integrations\Stripe\Helpers;
 use WPForms\Integrations\Stripe\WebhooksHealthCheck;
 

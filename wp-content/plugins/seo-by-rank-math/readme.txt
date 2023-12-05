@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 6.3
+Tested up to: 6.4.1
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.0.202
+Stable tag: 1.0.207
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -583,19 +583,14 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.202 [Sept 21, 2023] =
-- Added: Support for `UK English` [language](https://rankmath.com/kb/configure-content-ai-global-settings/#languages) in Content AI
-- Added: Several improvements to the new [Content AI](https://rankmath.com/content-ai/)
-- Added: [New filter](https://rankmath.com/kb/filters-hooks-api-developer/#prevent-link-counter-processing-post) to prevent [Link Counter](https://rankmath.com/kb/link-counter/) from processing the post
-- Improved: [Grammarly integration](https://rankmath.com/kb/configure-content-ai-global-settings/#enable-grammarly) is now enabled by default on all sites. This option will be enabled on existing sites after this update
-- Improved: [Write More](https://rankmath.com/kb/content-ai-editor/#write-tab) feature now generates more advanced preformatted output
-- Improved: Rank Math no longer supports PHP 7.2. Please upgrade to a more recent PHP version to continue using Rank Math
-- Improved: [Analytics](https://rankmath.com/kb/analytics) code to use the same post slug everywhere
-- Fixed: Incorrect formatting of the Hierarchical items in the [HTML sitemap](https://rankmath.com/kb/html-sitemap/)
-- Fixed: UI issue in the [Analytics settings](https://rankmath.com/kb/general-settings/#analytics)
-- Fixed: Insert option in [FAQ AI tool](https://rankmath.com/kb/content-ai-frequently-asked-questions-tool/) was not working in Content Editor
-- Fixed: PHP error on [Content Editor page](https://rankmath.com/kb/content-ai-editor/) on WordPress v6.2 and lower
-- Fixed: Missing option to insert [SEO Meta](https://rankmath.com/kb/content-ai-seo-meta-tool/) & [Opengraph](https://rankmath.com/kb/content-ai-open-graph-tool/) data in Divi Editor
+= 1.0.207 [Nov 30, 2023] =
+- Added: Fields in [Course Schema Builder](https://rankmath.com/kb/course-schema/) to make your courses compatible with the [latest Google guidelines](https://www.seroundtable.com/google-adds-course-carousel-36398.html)
+- Improved: Strings from JS files are now available for translations
+- Improved: Error handling when [Content AI credits are refreshed from Settings](https://rankmath.com/kb/how-to-use-content-ai/#credits-left)
+- Fixed: Shortcode key `/` to display Block list was not functioning without a subsequent character
+- Fixed: Minor UI issue with [Analytics](https://rankmath.com/kb/analytics/)
+- Fixed: Missing required parameter `site_url` when using [Content AI](https://rankmath.com/content-ai/) on certain setups
+- Fixed: Minor UI issue in the [Content AI Results Overview](https://rankmath.com/kb/how-to-use-content-ai/#content-ai-results-overview) section
 
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

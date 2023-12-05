@@ -413,3 +413,93 @@ function wpforms_get_pagebreak_details( $form = false ) {
 
 	return false;
 }
+
+/**
+ * Return available builder fields.
+ *
+ * @since 1.8.5
+ *
+ * @param string $group Group name.
+ *
+ * @return array
+ */
+function wpforms_get_builder_fields( $group = '' ) {
+
+	$fields = [
+		'standard' => [
+			'group_name' => esc_html__( 'Standard Fields', 'wpforms-lite' ),
+			'fields'     => [],
+		],
+		'fancy'    => [
+			'group_name' => esc_html__( 'Fancy Fields', 'wpforms-lite' ),
+			'fields'     => [],
+		],
+		'payment'  => [
+			'group_name' => esc_html__( 'Payment Fields', 'wpforms-lite' ),
+			'fields'     => [],
+		],
+	];
+
+	/**
+	 * Allows developers to modify content of the the Add Field tab.
+	 *
+	 * With this filter developers can add their own fields or even fields groups.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param array $fields {
+	 *     Fields data multidimensional array.
+	 *
+	 *     @param array $standard Standard fields group.
+	 *         @param string $group_name Group name.
+	 *         @param array  $fields     Fields array.
+	 *
+	 *     @param array $fancy    Fancy fields group.
+	 *         @param string $group_name Group name.
+	 *         @param array  $fields     Fields array.
+	 *
+	 *     @param array $payment  Payment fields group.
+	 *         @param string $group_name Group name.
+	 *         @param array  $fields     Fields array.
+	 * }
+	 */
+	$fields = apply_filters( 'wpforms_builder_fields_buttons', $fields ); // phpcs:ignore WPForms.Comments.ParamTagHooks.InvalidParamTagsQuantity
+
+	// If a group is not specified, return all fields.
+	if ( empty( $group ) ) {
+		return $fields;
+	}
+
+	// If a group is specified, return only fields from that group.
+	if ( isset( $fields[ $group ] ) ) {
+		return $fields[ $group ]['fields'];
+	}
+
+	return [];
+}
+
+/**
+ * Get payments fields.
+ *
+ * @since 1.8.5
+ *
+ * @return array
+ */
+function wpforms_get_payments_fields() {
+
+	// Some fields are added dynamically only when the corresponding payment add-on is active.
+	// However, we need to be aware of all possible payment fields, even if they are not currently available.
+	return [
+		'payment-single',
+		'payment-multiple',
+		'payment-checkbox',
+		'payment-select',
+		'payment-total',
+		'payment-coupon',
+		'credit-card', // Legacy Credit Card field.
+		'authorize_net',
+		'paypal-commerce',
+		'square',
+		'stripe-credit-card',
+	];
+}

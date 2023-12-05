@@ -1372,6 +1372,7 @@ class WPForms_Process {
 			$email['sender_name']    = ! empty( $notification['sender_name'] ) ? $notification['sender_name'] : get_bloginfo( 'name' );
 			$email['replyto']        = ! empty( $notification['replyto'] ) ? $notification['replyto'] : false;
 			$email['message']        = ! empty( $notification['message'] ) ? $notification['message'] : '{all_fields}';
+			$email['template']       = ! empty( $notification['template'] ) ? $notification['template'] : '';
 
 			/**
 			 * Filter entry email notifications attributes.
@@ -1387,7 +1388,7 @@ class WPForms_Process {
 			$email = apply_filters( 'wpforms_entry_email_atts', $email, $fields, $entry, $form_data, $notification_id ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 
 			// Create new email.
-			$emails = new WPForms_WP_Emails();
+			$emails = ( new WPForms\Emails\Notifications() )->init( $email['template'] );
 
 			$emails->__set( 'form_data', $form_data );
 			$emails->__set( 'fields', $fields );

@@ -239,28 +239,39 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 				width:100% !important;
 			}
 		}
-        /* Rich Text compatibility - image alignment. */
-        .mcnTextContentContainer table tbody,
-        .mcnTextContentContainer table tbody tr,
-        .mcnTextContentContainer table tbody td {
-            display: block;
-        }
-        .mcnTextContentContainer p::after {
-            content: "";
-            clear: both;
-            display: block;
-        }
-        .mcnTextContentContainer p .alignleft {
-            float: left;
-        }
-        .mcnTextContentContainer p .aligncenter {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .mcnTextContentContainer p .alignright {
-            float: right;
-        }
+		/* Rich Text compatibility - image alignment. */
+		.mcnTextContentContainer table tbody,
+		.mcnTextContentContainer table tbody tr,
+		.mcnTextContentContainer table tbody td {
+			display: block;
+		}
+		.mcnTextContentContainer p::after {
+			content: "";
+			clear: both;
+			display: block;
+		}
+		.mcnTextContentContainer p .alignleft, .mcnTextContentContainer li .alignleft {
+			float: left;
+			margin-right: 16px;
+			margin-top: 8px;
+			margin-bottom: 8px;
+		}
+		.mcnTextContentContainer p .aligncenter, .mcnTextContentContainer li .aligncenter {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.mcnTextContentContainer p .alignright, .mcnTextContentContainer li .alignright {
+			float: right;
+			margin-left: 16px;
+			margin-top: 8px;
+			margin-bottom: 8px;
+		}
+		/* styling lists */
+		.mcnTextContentContainer li {
+			list-style-position: inside;
+			mso-text-indent-alt: 0;
+		}
 	</style>
 </head>
 <body style="height: 100%;margin: 0;padding: 0;width: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: <?php echo $background_color; ?>;">

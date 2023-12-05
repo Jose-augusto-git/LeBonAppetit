@@ -4,7 +4,7 @@ Contributors: bastywebb, joseluiscruz, ahrale
 Donate link: http://themeover.com/microthemer/
 Tags: css, customize, visual editor, google fonts, responsive
 Requires at least: 6.0
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -78,6 +78,36 @@ I've been happily developing Microthemer and supporting users of varying technic
 5. Start customizing the appearance of your site.
 
 == Changelog ==
+
+= 7.2.4.9 (November 22nd, 2023) =
+
+# Enhancement
+* Browser tab syncing is supported for Gutenberg content changes. This means Microthemer will automatically reload the site preview after making saving a draft or publishing Gutenberg changes. CSS syncing is not supported as yet.
+
+# Bugs Fixed
+* When auto-reloading the site to pull in new content from a synced tab, Microthemer was not always resuming the previous browser scroll position.
+
+= 7.2.4.8 (November 1st, 2023) =
+
+# Bugs Fixed
+* CSS added to the full code editor also loaded on the admin area, when it should only load globally on the frontend.
+
+= 7.2.4.7 (October 19th, 2023) =
+
+# Bugs Fixed
+* Testing folder logic could fail if the theme output HTML content prior to starting the PHP output buffer.
+* Issue with local file system cache displaying outdated inline style tag content.
+
+= 7.2.4.5 (October 9th, 2023) =
+
+# Bugs Fixed
+* JS error - "TypeError: e.replace is not a function at Object.custom_to_non_escaped".
+* JS error - "Uncaught TypeError: Cannot read properties of null (reading 'empty')".
+* JS error - "TypeError: Cannot read properties of undefined (reading 'add')".
+* JS error - "Uncaught TypeError: Cannot read properties of undefined (reading 'split')".
+* JS error - "TypeError: Cannot convert undefined or null to object".
+* JS error - "TypeError: Cannot read properties of undefined (reading 'interactions')".
+* JS error - "TypeError: Cannot read properties of undefined (reading 'is')".
 
 = 7.2.4.4 (September 6th, 2023) =
 

@@ -14,7 +14,7 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 	const { registerBlockType } = wp.blocks;
 	const { InspectorControls, InspectorAdvancedControls, PanelColorSettings } = wp.blockEditor || wp.editor;
 	const { SelectControl, ToggleControl, PanelBody, Placeholder, Flex, FlexBlock, __experimentalUnitControl, TextareaControl, Button, Modal } = wp.components;
-	const { strings, defaults, sizes } = wpforms_gutenberg_form_selector;
+	const { strings, defaults, sizes, urls, isPro } = wpforms_gutenberg_form_selector;
 	const defaultStyleSettings = defaults;
 	const { __ } = wp.i18n;
 
@@ -336,6 +336,21 @@ WPForms.FormSelector = WPForms.FormSelector || ( function( document, window, $ )
 								options={ formOptions }
 								onChange={ ( value ) => handlers.attrChange( 'formId', value ) }
 							/>
+							{ attributes.formId ? (
+								<p className="wpforms-gutenberg-form-selector-actions">
+									<a href={ urls.form_url.replace( '{ID}', attributes.formId ) } rel="noreferrer" target="_blank">
+										{ strings.form_edit }
+									</a>
+									{ isPro && (
+										<>
+											&nbsp;&nbsp;|&nbsp;&nbsp;
+											<a href={ urls.entries_url.replace( '{ID}', attributes.formId ) } rel="noreferrer" target="_blank">
+												{ strings.form_entries }
+											</a>
+										</>
+									) }
+								</p>
+							) : null }
 							<ToggleControl
 								label={ strings.show_title }
 								checked={ attributes.displayTitle }

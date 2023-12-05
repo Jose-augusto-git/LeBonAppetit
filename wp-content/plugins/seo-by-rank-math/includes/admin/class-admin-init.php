@@ -13,8 +13,6 @@ namespace RankMath\Admin;
 use RankMath\Helper;
 use RankMath\Updates;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
-use MyThemeShop\Helpers\Conditional;
 use RankMath\Search_Console\Search_Console;
 
 defined( 'ABSPATH' ) || exit;

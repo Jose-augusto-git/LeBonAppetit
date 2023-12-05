@@ -4,7 +4,7 @@ namespace WPForms\Integrations\Stripe\Api\Webhooks;
 
 use RuntimeException;
 use Exception;
-use Stripe\Invoice;
+use WPForms\Vendor\Stripe\Invoice;
 use WPForms\Integrations\Stripe\Helpers;
 use WPForms\Db\Payments\Queries;
 

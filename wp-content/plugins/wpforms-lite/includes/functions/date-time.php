@@ -18,8 +18,8 @@
  */
 function wpforms_datetime_format( $date, $format = '', $gmt_offset = false ) {
 
-	if ( $format === '' ) {
-		$format = sprintf( '%s %s', get_option( 'date_format' ), get_option( 'time_format' ) );
+	if ( is_numeric( $date ) ) {
+		$date = (int) $date;
 	}
 
 	if ( is_string( $date ) ) {
@@ -28,6 +28,14 @@ function wpforms_datetime_format( $date, $format = '', $gmt_offset = false ) {
 
 	if ( $gmt_offset ) {
 		$date += (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
+	}
+
+	if ( $format === '' ) {
+		return sprintf( /* translators: %1$s - formatted date, %2$s - formatted time. */
+			__( '%1$s at %2$s', 'wpforms-lite' ),
+			date_i18n( get_option( 'date_format' ), $date ),
+			date_i18n( get_option( 'time_format' ), $date )
+		);
 	}
 
 	return date_i18n( $format, $date );
@@ -47,7 +55,27 @@ function wpforms_datetime_format( $date, $format = '', $gmt_offset = false ) {
 function wpforms_date_format( $date, $format = '', $gmt_offset = false ) {
 
 	if ( $format === '' ) {
-		$format = get_option( 'date_format' );
+		$format = (string) get_option( 'date_format', 'M j, Y' );
+	}
+
+	return wpforms_datetime_format( $date, $format, $gmt_offset );
+}
+
+/**
+ * Return time formatted as expected.
+ *
+ * @since 1.8.5
+ *
+ * @param string|int $date       Date to format.
+ * @param string     $format     Optional. Format for the time.
+ * @param bool       $gmt_offset Optional. GTM offset.
+ *
+ * @return string
+ */
+function wpforms_time_format( $date, $format = '', $gmt_offset = false ) {
+
+	if ( $format === '' ) {
+		$format = (string) get_option( 'time_format', 'g:ia' );
 	}
 
 	return wpforms_datetime_format( $date, $format, $gmt_offset );

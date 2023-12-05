@@ -39,6 +39,10 @@ class ChargeRefunded extends Base {
 
 		$this->set_payment();
 
+		if ( ! $this->db_payment ) {
+			return false;
+		}
+
 		$currency              = strtoupper( $this->data->currency );
 		$this->decimals_amount = Helpers::get_decimals_amount( $currency );
 

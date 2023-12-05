@@ -43,7 +43,7 @@ class EmphasisConverter extends BaseConverter {
 		$tag   = $this->getNormTag( $element );
 		$value = $element->getValue();
 
-		if ( ! trim( $value ) ) {
+		if ( '' === trim( $value ) ) {
 			return '';
 		}
 
@@ -89,7 +89,7 @@ class EmphasisConverter extends BaseConverter {
 		$tag   = $this->getNormTag( $element );
 		$value = $element->getValue();
 
-		if ( ! trim( $value ) ) {
+		if ( '' === trim( $value ) ) {
 			return $value;
 		}
 

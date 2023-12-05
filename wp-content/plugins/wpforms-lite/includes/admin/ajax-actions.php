@@ -708,6 +708,9 @@ function wpforms_install_addon() {
 		wp_send_json_error( $error );
 	}
 
+	$args_str = ! empty( $_POST['args'] ) ? sanitize_text_field( wp_unslash( $_POST['args'] ) ) : '';
+	$args     = json_decode( $args_str, true ) ?? [];
+
 	// Set the current screen to avoid undefined notices.
 	set_current_screen( 'wpforms_page_wpforms-settings' );
 
@@ -753,7 +756,7 @@ function wpforms_install_addon() {
 		wp_send_json_error( $error );
 	}
 
-	$installer->install( $plugin_url );
+	$installer->install( $plugin_url, $args );
 
 	// Flush the cache and return the newly installed plugin basename.
 	wp_cache_flush();

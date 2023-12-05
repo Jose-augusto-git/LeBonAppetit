@@ -594,14 +594,17 @@ class DUP_Util
 
         SnapIO::chmod($path_ssdir, 'u+rwx,go+rx');
         SnapIO::dirWriteCheckOrMkdir(DUP_Settings::getSsdirTmpPath(), 'u+rwx');
+        SnapIO::createSilenceIndex(DUP_Settings::getSsdirTmpPath());
 
         //--------------------------------
         //FILE CREATION & HARDEN PROCESS
         //index.php, .htaccess, robots.txt
-        self::setupBackupDirIndexFile();
+        SnapIO::createSilenceIndex(DUP_Settings::getSsdirPath());
         self::setupBackupDirRobotsFile();
         self::setupBackupDirHtaccess();
         self::performHardenProcesses();
+        // For old installations
+        SnapIO::createSilenceIndex(DUP_Settings::getSsdirInstallerPath());
 
         return true;
     }
@@ -640,29 +643,6 @@ HTACCESS;
             }
         } catch (Exception $ex) {
             DUP_Log::Trace("Unable create file htaccess {$fileName} msg:" . $ex->getMessage());
-        }
-    }
-
-    /**
-     * Attempts to create an index.php file in the backups directory
-     *
-     * @return void
-     */
-    protected static function setupBackupDirIndexFile()
-    {
-        try {
-            $fileName = DUP_Settings::getSsdirPath() . '/index.php';
-            if (!file_exists($fileName)) {
-                $fileContent = <<<HTACCESS
-<?php
-// silence;
-HTACCESS;
-                if (file_put_contents($fileName, $fileContent) === false) {
-                    throw new Exception('Can\'t create .haccess');
-                }
-            }
-        } catch (Exception $ex) {
-            DUP_Log::Trace("Unable create index.php {$fileName} msg:" . $ex->getMessage());
         }
     }
 

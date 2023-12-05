@@ -119,6 +119,7 @@ class Tools {
 				'system'           => new Views\System(),
 				'action-scheduler' => new Views\ActionScheduler(),
 				'logs'             => new Views\Logs(),
+				'wpcode'           => new Views\CodeSnippets(),
 			];
 		}
 

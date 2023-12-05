@@ -2,19 +2,19 @@
 
 namespace WPForms\Integrations\Stripe\Api;
 
-use Stripe\Customer;
-use Stripe\PaymentIntent;
-use Stripe\PaymentMethod;
-use Stripe\Stripe;
-use Stripe\Subscription;
-use Stripe\Refund;
-use Stripe\Exception\ApiErrorException;
+use WPForms\Vendor\Stripe\Customer;
+use WPForms\Vendor\Stripe\PaymentIntent;
+use WPForms\Vendor\Stripe\PaymentMethod;
+use WPForms\Vendor\Stripe\Stripe;
+use WPForms\Vendor\Stripe\Subscription;
+use WPForms\Vendor\Stripe\Refund;
+use WPForms\Vendor\Stripe\Exception\ApiErrorException;
 use WPForms\Integrations\Stripe\Fields\StripeCreditCard;
 use WPForms\Integrations\Stripe\Fields\PaymentElementCreditCard;
 use WPForms\Integrations\Stripe\Helpers;
 use WPForms\Helpers\Crypto;
 use Exception;
-use Stripe\Charge;
+use WPForms\Vendor\Stripe\Charge;
 
 /**
  * Stripe PaymentIntents API.
@@ -108,20 +108,8 @@ class PaymentIntents extends Common implements ApiInterface {
 	 */
 	public function set_config() {
 
-		/**
-		 * This filter allows to overwrite a Style object, which consists of CSS properties nested under objects.
-		 *
-		 * @since 1.8.2
-		 *
-		 * @link https://stripe.com/docs/js/appendix/style
-		 *
-		 * @param array $styles Style object.
-		 */
-		$element_style = (array) apply_filters( 'wpforms_stripe_api_payment_intents_set_config_element_style', [] ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
-
 		$localize_script = [
 			'element_locale' => $this->filter_config_element_locale(),
-			'element_style'  => $element_style,
 		];
 
 		$this->config = [
@@ -148,6 +136,19 @@ class PaymentIntents extends Common implements ApiInterface {
 
 		$min = wpforms_get_min_suffix();
 
+		/**
+		 * This filter allows to overwrite a Payment element appearance object.
+		 *
+		 * @since 1.8.5
+		 *
+		 * @link https://stripe.com/docs/elements/appearance-api
+		 *
+		 * @param array $appearance Appearance object.
+		 */
+		$element_style = (array) apply_filters( 'wpforms_integrations_stripe_api_payment_intents_set_element_appearance', [] );
+
+		$this->config['localize_script']['element_appearance'] = $element_style;
+
 		$this->config['local_js_url']  = WPFORMS_PLUGIN_URL . "assets/js/integrations/stripe/wpforms-stripe-payment-element{$min}.js";
 		$this->config['local_css_url'] = WPFORMS_PLUGIN_URL . "assets/css/integrations/stripe/wpforms-stripe{$min}.css";
 	}
@@ -159,6 +160,18 @@ class PaymentIntents extends Common implements ApiInterface {
 	 */
 	private function set_card_element_config() {
 
+		/**
+		 * This filter allows to overwrite a Style object, which consists of CSS properties nested under objects.
+		 *
+		 * @since 1.8.2
+		 *
+		 * @link https://stripe.com/docs/js/appendix/style
+		 *
+		 * @param array $styles Style object.
+		 */
+		$element_style = (array) apply_filters( 'wpforms_stripe_api_payment_intents_set_config_element_style', [] ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+
+		$this->config['localize_script']['element_style']   = $element_style;
 		$this->config['localize_script']['element_classes'] = [
 			'base'           => 'wpforms-stripe-element',
 			'complete'       => 'wpforms-stripe-element-complete',

@@ -35,5 +35,4 @@ interface ConverterInterface {
 	 * @return string[] - An array of the supported tags
 	 */
 	public function getSupportedTags();
-
 }

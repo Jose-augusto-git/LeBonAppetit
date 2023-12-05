@@ -262,10 +262,11 @@ if (!class_exists('\Microthemer\AssetLoad')){
 			$dir = $this->rootDir . $subDir;
 			$url = $this->rootUrl . $subDir;
 			$add = $this->addInsteadOfEnqueue();
+			$foldersDone = array();
 
 			foreach ($folders as $folder){
 
-				if (isset($folder['expr'])){
+				if (isset($folder['expr']) && !isset($foldersDone[$folder['slug']])){
 
 					$slug = $folder['slug'];
 					$this->folderLoading[$slug] = 0;
@@ -284,6 +285,14 @@ if (!class_exists('\Microthemer\AssetLoad')){
 						$inline = empty($folder['css_external']);
 						$async = !empty($folder['css_async']);
 
+						//echo '$cssFile: ' . $url . $cssFileName . '?' . $this->cacheParam;
+
+						// force file_get_contents to get a non-cached version of the file
+						if ($inline){
+							touch($cssFile);
+							//echo 'touched $cssFile: ' . $url . $cssFileName . '?' . $this->cacheParam;
+						}
+
 						// load the CSS file
 						$this->enqueueOrAdd(
 							($add || $inline || $async),
@@ -292,11 +301,16 @@ if (!class_exists('\Microthemer\AssetLoad')){
 							array(
 								'inline' => $inline,
 								'async' => $async,
-								'code' => $inline ? file_get_contents($cssFile) : false
+								'code' => $inline ? file_get_contents($cssFile) : false,
+								'deps' => array('microthemer-css')
 							)
 						);
 					}
 				}
+
+				// ensure a folder never runs twice
+				// which can happen if logic array has repetition (due to an unsolved bug)
+				$foldersDone[$folder['slug']] = 1;
 			}
 
 		}
@@ -460,12 +474,15 @@ if (!class_exists('\Microthemer\AssetLoad')){
 
 			global $wp_styles;
 
+			// Allow for dependencies to be passed in - this doesn't work if do_item is run, but we need that
+			$deps = isset($config['deps']) ? $config['deps'] : array();
+
 			// add to $wp_styles
 			if ($add){
 
 				// add content as inline style
 				if (!empty($config['inline'])){
-					$wp_styles->add($handle, false);
+					$wp_styles->add($handle, false, $deps);
 					$wp_styles->enqueue(array($handle));
 					$wp_styles->add_inline_style($handle, $config['code']);
 				}
@@ -473,7 +490,7 @@ if (!class_exists('\Microthemer\AssetLoad')){
 				// regular external stylesheet
 				else {
 
-					$wp_styles->add($handle, $url);
+					$wp_styles->add($handle, $url, $deps);
 
 					$wp_styles->enqueue(array($handle));
 

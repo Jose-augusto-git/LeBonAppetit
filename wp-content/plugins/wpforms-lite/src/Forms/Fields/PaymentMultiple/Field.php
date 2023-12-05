@@ -71,43 +71,6 @@ class Field extends \WPForms_Field {
 	}
 
 	/**
-	 * Return images, if any, for HTML supported values.
-	 *
-	 * @since 1.8.2
-	 *
-	 * @param string $value     Field value.
-	 * @param array  $field     Field settings.
-	 * @param array  $form_data Form data and settings.
-	 * @param string $context   Value display context.
-	 *
-	 * @return string
-	 */
-	public function field_html_value( $value, $field, $form_data = [], $context = '' ) {
-
-		// Only use HTML formatting for payment multiple fields, with image
-		// choices enabled, and exclude the entry table display. Lastly,
-		// provides a filter to disable fancy display.
-		if (
-			$context !== 'entry-table' &&
-			! empty( $field['type'] ) &&
-			$field['type'] === $this->type &&
-			! empty( $field['value'] ) &&
-			! empty( $field['image'] ) &&
-			$this->filter_field_html_value_images( $context )
-		) {
-			return sprintf(
-				'<span %s><img src="%s" %s></span>%s',
-				'style="max-width:200px;display:block;margin:0 0 5px 0;"',
-				esc_url( $field['image'] ),
-				'style="max-width:100%;display:block;margin:0;"',
-				$value
-			);
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Define additional field properties.
 	 *
 	 * @since 1.8.2
@@ -550,27 +513,5 @@ class Field extends \WPForms_Field {
 			'id'           => absint( $field_id ),
 			'type'         => sanitize_key( $this->type ),
 		];
-	}
-
-	/**
-	 * Return boolean determining if field HTML values uses images.
-	 *
-	 * @since 1.8.2
-	 *
-	 * @param string $context Context of the field.
-	 *
-	 * @return bool
-	 */
-	private function filter_field_html_value_images( $context ) {
-
-		/**
-		 * Filters whether to use HTML formatting for a field with image choices enabled.
-		 *
-		 * @since 1.5.1
-		 *
-		 * @param bool   $use_html Whether to use HTML formatting.
-		 * @param string $context  Value display context.
-		 */
-		return (bool) apply_filters( "wpforms_{$this->type}_field_html_value_images", true, $context ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 }

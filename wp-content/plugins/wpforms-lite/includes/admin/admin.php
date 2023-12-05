@@ -148,10 +148,9 @@ function wpforms_admin_scripts() {
 		false
 	);
 
-	$default_choicesjs_loading_text     = esc_html__( 'Loading...', 'wpforms-lite' );
-	$default_choicesjs_no_results_text  = esc_html__( 'No results found', 'wpforms-lite' );
-	$default_choicesjs_no_choices_text  = esc_html__( 'No choices to choose from', 'wpforms-lite' );
-	$default_choicesjs_item_select_text = esc_html__( 'Press to select', 'wpforms-lite' );
+	$default_choicesjs_loading_text    = esc_html__( 'Loading...', 'wpforms-lite' );
+	$default_choicesjs_no_results_text = esc_html__( 'No results found', 'wpforms-lite' );
+	$default_choicesjs_no_choices_text = esc_html__( 'No choices to choose from', 'wpforms-lite' );
 
 	$strings = [
 		'addon_activate'                  => esc_html__( 'Activate', 'wpforms-lite' ),
@@ -185,6 +184,12 @@ function wpforms_admin_scripts() {
 		'entry_delete_all_confirm'        => esc_html__( 'Are you sure you want to delete ALL entries and all their information (files, notes, logs, etc.)?', 'wpforms-lite' ),
 		'entry_delete_n_confirm'          => sprintf( /* translators: %s - entry count. */
 			esc_html__( 'Are you sure you want to delete %s entry(s) and all the information (files, notes, logs, etc.)?', 'wpforms-lite' ),
+			'{entry_count}'
+		),
+		'entry_trash_confirm'             => esc_html__( 'Are you sure you want to trash this entry and all its information (files, notes, logs, etc.)?', 'wpforms-lite' ),
+		'entry_trash_all_confirm'         => esc_html__( 'Are you sure you want to trash ALL entries and all their information (files, notes, logs, etc.)?', 'wpforms-lite' ),
+		'entry_trash_n_confirm'           => sprintf( /* translators: %s - entry count. */
+			esc_html__( 'Are you sure you want to trash %s entry(s) and all the information (files, notes, logs, etc.)?', 'wpforms-lite' ),
 			'{entry_count}'
 		),
 		'entry_empty_fields_hide'         => esc_html__( 'Hide Empty Fields', 'wpforms-lite' ),
@@ -253,7 +258,6 @@ function wpforms_admin_scripts() {
 		'choicesjs_loading'               => $default_choicesjs_loading_text,
 		'choicesjs_no_results'            => $default_choicesjs_no_results_text,
 		'choicesjs_no_choices'            => $default_choicesjs_no_choices_text,
-		'choicesjs_item_select'           => $default_choicesjs_item_select_text,
 		'debug'                           => wpforms_debug(),
 		'edit_license'                    => esc_html__( 'To edit the License Key, please first click the Remove Key button. Please note that removing this key will remove access to updates, addons, and support.', 'wpforms-lite' ),
 		'something_went_wrong'            => esc_html__( 'Something went wrong', 'wpforms-lite' ),
@@ -297,16 +301,15 @@ function wpforms_admin_scripts() {
 	$choicesjs_config = (array) apply_filters(
 		'wpforms_admin_scripts_choicesjs_config',
 		[
-			'searchEnabled'  => false,
+			'searchEnabled' => false,
 			// Forces the search to look for exact matches anywhere in the string.
-			'fuseOptions'    => [
+			'fuseOptions'   => [
 				'threshold' => 0.1,
 				'distance'  => 1000,
 			],
-			'loadingText'    => ! empty( $strings['choicesjs_loading'] ) ? $strings['choicesjs_loading'] : $default_choicesjs_loading_text,
-			'noResultsText'  => ! empty( $strings['choicesjs_no_results'] ) ? $strings['choicesjs_no_results'] : $default_choicesjs_no_results_text,
-			'noChoicesText'  => ! empty( $strings['choicesjs_no_choices'] ) ? $strings['choicesjs_no_choices'] : $default_choicesjs_no_choices_text,
-			'itemSelectText' => ! empty( $strings['choicesjs_item_select'] ) ? $strings['choicesjs_item_select'] : $default_choicesjs_item_select_text,
+			'loadingText'   => ! empty( $strings['choicesjs_loading'] ) ? $strings['choicesjs_loading'] : $default_choicesjs_loading_text,
+			'noResultsText' => ! empty( $strings['choicesjs_no_results'] ) ? $strings['choicesjs_no_results'] : $default_choicesjs_no_results_text,
+			'noChoicesText' => ! empty( $strings['choicesjs_no_choices'] ) ? $strings['choicesjs_no_choices'] : $default_choicesjs_no_choices_text,
 		]
 	);
 

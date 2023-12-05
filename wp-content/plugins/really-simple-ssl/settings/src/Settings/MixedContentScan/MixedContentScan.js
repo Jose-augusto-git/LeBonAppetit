@@ -130,38 +130,64 @@ const MixedContentScan = (props) => {
         },
     };
 
-    const ExpandableRow = ({data}) => {
+    const ExpandableRow = ({ data, disabled, handleFix }) => {
         return (
-            <div
-                className={"rsssl-container"}>
+            <div className="rsssl-container">
                 <div>
                     <p>
-                        {/* We loop through the description and place each item on a new line */}
-                        {data.details.description.map((item, i) => {
-                            return <><span key={i}>{item}</span><br/></>
-                        })}
+                        {data.details.description.map((item, i) => (
+                            <React.Fragment key={'fragment-'+i}>
+                                <span>{item}</span>
+                                <br />
+                            </React.Fragment>
+                        ))}
                     </p>
                 </div>
-                <div className="rsssl-action-buttons__inner"
-                     style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+                <div
+                    className=""
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 >
-                    <Button
-                        // className={"button button-red rsssl-action-buttons__button"}
-                        className={"button button-red rsssl-action-buttons__button"}
-                        href={data.details.help}
-                        style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
-                        target="_blank"
-                    >
-                        {__("Help", "really-simple-ssl")}
-                    </Button>
-                    <Button
-                        // className={"button button-red rsssl-action-buttons__button"}
-                        className={"button button-primary rsssl-action-buttons__button"}
-                        style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '10px'}}
-                        onClick={() => ignoreDataItem(data)}
-                    >
-                        {__("Ignore", "really-simple-ssl")}
-                    </Button>
+                    {data.details.edit && (
+                        <a
+                            href={data.details.edit}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="button button-secondary"
+                            style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '10px' }}
+                        >
+                            {__("Edit", "really-simple-ssl")}
+                        </a>
+                    )}
+                    {data.details.help && (
+                        <button
+                            href={data.details.help}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="button button-red"
+                            style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '10px'}}
+                        >
+                            {__("Help", "really-simple-ssl")}
+                        </button>
+                    )}
+                    {!data.details.ignored && data.details.action === 'ignore_url' && (
+                        <button
+                            disabled={disabled}
+                            className="button button-primary"
+                            onClick={(e) => handleFix(e, 'ignore')}
+                            style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '10px'}}
+                        >
+                            {__("Ignore", "really-simple-ssl")}
+                        </button>
+                    )}
+                    {data.details.action !== 'ignore_url' && (
+                        <button
+                            disabled={disabled}
+                            className="button button-primary rsssl-action-buttons__button"
+                            onClick={(e) => handleFix(e, 'fix')}
+                        >
+                            {__("Fix", "really-simple-ssl")}
+                        </button>
+                    )}
                 </div>
             </div>
         );
@@ -186,18 +212,21 @@ const MixedContentScan = (props) => {
                           <Icon name = "shield"  size="80px"/>
                     </div> }
                     </>}
-                { DataTable && dataTable.length>0 && <div className={'rsssl-mixed-content-datatable'}><DataTable
-                    columns={columns}
-                    data={dataTable}
-                    expandableRows
-                    expandableRowsComponent={ExpandableRow}
-                    dense
-                    pagination
-                    paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-                    noDataComponent={__("No results", "really-simple-ssl")} //or your component
-                    theme={theme}
-                    customStyles={customStyles}
-                /></div>  }
+                { DataTable && dataTable.length>0 &&
+                    <div className={'rsssl-mixed-content-datatable'}>
+                        <DataTable
+                            columns={columns}
+                            data={dataTable}
+                            expandableRows
+                            expandableRowsComponent={ExpandableRow}
+                            dense
+                            pagination
+                            paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+                            noDataComponent={__("No results", "really-simple-ssl")} //or your component
+                            theme={theme}
+                            customStyles={customStyles}
+                        />
+                    </div>  }
             <div className="rsssl-grid-item-content-footer">
                 <button className="button" disabled={startDisabled} onClick={ () => start() }>{__("Start scan","really-simple-ssl")}</button>
                 <button className="button" disabled={stopDisabled} onClick={ () => stop() }>{__("Stop","really-simple-ssl")}</button>

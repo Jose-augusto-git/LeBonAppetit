@@ -3,6 +3,7 @@
 namespace WPForms\Admin\Education\Builder;
 
 use WPForms\Admin\Education\AddonsItemBase;
+use WPForms\Admin\Education\Helpers;
 
 
 /**
@@ -161,8 +162,9 @@ class Geolocation extends AddonsItemBase {
 		return wp_parse_args(
 			[
 				'desc'  => sprintf(
-					'%s<span class="wpforms-field-option-education-pro-badge">pro</span>',
-					esc_html__( 'Enable Address Autocomplete', 'wpforms-lite' )
+					'%1$s%2$s',
+					esc_html__( 'Enable Address Autocomplete', 'wpforms-lite' ),
+					Helpers::get_badge( 'Pro', 'sm', 'inline', 'slate' )
 				),
 				'attrs' => [
 					'disabled' => 'disabled',

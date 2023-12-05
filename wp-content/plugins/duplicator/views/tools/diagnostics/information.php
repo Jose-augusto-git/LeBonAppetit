@@ -46,37 +46,42 @@ if ($section == "info" || $section == '') {
             break;
     }
 }
-?>
 
+$remove_response = '';
+if (isset($_POST['remove-options'])) {
+    if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'duplicator_settings_page')) {
+        wp_die(__('Security check failed.', 'duplicator'));
+    }
+
+    $remove_options = sanitize_text_field($_POST['remove-options']);
+    $action_result  = DUP_Settings::DeleteWPOption($remove_options);
+    switch ($remove_options) {
+        case 'duplicator_settings':
+                $remove_response = __('Plugin settings reset.', 'duplicator');
+            break;
+        case 'duplicator_ui_view_state':
+                $remove_response = __('View state settings reset.', 'duplicator');
+            break;
+        case 'duplicator_package_active':
+                $remove_response = __('Active package settings reset.', 'duplicator');
+            break;
+    }
+}
+?>
 
 <form id="dup-settings-form" action="<?php echo admin_url('admin.php?page=duplicator-tools&tab=diagnostics&section=info'); ?>" method="post">
     <?php wp_nonce_field('duplicator_settings_page', '_wpnonce', false); ?>
     <input type="hidden" id="dup-remove-options-value" name="remove-options" value="">
 
     <?php
-    if (isset($_POST['remove-options'])) {
-        $remove_options = sanitize_text_field($_POST['remove-options']);
-        $action_result  = DUP_Settings::DeleteWPOption($remove_options);
-        switch ($remove_options) {
-            case 'duplicator_settings':
-                    $remove_response = __('Plugin settings reset.', 'duplicator');
-                break;
-            case 'duplicator_ui_view_state':
-                    $remove_response = __('View state settings reset.', 'duplicator');
-                break;
-            case 'duplicator_package_active':
-                    $remove_response = __('Active package settings reset.', 'duplicator');
-                break;
-        }
-    }
-
     if (! empty($remove_response)) {
         echo "<div id='message' class='notice notice-success is-dismissible dup-wpnotice-box'><p>" . esc_html($remove_response) . "</p></div>";
     }
 
-        include_once 'inc.data.php';
-        include_once 'inc.settings.php';
-        include_once 'inc.validator.php';
-        include_once 'inc.phpinfo.php';
+    include_once 'inc.data.php';
+    include_once 'inc.settings.php';
+    include_once 'inc.validator.php';
+    include_once 'inc.phpinfo.php';
     ?>
+    
 </form>

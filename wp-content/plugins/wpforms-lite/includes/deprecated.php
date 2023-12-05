@@ -260,6 +260,68 @@ namespace {
 	class_alias( '\WPForms\Frontend\Frontend', '\WPForms_Frontend' );
 
 	/**
+	 * This adds backwards compatibility after scoping the stripe lib and using our own prefix `\WPForms\Vendor\Stripe`.
+	 * This alias is a safeguard for the users who update core plugin to 1.8.5 but have older version of stripe pro addon.
+	 * Fire this right before autoloading of legacy classes so that there is no conflict with other stripe libs when aliasing.
+	 *
+	 * @since 1.8.5
+	 */
+	spl_autoload_register(
+		static function ( $class_name ) {
+			static $stripe_check_done = false;
+
+			static $aliases = [
+				'\WPForms\Vendor\Stripe\Charge'                  => 'Stripe\Charge',
+				'\WPForms\Vendor\Stripe\Customer'                => 'Stripe\Customer',
+				'\WPForms\Vendor\Stripe\Subscription'            => 'Stripe\Subscription',
+				'\WPForms\Vendor\Stripe\Invoice'                 => 'Stripe\Invoice',
+				'\WPForms\Vendor\Stripe\Exception\CardException' => 'Stripe\Exception\CardException',
+				'\WPForms\Vendor\Stripe\Source'                  => 'Stripe\Source',
+			];
+
+			if ( $stripe_check_done ) {
+				return;
+			}
+
+			// If class not for aliasing, bail.
+			if ( ! in_array( $class_name, $aliases, true ) ) {
+				return;
+			}
+
+			$stripe_check_done = true;
+
+			// If no Stripe Pro addon bail.
+			if ( ! defined( 'WPFORMS_STRIPE_VERSION' ) ) {
+				return;
+			}
+
+			// Version 3.2.0 has prefixed lib.
+			// Versions 2.11.0 and below already have the lib bundled, so they don't require alias.
+			if (
+				version_compare( WPFORMS_STRIPE_VERSION, '3.2.0', '>=' ) ||
+				version_compare( WPFORMS_STRIPE_VERSION, '2.11.0', '<=' )
+			) {
+				return;
+			}
+
+			// We only need to alias if we are using the legacy API version.
+			if ( ! \WPFormsStripe\Helpers::is_legacy_api_version() ) {
+				return;
+			}
+
+			// If a lib is already loaded by a third party plugin,
+			// checking the CardException class here as a niche to make sure it is the correct library.
+			if ( class_exists( '\Stripe\Exception\CardException', false ) ) {
+				return;
+			}
+
+			foreach ( $aliases as $prefixed => $alias ) {
+				class_alias( $prefixed, '\\' . $alias );
+			}
+		}
+	);
+
+	/**
 	 * Get notification state, whether it's opened or closed.
 	 *
 	 * @since      1.4.1

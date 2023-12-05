@@ -46,10 +46,10 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			$border_css_tablet = self::uag_generate_border_css( $attr, 'btn', 'tablet' );
 			$border_css_mobile = self::uag_generate_border_css( $attr, 'btn', 'mobile' );
 
-			$top_padding    = isset( $attr['topPadding'] ) ? $attr['topPadding'] : $attr['vPadding'];
-			$bottom_padding = isset( $attr['bottomPadding'] ) ? $attr['bottomPadding'] : $attr['vPadding'];
-			$left_padding   = isset( $attr['leftPadding'] ) ? $attr['leftPadding'] : $attr['hPadding'];
-			$right_padding  = isset( $attr['rightPadding'] ) ? $attr['rightPadding'] : $attr['hPadding'];
+			$top_padding    = isset( $attr['topPadding'] ) ? $attr['topPadding'] : '';
+			$bottom_padding = isset( $attr['bottomPadding'] ) ? $attr['bottomPadding'] : '';
+			$left_padding   = isset( $attr['leftPadding'] ) ? $attr['leftPadding'] : '';
+			$right_padding  = isset( $attr['rightPadding'] ) ? $attr['rightPadding'] : '';
 
 			$attr['sizeType']       = isset( $attr['sizeType'] ) ? $attr['sizeType'] : 'px';
 			$attr['lineHeightType'] = isset( $attr['lineHeightType'] ) ? $attr['lineHeightType'] : 'em';
@@ -322,7 +322,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 		 * @since 1.14.9
 		 * @param array  $attr The block attributes.
 		 * @param string $id The key for the Icon List Item.
-		 * @param string $childMigrate The child migration flag.
+		 * @param mixed  $childMigrate The child migration flag.
 		 * @return array The Widget List.
 		 */
 		public static function get_social_share_child_selectors( $attr, $id, $childMigrate ) {
@@ -1461,6 +1461,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				'backgroundVideo'                 => $attr['backgroundVideo'],
 				'backgroundVideoColor'            => $attr['backgroundVideoColor'],
 				'customPosition'                  => $attr['customPosition'],
+				'centralizedPosition'             => $attr['centralizedPosition'],
 				'xPosition'                       => $attr[ 'xPosition' . $device_type ],
 				'xPositionType'                   => $attr['xPositionType'],
 				'yPosition'                       => $attr[ 'yPosition' . $device_type ],
@@ -1478,6 +1479,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				'yOverlayPosition'                => $attr[ 'yPositionOverlay' . $device_type ],
 				'yOverlayPositionType'            => $attr['yPositionOverlayType'],
 				'blendMode'                       => $attr['overlayBlendMode'],
+				'backgroundVideoFallbackImage'    => $attr['backgroundVideoFallbackImage'],
 			);
 
 			$container_bg_css = self::uag_get_background_obj( $bg_obj, $overlay );
@@ -1542,6 +1544,9 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			$y_overlay_position       = isset( $bg_obj['yOverlayPosition'] ) ? $bg_obj['yOverlayPosition'] : '';
 			$y_overlay_position_type  = isset( $bg_obj['yOverlayPositionType'] ) ? $bg_obj['yOverlayPositionType'] : '';
 
+			$custom_x_position = UAGB_Helper::get_css_value( $x_position, $x_position_type );
+			$custom_y_position = UAGB_Helper::get_css_value( $y_position, $y_position_type );
+
 			$gradient = '';
 			if ( 'custom' === $size ) {
 				$size = $bg_custom_size . $bg_custom_size_type;
@@ -1572,7 +1577,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 							$position_value                    = $position['x'] * 100 . '% ' . $position['y'] * 100 . '%';
 							$gen_bg_css['background-position'] = $position_value;
 						} elseif ( 'custom' === $custom_position && isset( $x_position ) && isset( $y_position ) && isset( $x_position_type ) && isset( $y_position_type ) ) {
-							$position_value                    = $x_position . $x_position_type . ' ' . $y_position . $y_position_type;
+							$position_value                    = false === $bg_obj['centralizedPosition'] ? $custom_x_position . ' ' . $custom_y_position : 'calc(50% +  ' . $custom_x_position . ') calc(50% + ' . $custom_y_position . ')';
 							$gen_bg_css['background-position'] = $position_value;
 						}
 
@@ -1601,9 +1606,10 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 								$gen_bg_css['background-image'] = $gradient . ', url(' . $bg_img . ');';
 							}
 						}
-						if ( ( 'none' === $overlay_type || 'image' === $overlay_type ) && '' !== $bg_img ) {
+						if ( '' !== $bg_img && in_array( $overlay_type, array( '', 'none', 'image' ) ) ) {
 							$gen_bg_css['background-image'] = 'url(' . $bg_img . ');';
 						}
+						
 						$gen_bg_css['background-clip'] = 'padding-box';
 						break;
 
@@ -1736,7 +1742,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 		 * Border attribute generation Function.
 		 *
 		 * @since 2.0.0
-		 * @param  array $prefix   Attribute Prefix.
+		 * @param  string $prefix   Attribute Prefix.
 		 * @return array
 		 */
 		public static function uag_generate_border_attribute( $prefix ) {

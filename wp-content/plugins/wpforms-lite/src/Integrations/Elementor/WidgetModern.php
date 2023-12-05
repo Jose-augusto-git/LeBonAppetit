@@ -24,7 +24,7 @@ class WidgetModern extends Widget {
 	 *
 	 * @var array
 	 */
-	private $size_options;
+	protected $size_options;
 
 	/**
 	 * Instance of CSSVars class.
@@ -33,7 +33,7 @@ class WidgetModern extends Widget {
 	 *
 	 * @var CSSVars
 	 */
-	private $css_vars_obj;
+	protected $css_vars_obj;
 
 	/**
 	 * Widget constructor.
@@ -105,7 +105,7 @@ class WidgetModern extends Widget {
 	 *
 	 * @noinspection PhpUndefinedMethodInspection
 	 */
-	private function add_field_style_controls() {
+	protected function add_field_style_controls() {
 
 		$this->start_controls_section(
 			'field_styles',

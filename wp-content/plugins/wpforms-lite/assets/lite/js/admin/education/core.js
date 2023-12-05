@@ -89,7 +89,7 @@ WPFormsEducation.liteCore = window.WPFormsEducation.liteCore || ( function( docu
 
 			const utmContent = WPFormsEducation.core.getUTMContentValue( $this );
 
-			app.upgradeModal( name, utmContent, $this.data( 'license' ), $this.data( 'video' ) );
+			app.upgradeModal( name, utmContent, $this.data( 'license' ), $this.data( 'video' ), $this.data( 'plural' ) );
 		},
 
 		/**
@@ -97,13 +97,13 @@ WPFormsEducation.liteCore = window.WPFormsEducation.liteCore || ( function( docu
 		 *
 		 * @since 1.6.6
 		 *
-		 * @param {string} feature    Feature name.
-		 * @param {string} utmContent UTM content.
-		 * @param {string} type       Feature license type: pro or elite.
-		 * @param {string} video      Feature video URL.
+		 * @param {string}  feature    Feature name.
+		 * @param {string}  utmContent UTM content.
+		 * @param {string}  type       Feature license type: pro or elite.
+		 * @param {string}  video      Feature video URL.
+		 * @param {boolean} isPlural   Is feature name plural.
 		 */
-		upgradeModal: function( feature, utmContent, type, video ) {
-
+		upgradeModal( feature, utmContent, type, video, isPlural ) {
 			// Provide a default value.
 			if ( typeof type === 'undefined' || type.length === 0 ) {
 				type = 'pro';
@@ -114,13 +114,15 @@ WPFormsEducation.liteCore = window.WPFormsEducation.liteCore || ( function( docu
 				return;
 			}
 
-			var message      = wpforms_education.upgrade[ type ].message.replace( /%name%/g, feature ),
-				isVideoModal = ! _.isEmpty( video ),
-				modalWidth   = WPFormsEducation.core.getUpgradeModalWidth( isVideoModal );
+			const message = wpforms_education.upgrade[ type ].message.replace( /%name%/g, feature );
+			const isVideoModal = ! _.isEmpty( video );
+			const titleMessage = isPlural ? wpforms_education.upgrade[ type ].title_plural : wpforms_education.upgrade[ type ].title;
 
-			var modal = $.alert( {
+			let modalWidth = WPFormsEducation.core.getUpgradeModalWidth( isVideoModal );
+
+			const modal = $.alert( {
 				backgroundDismiss: true,
-				title            : feature + ' ' + wpforms_education.upgrade[type].title,
+				title            : feature + ' ' + titleMessage,
 				icon             : 'fa fa-lock',
 				content          : message,
 				boxWidth         : modalWidth,

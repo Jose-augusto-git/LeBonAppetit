@@ -131,7 +131,7 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 	protected function display_connected_account( $account_id, $account ) {
 
 		$account_connected = ! empty( $account['date'] )
-			? wpforms_date_format( $account['date'] )
+			? wpforms_date_format( $account['date'], '', true )
 			: esc_html__( 'N/A', 'wpforms-lite' );
 
 		echo '<li class="wpforms-clear">';
@@ -149,9 +149,14 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 		echo '<span class="label">';
 		echo ! empty( $account['label'] ) ? esc_html( $account['label'] ) : '<em>' . esc_html__( 'No Label', 'wpforms-lite' ) . '</em>';
 		echo '</span>';
-
-		/* translators: %s - connection date. */
-		echo '<span class="date">' . sprintf( esc_html__( 'Connected on: %s', 'wpforms-lite' ), esc_html( $account_connected ) ) . '</span>';
+		echo '<span class="date">';
+		echo esc_html(
+			sprintf( /* translators: %1$s - Connection date. */
+				__( 'Connected on: %1$s', 'wpforms-lite' ),
+				$account_connected
+			)
+		);
+		echo '</span>';
 		echo '<span class="remove"><a href="#" data-provider="' . esc_attr( $this->core->slug ) . '" data-key="' . esc_attr( $account_id ) . '">' . esc_html__( 'Disconnect', 'wpforms-lite' ) . '</a></span>';
 
 		/**

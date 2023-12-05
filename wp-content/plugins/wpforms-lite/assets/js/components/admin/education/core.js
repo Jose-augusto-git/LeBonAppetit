@@ -59,6 +59,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 			app.dismissEvents();
 			app.openModalButtonClick();
 			app.setDykColspan();
+			app.gotoAdvancedTabClick();
 		},
 
 		/**
@@ -157,6 +158,28 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		},
 
 		/**
+		 * Go to Advanced tab when click on the link in Calculations educational notice.
+		 *
+		 * @since 1.8.4.1
+		 */
+		gotoAdvancedTabClick() {
+			$( document )
+				.on( 'click', '.wpforms-educational-alert.wpforms-calculations a', function( e ) {
+					const $a = $( this );
+
+					if ( $a.attr( 'href' ) !== '#advanced-tab' ) {
+						return;
+					}
+
+					e.preventDefault();
+
+					$a.closest( '.wpforms-field-option' )
+						.find( '.wpforms-field-option-group-advanced .wpforms-field-option-group-toggle' )
+						.trigger( 'click' );
+				} );
+		},
+
+		/**
 		 * Get UTM content for different elements.
 		 *
 		 * @since 1.6.9
@@ -165,8 +188,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @return {string} UTM content string.
 		 */
-		getUTMContentValue: function( $el ) {
-
+		getUTMContentValue( $el ) {
 			// UTM content for Fields.
 			if ( $el.hasClass( 'wpforms-add-fields-button' ) ) {
 				return $el.data( 'utm-content' ) + ' Field';

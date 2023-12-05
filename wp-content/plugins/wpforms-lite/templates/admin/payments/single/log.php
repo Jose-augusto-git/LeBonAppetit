@@ -29,12 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 		foreach ( $logs as $log ) :
 
-			$item = json_decode( $log['value'], false );
-
-			$date_time = sprintf( /* translators: %1$s - date, %2$s - time when item was created, e.g. "Oct 22 at 11:11am". */
+			$item      = json_decode( $log['value'], false );
+			$date_time = sprintf( /* translators: %1$s - date, %2$s - time when item was created, e.g. "Oct 22, 2022 at 11:11 am". */
 				__( '%1$s at %2$s', 'wpforms-lite' ),
-				wpforms_datetime_format( $item->date, 'M j, Y', true ),
-				wpforms_datetime_format( $item->date, get_option( 'time_format' ), true )
+				wpforms_date_format( $item->date, 'M j, Y', true ),
+				wpforms_time_format( $item->date, '', true )
 			);
 
 			if ( empty( $item->value ) ) {

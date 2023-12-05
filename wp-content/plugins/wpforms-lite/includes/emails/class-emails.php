@@ -11,6 +11,11 @@ use WPForms\Tasks\Actions\EntryEmailsTask;
  * Heavily influenced by the great AffiliateWP plugin by Pippin Williamson.
  * https://github.com/AffiliateWP/AffiliateWP/blob/master/includes/emails/class-affwp-emails.php
  *
+ * Note that this mailer class is no longer in active use and has been replaced with the "WPForms\Emails\Notifications" class.
+ * Please refer to the new mailer wrapper extension to extend or add further customizations.
+ *
+ * @deprecated 1.8.5
+ *
  * @since 1.1.3
  */
 class WPForms_WP_Emails {

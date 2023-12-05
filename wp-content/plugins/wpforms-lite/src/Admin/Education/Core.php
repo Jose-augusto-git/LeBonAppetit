@@ -158,6 +158,7 @@ class Core {
 		$strings['upgrade'] = [
 			'pro'   => [
 				'title'        => esc_html__( 'is a PRO Feature', 'wpforms-lite' ),
+				'title_plural' => esc_html__( 'are a PRO Feature', 'wpforms-lite' ),
 				'message'      => '<p>' . esc_html(
 					sprintf( /* translators: %s - addon name. */
 						__( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'wpforms-lite' ),
@@ -176,6 +177,7 @@ class Core {
 			],
 			'elite' => [
 				'title'        => esc_html__( 'is an Elite Feature', 'wpforms-lite' ),
+				'title_plural' => esc_html__( 'are an Elite Feature', 'wpforms-lite' ),
 				'message'      => '<p>' . esc_html(
 					sprintf( /* translators: %s - addon name. */
 						__( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the Elite plan to unlock all these awesome features.', 'wpforms-lite' ),

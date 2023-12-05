@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WPForms\\' => array($baseDir . '/src'),
+    'WPForms\\Tests\\Unit\\' => array($baseDir . '/tests/unit'),
+    'WPForms\\Tests\\Integration\\' => array($baseDir . '/tests/integration'),
+    'WPForms\\' => array($baseDir . '/src', $baseDir . '/src'),
     'TrueBV\\' => array($vendorDir . '/true/punycode/src'),
     'TijsVerkoyen\\CssToInlineStyles\\' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),

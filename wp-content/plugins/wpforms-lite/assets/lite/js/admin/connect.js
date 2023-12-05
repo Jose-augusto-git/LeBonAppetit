@@ -66,9 +66,8 @@ var WPFormsConnect = window.WPFormsConnect || ( function( document, window, $ ) 
 		 * @since 1.5.5
 		 */
 		connectBtnClick: function() {
-
-			el.$connectBtn.on( 'click', function() {
-
+			el.$connectBtn.on( 'click', function( event ) {
+				event.preventDefault();
 				app.gotoUpgradeUrl();
 			} );
 		},

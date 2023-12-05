@@ -117,8 +117,13 @@ class WPForms_Settings {
 			}
 
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$value      = isset( $_POST[ $id ] ) ? trim( wp_unslash( $_POST[ $id ] ) ) : false;
+			$value      = isset( $_POST[ $id ] ) ? wp_unslash( $_POST[ $id ] ) : false;
 			$value_prev = isset( $settings[ $id ] ) ? $settings[ $id ] : false;
+
+			// Trim all string values.
+			if ( is_string( $value ) ) {
+				$value = trim( $value );
+			}
 
 			// Custom filter can be provided for sanitizing, otherwise use defaults.
 			if ( ! empty( $field['filter'] ) && is_callable( $field['filter'] ) ) {
@@ -139,6 +144,10 @@ class WPForms_Settings {
 
 					case 'color':
 						$value = wpforms_sanitize_hex_color( $value );
+						break;
+
+					case 'color_scheme':
+						$value = array_map( 'wpforms_sanitize_hex_color', $value );
 						break;
 
 					case 'number':
@@ -189,11 +198,6 @@ class WPForms_Settings {
 		$tabs = [
 			'general'      => [
 				'name'   => esc_html__( 'General', 'wpforms-lite' ),
-				'form'   => true,
-				'submit' => esc_html__( 'Save Settings', 'wpforms-lite' ),
-			],
-			'email'        => [
-				'name'   => esc_html__( 'Email', 'wpforms-lite' ),
 				'form'   => true,
 				'submit' => esc_html__( 'Save Settings', 'wpforms-lite' ),
 			],
@@ -332,76 +336,6 @@ class WPForms_Settings {
 						),
 						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-create-gdpr-compliant-forms/', 'settings-license', 'GDPR Documentation' ) )
 					),
-					'type'   => 'toggle',
-					'status' => true,
-				],
-			],
-			// Email settings tab.
-			'email'        => [
-				'email-heading'          => [
-					'id'       => 'email-heading',
-					'content'  => '<h4>' . esc_html__( 'Email', 'wpforms-lite' ) . '</h4><p>' . esc_html__( 'Customize your email template and sending preferences.', 'wpforms-lite' ) . '</p>' . wpforms()->get( 'education_smtp_notice' )->get_template(),
-					'type'     => 'content',
-					'no_label' => true,
-					'class'    => [ 'section-heading', 'no-desc' ],
-				],
-				'email-template'         => [
-					'id'      => 'email-template',
-					'name'    => esc_html__( 'Template', 'wpforms-lite' ),
-					'type'    => 'radio',
-					'default' => 'default',
-					'options' => [
-						'default' => esc_html__( 'HTML Template', 'wpforms-lite' ),
-						'none'    => esc_html__( 'Plain text', 'wpforms-lite' ),
-					],
-				],
-				'email-header-image'     => [
-					'id'   => 'email-header-image',
-					'name' => esc_html__( 'Header Image', 'wpforms-lite' ),
-					'desc' => __( 'Upload or choose a logo to be displayed at the top of email notifications.', 'wpforms-lite' ),
-					'type' => 'image',
-				],
-				'email-background-color' => [
-					'id'      => 'email-background-color',
-					'name'    => esc_html__( 'Background Color', 'wpforms-lite' ),
-					'desc'    => esc_html__( 'Customize the background color of the HTML email template.', 'wpforms-lite' ),
-					'type'    => 'color',
-					'default' => '#e9eaec',
-					'data'    => [
-						'fallback-color' => wpforms_setting( 'email-background-color', '#e9eaec' ),
-					],
-				],
-				'sending-heading'        => [
-					'id'       => 'sending-heading',
-					'content'  => '<h4>' . esc_html__( 'Sending', 'wpforms-lite' ) . '</h4>',
-					'type'     => 'content',
-					'no_label' => true,
-					'class'    => [ 'section-heading', 'no-desc' ],
-				],
-				'email-async'            => [
-					'id'     => 'email-async',
-					'name'   => esc_html__( 'Optimize Email Sending', 'wpforms-lite' ),
-					'desc'   => sprintf(
-						wp_kses( /* translators: %s - WPForms.com Email settings documentation URL. */
-							__( 'Send emails asynchronously, which can make processing faster but may slightly delay email delivery. <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-learn-more">Learn More</a>', 'wpforms-lite' ),
-							[
-								'a' => [
-									'href'   => [],
-									'target' => [],
-									'rel'    => [],
-									'class'  => [],
-								],
-							]
-						),
-						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/a-complete-guide-to-wpforms-settings/#email', 'Settings - Email', 'Optimize Email Sending Documentation' ) )
-					),
-					'type'   => 'toggle',
-					'status' => true,
-				],
-				'email-carbon-copy'      => [
-					'id'     => 'email-carbon-copy',
-					'name'   => esc_html__( 'Carbon Copy', 'wpforms-lite' ),
-					'desc'   => esc_html__( 'Enable the ability to CC: email addresses in the form notification settings.', 'wpforms-lite' ),
 					'type'   => 'toggle',
 					'status' => true,
 				],

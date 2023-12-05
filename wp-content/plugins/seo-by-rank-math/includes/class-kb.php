@@ -12,8 +12,6 @@
 
 namespace RankMath;
 
-use MyThemeShop\Helpers\Arr;
-
 defined( 'ABSPATH' ) || exit;
 
 /**

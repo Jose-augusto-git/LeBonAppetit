@@ -8,7 +8,8 @@
  * @var array  $form_data      Form data.
  * @var int    $entry_id       Entry ID.
  * @var string $entry_id_title Entry title id.
- * @var string $entry_url      Entry page URL
+ * @var string $entry_url      Entry page URL.
+ * @var string $entry_status   Entry status.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php endforeach; ?>
 	</div>
 
-	<?php if ( $entry_id_title ) : ?>
+	<?php if ( $entry_id_title && $entry_status !== 'trash' ) : ?>
 		<div class="wpforms-payment-actions">
 			<div class="status"></div>
 			<div class="actions">

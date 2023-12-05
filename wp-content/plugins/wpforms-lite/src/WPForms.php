@@ -165,6 +165,8 @@ namespace WPForms {
 		 */
 		private function includes() {
 
+			$this->error_handler();
+
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-db.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/functions.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/compat.php';
@@ -201,6 +203,18 @@ namespace WPForms {
 				require_once WPFORMS_PLUGIN_DIR . 'includes/admin/class-about.php';
 				require_once WPFORMS_PLUGIN_DIR . 'includes/admin/ajax-actions.php';
 			}
+		}
+
+		/**
+		 * Include the error handler to suppress deprecated messages from vendor folders.
+		 *
+		 * @since 1.8.5
+		 */
+		private function error_handler() {
+
+			require_once WPFORMS_PLUGIN_DIR . 'src/ErrorHandler.php';
+
+			( new ErrorHandler() )->init();
 		}
 
 		/**

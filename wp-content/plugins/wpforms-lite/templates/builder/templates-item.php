@@ -7,6 +7,7 @@
  * @since 1.8.4 Added subcategories attribute.
  *
  * @var string $selected_class       Selected item class.
+ * @var bool   $selected             Is template selected.
  * @var string $license_class        License class (in the case of higher license needed).
  * @var string $categories           Categories, coma separated.
  * @var string $subcategories        Subcategories, comma separated.
@@ -20,6 +21,8 @@
  * @var string $action_text          Template action button text.
  * @var string $badge_class          Badge class in case if there is any badge text exists.
  */
+
+use WPForms\Admin\Education\Helpers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -53,9 +56,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<i class="fa fa-heart-o <?php echo $template['favorite'] ? 'wpforms-hidden' : ''; ?>" title="<?php esc_attr_e( 'Mark as Favorite', 'wpforms-lite' ); ?>"></i>
 	</span>
 
-	<?php if ( ! empty( $badge_text ) ) : ?>
-		<span class="wpforms-template-badge"><?php echo esc_html( $badge_text ); ?></span>
-	<?php endif; ?>
+	<?php
+	if ( ! empty( $badge_text ) && ! $selected ) {
+		Helpers::print_badge( $badge_text, 'sm', 'corner', 'steel', 'rounded-bl' );
+	}
+	?>
 
 	<?php if ( ! empty( $template['description'] ) ) : ?>
 		<p class="wpforms-template-desc"><?php echo esc_html( $template['description'] ); ?></p>
