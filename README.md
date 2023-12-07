@@ -7,4 +7,6 @@ Home do site com a configuração de permissões de cookie e política de privac
 
 ![screencapture-localhost-LeBonAppetit-2023-12-07-17_02_16](https://github.com/Jose-augusto-git/LeBonAppetit/assets/73261477/f6e5810c-e646-44fd-a4c4-d46d08b4eb31)
 
+![screenshot-rocks](https://github.com/Jose-augusto-git/LeBonAppetit/assets/73261477/f4c14419-1bc5-4911-b300-834710a987a3)
+
 
